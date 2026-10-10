@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { createMcpHandler } from "agents/mcp/server";
 import { z } from "zod";
+import { registerZerodhaTools } from "./zerodha";
 
 function createServer() {
 	const server = new McpServer({
@@ -53,6 +54,8 @@ function createServer() {
 			return { content: [{ type: "text", text: String(result) }] };
 		},
 	);
+
+	registerZerodhaTools(server);
 
 	return server;
 }
