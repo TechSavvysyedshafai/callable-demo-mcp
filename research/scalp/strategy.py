@@ -9,7 +9,8 @@ import numpy as np
 
 VOL_WINDOW = 20  # bars used to estimate recent noise (keep equal to the engine's sigma_window)
 PARAMS = dict(lookback=6, z_entry=1.5)
-ENGINE = dict(stop_k=1.5, target_k=2.0, max_hold=12)  # exits, in units of recent bar volatility
+ENGINE = dict(stop_k=1.5, target_k=2.0, max_hold=12)  # futures exits, in units of recent bar volatility
+OPTIONS = dict(stop_pct=0.20, target_pct=0.30, max_hold=8)  # option-buying exits, in % of premium
 
 
 class Momentum:
