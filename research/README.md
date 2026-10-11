@@ -29,3 +29,7 @@ cp candidate_timesfm.py candidate.py && python evaluate.py --step 5             
 - Set `USE_COVARIATES = True` in the file to feed |return| and volume as past-only covariates.
 - The adapter's plumbing is tested with a stand-in model (`python tests/test_timesfm_adapter.py`); it has **not** been run with the real weights, which this sandbox cannot download.
 - **License:** the 3.0 weights are non-commercial / non-production. Fine for personal research; check before using forecasts in anything commercial.
+
+## Running on Google Colab (free GPU, can reach Hugging Face)
+Open `colab_run.ipynb` in Colab, add the `KITE_API_KEY` / `KITE_ACCESS_TOKEN` secrets, and Run all.
+Verified against the TimesFM source: `timesfm3` ships in `pip install timesfm` (>=3.0.2); the adapter's `ModelConfig` / `predict_batch` calls match it.
