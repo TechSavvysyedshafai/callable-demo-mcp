@@ -19,3 +19,13 @@ Guardrails
 - **Intraday:** `fetch_data.py --interval 15minute` etc. gives far more samples (Kite caps the span per request; handled).
 
 Not included: transaction costs (irrelevant to a forecasting metric; add them if you turn forecasts into a trading metric) and any TimesFM adapter. I could not verify the TimesFM-3 model name or weights, so plug one into `candidate.py` only after checking they exist.
+
+## TimesFM-3 candidate (optional)
+TimesFM-3 exists (Google Research, Aug 2026; `google/timesfm-3.0-pytorch`, 330M params, point + 9 quantiles, optional covariates).
+```bash
+git clone https://github.com/google-research/timesfm && pip install -e "timesfm[torch]"   # provides `timesfm3`
+cp candidate_timesfm.py candidate.py && python evaluate.py --step 5                        # CPU is slow; use --step to thin origins
+```
+- Set `USE_COVARIATES = True` in the file to feed |return| and volume as past-only covariates.
+- The adapter's plumbing is tested with a stand-in model (`python tests/test_timesfm_adapter.py`); it has **not** been run with the real weights, which this sandbox cannot download.
+- **License:** the 3.0 weights are non-commercial / non-production. Fine for personal research; check before using forecasts in anything commercial.
