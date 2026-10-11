@@ -25,3 +25,22 @@ How it avoids fooling you
 
 Limits: bar-level simulation (no order book, no queue position, no partial fills); live feed untested;
 intraday data availability depends on your Kite plan. Passing here is necessary, not sufficient: paper trade for weeks first.
+
+## Continuous improvement (champion / challenger, human-approved)
+```
+During market hours   python scalp/live_feed.py       # champion (+ challenger) paper-trade the same live bars
+After the close       python scalp/lifecycle.py scoreboard
+Research (only when no challenger is under test; weekly is plenty)
+                      agent edits scalp/strategy.py -> python scalp/evaluate.py --runs 200  (needs PASS)
+                      python scalp/lifecycle.py freeze --tuned-through <last session date used for tuning>
+Decision              python scalp/lifecycle.py promote --approve    # only when scoreboard says ELIGIBLE
+                      python scalp/lifecycle.py reject               # or discard the challenger
+```
+- A challenger is judged **only on sessions after** `--tuned-through`, so it is never graded on data it was tuned on.
+- Eligibility: >= 20 forward days, >= 100 forward trades, positive net P&L after costs, and a paired block-bootstrap
+  win over the champion (5% lower bound > 0). Not eligible after 60 days = reject. Thresholds are constants in `lifecycle.py`.
+- One challenger at a time keeps the number of trials (and the luck) down. Nothing changes code during a session.
+- Optional automation: a nightly cron can run `claude -p "<follow research/program.md>"` for the research step; keep the
+  `promote --approve` step manual.
+- State lives in `scalp/state/` (git-ignored): registry, frozen strategy snapshots, per-version paper logs.
+- Self-test: `python scalp/tests/test_lifecycle.py` (real edge -> eligible; no edge -> rejected).

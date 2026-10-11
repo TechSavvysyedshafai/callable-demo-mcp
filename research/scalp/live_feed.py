@@ -14,7 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 import pandas as pd
-from paper import PaperTrader
+from paper import Fleet
 
 
 def nearest_nifty_future() -> tuple[int, str]:
@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     token, symbol = nearest_nifty_future()
     print(f"paper trading {symbol} on {a.minutes}-minute bars; create ./KILL to halt")
-    trader = PaperTrader()
+    trader = Fleet()
     bars = BarBuilder(a.minutes, trader.on_bar)
     kws = KiteTicker(os.environ["KITE_API_KEY"], os.environ["KITE_ACCESS_TOKEN"])
     kws.on_connect = lambda ws, _: (ws.subscribe([token]), ws.set_mode(ws.MODE_LTP, [token]))

@@ -12,26 +12,30 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-import strategy
 from costs import CostModel
 from engine import EngineParams, Risk, SessionEngine
 
+import lifecycle
+
 KILL_FILE = str(Path(__file__).parent / "KILL")
-LOG = Path(__file__).parent / "paper_trades.csv"
 
 
 class PaperTrader:
-    def __init__(self, log=LOG, costs=None, risk=None):
+    def __init__(self, module, name, costs=None, risk=None):
+        self.m, self.name = module, name
         self.costs = costs or CostModel()
         self.risk = risk or Risk(kill_file=KILL_FILE)
-        self.params = EngineParams(**strategy.ENGINE)
-        self.log, self.eng, self.day, self.last_ts, self.logged = log, None, None, None, 0
+        self.params = EngineParams(**module.ENGINE)
+        lifecycle.LOGS.mkdir(parents=True, exist_ok=True)
+        self.log = lifecycle.LOGS / f"{name}_trades.csv"
+        self.daily = lifecycle.LOGS / f"{name}_daily.csv"
+        self.eng, self.day, self.last_ts, self.logged = None, None, None, 0
 
     def on_bar(self, ts, o, h, l, c):
         if ts.date() != self.day:
             self.end_session()
             self.day = ts.date()
-            self.eng = SessionEngine(strategy.make(), self.params, self.costs, self.risk)
+            self.eng = SessionEngine(self.m.make(), self.params, self.costs, self.risk)
             self.logged = 0
         self.last_ts = ts
         self.eng.on_bar(ts, o, h, l, c)
@@ -41,7 +45,13 @@ class PaperTrader:
         if self.eng is not None:
             self.eng.finish(self.last_ts)
             self._flush()
-            print(f"{self.day}: {len(self.eng.trades)} trades, net Rs {self.eng.pnl_rs:,.0f}")
+            fresh = not self.daily.exists()
+            with self.daily.open("a") as fh:
+                if fresh:
+                    fh.write("day,n_trades,pnl_rs\n")
+                fh.write(f"{self.day},{len(self.eng.trades)},{self.eng.pnl_rs:.2f}\n")
+            print(f"[{self.name}] {self.day}: {len(self.eng.trades)} trades, net Rs {self.eng.pnl_rs:,.0f}")
+            self.eng = None
 
     def _flush(self):
         new = self.eng.trades[self.logged :]
@@ -56,6 +66,21 @@ class PaperTrader:
         self.logged += len(new)
 
 
+class Fleet:
+    """Champion (+ challenger, if one is under test) fed the same bars."""
+
+    def __init__(self):
+        self.traders = [PaperTrader(m, n) for n, m in lifecycle.active_strategies()]
+
+    def on_bar(self, ts, o, h, l, c):
+        for t in self.traders:
+            t.on_bar(ts, o, h, l, c)
+
+    def end_session(self):
+        for t in self.traders:
+            t.end_session()
+
+
 if __name__ == "__main__":
     a = argparse.ArgumentParser()
     a.add_argument("--replay", action="store_true")
@@ -63,8 +88,7 @@ if __name__ == "__main__":
     if not a.replay:
         raise SystemExit("Use live_feed.py for live data, or --replay for a demo.")
     from synth import synthetic_intraday
-    LOG.unlink(missing_ok=True)
-    pt = PaperTrader()
+    pt = Fleet()
     for r in synthetic_intraday(n_days=5, phi=0.3).itertuples():
         pt.on_bar(r.date, r.open, r.high, r.low, r.close)
     pt.end_session()
