@@ -1,0 +1,59 @@
+option files: 330 files, 15 expiries, 158625 rows
+5min bars
+  [outside_session_hours] 34  bars starting outside 09:15-15:25  e.g. 2023-11-12, 2023-11-12, 2023-11-12, 2023-11-12
+  [weekend_days] 6  Saturday/Sunday dates with bars (279 bars; Budget days and special sessions are real, confirm each)  e.g. 2023-11-12, 2024-01-20, 2024-03-02, 2024-05-18
+  [short_day] 5  trading days with fewer than 75 bars (half-days/special sessions, or missing bars)  e.g. 2023-11-12:12, 2024-03-02:21, 2024-05-18:21, 2024-11-01:12
+  [long_day] 5  days with more than 75 bars  e.g. 2025-04-25:77, 2025-04-30:77, 2025-05-08:77, 2025-05-13:77
+  [intraday_gap] 12  places where bars are missing inside a session  e.g. 2024-03-02 11:30, 2024-05-18 11:30, 2025-04-25 15:35, 2025-04-25 15:55
+  [missing_bars_in_gaps] 56  total bars missing inside sessions
+  [late_first_bar] 3  days whose first bar is after 09:15
+  [outlier_reverting] 11  outlier bars whose next bar undoes >= 80% of the move (bad-tick signature; also happens in real whipsaws)
+  [outlier_clustered_days] 11  days holding 3+ outlier bars (real events cluster; isolated ones are suspect)  e.g. 2024-06-04:28, 2024-06-05:9, 2026-02-01:5, 2024-12-05:4
+  [outlier_5sigma] 128  bar returns beyond 5 sigma (128 inside the daily bar's high/low, 0 not or no daily bar); kept, not dropped  e.g. 2024-01-18 10:05 z=+6.5, 2024-01-24 09:20 z=+5.8, 2024-02-08 10:40 z=-5.0, 2024-04-04 10:50 z=-6.3
+  [vs_daily_close] 104  days where aggregated 5-min close differs from the daily close by > 0.10% (max 0.512%)  e.g. 2024-06-04:0.51%, 2026-03-19:0.37%, 2025-04-07:0.34%, 2024-05-30:0.30%
+daily bars
+  [weekend_days] 9  daily bars on Saturday/Sunday (Budget days and special sessions are real; confirm each)  e.g. 2019-10-27, 2020-02-01, 2020-11-14, 2023-11-12
+  [calendar_gap_over_4d] 1  gaps of more than 4 calendar days between daily bars (long holiday clusters are normal; confirm)  e.g. 2022-04-13->2022-04-18
+  [outlier_5sigma] 9  daily close-to-close returns beyond 5 sigma (kept; compare with known events)  e.g. 2020-03-12 z=-7.8, 2020-03-16 z=-7.2, 2020-03-18 z=-5.2, 2020-03-20 z=+5.1
+india vix
+  [weekend_days] 6  VIX rows on a weekend  e.g. 2023-11-12, 2024-01-20, 2024-03-02, 2024-05-18
+  [outlier_5sigma] 3  day-over-day log changes beyond 5 sigma (kept)  e.g. 2024-06-05 z=-6.0, 2024-08-05 z=+6.1, 2025-04-07 z=+8.7
+  [beyond_dev_cutoff] 126  rows dated after the dev cut-off 2026-04-16: this file is not split like the index bars (holdout-window values sit in the dev folder)  e.g. 2026-04-17 to 2026-10-16
+expiry calendar
+  [gap_not_7_days] 13  weekly gaps that are not exactly 7 days (a holiday moves an expiry earlier; a weekday change shows here too)  e.g. 2025-04-03->2025-04-09 (6d), 2025-04-09->2025-04-17 (8d), 2025-04-24->2025-04-30 (6d), 2025-04-30->2025-05-08 (8d)
+  [weekday_changes] 13  points where the expiry weekday changes (rule change; do not assume one weekday for the whole history)  e.g. 2025-04-09: Thu->Wed, 2025-04-17: Wed->Thu, 2025-04-30: Thu->Wed, 2025-05-08: Wed->Thu
+  [expiry_beyond_daily_data] 26  expiries after the last daily bar (2026-04-16); cannot be checked against trading days
+  [beyond_dev_cutoff] 26  expiries after the dev cut-off 2026-04-16 (holdout window); the calendar file is not split like the index bars
+option files
+  [oi_big_drop] 1  bars where OI (>= 100,000) falls by more than 50% in one bar, not on expiry day (summed over 1+ files)  e.g. 2026-03-02_25300PE.csv
+  [oi_zero] 20  bars with open interest 0 (summed over 4+ files)  e.g. 2026-03-17_23350PE.csv, 2026-03-24_22250PE.csv, 2026-03-24_22350PE.csv, 2026-03-24_22450PE.csv
+  [candle_gap_within_day] 1050  bars missing on days a file has data: 158,625 of 159,675 expected present (99.34%). Sessions are 75 bars; gaps = no trade recorded
+  [trading_days_missing_in_file] 3  index trading days inside a contract's life window with no rows in that contract's file: 3 of 2,132 file-days (a contract may be listed late)
+  [zero_volume_share] 5170  zero-volume bars: 3.3% of 158,625 rows (price carried forward, not traded)
+  [zero_volume_near_atm] 0  zero-volume bars within 100 points of spot: 0.0% of 35,875 such rows (the strikes a strategy would use)
+  [spot_outside_saved_strikes] 1734  5-min bars on tradeable days whose ATM strike lies OUTSIDE the saved strikes: 1,734 of 5,175 = 33.5%. By days left: 1d to expiry: 94/825 = 11%; 2d to expiry: 12/75 = 16%; 3d to expiry: 1/225 = 0%; 4d to expiry: 248/975 = 25%; 5d to expiry: 444/1050 = 42%; 6d to expiry: 414/1125 = 37%; 7d to expiry: 373/750 = 50%; 8d to expiry: 148/150 = 99%
+
+FINDINGS BY CATEGORY (category, count):
+  beyond_dev_cutoff                152
+  calendar_gap_over_4d             1
+  candle_gap_within_day            1050
+  expiry_beyond_daily_data         26
+  gap_not_7_days                   13
+  intraday_gap                     12
+  late_first_bar                   3
+  long_day                         5
+  missing_bars_in_gaps             56
+  oi_big_drop                      1
+  oi_zero                          20
+  outlier_5sigma                   140
+  outlier_clustered_days           11
+  outlier_reverting                11
+  outside_session_hours            34
+  short_day                        5
+  spot_outside_saved_strikes       1734
+  trading_days_missing_in_file     3
+  vs_daily_close                   104
+  weekday_changes                  13
+  weekend_days                     21
+  zero_volume_near_atm             0
+  zero_volume_share                5170
