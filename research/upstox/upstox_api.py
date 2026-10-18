@@ -3,8 +3,11 @@ environment variable; the token is never printed or written anywhere."""
 
 from __future__ import annotations
 
+import collections
 import json
 import os
+import socket
+import ssl
 import time
 import urllib.error
 import urllib.parse
@@ -36,22 +39,48 @@ def _token() -> str:
     return t
 
 
-def get(path: str, params: dict | None = None, retries: int = 4) -> dict:
+# Upstox limits (per user): 50/second, 500/minute, 2000 per 30 minutes. Stay just under all three.
+LIMITS = ((1.0, 45), (60.0, 450), (1800.0, 1900))
+_sent: collections.deque = collections.deque()
+
+
+def _throttle(now=time.monotonic, sleep=time.sleep, limits=None) -> None:
+    limits = limits or LIMITS
+    while True:
+        t = now()
+        while _sent and t - _sent[0] > limits[-1][0]:
+            _sent.popleft()
+        wait = 0.0
+        for window, cap in limits:
+            recent = [x for x in _sent if t - x <= window]
+            if len(recent) >= cap:
+                wait = max(wait, recent[0] + window - t + 0.01)
+        if wait <= 0:
+            _sent.append(t)
+            return
+        sleep(wait)
+
+
+def get(path: str, params: dict | None = None, retries: int = 6) -> dict:
     url = BASE + path + (("?" + urllib.parse.urlencode(params)) if params else "")
     req = urllib.request.Request(url, headers={"Accept": "application/json", "Authorization": f"Bearer {_token()}",
                                           "User-Agent": "Mozilla/5.0 (compatible; upstox-research/1.0)"})
     for attempt in range(retries):
+        _throttle()
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
-                body = json.load(r)
-            time.sleep(0.05)  # limit is 50 requests/second; stay far below it
-            return body
+                return json.load(r)
         except urllib.error.HTTPError as e:
             raw = e.read().decode(errors="replace")
-            if e.code == 429 and attempt < retries - 1:
-                time.sleep(2**attempt)
+            if e.code in (429, 500, 502, 503, 504) and attempt < retries - 1:
+                time.sleep(min(15 * 2**attempt, 300))  # 429 means wait; back off up to 5 minutes
                 continue
             raise UpstoxError(e.code, raw) from None
+        except (urllib.error.URLError, ssl.SSLError, socket.timeout, ConnectionError, TimeoutError) as e:
+            if attempt < retries - 1:  # network blips (e.g. SSL handshake timeout): retry
+                time.sleep(min(5 * 2**attempt, 120))
+                continue
+            raise UpstoxError(0, f"network error: {e}") from None
     raise UpstoxError(429, "rate limited")
 
 

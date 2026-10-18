@@ -46,20 +46,30 @@ if __name__ == "__main__":
     first = date.fromisoformat(expiries[0]) - timedelta(days=cfg["days"] + 5)
     daily = u.historical(cfg["key"], "days", 1, first, date.today())
     closes = {d.date(): c for d, c in zip(daily["date"], daily["close"])}
-    saved = 0
+    saved = failed = 0
     for ex in expiries:
         exp = date.fromisoformat(ex)
         prev = max((d for d in closes if d < exp), default=None)
         if prev is None:
             continue
-        contracts = u.get("/v2/expired-instruments/option/contract", {"instrument_key": cfg["key"], "expiry_date": ex})["data"]
+        try:
+            contracts = u.get("/v2/expired-instruments/option/contract", {"instrument_key": cfg["key"], "expiry_date": ex})["data"]
+        except u.UpstoxError as e:
+            failed += 1
+            print(f"  {ex}: contract list failed: {e}")
+            continue
         for c in pick_strikes(contracts, closes[prev], cfg["step"], a.strikes):
             f = out / f"{ex}_{int(float(c['strike_price']))}{c['instrument_type']}.csv"
             if f.exists():
                 continue
-            df = u.expired_candles(c["instrument_key"], a.interval, exp - timedelta(days=cfg["days"]), exp)
+            try:
+                df = u.expired_candles(c["instrument_key"], a.interval, exp - timedelta(days=cfg["days"]), exp)
+            except u.UpstoxError as e:  # keep going; a re-run picks up whatever failed
+                failed += 1
+                print(f"  skipped {c['trading_symbol']}: {e}")
+                continue
             if len(df):
                 df.to_csv(f, index=False)
                 saved += 1
-        print(f"{ex}: done ({saved} files so far)")
-    print(f"Saved {saved} contract files under {out}")
+        print(f"{ex}: done ({saved} saved, {failed} failed so far)")
+    print(f"Saved {saved} contract files under {out}; {failed} failed (re-run to retry them)")

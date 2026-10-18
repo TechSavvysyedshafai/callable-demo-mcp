@@ -26,3 +26,10 @@ NIFTY points at delta 0.5; options STT is 0.15% on sell premium since 1 Apr 2026
 and the bid-ask spread, and expiry-day gamma can wipe a position in minutes (`min_dte_days=1` avoids expiry day).
 
 Not yet wired: option mode in `lifecycle.py` (champion/challenger). It uses the same `strategy.py` interface, so it can be added once there is real quote data worth protecting.
+
+## Real-premium backtest (the decisive one)
+After `../../upstox/download_expired_options.py` has saved real expired-option candles:
+`python real_backtest.py --runs 200` prices every trade from the actual option candles (buy at next candle's open + assumed
+half-spread, stop/target on the option's own high/low). It reports how many signals could not be traded (no saved strike /
+the option did not trade that bar). Candles carry no bid/ask, so `--slippage` (default Rs0.10 per fill) is an assumption:
+try 0.10, 0.20 and 0.30 - an "edge" that disappears at 0.20 is not an edge. Test: `python ../tests/test_real_backtest.py`.
