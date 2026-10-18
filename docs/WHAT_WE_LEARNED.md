@@ -35,3 +35,8 @@ A model-based 17-year stress (informational only) says the condor loses if real 
 - Or stop: a low-cost index fund is the evidence-based default, and this project is a good learning asset.
 
 Hard limits that stay: no order placement code, no real money without the owner's written approval, never touch the holdout, never put secrets in chat.
+
+
+## Idea-factory loop (built 2026-10-18, paper only, NOT scheduled)
+Folder: research/ideas/loop/ (README inside). Idea registry, tamper-evident trial ledger (the pass bar shrinks as total trials grow: 0.005 after batch 1, 0.0025 after a second batch of 10), a batch runner that refuses changed rules, a daily forward-paper job, promotion/retire rules (60 forward days, 20 trades, beats luck), and a weekly report.
+Verified on synthetic data with a known edge (47 new tests, all pass). NOT yet run on the real NIFTY files or the live Upstox feed. Lot size and loss limit in the paper book are placeholders. Forward p<0.05 is not corrected across several forward ideas, so a promoted idea is still only a candidate for more paper time.
