@@ -34,6 +34,12 @@ if __name__ == "__main__":
     kd.DEV_DIR.mkdir(exist_ok=True)
     v[["date", "close"]].to_csv(kd.DEV_DIR / "india_vix_day.csv", index=False)
     print(f"India VIX: {len(v)} days saved")
+    # daily NIFTY bars (about 8 years) for the daily volatility / range forecasting lab (research/evaluate.py)
+    dstart = max(end - timedelta(days=365 * 8), date(2016, 1, 1))
+    dd = u.historical(u.NIFTY, "days", 1, dstart, end)
+    dd = dd[["date", "open", "high", "low", "close", "volume"]]
+    dev_d, hold_d = kd.write_split(dd, "day", a.holdout_months)
+    print(f"daily bars: {len(dd)} ({dd['date'].min().date()} to {dd['date'].max().date()}) -> {dev_d}")
     try:  # real expiry dates (needs Plus): the model-based option backtest must not guess expiry weekdays
         ex = sorted(u.get("/v2/expired-instruments/expiries", {"instrument_key": u.NIFTY})["data"])
         import pandas as pd
