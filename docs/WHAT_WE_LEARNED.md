@@ -18,6 +18,7 @@ All numbers are on DEV data only; the newest 6 months were kept as a hidden hold
 - Buy-and-hold: 12.6%/yr (about 13.5-14% with dividends), but a -60% worst drop (2008). That is roughly 2x an FD, not 3x.
 - Monthly trend filter: 10.5%/yr with a -31% worst drop. It trades return for smaller crashes; it does not add return.
 - Nothing tested comes close to 20%/year. Do not plan on it.
+| Idea batch 1: 10 'forced trader' ideas (SIP, overnight, gap fade, after -2% day, VIX spike, last hour, first 30 min, pre-holiday, Fri-Mon, expiry day) | All 10 REJECT | Best was monthly-SIP timing (+0.48%/trade, 90 trades) but p=0.02 vs needed 0.005 and the random-entry check failed. Overnight drift is real before cost (+0.11%/night) but the 0.10% cost eats 88% of it. Daily data only 2018+ and 5-min only 2023+, so the tests are short |
 
 ## Selling note
 A model-based 17-year stress (informational only) says the condor loses if real selling prices sit about 15% below flat-vol Black-Scholes, which is what the real data showed. Any positive result depends on assuming the textbook prices.
