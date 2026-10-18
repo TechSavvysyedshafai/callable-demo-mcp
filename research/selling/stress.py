@@ -78,7 +78,9 @@ def thursday_weeks(daily: pd.DataFrame, first: pd.Timestamp):
         t += pd.Timedelta(days=7)
 
 
-def run_stress(daily, vix, ratio, wing_pct, slip=0.20):
+def run_stress(daily, vix, ratio, wing_pct, ref, slip=0.20):
+    """Every week is rescaled to a constant notional: prices x (ref / entry spot), so Rs figures from 2009 (NIFTY about 3,000) and 2025
+    (about 25,000) are comparable. Black-Scholes is homogeneous in (spot, strike), so this only rescales the points."""
     d = daily.set_index("date")
     cm = OptionCostModel(slippage_rs=slip)
     rows = []
@@ -86,19 +88,20 @@ def run_stress(daily, vix, ratio, wing_pct, slip=0.20):
         iv = prior_vix(vix, e)
         if iv is None:
             continue
-        spot = float(d.loc[e, "open"])
+        k = ref / float(d.loc[e, "open"])
+        spot = ref
         sc, sp = spot * (1 + SHORT_PCT), spot * (1 - SHORT_PCT)
-        wing = spot * wing_pct
+        wing = ref * wing_pct
         lc, lp = sc + wing, sp - wing
         T = (x - e).days / 365
         credit_bs, p = bs_condor(spot, sc, lc, sp, lp, T, iv)
         credit = ratio * credit_bs
-        settle = float(d.loc[x, "close"])
+        settle = float(d.loc[x, "close"]) * k
         owed = (max(settle - sc, 0) - max(settle - lc, 0) + max(sp - settle, 0) - max(lp - settle, 0))
         costs = sum(cm.side(max(ratio * p[n], 0.05), bt.LOT, is_buy=n in ("lc", "lp")) for n in bt.LEGS)
         costs += bt.SETTLE_STT * bt.LOT * (max(settle - sc, 0) + max(settle - lc, 0) + max(sp - settle, 0) + max(lp - settle, 0))
         net = (credit - owed) * bt.LOT - costs
-        rows.append({"entry": e.date().isoformat(), "expiry": x.date().isoformat(), "spot": spot, "vix": iv * 100, "move_pct": 100 * (settle / spot - 1),
+        rows.append({"entry": e.date().isoformat(), "expiry": x.date().isoformat(), "spot": float(d.loc[e, "open"]), "vix": iv * 100, "move_pct": 100 * (settle / spot - 1),
                      "credit_pts": credit, "owed_pts": owed, "full_width": bool(settle >= lc or settle <= lp), "net_rs": net, "width_pts": wing})
     return pd.DataFrame(rows)
 
@@ -124,12 +127,18 @@ def main():
     ratio = {"median": float(cal["ratio"].median()), "mean": float(cal["ratio"].mean()), "sd": float(cal["ratio"].std(ddof=1)),
              "p25": float(cal["ratio"].quantile(0.25)), "p75": float(cal["ratio"].quantile(0.75)), "min": float(cal["ratio"].min()),
              "max": float(cal["ratio"].max()), "n": int(len(cal)), "corr_with_vix": float(cal["ratio"].corr(cal["vix"]))}
-    wing_pct = bt.WING / float(cal["spot"].median())
-    out = {"calibration": ratio, "wing_pct": wing_pct, "scenarios": {}}
+    ref = float(cal["spot"].median())
+    wing_pct = bt.WING / ref
+    out = {"calibration": ratio, "wing_pct": wing_pct, "reference_spot": ref, "scenarios": {}}
     for name, r in (("median", ratio["median"]), ("p25", ratio["p25"]), ("p75", ratio["p75"]), ("uncalibrated_1.0", 1.0)):
-        df = run_stress(daily, vix, r, wing_pct)
+        df = run_stress(daily, vix, r, wing_pct, ref)
         out["scenarios"][name] = {"ratio": r, **describe(df)}
         if name == "median":
+            w = pd.to_datetime(df["entry"])
+            covid = df[(w >= "2020-02-15") & (w <= "2020-04-30")]
+            out["covid_2020_window_median"] = {"weeks": int(len(covid)), "total": float(covid["net_rs"].sum()), "worst": float(covid["net_rs"].min()),
+                                               "full_width_weeks": int(covid["full_width"].sum()), "max_abs_move_pct": float(covid["move_pct"].abs().max())}
+            out["largest_weekly_moves_pct"] = df.reindex(df["move_pct"].abs().nlargest(5).index)[["entry", "move_pct", "vix", "net_rs"]].to_dict("records")
             df["year"] = pd.to_datetime(df["entry"]).dt.year
             out["by_year_median"] = {int(y): {"weeks": int(len(g)), "total": float(g["net_rs"].sum()), "worst": float(g["net_rs"].min())} for y, g in df.groupby("year")}
     (HERE / "results").mkdir(exist_ok=True)

@@ -1,0 +1,3416 @@
+{
+ "V1": {
+  "by_slip": {
+   "0.1": {
+    "weeks_total": 81,
+    "weeks_traded": 80,
+    "weeks_skipped": 1,
+    "skip_reasons": {
+     "missing_option_file": 1
+    },
+    "win_rate": 0.5625,
+    "mean_net": -612.0115309940554,
+    "median_net": 2145.851217572499,
+    "total_net": -48960.92247952444,
+    "worst_week": -9154.597484585,
+    "best_week": 5636.614119115002,
+    "max_drawdown": -51727.68819011228,
+    "longest_losing_streak": 4,
+    "breach_rate": 0.475,
+    "stopped_rate": 0.0,
+    "ci90_lo": -1438.7303221893962,
+    "ci90_hi": 489.89487455960546,
+    "mean_credit_pts": 54.14037499999999,
+    "mean_costs_rs": 144.83653099405623,
+    "mean_gross_rs": -467.17499999999916,
+    "ret_on_capital_total": -2.176040999089975,
+    "cash_alternative_total": 2250.0
+   },
+   "0.2": {
+    "weeks_total": 81,
+    "weeks_traded": 80,
+    "weeks_skipped": 1,
+    "skip_reasons": {
+     "missing_option_file": 1
+    },
+    "win_rate": 0.5625,
+    "mean_net": -641.9894809940555,
+    "median_net": 2115.8732675725,
+    "total_net": -51359.15847952444,
+    "worst_week": -9184.575434585,
+    "best_week": 5606.636169115,
+    "max_drawdown": -53436.431340112285,
+    "longest_losing_streak": 4,
+    "breach_rate": 0.475,
+    "stopped_rate": 0.0,
+    "ci90_lo": -1468.7082721893964,
+    "ci90_hi": 459.9169245596053,
+    "mean_credit_pts": 53.74037499999999,
+    "mean_costs_rs": 144.81448099405625,
+    "mean_gross_rs": -497.1749999999994,
+    "ret_on_capital_total": -2.282629265756642,
+    "cash_alternative_total": 2250.0
+   },
+   "0.3": {
+    "weeks_total": 81,
+    "weeks_traded": 80,
+    "weeks_skipped": 1,
+    "skip_reasons": {
+     "missing_option_file": 1
+    },
+    "win_rate": 0.5625,
+    "mean_net": -671.9674309940553,
+    "median_net": 2085.8953175725,
+    "total_net": -53757.39447952443,
+    "worst_week": -9214.553384585,
+    "best_week": 5576.658219115,
+    "max_drawdown": -55145.17449011229,
+    "longest_losing_streak": 4,
+    "breach_rate": 0.475,
+    "stopped_rate": 0.0,
+    "ci90_lo": -1498.686222189396,
+    "ci90_hi": 429.9389745596057,
+    "mean_credit_pts": 53.340374999999995,
+    "mean_costs_rs": 144.79243099405625,
+    "mean_gross_rs": -527.1749999999993,
+    "ret_on_capital_total": -2.389217532423308,
+    "cash_alternative_total": 2250.0
+   }
+  },
+  "weeks_0.20": [
+   {
+    "expiry": "2024-10-03",
+    "skipped": null,
+    "entry": "2024-09-26 09:30:00",
+    "spot": 26032.7,
+    "strikes": {
+     "sc": 26350,
+     "lc": 26500,
+     "sp": 25700,
+     "lp": 25550
+    },
+    "credit": 45.349999999999994,
+    "settle": 25250.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -104.65,
+    "costs_rs": 195.16200494750032,
+    "net_rs": -8043.9120049475005,
+    "breach": true
+   },
+   {
+    "expiry": "2024-10-10",
+    "skipped": null,
+    "entry": "2024-10-03 09:30:00",
+    "spot": 25606.6,
+    "strikes": {
+     "sc": 25950,
+     "lc": 26100,
+     "sp": 25250,
+     "lp": 25100
+    },
+    "credit": 43.699999999999996,
+    "settle": 24998.45,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -106.30000000000001,
+    "costs_rs": 152.65165131499984,
+    "net_rs": -8125.151651315001,
+    "breach": true
+   },
+   {
+    "expiry": "2024-10-17",
+    "skipped": null,
+    "entry": "2024-10-10 09:30:00",
+    "spot": 25031.35,
+    "strikes": {
+     "sc": 25350,
+     "lc": 25500,
+     "sp": 24700,
+     "lp": 24550
+    },
+    "credit": 57.74999999999997,
+    "settle": 24749.85,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 57.74999999999997,
+    "costs_rs": 118.2144657275,
+    "net_rs": 4213.035534272498,
+    "breach": false
+   },
+   {
+    "expiry": "2024-10-24",
+    "skipped": null,
+    "entry": "2024-10-17 09:30:00",
+    "spot": 24903.8,
+    "strikes": {
+     "sc": 25250,
+     "lc": 25400,
+     "sp": 24600,
+     "lp": 24450
+    },
+    "credit": 44.65,
+    "settle": 24399.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -105.35,
+    "costs_rs": 139.1820602824997,
+    "net_rs": -8040.4320602825,
+    "breach": true
+   },
+   {
+    "expiry": "2024-10-31",
+    "skipped": null,
+    "entry": "2024-10-24 09:30:00",
+    "spot": 24395.65,
+    "strikes": {
+     "sc": 24700,
+     "lc": 24850,
+     "sp": 24100,
+     "lp": 23950
+    },
+    "credit": 56.99999999999998,
+    "settle": 24205.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 56.99999999999998,
+    "costs_rs": 117.51965148500001,
+    "net_rs": 4157.480348514998,
+    "breach": false
+   },
+   {
+    "expiry": "2024-11-07",
+    "skipped": null,
+    "entry": "2024-10-31 09:30:00",
+    "spot": 24255.95,
+    "strikes": {
+     "sc": 24550,
+     "lc": 24700,
+     "sp": 23950,
+     "lp": 23800
+    },
+    "credit": 76.5,
+    "settle": 24199.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 76.5,
+    "costs_rs": 130.863830885,
+    "net_rs": 5606.636169115,
+    "breach": false
+   },
+   {
+    "expiry": "2024-11-14",
+    "skipped": null,
+    "entry": "2024-11-07 09:30:00",
+    "spot": 24361.2,
+    "strikes": {
+     "sc": 24700,
+     "lc": 24850,
+     "sp": 24050,
+     "lp": 23900
+    },
+    "credit": 57.44999999999997,
+    "settle": 23532.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -92.55000000000004,
+    "costs_rs": 218.27554579249986,
+    "net_rs": -7159.525545792502,
+    "breach": true
+   },
+   {
+    "expiry": "2024-11-21",
+    "skipped": null,
+    "entry": "2024-11-14 09:30:00",
+    "spot": 23586.55,
+    "strikes": {
+     "sc": 23900,
+     "lc": 24050,
+     "sp": 23300,
+     "lp": 23150
+    },
+    "credit": 55.24,
+    "settle": 23349.9,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 55.24,
+    "costs_rs": 117.470641562,
+    "net_rs": 4025.529358438,
+    "breach": false
+   },
+   {
+    "expiry": "2024-11-28",
+    "skipped": null,
+    "entry": "2024-11-21 09:30:00",
+    "spot": 23312.05,
+    "strikes": {
+     "sc": 23600,
+     "lc": 23750,
+     "sp": 23000,
+     "lp": 22850
+    },
+    "credit": 71.19999999999996,
+    "settle": 23914.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -78.80000000000004,
+    "costs_rs": 179.57051993000033,
+    "net_rs": -6089.570519930003,
+    "breach": true
+   },
+   {
+    "expiry": "2024-12-05",
+    "skipped": null,
+    "entry": "2024-11-28 09:30:00",
+    "spot": 24279.35,
+    "strikes": {
+     "sc": 24600,
+     "lc": 24750,
+     "sp": 23950,
+     "lp": 23800
+    },
+    "credit": 51.49999999999998,
+    "settle": 24708.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -56.90000000000148,
+    "costs_rs": 125.68623764000017,
+    "net_rs": -4393.186237640111,
+    "breach": true
+   },
+   {
+    "expiry": "2024-12-12",
+    "skipped": null,
+    "entry": "2024-12-05 09:30:00",
+    "spot": 24514.9,
+    "strikes": {
+     "sc": 24850,
+     "lc": 25000,
+     "sp": 24200,
+     "lp": 24050
+    },
+    "credit": 72.5,
+    "settle": 24548.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 72.5,
+    "costs_rs": 129.220810085,
+    "net_rs": 5308.279189915,
+    "breach": false
+   },
+   {
+    "expiry": "2024-12-19",
+    "skipped": null,
+    "entry": "2024-12-12 09:30:00",
+    "spot": 24666.7,
+    "strikes": {
+     "sc": 25000,
+     "lc": 25150,
+     "sp": 24350,
+     "lp": 24200
+    },
+    "credit": 44.7,
+    "settle": 23951.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -105.3,
+    "costs_rs": 183.32502246499985,
+    "net_rs": -8080.825022465,
+    "breach": true
+   },
+   {
+    "expiry": "2024-12-26",
+    "skipped": "missing_option_file",
+    "entry": "2024-12-19 09:30:00",
+    "spot": 23906.7,
+    "strikes": {
+     "sc": 24200,
+     "lc": 24350,
+     "sp": 23600,
+     "lp": 23450
+    },
+    "credit": NaN,
+    "settle": NaN,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": NaN,
+    "costs_rs": NaN,
+    "net_rs": NaN,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-02",
+    "skipped": null,
+    "entry": "2024-12-26 09:30:00",
+    "spot": 23816.25,
+    "strikes": {
+     "sc": 24150,
+     "lc": 24300,
+     "sp": 23500,
+     "lp": 23350
+    },
+    "credit": 50.04999999999999,
+    "settle": 24188.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 11.399999999998535,
+    "costs_rs": 117.42602807750018,
+    "net_rs": 737.5739719223899,
+    "breach": true
+   },
+   {
+    "expiry": "2025-01-09",
+    "skipped": null,
+    "entry": "2025-01-02 09:30:00",
+    "spot": 23784.25,
+    "strikes": {
+     "sc": 24100,
+     "lc": 24250,
+     "sp": 23450,
+     "lp": 23300
+    },
+    "credit": 73.89999999999999,
+    "settle": 23526.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 73.89999999999999,
+    "costs_rs": 128.302220525,
+    "net_rs": 5414.197779474999,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-16",
+    "skipped": null,
+    "entry": "2025-01-09 09:30:00",
+    "spot": 23608.55,
+    "strikes": {
+     "sc": 23900,
+     "lc": 24050,
+     "sp": 23300,
+     "lp": 23150
+    },
+    "credit": 59.650000000000006,
+    "settle": 23311.8,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 59.650000000000006,
+    "costs_rs": 117.86577472249999,
+    "net_rs": 4355.8842252775,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-23",
+    "skipped": null,
+    "entry": "2025-01-16 09:30:00",
+    "spot": 23348.25,
+    "strikes": {
+     "sc": 23650,
+     "lc": 23800,
+     "sp": 23050,
+     "lp": 22900
+    },
+    "credit": 50.4,
+    "settle": 23205.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 50.4,
+    "costs_rs": 114.293003375,
+    "net_rs": 3665.706996625,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-30",
+    "skipped": null,
+    "entry": "2025-01-23 09:30:00",
+    "spot": 23114.45,
+    "strikes": {
+     "sc": 23400,
+     "lc": 23550,
+     "sp": 22800,
+     "lp": 22650
+    },
+    "credit": 62.09999999999999,
+    "settle": 23249.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 62.09999999999999,
+    "costs_rs": 119.25887280500001,
+    "net_rs": 4538.241127194999,
+    "breach": false
+   },
+   {
+    "expiry": "2025-02-06",
+    "skipped": null,
+    "entry": "2025-01-30 09:30:00",
+    "spot": 23189.0,
+    "strikes": {
+     "sc": 23500,
+     "lc": 23650,
+     "sp": 22900,
+     "lp": 22750
+    },
+    "credit": 100.15000000000009,
+    "settle": 23603.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -3.199999999998454,
+    "costs_rs": 181.62902003749986,
+    "net_rs": -421.6290200373839,
+    "breach": true
+   },
+   {
+    "expiry": "2025-02-13",
+    "skipped": null,
+    "entry": "2025-02-06 09:30:00",
+    "spot": 23656.85,
+    "strikes": {
+     "sc": 23950,
+     "lc": 24100,
+     "sp": 23350,
+     "lp": 23200
+    },
+    "credit": 68.25,
+    "settle": 23031.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -81.75,
+    "costs_rs": 178.25314309249967,
+    "net_rs": -6309.5031430925,
+    "breach": true
+   },
+   {
+    "expiry": "2025-02-20",
+    "skipped": null,
+    "entry": "2025-02-13 09:30:00",
+    "spot": 23103.2,
+    "strikes": {
+     "sc": 23400,
+     "lc": 23550,
+     "sp": 22800,
+     "lp": 22650
+    },
+    "credit": 67.49999999999999,
+    "settle": 22913.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 67.49999999999999,
+    "costs_rs": 123.14841282500001,
+    "net_rs": 4939.351587174999,
+    "breach": false
+   },
+   {
+    "expiry": "2025-02-27",
+    "skipped": null,
+    "entry": "2025-02-20 09:30:00",
+    "spot": 22866.9,
+    "strikes": {
+     "sc": 23150,
+     "lc": 23300,
+     "sp": 22550,
+     "lp": 22400
+    },
+    "credit": 61.949999999999996,
+    "settle": 22545.05,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 56.99999999999927,
+    "costs_rs": 119.44740347750007,
+    "net_rs": 4155.552596522445,
+    "breach": true
+   },
+   {
+    "expiry": "2025-03-06",
+    "skipped": null,
+    "entry": "2025-02-27 09:30:00",
+    "spot": 22562.4,
+    "strikes": {
+     "sc": 22850,
+     "lc": 23000,
+     "sp": 22250,
+     "lp": 22100
+    },
+    "credit": 46.14999999999999,
+    "settle": 22544.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 46.14999999999999,
+    "costs_rs": 109.3066135775,
+    "net_rs": 3351.9433864224993,
+    "breach": false
+   },
+   {
+    "expiry": "2025-03-13",
+    "skipped": null,
+    "entry": "2025-03-06 09:30:00",
+    "spot": 22309.55,
+    "strikes": {
+     "sc": 22600,
+     "lc": 22750,
+     "sp": 22000,
+     "lp": 21850
+    },
+    "credit": 58.49999999999998,
+    "settle": 22397.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 58.49999999999998,
+    "costs_rs": 115.90420477999999,
+    "net_rs": 4271.595795219998,
+    "breach": false
+   },
+   {
+    "expiry": "2025-03-20",
+    "skipped": null,
+    "entry": "2025-03-13 09:30:00",
+    "spot": 22475.85,
+    "strikes": {
+     "sc": 22750,
+     "lc": 22900,
+     "sp": 22200,
+     "lp": 22050
+    },
+    "credit": 47.699999999999996,
+    "settle": 23190.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -102.30000000000001,
+    "costs_rs": 192.3434500850003,
+    "net_rs": -7864.843450085002,
+    "breach": true
+   },
+   {
+    "expiry": "2025-03-27",
+    "skipped": null,
+    "entry": "2025-03-20 09:30:00",
+    "spot": 23065.65,
+    "strikes": {
+     "sc": 23350,
+     "lc": 23500,
+     "sp": 22750,
+     "lp": 22600
+    },
+    "credit": 44.29999999999999,
+    "settle": 23591.95,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -105.70000000000002,
+    "costs_rs": 148.48874342000016,
+    "net_rs": -8075.988743420001,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-03",
+    "skipped": null,
+    "entry": "2025-03-27 09:30:00",
+    "spot": 23525.5,
+    "strikes": {
+     "sc": 23850,
+     "lc": 24000,
+     "sp": 23200,
+     "lp": 23050
+    },
+    "credit": 48.399999999999984,
+    "settle": 23250.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 48.399999999999984,
+    "costs_rs": 115.70307248,
+    "net_rs": 3514.2969275199985,
+    "breach": false
+   },
+   {
+    "expiry": "2025-04-09",
+    "skipped": null,
+    "entry": "2025-04-02 09:30:00",
+    "spot": 23279.05,
+    "strikes": {
+     "sc": 23600,
+     "lc": 23750,
+     "sp": 22950,
+     "lp": 22800
+    },
+    "credit": 53.64,
+    "settle": 22399.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -96.36,
+    "costs_rs": 225.03548139199967,
+    "net_rs": -7452.035481391999,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-17",
+    "skipped": null,
+    "entry": "2025-04-09 09:30:00",
+    "spot": 22410.7,
+    "strikes": {
+     "sc": 22700,
+     "lc": 22850,
+     "sp": 22100,
+     "lp": 21950
+    },
+    "credit": 86.85000000000002,
+    "settle": 23851.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -63.14999999999998,
+    "costs_rs": 401.9043263825004,
+    "net_rs": -5138.154326382499,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-24",
+    "skipped": null,
+    "entry": "2025-04-17 09:30:00",
+    "spot": 23319.85,
+    "strikes": {
+     "sc": 23600,
+     "lc": 23750,
+     "sp": 23000,
+     "lp": 22850
+    },
+    "credit": 61.30000000000001,
+    "settle": 24246.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -88.69999999999999,
+    "costs_rs": 250.79900346500017,
+    "net_rs": -6903.299003464999,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-30",
+    "skipped": null,
+    "entry": "2025-04-23 09:30:00",
+    "spot": 24285.85,
+    "strikes": {
+     "sc": 24600,
+     "lc": 24750,
+     "sp": 23950,
+     "lp": 23800
+    },
+    "credit": 54.08999999999999,
+    "settle": 24334.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 54.08999999999999,
+    "costs_rs": 122.7194739245,
+    "net_rs": 3934.030526075499,
+    "breach": false
+   },
+   {
+    "expiry": "2025-05-08",
+    "skipped": null,
+    "entry": "2025-04-30 09:30:00",
+    "spot": 24338.05,
+    "strikes": {
+     "sc": 24650,
+     "lc": 24800,
+     "sp": 24000,
+     "lp": 23850
+    },
+    "credit": 65.6,
+    "settle": 24273.8,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 65.6,
+    "costs_rs": 130.43189273000002,
+    "net_rs": 4789.56810727,
+    "breach": false
+   },
+   {
+    "expiry": "2025-05-15",
+    "skipped": null,
+    "entry": "2025-05-08 09:30:00",
+    "spot": 24381.8,
+    "strikes": {
+     "sc": 24700,
+     "lc": 24850,
+     "sp": 24050,
+     "lp": 23900
+    },
+    "credit": 61.44,
+    "settle": 25062.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -88.56,
+    "costs_rs": 188.12667202699967,
+    "net_rs": -6830.126672027,
+    "breach": true
+   },
+   {
+    "expiry": "2025-05-22",
+    "skipped": null,
+    "entry": "2025-05-15 09:30:00",
+    "spot": 24596.3,
+    "strikes": {
+     "sc": 24900,
+     "lc": 25050,
+     "sp": 24300,
+     "lp": 24150
+    },
+    "credit": 68.69999999999999,
+    "settle": 24609.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 68.69999999999999,
+    "costs_rs": 127.04647823,
+    "net_rs": 5025.4535217699995,
+    "breach": false
+   },
+   {
+    "expiry": "2025-05-29",
+    "skipped": null,
+    "entry": "2025-05-22 09:30:00",
+    "spot": 24548.95,
+    "strikes": {
+     "sc": 24850,
+     "lc": 25000,
+     "sp": 24250,
+     "lp": 24100
+    },
+    "credit": 74.21,
+    "settle": 24833.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 74.21,
+    "costs_rs": 132.9949573295,
+    "net_rs": 5432.755042670499,
+    "breach": false
+   },
+   {
+    "expiry": "2025-06-05",
+    "skipped": null,
+    "entry": "2025-05-29 09:30:00",
+    "spot": 24803.5,
+    "strikes": {
+     "sc": 25150,
+     "lc": 25300,
+     "sp": 24500,
+     "lp": 24350
+    },
+    "credit": 70.60000000000001,
+    "settle": 24750.9,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 70.60000000000001,
+    "costs_rs": 129.54282882500002,
+    "net_rs": 5165.457171175001,
+    "breach": false
+   },
+   {
+    "expiry": "2025-06-12",
+    "skipped": null,
+    "entry": "2025-06-05 09:30:00",
+    "spot": 24737.3,
+    "strikes": {
+     "sc": 25050,
+     "lc": 25200,
+     "sp": 24400,
+     "lp": 24250
+    },
+    "credit": 60.199999999999996,
+    "settle": 24888.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 60.199999999999996,
+    "costs_rs": 120.950067815,
+    "net_rs": 4394.049932185,
+    "breach": false
+   },
+   {
+    "expiry": "2025-06-19",
+    "skipped": null,
+    "entry": "2025-06-12 09:30:00",
+    "spot": 25189.05,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 48.75,
+    "settle": 24793.25,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -8.0,
+    "costs_rs": 118.9638593375,
+    "net_rs": -718.9638593375,
+    "breach": true
+   },
+   {
+    "expiry": "2025-06-26",
+    "skipped": null,
+    "entry": "2025-06-19 09:30:00",
+    "spot": 24827.9,
+    "strikes": {
+     "sc": 25150,
+     "lc": 25300,
+     "sp": 24500,
+     "lp": 24350
+    },
+    "credit": 53.1,
+    "settle": 25549.0,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -96.9,
+    "costs_rs": 191.06706722,
+    "net_rs": -7458.56706722,
+    "breach": true
+   },
+   {
+    "expiry": "2025-07-03",
+    "skipped": null,
+    "entry": "2025-06-26 09:30:00",
+    "spot": 25370.75,
+    "strikes": {
+     "sc": 25700,
+     "lc": 25850,
+     "sp": 25050,
+     "lp": 24900
+    },
+    "credit": 53.099999999999994,
+    "settle": 25405.3,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 53.099999999999994,
+    "costs_rs": 117.31355474,
+    "net_rs": 3865.1864452599993,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-10",
+    "skipped": null,
+    "entry": "2025-07-03 09:30:00",
+    "spot": 25462.55,
+    "strikes": {
+     "sc": 25800,
+     "lc": 25950,
+     "sp": 25150,
+     "lp": 25000
+    },
+    "credit": 46.05,
+    "settle": 25355.25,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 46.05,
+    "costs_rs": 112.24394098250002,
+    "net_rs": 3341.5060590175,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-17",
+    "skipped": null,
+    "entry": "2025-07-10 09:30:00",
+    "spot": 25444.65,
+    "strikes": {
+     "sc": 25750,
+     "lc": 25900,
+     "sp": 25100,
+     "lp": 24950
+    },
+    "credit": 39.2,
+    "settle": 25111.45,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 39.2,
+    "costs_rs": 108.6523268,
+    "net_rs": 2831.3476732,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-24",
+    "skipped": null,
+    "entry": "2025-07-17 09:30:00",
+    "spot": 25191.85,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 31.75000000000001,
+    "settle": 25062.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 31.75000000000001,
+    "costs_rs": 105.3210325325,
+    "net_rs": 2275.928967467501,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-31",
+    "skipped": null,
+    "entry": "2025-07-24 09:30:00",
+    "spot": 25185.45,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 27.299999999999997,
+    "settle": 24768.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -54.35000000000146,
+    "costs_rs": 113.11888926500016,
+    "net_rs": -4189.368889265109,
+    "breach": true
+   },
+   {
+    "expiry": "2025-08-07",
+    "skipped": null,
+    "entry": "2025-07-31 09:30:00",
+    "spot": 24711.55,
+    "strikes": {
+     "sc": 25050,
+     "lc": 25200,
+     "sp": 24400,
+     "lp": 24250
+    },
+    "credit": 42.39999999999999,
+    "settle": 24596.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.39999999999999,
+    "costs_rs": 112.78511277499999,
+    "net_rs": 3067.2148872249995,
+    "breach": false
+   },
+   {
+    "expiry": "2025-08-14",
+    "skipped": null,
+    "entry": "2025-08-07 09:30:00",
+    "spot": 24518.9,
+    "strikes": {
+     "sc": 24850,
+     "lc": 25000,
+     "sp": 24200,
+     "lp": 24050
+    },
+    "credit": 37.749999999999986,
+    "settle": 24631.3,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 37.749999999999986,
+    "costs_rs": 107.9367065675,
+    "net_rs": 2723.313293432499,
+    "breach": false
+   },
+   {
+    "expiry": "2025-08-21",
+    "skipped": null,
+    "entry": "2025-08-14 09:30:00",
+    "spot": 24618.25,
+    "strikes": {
+     "sc": 24950,
+     "lc": 25100,
+     "sp": 24300,
+     "lp": 24150
+    },
+    "credit": 37.10000000000001,
+    "settle": 25083.75,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -96.64999999999999,
+    "costs_rs": 122.72992682,
+    "net_rs": -7371.4799268199995,
+    "breach": true
+   },
+   {
+    "expiry": "2025-08-28",
+    "skipped": null,
+    "entry": "2025-08-21 09:30:00",
+    "spot": 25071.75,
+    "strikes": {
+     "sc": 25400,
+     "lc": 25550,
+     "sp": 24750,
+     "lp": 24600
+    },
+    "credit": 31.949999999999992,
+    "settle": 24500.9,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -118.05000000000001,
+    "costs_rs": 144.60235583749966,
+    "net_rs": -8998.3523558375,
+    "breach": true
+   },
+   {
+    "expiry": "2025-09-02",
+    "skipped": null,
+    "entry": "2025-08-26 09:30:00",
+    "spot": 24792.7,
+    "strikes": {
+     "sc": 25100,
+     "lc": 25250,
+     "sp": 24450,
+     "lp": 24300
+    },
+    "credit": 33.349999999999994,
+    "settle": 24579.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 33.349999999999994,
+    "costs_rs": 106.36054331749999,
+    "net_rs": 2394.8894566824997,
+    "breach": false
+   },
+   {
+    "expiry": "2025-09-09",
+    "skipped": null,
+    "entry": "2025-09-02 09:30:00",
+    "spot": 24676.6,
+    "strikes": {
+     "sc": 25000,
+     "lc": 25150,
+     "sp": 24350,
+     "lp": 24200
+    },
+    "credit": 30.299999999999997,
+    "settle": 24868.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 30.299999999999997,
+    "costs_rs": 104.436487955,
+    "net_rs": 2168.063512045,
+    "breach": false
+   },
+   {
+    "expiry": "2025-09-16",
+    "skipped": null,
+    "entry": "2025-09-09 09:30:00",
+    "spot": 24837.7,
+    "strikes": {
+     "sc": 25150,
+     "lc": 25300,
+     "sp": 24500,
+     "lp": 24350
+    },
+    "credit": 33.75,
+    "settle": 25239.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -55.349999999998545,
+    "costs_rs": 115.84622575249983,
+    "net_rs": -4267.096225752391,
+    "breach": true
+   },
+   {
+    "expiry": "2025-09-23",
+    "skipped": null,
+    "entry": "2025-09-16 09:30:00",
+    "spot": 25127.65,
+    "strikes": {
+     "sc": 25450,
+     "lc": 25600,
+     "sp": 24800,
+     "lp": 24650
+    },
+    "credit": 28.900000000000002,
+    "settle": 25169.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 28.900000000000002,
+    "costs_rs": 103.8169769,
+    "net_rs": 2063.6830231,
+    "breach": false
+   },
+   {
+    "expiry": "2025-09-30",
+    "skipped": null,
+    "entry": "2025-09-23 09:30:00",
+    "spot": 25168.85,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 31.0,
+    "settle": 24611.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -119.0,
+    "costs_rs": 142.1527434050003,
+    "net_rs": -9067.152743405,
+    "breach": true
+   },
+   {
+    "expiry": "2025-10-07",
+    "skipped": null,
+    "entry": "2025-09-30 09:30:00",
+    "spot": 24676.25,
+    "strikes": {
+     "sc": 25000,
+     "lc": 25150,
+     "sp": 24350,
+     "lp": 24200
+    },
+    "credit": 38.64999999999999,
+    "settle": 25108.3,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -69.64999999999928,
+    "costs_rs": 121.18361513749991,
+    "net_rs": -5344.933615137446,
+    "breach": true
+   },
+   {
+    "expiry": "2025-10-14",
+    "skipped": null,
+    "entry": "2025-10-07 09:30:00",
+    "spot": 25118.55,
+    "strikes": {
+     "sc": 25450,
+     "lc": 25600,
+     "sp": 24800,
+     "lp": 24650
+    },
+    "credit": 26.900000000000002,
+    "settle": 25145.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 26.900000000000002,
+    "costs_rs": 103.67116388,
+    "net_rs": 1913.8288361200002,
+    "breach": false
+   },
+   {
+    "expiry": "2025-10-20",
+    "skipped": null,
+    "entry": "2025-10-13 09:30:00",
+    "spot": 25163.35,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 42.25,
+    "settle": 25843.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -107.75,
+    "costs_rs": 170.20776251750033,
+    "net_rs": -8251.4577625175,
+    "breach": true
+   },
+   {
+    "expiry": "2025-10-28",
+    "skipped": null,
+    "entry": "2025-10-21 13:45:00",
+    "spot": 25903.25,
+    "strikes": {
+     "sc": 26250,
+     "lc": 26400,
+     "sp": 25550,
+     "lp": 25400
+    },
+    "credit": 36.5,
+    "settle": 25936.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 36.5,
+    "costs_rs": 105.827372045,
+    "net_rs": 2631.672627955,
+    "breach": false
+   },
+   {
+    "expiry": "2025-11-04",
+    "skipped": null,
+    "entry": "2025-10-28 09:30:00",
+    "spot": 26028.8,
+    "strikes": {
+     "sc": 26350,
+     "lc": 26500,
+     "sp": 25700,
+     "lp": 25550
+    },
+    "credit": 56.800000000000004,
+    "settle": 25597.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -45.54999999999854,
+    "costs_rs": 128.57846373499984,
+    "net_rs": -3544.82846373489,
+    "breach": true
+   },
+   {
+    "expiry": "2025-11-11",
+    "skipped": null,
+    "entry": "2025-11-04 09:30:00",
+    "spot": 25703.4,
+    "strikes": {
+     "sc": 26050,
+     "lc": 26200,
+     "sp": 25350,
+     "lp": 25200
+    },
+    "credit": 42.45,
+    "settle": 25694.95,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.45,
+    "costs_rs": 109.8139114775,
+    "net_rs": 3073.9360885225,
+    "breach": false
+   },
+   {
+    "expiry": "2025-11-18",
+    "skipped": null,
+    "entry": "2025-11-11 09:30:00",
+    "spot": 25506.55,
+    "strikes": {
+     "sc": 25850,
+     "lc": 26000,
+     "sp": 25200,
+     "lp": 25050
+    },
+    "credit": 50.05,
+    "settle": 25910.05,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -9.999999999999275,
+    "costs_rs": 119.99356166749992,
+    "net_rs": -869.9935616674455,
+    "breach": true
+   },
+   {
+    "expiry": "2025-11-25",
+    "skipped": null,
+    "entry": "2025-11-18 09:30:00",
+    "spot": 25963.55,
+    "strikes": {
+     "sc": 26300,
+     "lc": 26450,
+     "sp": 25650,
+     "lp": 25500
+    },
+    "credit": 48.4,
+    "settle": 25884.8,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 48.4,
+    "costs_rs": 112.78690483999999,
+    "net_rs": 3517.21309516,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-02",
+    "skipped": null,
+    "entry": "2025-11-25 09:30:00",
+    "spot": 25977.55,
+    "strikes": {
+     "sc": 26300,
+     "lc": 26450,
+     "sp": 25650,
+     "lp": 25500
+    },
+    "credit": 46.0,
+    "settle": 26032.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 46.0,
+    "costs_rs": 111.205411775,
+    "net_rs": 3338.794588225,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-09",
+    "skipped": null,
+    "entry": "2025-12-02 09:30:00",
+    "spot": 26114.9,
+    "strikes": {
+     "sc": 26450,
+     "lc": 26600,
+     "sp": 25800,
+     "lp": 25650
+    },
+    "credit": 41.75,
+    "settle": 25839.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 41.75,
+    "costs_rs": 108.2283326075,
+    "net_rs": 3023.0216673925,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-16",
+    "skipped": null,
+    "entry": "2025-12-09 09:30:00",
+    "spot": 25772.55,
+    "strikes": {
+     "sc": 26100,
+     "lc": 26250,
+     "sp": 25450,
+     "lp": 25300
+    },
+    "credit": 42.499999999999986,
+    "settle": 25860.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.499999999999986,
+    "costs_rs": 110.052272735,
+    "net_rs": 3077.4477272649992,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-23",
+    "skipped": null,
+    "entry": "2025-12-16 09:30:00",
+    "spot": 25916.7,
+    "strikes": {
+     "sc": 26250,
+     "lc": 26400,
+     "sp": 25600,
+     "lp": 25450
+    },
+    "credit": 35.599999999999994,
+    "settle": 26177.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 35.599999999999994,
+    "costs_rs": 105.94668388999999,
+    "net_rs": 2564.0533161099997,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-30",
+    "skipped": null,
+    "entry": "2025-12-23 09:30:00",
+    "spot": 26143.25,
+    "strikes": {
+     "sc": 26500,
+     "lc": 26650,
+     "sp": 25800,
+     "lp": 25650
+    },
+    "credit": 24.660000000000004,
+    "settle": 25938.85,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 24.660000000000004,
+    "costs_rs": 102.306534482,
+    "net_rs": 1747.1934655180003,
+    "breach": false
+   },
+   {
+    "expiry": "2026-01-06",
+    "skipped": null,
+    "entry": "2025-12-30 09:30:00",
+    "spot": 25905.35,
+    "strikes": {
+     "sc": 26250,
+     "lc": 26400,
+     "sp": 25550,
+     "lp": 25400
+    },
+    "credit": 21.550000000000004,
+    "settle": 26178.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 21.550000000000004,
+    "costs_rs": 101.4691781825,
+    "net_rs": 1514.7808218175003,
+    "breach": false
+   },
+   {
+    "expiry": "2026-01-13",
+    "skipped": null,
+    "entry": "2026-01-06 09:30:00",
+    "spot": 26215.05,
+    "strikes": {
+     "sc": 26550,
+     "lc": 26700,
+     "sp": 25900,
+     "lp": 25750
+    },
+    "credit": 29.199999999999996,
+    "settle": 25732.3,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -120.80000000000001,
+    "costs_rs": 124.57543458500015,
+    "net_rs": -9184.575434585,
+    "breach": true
+   },
+   {
+    "expiry": "2026-01-20",
+    "skipped": null,
+    "entry": "2026-01-13 09:30:00",
+    "spot": 25745.35,
+    "strikes": {
+     "sc": 26100,
+     "lc": 26250,
+     "sp": 25400,
+     "lp": 25250
+    },
+    "credit": 39.3,
+    "settle": 25232.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -110.7,
+    "costs_rs": 131.47964993,
+    "net_rs": -8433.97964993,
+    "breach": true
+   },
+   {
+    "expiry": "2026-01-27",
+    "skipped": null,
+    "entry": "2026-01-20 09:30:00",
+    "spot": 25495.55,
+    "strikes": {
+     "sc": 25850,
+     "lc": 26000,
+     "sp": 25150,
+     "lp": 25000
+    },
+    "credit": 34.849999999999994,
+    "settle": 25175.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 34.849999999999994,
+    "costs_rs": 108.1680372875,
+    "net_rs": 2505.5819627124997,
+    "breach": false
+   },
+   {
+    "expiry": "2026-02-03",
+    "skipped": null,
+    "entry": "2026-01-27 09:30:00",
+    "spot": 24989.5,
+    "strikes": {
+     "sc": 25300,
+     "lc": 25450,
+     "sp": 24650,
+     "lp": 24500
+    },
+    "credit": 84.70000000000006,
+    "settle": 25727.55,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -65.29999999999994,
+    "costs_rs": 230.67936765499985,
+    "net_rs": -5128.179367654995,
+    "breach": true
+   },
+   {
+    "expiry": "2026-02-10",
+    "skipped": null,
+    "entry": "2026-02-03 09:30:00",
+    "spot": 25755.15,
+    "strikes": {
+     "sc": 26100,
+     "lc": 26250,
+     "sp": 25400,
+     "lp": 25250
+    },
+    "credit": 73.5,
+    "settle": 25935.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 73.5,
+    "costs_rs": 137.89107668,
+    "net_rs": 5374.60892332,
+    "breach": false
+   },
+   {
+    "expiry": "2026-02-17",
+    "skipped": null,
+    "entry": "2026-02-10 09:30:00",
+    "spot": 25943.75,
+    "strikes": {
+     "sc": 26300,
+     "lc": 26450,
+     "sp": 25600,
+     "lp": 25450
+    },
+    "credit": 30.849999999999994,
+    "settle": 25725.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 30.849999999999994,
+    "costs_rs": 107.4407642525,
+    "net_rs": 2206.3092357474998,
+    "breach": false
+   },
+   {
+    "expiry": "2026-02-24",
+    "skipped": null,
+    "entry": "2026-02-17 09:30:00",
+    "spot": 25612.4,
+    "strikes": {
+     "sc": 25950,
+     "lc": 26100,
+     "sp": 25300,
+     "lp": 25150
+    },
+    "credit": 42.099999999999994,
+    "settle": 25424.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.099999999999994,
+    "costs_rs": 113.36425586,
+    "net_rs": 3044.1357441399996,
+    "breach": false
+   },
+   {
+    "expiry": "2026-03-02",
+    "skipped": null,
+    "entry": "2026-02-23 09:30:00",
+    "spot": 25740.4,
+    "strikes": {
+     "sc": 26050,
+     "lc": 26200,
+     "sp": 25400,
+     "lp": 25250
+    },
+    "credit": 56.8,
+    "settle": 24865.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -93.2,
+    "costs_rs": 224.51411754499983,
+    "net_rs": -7214.514117545,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-10",
+    "skipped": null,
+    "entry": "2026-03-02 09:30:00",
+    "spot": 24974.55,
+    "strikes": {
+     "sc": 25300,
+     "lc": 25450,
+     "sp": 24650,
+     "lp": 24500
+    },
+    "credit": 76.85,
+    "settle": 24261.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -73.15,
+    "costs_rs": 211.30687108250032,
+    "net_rs": -5697.5568710825,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-17",
+    "skipped": null,
+    "entry": "2026-03-10 09:30:00",
+    "spot": 24124.45,
+    "strikes": {
+     "sc": 24450,
+     "lc": 24600,
+     "sp": 23800,
+     "lp": 23650
+    },
+    "credit": 92.45000000000007,
+    "settle": 23581.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -57.549999999999926,
+    "costs_rs": 190.27037122249968,
+    "net_rs": -4506.520371222494,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-24",
+    "skipped": null,
+    "entry": "2026-03-17 09:30:00",
+    "spot": 23388.8,
+    "strikes": {
+     "sc": 23700,
+     "lc": 23850,
+     "sp": 23100,
+     "lp": 22950
+    },
+    "credit": 88.45000000000002,
+    "settle": 22912.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -61.54999999999998,
+    "costs_rs": 180.09356282749965,
+    "net_rs": -4796.343562827498,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-30",
+    "skipped": null,
+    "entry": "2026-03-23 09:30:00",
+    "spot": 22713.05,
+    "strikes": {
+     "sc": 23000,
+     "lc": 23150,
+     "sp": 22400,
+     "lp": 22250
+    },
+    "credit": 101.85000000000005,
+    "settle": 22331.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 33.250000000001506,
+    "costs_rs": 189.72696923749984,
+    "net_rs": 2304.023030762613,
+    "breach": true
+   },
+   {
+    "expiry": "2026-04-07",
+    "skipped": null,
+    "entry": "2026-03-30 09:30:00",
+    "spot": 22683.6,
+    "strikes": {
+     "sc": 23000,
+     "lc": 23150,
+     "sp": 22400,
+     "lp": 22250
+    },
+    "credit": 111.60000000000002,
+    "settle": 23123.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -12.050000000001432,
+    "costs_rs": 219.14232437000015,
+    "net_rs": -1122.8923243701076,
+    "breach": true
+   },
+   {
+    "expiry": "2026-04-13",
+    "skipped": null,
+    "entry": "2026-04-06 09:30:00",
+    "spot": 22681.05,
+    "strikes": {
+     "sc": 23000,
+     "lc": 23150,
+     "sp": 22400,
+     "lp": 22250
+    },
+    "credit": 103.74999999999994,
+    "settle": 23842.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -46.25000000000006,
+    "costs_rs": 359.8231702925003,
+    "net_rs": -3828.5731702925045,
+    "breach": true
+   }
+  ],
+  "pass_rule": {
+   "a_mean_pos_and_ci_lo_pos": false,
+   "b_total_ge_2x_worst": false,
+   "c_mean_pos_at_0.30": false,
+   "useful": false
+  }
+ },
+ "V2": {
+  "by_slip": {
+   "0.1": {
+    "weeks_total": 81,
+    "weeks_traded": 80,
+    "weeks_skipped": 1,
+    "skip_reasons": {
+     "missing_option_file": 1
+    },
+    "win_rate": 0.55,
+    "mean_net": -441.04337389998,
+    "median_net": 2145.851217572499,
+    "total_net": -35283.4699119984,
+    "worst_week": -7694.991504265004,
+    "best_week": 5636.614119115002,
+    "max_drawdown": -42053.23743456672,
+    "longest_losing_streak": 4,
+    "breach_rate": 0.475,
+    "stopped_rate": 0.1875,
+    "ci90_lo": -1211.787322296925,
+    "ci90_hi": 587.7961140532186,
+    "mean_credit_pts": 54.14037499999999,
+    "mean_costs_rs": 161.08712389998124,
+    "mean_gross_rs": -279.95624999999876,
+    "ret_on_capital_total": -1.56815421831104,
+    "cash_alternative_total": 2250.0
+   },
+   "0.2": {
+    "weeks_total": 81,
+    "weeks_traded": 80,
+    "weeks_skipped": 1,
+    "skip_reasons": {
+     "missing_option_file": 1
+    },
+    "win_rate": 0.55,
+    "mean_net": -464.21922925347354,
+    "median_net": 2115.8732675725,
+    "total_net": -37137.53834027788,
+    "worst_week": -7754.947404264997,
+    "best_week": 5606.636169115,
+    "max_drawdown": -43426.101253949215,
+    "longest_losing_streak": 4,
+    "breach_rate": 0.475,
+    "stopped_rate": 0.1875,
+    "ci90_lo": -1230.1158022203867,
+    "ci90_hi": 566.005023291504,
+    "mean_credit_pts": 53.74037499999999,
+    "mean_costs_rs": 161.022354253475,
+    "mean_gross_rs": -303.19687499999856,
+    "ret_on_capital_total": -1.6505572595679059,
+    "cash_alternative_total": 2250.0
+   },
+   "0.3": {
+    "weeks_total": 81,
+    "weeks_traded": 80,
+    "weeks_skipped": 1,
+    "skip_reasons": {
+     "missing_option_file": 1
+    },
+    "win_rate": 0.5375,
+    "mean_net": -550.1365419006736,
+    "median_net": 1958.7779796099996,
+    "total_net": -44010.92335205389,
+    "worst_week": -7814.903304264999,
+    "best_week": 5576.658219115,
+    "max_drawdown": -49576.85767903174,
+    "longest_losing_streak": 4,
+    "breach_rate": 0.475,
+    "stopped_rate": 0.2,
+    "ci90_lo": -1312.0734261148464,
+    "ci90_hi": 482.0471666359456,
+    "mean_credit_pts": 53.340374999999995,
+    "mean_costs_rs": 162.47091690067498,
+    "mean_gross_rs": -387.6656249999988,
+    "ret_on_capital_total": -1.9560410378690618,
+    "cash_alternative_total": 2250.0
+   }
+  },
+  "weeks_0.20": [
+   {
+    "expiry": "2024-10-03",
+    "skipped": null,
+    "entry": "2024-09-26 09:30:00",
+    "spot": 26032.7,
+    "strikes": {
+     "sc": 26350,
+     "lc": 26500,
+     "sp": 25700,
+     "lp": 25550
+    },
+    "credit": 45.349999999999994,
+    "settle": 25250.1,
+    "stopped": true,
+    "stop_ts": "2024-10-03 11:25:00",
+    "gross_pts": -93.04999999999998,
+    "costs_rs": 238.49368130649998,
+    "net_rs": -7217.243681306499,
+    "breach": true
+   },
+   {
+    "expiry": "2024-10-10",
+    "skipped": null,
+    "entry": "2024-10-03 09:30:00",
+    "spot": 25606.6,
+    "strikes": {
+     "sc": 25950,
+     "lc": 26100,
+     "sp": 25250,
+     "lp": 25100
+    },
+    "credit": 43.699999999999996,
+    "settle": 24998.45,
+    "stopped": true,
+    "stop_ts": "2024-10-07 13:50:00",
+    "gross_pts": -79.90000000000009,
+    "costs_rs": 283.234035835,
+    "net_rs": -6275.7340358350075,
+    "breach": true
+   },
+   {
+    "expiry": "2024-10-17",
+    "skipped": null,
+    "entry": "2024-10-10 09:30:00",
+    "spot": 25031.35,
+    "strikes": {
+     "sc": 25350,
+     "lc": 25500,
+     "sp": 24700,
+     "lp": 24550
+    },
+    "credit": 57.74999999999997,
+    "settle": 24749.85,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 57.74999999999997,
+    "costs_rs": 118.2144657275,
+    "net_rs": 4213.035534272498,
+    "breach": false
+   },
+   {
+    "expiry": "2024-10-24",
+    "skipped": null,
+    "entry": "2024-10-17 09:30:00",
+    "spot": 24903.8,
+    "strikes": {
+     "sc": 25250,
+     "lc": 25400,
+     "sp": 24600,
+     "lp": 24450
+    },
+    "credit": 44.65,
+    "settle": 24399.4,
+    "stopped": true,
+    "stop_ts": "2024-10-24 09:35:00",
+    "gross_pts": -87.99999999999997,
+    "costs_rs": 231.10556452000003,
+    "net_rs": -6831.105564519999,
+    "breach": true
+   },
+   {
+    "expiry": "2024-10-31",
+    "skipped": null,
+    "entry": "2024-10-24 09:30:00",
+    "spot": 24395.65,
+    "strikes": {
+     "sc": 24700,
+     "lc": 24850,
+     "sp": 24100,
+     "lp": 23950
+    },
+    "credit": 56.99999999999998,
+    "settle": 24205.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 56.99999999999998,
+    "costs_rs": 117.51965148500001,
+    "net_rs": 4157.480348514998,
+    "breach": false
+   },
+   {
+    "expiry": "2024-11-07",
+    "skipped": null,
+    "entry": "2024-10-31 09:30:00",
+    "spot": 24255.95,
+    "strikes": {
+     "sc": 24550,
+     "lc": 24700,
+     "sp": 23950,
+     "lp": 23800
+    },
+    "credit": 76.5,
+    "settle": 24199.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 76.5,
+    "costs_rs": 130.863830885,
+    "net_rs": 5606.636169115,
+    "breach": false
+   },
+   {
+    "expiry": "2024-11-14",
+    "skipped": null,
+    "entry": "2024-11-07 09:30:00",
+    "spot": 24361.2,
+    "strikes": {
+     "sc": 24700,
+     "lc": 24850,
+     "sp": 24050,
+     "lp": 23900
+    },
+    "credit": 57.44999999999997,
+    "settle": 23532.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -92.55000000000004,
+    "costs_rs": 218.27554579249986,
+    "net_rs": -7159.525545792502,
+    "breach": true
+   },
+   {
+    "expiry": "2024-11-21",
+    "skipped": null,
+    "entry": "2024-11-14 09:30:00",
+    "spot": 23586.55,
+    "strikes": {
+     "sc": 23900,
+     "lc": 24050,
+     "sp": 23300,
+     "lp": 23150
+    },
+    "credit": 55.24,
+    "settle": 23349.9,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 55.24,
+    "costs_rs": 117.470641562,
+    "net_rs": 4025.529358438,
+    "breach": false
+   },
+   {
+    "expiry": "2024-11-28",
+    "skipped": null,
+    "entry": "2024-11-21 09:30:00",
+    "spot": 23312.05,
+    "strikes": {
+     "sc": 23600,
+     "lc": 23750,
+     "sp": 23000,
+     "lp": 22850
+    },
+    "credit": 71.19999999999996,
+    "settle": 23914.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -78.80000000000004,
+    "costs_rs": 179.57051993000033,
+    "net_rs": -6089.570519930003,
+    "breach": true
+   },
+   {
+    "expiry": "2024-12-05",
+    "skipped": null,
+    "entry": "2024-11-28 09:30:00",
+    "spot": 24279.35,
+    "strikes": {
+     "sc": 24600,
+     "lc": 24750,
+     "sp": 23950,
+     "lp": 23800
+    },
+    "credit": 51.49999999999998,
+    "settle": 24708.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -56.90000000000148,
+    "costs_rs": 125.68623764000017,
+    "net_rs": -4393.186237640111,
+    "breach": true
+   },
+   {
+    "expiry": "2024-12-12",
+    "skipped": null,
+    "entry": "2024-12-05 09:30:00",
+    "spot": 24514.9,
+    "strikes": {
+     "sc": 24850,
+     "lc": 25000,
+     "sp": 24200,
+     "lp": 24050
+    },
+    "credit": 72.5,
+    "settle": 24548.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 72.5,
+    "costs_rs": 129.220810085,
+    "net_rs": 5308.279189915,
+    "breach": false
+   },
+   {
+    "expiry": "2024-12-19",
+    "skipped": null,
+    "entry": "2024-12-12 09:30:00",
+    "spot": 24666.7,
+    "strikes": {
+     "sc": 25000,
+     "lc": 25150,
+     "sp": 24350,
+     "lp": 24200
+    },
+    "credit": 44.7,
+    "settle": 23951.7,
+    "stopped": true,
+    "stop_ts": "2024-12-19 09:15:00",
+    "gross_pts": -99.89999999999996,
+    "costs_rs": 262.447404265,
+    "net_rs": -7754.947404264997,
+    "breach": true
+   },
+   {
+    "expiry": "2024-12-26",
+    "skipped": "missing_option_file",
+    "entry": "2024-12-19 09:30:00",
+    "spot": 23906.7,
+    "strikes": {
+     "sc": 24200,
+     "lc": 24350,
+     "sp": 23600,
+     "lp": 23450
+    },
+    "credit": NaN,
+    "settle": NaN,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": NaN,
+    "costs_rs": NaN,
+    "net_rs": NaN,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-02",
+    "skipped": null,
+    "entry": "2024-12-26 09:30:00",
+    "spot": 23816.25,
+    "strikes": {
+     "sc": 24150,
+     "lc": 24300,
+     "sp": 23500,
+     "lp": 23350
+    },
+    "credit": 50.04999999999999,
+    "settle": 24188.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 11.399999999998535,
+    "costs_rs": 117.42602807750018,
+    "net_rs": 737.5739719223899,
+    "breach": true
+   },
+   {
+    "expiry": "2025-01-09",
+    "skipped": null,
+    "entry": "2025-01-02 09:30:00",
+    "spot": 23784.25,
+    "strikes": {
+     "sc": 24100,
+     "lc": 24250,
+     "sp": 23450,
+     "lp": 23300
+    },
+    "credit": 73.89999999999999,
+    "settle": 23526.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 73.89999999999999,
+    "costs_rs": 128.302220525,
+    "net_rs": 5414.197779474999,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-16",
+    "skipped": null,
+    "entry": "2025-01-09 09:30:00",
+    "spot": 23608.55,
+    "strikes": {
+     "sc": 23900,
+     "lc": 24050,
+     "sp": 23300,
+     "lp": 23150
+    },
+    "credit": 59.650000000000006,
+    "settle": 23311.8,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 59.650000000000006,
+    "costs_rs": 117.86577472249999,
+    "net_rs": 4355.8842252775,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-23",
+    "skipped": null,
+    "entry": "2025-01-16 09:30:00",
+    "spot": 23348.25,
+    "strikes": {
+     "sc": 23650,
+     "lc": 23800,
+     "sp": 23050,
+     "lp": 22900
+    },
+    "credit": 50.4,
+    "settle": 23205.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 50.4,
+    "costs_rs": 114.293003375,
+    "net_rs": 3665.706996625,
+    "breach": false
+   },
+   {
+    "expiry": "2025-01-30",
+    "skipped": null,
+    "entry": "2025-01-23 09:30:00",
+    "spot": 23114.45,
+    "strikes": {
+     "sc": 23400,
+     "lc": 23550,
+     "sp": 22800,
+     "lp": 22650
+    },
+    "credit": 62.09999999999999,
+    "settle": 23249.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 62.09999999999999,
+    "costs_rs": 119.25887280500001,
+    "net_rs": 4538.241127194999,
+    "breach": false
+   },
+   {
+    "expiry": "2025-02-06",
+    "skipped": null,
+    "entry": "2025-01-30 09:30:00",
+    "spot": 23189.0,
+    "strikes": {
+     "sc": 23500,
+     "lc": 23650,
+     "sp": 22900,
+     "lp": 22750
+    },
+    "credit": 100.15000000000009,
+    "settle": 23603.35,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -3.199999999998454,
+    "costs_rs": 181.62902003749986,
+    "net_rs": -421.6290200373839,
+    "breach": true
+   },
+   {
+    "expiry": "2025-02-13",
+    "skipped": null,
+    "entry": "2025-02-06 09:30:00",
+    "spot": 23656.85,
+    "strikes": {
+     "sc": 23950,
+     "lc": 24100,
+     "sp": 23350,
+     "lp": 23200
+    },
+    "credit": 68.25,
+    "settle": 23031.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -81.75,
+    "costs_rs": 178.25314309249967,
+    "net_rs": -6309.5031430925,
+    "breach": true
+   },
+   {
+    "expiry": "2025-02-20",
+    "skipped": null,
+    "entry": "2025-02-13 09:30:00",
+    "spot": 23103.2,
+    "strikes": {
+     "sc": 23400,
+     "lc": 23550,
+     "sp": 22800,
+     "lp": 22650
+    },
+    "credit": 67.49999999999999,
+    "settle": 22913.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 67.49999999999999,
+    "costs_rs": 123.14841282500001,
+    "net_rs": 4939.351587174999,
+    "breach": false
+   },
+   {
+    "expiry": "2025-02-27",
+    "skipped": null,
+    "entry": "2025-02-20 09:30:00",
+    "spot": 22866.9,
+    "strikes": {
+     "sc": 23150,
+     "lc": 23300,
+     "sp": 22550,
+     "lp": 22400
+    },
+    "credit": 61.949999999999996,
+    "settle": 22545.05,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 56.99999999999927,
+    "costs_rs": 119.44740347750007,
+    "net_rs": 4155.552596522445,
+    "breach": true
+   },
+   {
+    "expiry": "2025-03-06",
+    "skipped": null,
+    "entry": "2025-02-27 09:30:00",
+    "spot": 22562.4,
+    "strikes": {
+     "sc": 22850,
+     "lc": 23000,
+     "sp": 22250,
+     "lp": 22100
+    },
+    "credit": 46.14999999999999,
+    "settle": 22544.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 46.14999999999999,
+    "costs_rs": 109.3066135775,
+    "net_rs": 3351.9433864224993,
+    "breach": false
+   },
+   {
+    "expiry": "2025-03-13",
+    "skipped": null,
+    "entry": "2025-03-06 09:30:00",
+    "spot": 22309.55,
+    "strikes": {
+     "sc": 22600,
+     "lc": 22750,
+     "sp": 22000,
+     "lp": 21850
+    },
+    "credit": 58.49999999999998,
+    "settle": 22397.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 58.49999999999998,
+    "costs_rs": 115.90420477999999,
+    "net_rs": 4271.595795219998,
+    "breach": false
+   },
+   {
+    "expiry": "2025-03-20",
+    "skipped": null,
+    "entry": "2025-03-13 09:30:00",
+    "spot": 22475.85,
+    "strikes": {
+     "sc": 22750,
+     "lc": 22900,
+     "sp": 22200,
+     "lp": 22050
+    },
+    "credit": 47.699999999999996,
+    "settle": 23190.65,
+    "stopped": true,
+    "stop_ts": "2025-03-20 09:40:00",
+    "gross_pts": -95.35,
+    "costs_rs": 240.3335288125,
+    "net_rs": -7391.5835288125,
+    "breach": true
+   },
+   {
+    "expiry": "2025-03-27",
+    "skipped": null,
+    "entry": "2025-03-20 09:30:00",
+    "spot": 23065.65,
+    "strikes": {
+     "sc": 23350,
+     "lc": 23500,
+     "sp": 22750,
+     "lp": 22600
+    },
+    "credit": 44.29999999999999,
+    "settle": 23591.95,
+    "stopped": true,
+    "stop_ts": "2025-03-25 09:35:00",
+    "gross_pts": -89.19,
+    "costs_rs": 270.51402889450003,
+    "net_rs": -6959.7640288945,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-03",
+    "skipped": null,
+    "entry": "2025-03-27 09:30:00",
+    "spot": 23525.5,
+    "strikes": {
+     "sc": 23850,
+     "lc": 24000,
+     "sp": 23200,
+     "lp": 23050
+    },
+    "credit": 48.399999999999984,
+    "settle": 23250.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 48.399999999999984,
+    "costs_rs": 115.70307248,
+    "net_rs": 3514.2969275199985,
+    "breach": false
+   },
+   {
+    "expiry": "2025-04-09",
+    "skipped": null,
+    "entry": "2025-04-02 09:30:00",
+    "spot": 23279.05,
+    "strikes": {
+     "sc": 23600,
+     "lc": 23750,
+     "sp": 22950,
+     "lp": 22800
+    },
+    "credit": 53.64,
+    "settle": 22399.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -96.36,
+    "costs_rs": 225.03548139199967,
+    "net_rs": -7452.035481391999,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-17",
+    "skipped": null,
+    "entry": "2025-04-09 09:30:00",
+    "spot": 22410.7,
+    "strikes": {
+     "sc": 22700,
+     "lc": 22850,
+     "sp": 22100,
+     "lp": 21950
+    },
+    "credit": 86.85000000000002,
+    "settle": 23851.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -63.14999999999998,
+    "costs_rs": 401.9043263825004,
+    "net_rs": -5138.154326382499,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-24",
+    "skipped": null,
+    "entry": "2025-04-17 09:30:00",
+    "spot": 23319.85,
+    "strikes": {
+     "sc": 23600,
+     "lc": 23750,
+     "sp": 23000,
+     "lp": 22850
+    },
+    "credit": 61.30000000000001,
+    "settle": 24246.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -88.69999999999999,
+    "costs_rs": 250.79900346500017,
+    "net_rs": -6903.299003464999,
+    "breach": true
+   },
+   {
+    "expiry": "2025-04-30",
+    "skipped": null,
+    "entry": "2025-04-23 09:30:00",
+    "spot": 24285.85,
+    "strikes": {
+     "sc": 24600,
+     "lc": 24750,
+     "sp": 23950,
+     "lp": 23800
+    },
+    "credit": 54.08999999999999,
+    "settle": 24334.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 54.08999999999999,
+    "costs_rs": 122.7194739245,
+    "net_rs": 3934.030526075499,
+    "breach": false
+   },
+   {
+    "expiry": "2025-05-08",
+    "skipped": null,
+    "entry": "2025-04-30 09:30:00",
+    "spot": 24338.05,
+    "strikes": {
+     "sc": 24650,
+     "lc": 24800,
+     "sp": 24000,
+     "lp": 23850
+    },
+    "credit": 65.6,
+    "settle": 24273.8,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 65.6,
+    "costs_rs": 130.43189273000002,
+    "net_rs": 4789.56810727,
+    "breach": false
+   },
+   {
+    "expiry": "2025-05-15",
+    "skipped": null,
+    "entry": "2025-05-08 09:30:00",
+    "spot": 24381.8,
+    "strikes": {
+     "sc": 24700,
+     "lc": 24850,
+     "sp": 24050,
+     "lp": 23900
+    },
+    "credit": 61.44,
+    "settle": 25062.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -88.56,
+    "costs_rs": 188.12667202699967,
+    "net_rs": -6830.126672027,
+    "breach": true
+   },
+   {
+    "expiry": "2025-05-22",
+    "skipped": null,
+    "entry": "2025-05-15 09:30:00",
+    "spot": 24596.3,
+    "strikes": {
+     "sc": 24900,
+     "lc": 25050,
+     "sp": 24300,
+     "lp": 24150
+    },
+    "credit": 68.69999999999999,
+    "settle": 24609.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 68.69999999999999,
+    "costs_rs": 127.04647823,
+    "net_rs": 5025.4535217699995,
+    "breach": false
+   },
+   {
+    "expiry": "2025-05-29",
+    "skipped": null,
+    "entry": "2025-05-22 09:30:00",
+    "spot": 24548.95,
+    "strikes": {
+     "sc": 24850,
+     "lc": 25000,
+     "sp": 24250,
+     "lp": 24100
+    },
+    "credit": 74.21,
+    "settle": 24833.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 74.21,
+    "costs_rs": 132.9949573295,
+    "net_rs": 5432.755042670499,
+    "breach": false
+   },
+   {
+    "expiry": "2025-06-05",
+    "skipped": null,
+    "entry": "2025-05-29 09:30:00",
+    "spot": 24803.5,
+    "strikes": {
+     "sc": 25150,
+     "lc": 25300,
+     "sp": 24500,
+     "lp": 24350
+    },
+    "credit": 70.60000000000001,
+    "settle": 24750.9,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 70.60000000000001,
+    "costs_rs": 129.54282882500002,
+    "net_rs": 5165.457171175001,
+    "breach": false
+   },
+   {
+    "expiry": "2025-06-12",
+    "skipped": null,
+    "entry": "2025-06-05 09:30:00",
+    "spot": 24737.3,
+    "strikes": {
+     "sc": 25050,
+     "lc": 25200,
+     "sp": 24400,
+     "lp": 24250
+    },
+    "credit": 60.199999999999996,
+    "settle": 24888.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 60.199999999999996,
+    "costs_rs": 120.950067815,
+    "net_rs": 4394.049932185,
+    "breach": false
+   },
+   {
+    "expiry": "2025-06-19",
+    "skipped": null,
+    "entry": "2025-06-12 09:30:00",
+    "spot": 25189.05,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 48.75,
+    "settle": 24793.25,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -8.0,
+    "costs_rs": 118.9638593375,
+    "net_rs": -718.9638593375,
+    "breach": true
+   },
+   {
+    "expiry": "2025-06-26",
+    "skipped": null,
+    "entry": "2025-06-19 09:30:00",
+    "spot": 24827.9,
+    "strikes": {
+     "sc": 25150,
+     "lc": 25300,
+     "sp": 24500,
+     "lp": 24350
+    },
+    "credit": 53.1,
+    "settle": 25549.0,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -96.9,
+    "costs_rs": 191.06706722,
+    "net_rs": -7458.56706722,
+    "breach": true
+   },
+   {
+    "expiry": "2025-07-03",
+    "skipped": null,
+    "entry": "2025-06-26 09:30:00",
+    "spot": 25370.75,
+    "strikes": {
+     "sc": 25700,
+     "lc": 25850,
+     "sp": 25050,
+     "lp": 24900
+    },
+    "credit": 53.099999999999994,
+    "settle": 25405.3,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 53.099999999999994,
+    "costs_rs": 117.31355474,
+    "net_rs": 3865.1864452599993,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-10",
+    "skipped": null,
+    "entry": "2025-07-03 09:30:00",
+    "spot": 25462.55,
+    "strikes": {
+     "sc": 25800,
+     "lc": 25950,
+     "sp": 25150,
+     "lp": 25000
+    },
+    "credit": 46.05,
+    "settle": 25355.25,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 46.05,
+    "costs_rs": 112.24394098250002,
+    "net_rs": 3341.5060590175,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-17",
+    "skipped": null,
+    "entry": "2025-07-10 09:30:00",
+    "spot": 25444.65,
+    "strikes": {
+     "sc": 25750,
+     "lc": 25900,
+     "sp": 25100,
+     "lp": 24950
+    },
+    "credit": 39.2,
+    "settle": 25111.45,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 39.2,
+    "costs_rs": 108.6523268,
+    "net_rs": 2831.3476732,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-24",
+    "skipped": null,
+    "entry": "2025-07-17 09:30:00",
+    "spot": 25191.85,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 31.75000000000001,
+    "settle": 25062.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 31.75000000000001,
+    "costs_rs": 105.3210325325,
+    "net_rs": 2275.928967467501,
+    "breach": false
+   },
+   {
+    "expiry": "2025-07-31",
+    "skipped": null,
+    "entry": "2025-07-24 09:30:00",
+    "spot": 25185.45,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 27.299999999999997,
+    "settle": 24768.35,
+    "stopped": true,
+    "stop_ts": "2025-07-28 13:00:00",
+    "gross_pts": -62.04999999999998,
+    "costs_rs": 219.6489088975,
+    "net_rs": -4873.3989088974995,
+    "breach": true
+   },
+   {
+    "expiry": "2025-08-07",
+    "skipped": null,
+    "entry": "2025-07-31 09:30:00",
+    "spot": 24711.55,
+    "strikes": {
+     "sc": 25050,
+     "lc": 25200,
+     "sp": 24400,
+     "lp": 24250
+    },
+    "credit": 42.39999999999999,
+    "settle": 24596.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.39999999999999,
+    "costs_rs": 112.78511277499999,
+    "net_rs": 3067.2148872249995,
+    "breach": false
+   },
+   {
+    "expiry": "2025-08-14",
+    "skipped": null,
+    "entry": "2025-08-07 09:30:00",
+    "spot": 24518.9,
+    "strikes": {
+     "sc": 24850,
+     "lc": 25000,
+     "sp": 24200,
+     "lp": 24050
+    },
+    "credit": 37.749999999999986,
+    "settle": 24631.3,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 37.749999999999986,
+    "costs_rs": 107.9367065675,
+    "net_rs": 2723.313293432499,
+    "breach": false
+   },
+   {
+    "expiry": "2025-08-21",
+    "skipped": null,
+    "entry": "2025-08-14 09:30:00",
+    "spot": 24618.25,
+    "strikes": {
+     "sc": 24950,
+     "lc": 25100,
+     "sp": 24300,
+     "lp": 24150
+    },
+    "credit": 37.10000000000001,
+    "settle": 25083.75,
+    "stopped": true,
+    "stop_ts": "2025-08-21 09:45:00",
+    "gross_pts": -78.05,
+    "costs_rs": 211.5031620625,
+    "net_rs": -6065.2531620624995,
+    "breach": true
+   },
+   {
+    "expiry": "2025-08-28",
+    "skipped": null,
+    "entry": "2025-08-21 09:30:00",
+    "spot": 25071.75,
+    "strikes": {
+     "sc": 25400,
+     "lc": 25550,
+     "sp": 24750,
+     "lp": 24600
+    },
+    "credit": 31.949999999999992,
+    "settle": 24500.9,
+    "stopped": true,
+    "stop_ts": "2025-08-28 09:15:00",
+    "gross_pts": -88.69999999999997,
+    "costs_rs": 215.48148350499997,
+    "net_rs": -6867.981483504998,
+    "breach": true
+   },
+   {
+    "expiry": "2025-09-02",
+    "skipped": null,
+    "entry": "2025-08-26 09:30:00",
+    "spot": 24792.7,
+    "strikes": {
+     "sc": 25100,
+     "lc": 25250,
+     "sp": 24450,
+     "lp": 24300
+    },
+    "credit": 33.349999999999994,
+    "settle": 24579.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 33.349999999999994,
+    "costs_rs": 106.36054331749999,
+    "net_rs": 2394.8894566824997,
+    "breach": false
+   },
+   {
+    "expiry": "2025-09-09",
+    "skipped": null,
+    "entry": "2025-09-02 09:30:00",
+    "spot": 24676.6,
+    "strikes": {
+     "sc": 25000,
+     "lc": 25150,
+     "sp": 24350,
+     "lp": 24200
+    },
+    "credit": 30.299999999999997,
+    "settle": 24868.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 30.299999999999997,
+    "costs_rs": 104.436487955,
+    "net_rs": 2168.063512045,
+    "breach": false
+   },
+   {
+    "expiry": "2025-09-16",
+    "skipped": null,
+    "entry": "2025-09-09 09:30:00",
+    "spot": 24837.7,
+    "strikes": {
+     "sc": 25150,
+     "lc": 25300,
+     "sp": 24500,
+     "lp": 24350
+    },
+    "credit": 33.75,
+    "settle": 25239.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -55.349999999998545,
+    "costs_rs": 115.84622575249983,
+    "net_rs": -4267.096225752391,
+    "breach": true
+   },
+   {
+    "expiry": "2025-09-23",
+    "skipped": null,
+    "entry": "2025-09-16 09:30:00",
+    "spot": 25127.65,
+    "strikes": {
+     "sc": 25450,
+     "lc": 25600,
+     "sp": 24800,
+     "lp": 24650
+    },
+    "credit": 28.900000000000002,
+    "settle": 25169.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 28.900000000000002,
+    "costs_rs": 103.8169769,
+    "net_rs": 2063.6830231,
+    "breach": false
+   },
+   {
+    "expiry": "2025-09-30",
+    "skipped": null,
+    "entry": "2025-09-23 09:30:00",
+    "spot": 25168.85,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 31.0,
+    "settle": 24611.1,
+    "stopped": true,
+    "stop_ts": "2025-09-26 13:55:00",
+    "gross_pts": -65.04999999999997,
+    "costs_rs": 219.9547439125,
+    "net_rs": -5098.704743912497,
+    "breach": true
+   },
+   {
+    "expiry": "2025-10-07",
+    "skipped": null,
+    "entry": "2025-09-30 09:30:00",
+    "spot": 24676.25,
+    "strikes": {
+     "sc": 25000,
+     "lc": 25150,
+     "sp": 24350,
+     "lp": 24200
+    },
+    "credit": 38.64999999999999,
+    "settle": 25108.3,
+    "stopped": true,
+    "stop_ts": "2025-10-07 09:40:00",
+    "gross_pts": -81.30000000000001,
+    "costs_rs": 214.858080925,
+    "net_rs": -6312.358080925001,
+    "breach": true
+   },
+   {
+    "expiry": "2025-10-14",
+    "skipped": null,
+    "entry": "2025-10-07 09:30:00",
+    "spot": 25118.55,
+    "strikes": {
+     "sc": 25450,
+     "lc": 25600,
+     "sp": 24800,
+     "lp": 24650
+    },
+    "credit": 26.900000000000002,
+    "settle": 25145.5,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 26.900000000000002,
+    "costs_rs": 103.67116388,
+    "net_rs": 1913.8288361200002,
+    "breach": false
+   },
+   {
+    "expiry": "2025-10-20",
+    "skipped": null,
+    "entry": "2025-10-13 09:30:00",
+    "spot": 25163.35,
+    "strikes": {
+     "sc": 25500,
+     "lc": 25650,
+     "sp": 24850,
+     "lp": 24700
+    },
+    "credit": 42.25,
+    "settle": 25843.15,
+    "stopped": true,
+    "stop_ts": "2025-10-17 11:20:00",
+    "gross_pts": -86.14999999999998,
+    "costs_rs": 242.9566785025,
+    "net_rs": -6704.206678502498,
+    "breach": true
+   },
+   {
+    "expiry": "2025-10-28",
+    "skipped": null,
+    "entry": "2025-10-21 13:45:00",
+    "spot": 25903.25,
+    "strikes": {
+     "sc": 26250,
+     "lc": 26400,
+     "sp": 25550,
+     "lp": 25400
+    },
+    "credit": 36.5,
+    "settle": 25936.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 36.5,
+    "costs_rs": 105.827372045,
+    "net_rs": 2631.672627955,
+    "breach": false
+   },
+   {
+    "expiry": "2025-11-04",
+    "skipped": null,
+    "entry": "2025-10-28 09:30:00",
+    "spot": 26028.8,
+    "strikes": {
+     "sc": 26350,
+     "lc": 26500,
+     "sp": 25700,
+     "lp": 25550
+    },
+    "credit": 56.800000000000004,
+    "settle": 25597.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -45.54999999999854,
+    "costs_rs": 128.57846373499984,
+    "net_rs": -3544.82846373489,
+    "breach": true
+   },
+   {
+    "expiry": "2025-11-11",
+    "skipped": null,
+    "entry": "2025-11-04 09:30:00",
+    "spot": 25703.4,
+    "strikes": {
+     "sc": 26050,
+     "lc": 26200,
+     "sp": 25350,
+     "lp": 25200
+    },
+    "credit": 42.45,
+    "settle": 25694.95,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.45,
+    "costs_rs": 109.8139114775,
+    "net_rs": 3073.9360885225,
+    "breach": false
+   },
+   {
+    "expiry": "2025-11-18",
+    "skipped": null,
+    "entry": "2025-11-11 09:30:00",
+    "spot": 25506.55,
+    "strikes": {
+     "sc": 25850,
+     "lc": 26000,
+     "sp": 25200,
+     "lp": 25050
+    },
+    "credit": 50.05,
+    "settle": 25910.05,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -9.999999999999275,
+    "costs_rs": 119.99356166749992,
+    "net_rs": -869.9935616674455,
+    "breach": true
+   },
+   {
+    "expiry": "2025-11-25",
+    "skipped": null,
+    "entry": "2025-11-18 09:30:00",
+    "spot": 25963.55,
+    "strikes": {
+     "sc": 26300,
+     "lc": 26450,
+     "sp": 25650,
+     "lp": 25500
+    },
+    "credit": 48.4,
+    "settle": 25884.8,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 48.4,
+    "costs_rs": 112.78690483999999,
+    "net_rs": 3517.21309516,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-02",
+    "skipped": null,
+    "entry": "2025-11-25 09:30:00",
+    "spot": 25977.55,
+    "strikes": {
+     "sc": 26300,
+     "lc": 26450,
+     "sp": 25650,
+     "lp": 25500
+    },
+    "credit": 46.0,
+    "settle": 26032.2,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 46.0,
+    "costs_rs": 111.205411775,
+    "net_rs": 3338.794588225,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-09",
+    "skipped": null,
+    "entry": "2025-12-02 09:30:00",
+    "spot": 26114.9,
+    "strikes": {
+     "sc": 26450,
+     "lc": 26600,
+     "sp": 25800,
+     "lp": 25650
+    },
+    "credit": 41.75,
+    "settle": 25839.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 41.75,
+    "costs_rs": 108.2283326075,
+    "net_rs": 3023.0216673925,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-16",
+    "skipped": null,
+    "entry": "2025-12-09 09:30:00",
+    "spot": 25772.55,
+    "strikes": {
+     "sc": 26100,
+     "lc": 26250,
+     "sp": 25450,
+     "lp": 25300
+    },
+    "credit": 42.499999999999986,
+    "settle": 25860.1,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.499999999999986,
+    "costs_rs": 110.052272735,
+    "net_rs": 3077.4477272649992,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-23",
+    "skipped": null,
+    "entry": "2025-12-16 09:30:00",
+    "spot": 25916.7,
+    "strikes": {
+     "sc": 26250,
+     "lc": 26400,
+     "sp": 25600,
+     "lp": 25450
+    },
+    "credit": 35.599999999999994,
+    "settle": 26177.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 35.599999999999994,
+    "costs_rs": 105.94668388999999,
+    "net_rs": 2564.0533161099997,
+    "breach": false
+   },
+   {
+    "expiry": "2025-12-30",
+    "skipped": null,
+    "entry": "2025-12-23 09:30:00",
+    "spot": 26143.25,
+    "strikes": {
+     "sc": 26500,
+     "lc": 26650,
+     "sp": 25800,
+     "lp": 25650
+    },
+    "credit": 24.660000000000004,
+    "settle": 25938.85,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 24.660000000000004,
+    "costs_rs": 102.306534482,
+    "net_rs": 1747.1934655180003,
+    "breach": false
+   },
+   {
+    "expiry": "2026-01-06",
+    "skipped": null,
+    "entry": "2025-12-30 09:30:00",
+    "spot": 25905.35,
+    "strikes": {
+     "sc": 26250,
+     "lc": 26400,
+     "sp": 25550,
+     "lp": 25400
+    },
+    "credit": 21.550000000000004,
+    "settle": 26178.7,
+    "stopped": true,
+    "stop_ts": "2026-01-02 09:50:00",
+    "gross_pts": -45.34999999999999,
+    "costs_rs": 203.9348937925,
+    "net_rs": -3605.184893792499,
+    "breach": false
+   },
+   {
+    "expiry": "2026-01-13",
+    "skipped": null,
+    "entry": "2026-01-06 09:30:00",
+    "spot": 26215.05,
+    "strikes": {
+     "sc": 26550,
+     "lc": 26700,
+     "sp": 25900,
+     "lp": 25750
+    },
+    "credit": 29.199999999999996,
+    "settle": 25732.3,
+    "stopped": true,
+    "stop_ts": "2026-01-09 12:10:00",
+    "gross_pts": -59.74999999999998,
+    "costs_rs": 215.4281172025,
+    "net_rs": -4696.6781172024985,
+    "breach": true
+   },
+   {
+    "expiry": "2026-01-20",
+    "skipped": null,
+    "entry": "2026-01-13 09:30:00",
+    "spot": 25745.35,
+    "strikes": {
+     "sc": 26100,
+     "lc": 26250,
+     "sp": 25400,
+     "lp": 25250
+    },
+    "credit": 39.3,
+    "settle": 25232.5,
+    "stopped": true,
+    "stop_ts": "2026-01-20 15:05:00",
+    "gross_pts": -86.30000000000001,
+    "costs_rs": 209.408036515,
+    "net_rs": -6681.908036515001,
+    "breach": true
+   },
+   {
+    "expiry": "2026-01-27",
+    "skipped": null,
+    "entry": "2026-01-20 09:30:00",
+    "spot": 25495.55,
+    "strikes": {
+     "sc": 25850,
+     "lc": 26000,
+     "sp": 25150,
+     "lp": 25000
+    },
+    "credit": 34.849999999999994,
+    "settle": 25175.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 34.849999999999994,
+    "costs_rs": 108.1680372875,
+    "net_rs": 2505.5819627124997,
+    "breach": false
+   },
+   {
+    "expiry": "2026-02-03",
+    "skipped": null,
+    "entry": "2026-01-27 09:30:00",
+    "spot": 24989.5,
+    "strikes": {
+     "sc": 25300,
+     "lc": 25450,
+     "sp": 24650,
+     "lp": 24500
+    },
+    "credit": 84.70000000000006,
+    "settle": 25727.55,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -65.29999999999994,
+    "costs_rs": 230.67936765499985,
+    "net_rs": -5128.179367654995,
+    "breach": true
+   },
+   {
+    "expiry": "2026-02-10",
+    "skipped": null,
+    "entry": "2026-02-03 09:30:00",
+    "spot": 25755.15,
+    "strikes": {
+     "sc": 26100,
+     "lc": 26250,
+     "sp": 25400,
+     "lp": 25250
+    },
+    "credit": 73.5,
+    "settle": 25935.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 73.5,
+    "costs_rs": 137.89107668,
+    "net_rs": 5374.60892332,
+    "breach": false
+   },
+   {
+    "expiry": "2026-02-17",
+    "skipped": null,
+    "entry": "2026-02-10 09:30:00",
+    "spot": 25943.75,
+    "strikes": {
+     "sc": 26300,
+     "lc": 26450,
+     "sp": 25600,
+     "lp": 25450
+    },
+    "credit": 30.849999999999994,
+    "settle": 25725.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 30.849999999999994,
+    "costs_rs": 107.4407642525,
+    "net_rs": 2206.3092357474998,
+    "breach": false
+   },
+   {
+    "expiry": "2026-02-24",
+    "skipped": null,
+    "entry": "2026-02-17 09:30:00",
+    "spot": 25612.4,
+    "strikes": {
+     "sc": 25950,
+     "lc": 26100,
+     "sp": 25300,
+     "lp": 25150
+    },
+    "credit": 42.099999999999994,
+    "settle": 25424.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 42.099999999999994,
+    "costs_rs": 113.36425586,
+    "net_rs": 3044.1357441399996,
+    "breach": false
+   },
+   {
+    "expiry": "2026-03-02",
+    "skipped": null,
+    "entry": "2026-02-23 09:30:00",
+    "spot": 25740.4,
+    "strikes": {
+     "sc": 26050,
+     "lc": 26200,
+     "sp": 25400,
+     "lp": 25250
+    },
+    "credit": 56.8,
+    "settle": 24865.7,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -93.2,
+    "costs_rs": 224.51411754499983,
+    "net_rs": -7214.514117545,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-10",
+    "skipped": null,
+    "entry": "2026-03-02 09:30:00",
+    "spot": 24974.55,
+    "strikes": {
+     "sc": 25300,
+     "lc": 25450,
+     "sp": 24650,
+     "lp": 24500
+    },
+    "credit": 76.85,
+    "settle": 24261.6,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -73.15,
+    "costs_rs": 211.30687108250032,
+    "net_rs": -5697.5568710825,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-17",
+    "skipped": null,
+    "entry": "2026-03-10 09:30:00",
+    "spot": 24124.45,
+    "strikes": {
+     "sc": 24450,
+     "lc": 24600,
+     "sp": 23800,
+     "lp": 23650
+    },
+    "credit": 92.45000000000007,
+    "settle": 23581.15,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -57.549999999999926,
+    "costs_rs": 190.27037122249968,
+    "net_rs": -4506.520371222494,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-24",
+    "skipped": null,
+    "entry": "2026-03-17 09:30:00",
+    "spot": 23388.8,
+    "strikes": {
+     "sc": 23700,
+     "lc": 23850,
+     "sp": 23100,
+     "lp": 22950
+    },
+    "credit": 88.45000000000002,
+    "settle": 22912.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -61.54999999999998,
+    "costs_rs": 180.09356282749965,
+    "net_rs": -4796.343562827498,
+    "breach": true
+   },
+   {
+    "expiry": "2026-03-30",
+    "skipped": null,
+    "entry": "2026-03-23 09:30:00",
+    "spot": 22713.05,
+    "strikes": {
+     "sc": 23000,
+     "lc": 23150,
+     "sp": 22400,
+     "lp": 22250
+    },
+    "credit": 101.85000000000005,
+    "settle": 22331.4,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": 33.250000000001506,
+    "costs_rs": 189.72696923749984,
+    "net_rs": 2304.023030762613,
+    "breach": true
+   },
+   {
+    "expiry": "2026-04-07",
+    "skipped": null,
+    "entry": "2026-03-30 09:30:00",
+    "spot": 22683.6,
+    "strikes": {
+     "sc": 23000,
+     "lc": 23150,
+     "sp": 22400,
+     "lp": 22250
+    },
+    "credit": 111.60000000000002,
+    "settle": 23123.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -12.050000000001432,
+    "costs_rs": 219.14232437000015,
+    "net_rs": -1122.8923243701076,
+    "breach": true
+   },
+   {
+    "expiry": "2026-04-13",
+    "skipped": null,
+    "entry": "2026-04-06 09:30:00",
+    "spot": 22681.05,
+    "strikes": {
+     "sc": 23000,
+     "lc": 23150,
+     "sp": 22400,
+     "lp": 22250
+    },
+    "credit": 103.74999999999994,
+    "settle": 23842.65,
+    "stopped": false,
+    "stop_ts": "None",
+    "gross_pts": -46.25000000000006,
+    "costs_rs": 359.8231702925003,
+    "net_rs": -3828.5731702925045,
+    "breach": true
+   }
+  ],
+  "pass_rule": {
+   "a_mean_pos_and_ci_lo_pos": false,
+   "b_total_ge_2x_worst": false,
+   "c_mean_pos_at_0.30": false,
+   "useful": false
+  }
+ }
+}

@@ -57,8 +57,9 @@ def condor_settle_pnl_points(st: dict[str, tuple[int, str]], credit: float, sett
     return credit - owed
 
 
-def settlement_stt(st: dict[str, tuple[int, str]], settle: float, qty: int = LOT, rate: float = SETTLE_STT) -> float:
+def settlement_stt(st: dict[str, tuple[int, str]], settle: float, qty: int = LOT, rate: float | None = None) -> float:
     """Settlement STT on every in-the-money leg (long and short: the conservative assumption) = rate x intrinsic x qty."""
+    rate = SETTLE_STT if rate is None else rate
     return sum(rate * intrinsic(k, s, settle) * qty for s, k in st.values())
 
 
