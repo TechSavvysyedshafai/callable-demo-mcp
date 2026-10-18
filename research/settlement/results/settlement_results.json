@@ -1,0 +1,137 @@
+{
+ "expiries": 81,
+ "g0": {
+  "n": 81,
+  "std_A_minus_S0": 34.176106216348245,
+  "std_S1_minus_S0": 50.23163067907532,
+  "ratio": 0.6803702319499807,
+  "stop": false,
+  "mean_A_minus_S0": 1.2537037037038743,
+  "mean_S1_minus_S0": 2.46234567901222,
+  "skipped": []
+ },
+ "t1": {
+  "summary": {
+   "n": 80,
+   "skipped": 1,
+   "n_expiries": 81,
+   "mean_net_0.10": -36.68729631369249,
+   "mean_net_0.20": -51.65848980369246,
+   "mean_net_0.30": -66.62968329369255,
+   "mean_gross_mid": 31.753125000007504,
+   "mean_fees_0.20": 53.41161480369999,
+   "boot_p": 0.5454454554544546,
+   "boot_p_by_slip": {
+    "0.10": 0.514048595140486,
+    "0.20": 0.5454454554544546,
+    "0.30": 0.5785421457854215
+   },
+   "boot_p_gross_mid": 0.36206379362063795,
+   "midpoint": "2025-07-08",
+   "first_n": 39,
+   "first_mean": 227.31360997160357,
+   "second_n": 41,
+   "second_mean": -317.0221944679984,
+   "win_rate": 0.625,
+   "worst_trade": -7511.40216097011,
+   "best_trade": 2614.491437599891,
+   "max_drawdown": -19888.67623442549,
+   "total_net": -4132.679184295397,
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   },
+   "calibration": {
+    "n": 80,
+    "mean_straddle_px": 24.624000000000002,
+    "mean_model_literal": 21.761912387374696,
+    "ratio_literal": 1.1315182030732631,
+    "mean_of_daily_ratios_literal": 1.1565515846050742,
+    "median_daily_ratio_literal": 1.1507231270793046,
+    "ratio_with_sqrt2pi": 1.4181477605415513
+   }
+  },
+  "skipped": [
+   [
+    "2024-12-26",
+    "missing_option_file"
+   ]
+  ]
+ },
+ "t2": {
+  "summary": {
+   "n": 80,
+   "skipped": 1,
+   "n_expiries": 81,
+   "mean_net_0.10": -156.8120029055287,
+   "mean_net_0.20": -186.78995290552862,
+   "mean_net_0.30": -216.76790290552862,
+   "mean_gross_mid": -25.940624999991133,
+   "mean_fees_0.20": 100.84932790553748,
+   "boot_p": 0.8352164783521648,
+   "boot_p_by_slip": {
+    "0.10": 0.7882211778822118,
+    "0.20": 0.8352164783521648,
+    "0.30": 0.8720127987201279
+   },
+   "boot_p_gross_mid": 0.5046495350464953,
+   "midpoint": "2025-07-08",
+   "first_n": 39,
+   "first_mean": 161.16020760745246,
+   "second_n": 41,
+   "second_mean": -517.7669348569009,
+   "win_rate": 0.575,
+   "worst_trade": -5082.3771717051095,
+   "best_trade": 2210.880970487391,
+   "max_drawdown": -26386.00350418038,
+   "total_net": -14943.19623244229,
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   },
+   "calibration": {
+    "n": 80,
+    "mean_straddle_px": 24.624000000000002,
+    "mean_model_literal": 21.761912387374696,
+    "ratio_literal": 1.1315182030732631,
+    "mean_of_daily_ratios_literal": 1.1565515846050742,
+    "median_daily_ratio_literal": 1.1507231270793046,
+    "ratio_with_sqrt2pi": 1.4181477605415513
+   }
+  },
+  "skipped": [
+   [
+    "2024-12-26",
+    "missing_option_file"
+   ]
+  ]
+ },
+ "t3": {
+  "n": 80,
+  "obs_mean_dist": 43.3631249999999,
+  "null_mean_dist": 263.193046625,
+  "null_q05": 235.17556249999993,
+  "expected_random_dist": 263.3904166666667,
+  "p": 9.999000099990002e-05,
+  "mean_dist_spot_strike": 24.2006249999999,
+  "share_max_oi_is_spot_strike": 0.6125,
+  "mean_abs_maxoi_minus_spotstrike": 34.375,
+  "ties": 1,
+  "mean_strikes": 20.9625,
+  "share_exact_pin": 0.4875,
+  "alpha": 0.0038461538461538464,
+  "pass": true,
+  "skipped": [
+   [
+    "2024-12-26",
+    "fewer_than_3_complete_strike_pairs"
+   ]
+  ]
+ }
+}
