@@ -388,3 +388,55 @@ Reading it: in a bit over half the weeks the condor earned a few thousand rupees
 14. *Verdict.* SURVIVES = all of (a) net mean > 0, (b) bootstrap p < 0.005, (c) null p < 0.005, (d) positive net mean in both halves, (e) >= 60 trades. INCONCLUSIVE = (a) and (b) pass but one of (c), (d), (e) fails. REJECT = otherwise.
 15. *Controls that are not trials:* zero-cost mean (and its bootstrap / null p, for information), and for ideas that decide and fill at the same price (3, 5, 6, 7) a one-step-later-entry check (lookahead diagnostic). They do not change any verdict.
 **Max trials: 10. Stop rule: report all 10 whatever the outcome; no reruns after seeing numbers.**
+
+**Addendum before the run (still no trade returns computed):** my first expiry rule for idea 10 missed one real expiry (the list says 2025-10-20) because Tue 2025-10-21 is a Diwali Muhurat evening session, a row in the data but not a regular day. Fix, decided from the calendar alone: for the expiry rule only, weekend rows and Muhurat days (2018-11-07, 2021-11-04, 2022-10-24, 2024-11-01, 2025-10-21) are not regular days, so an expiry falling on one moves to the previous regular day. Check: all real expiries in the file to 2026-04-16 are matched and none invented. Muhurat dates: 2021-11-04 confirmed by NSE holiday lists, 2024 and 2025 by 12-bar sessions in the data, 2018 and 2022 from memory (they are not on expiry weekdays). Other ideas keep Muhurat/weekend rows as ordinary rows, as pre-registered.
+
+---
+## 2026-10-18: Task 5 results. Idea batch 1, ten "who is forced to trade?" rules (branch claude/employee-ideas)
+
+**Answer first.** None of the 10 ideas survives. All 10 are **REJECT**. Nothing reached even INCONCLUSIVE, which needs a positive net mean and a bootstrap p below 0.005. Six ideas (1, 2, 3, 4, 5, 8) have a positive mean after the harsh 0.10% cost but none is statistically separable from luck at alpha 0.005. For your money: do not trade any of these, and none goes to the paper-signal recorder. Trials used: 10 of 10 (`research/ideas/ledger_ideas.jsonl`).
+
+| # | Idea | Trades | Mean net per trade | Mean at zero cost | Bootstrap p | Random-entry p | First half (n, mean) | Second half (n, mean) | Verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | SIP / salary inflows | 90 | +0.477% | +0.577% | 0.0228 | 0.0460 | 45, +0.604% | 45, +0.350% | REJECT |
+| 2 | Overnight (close to next open) | 1,854 | +0.013% | +0.113% | 0.2299 | 1.0000* | 929, +0.045% | 925, -0.021% | REJECT |
+| 3 | Fade the gap (>0.7%) | 299 | +0.011% | +0.111% | 0.4268 | 0.0241 | 205, +0.045% | 94, -0.065% | REJECT |
+| 4 | After a -2% close, long | 50 | +0.233% | +0.333% | 0.1208 | 0.0024 | 40, +0.294% | 10, -0.013% | REJECT |
+| 5 | After VIX +15%, long 3 days | 9 | +0.472% | +0.572% | 0.0422 | 0.2356 | 3, +2.000% | 6, -0.292% | REJECT |
+| 6 | Last-hour return, trade 15:15-15:30 | 612 | -0.116% | -0.016% | 1.0000 | 1.0000 | 306, -0.118% | 306, -0.114% | REJECT |
+| 7 | First 30 min sign, trade 09:45-15:15 | 612 | -0.095% | +0.005% | 0.9999 | 0.4231 | 306, -0.114% | 306, -0.076% | REJECT |
+| 8 | Pre-holiday close to open | 107 | +0.054% | +0.154% | 0.1650 | 0.2595 | 50, +0.030% | 57, +0.076% | REJECT |
+| 9 | Friday close to Monday close | 343 | -0.166% | -0.066% | 0.9505 | 0.9847 | 170, -0.273% | 173, -0.062% | REJECT |
+| 10 | Expiry day, follow prior day | 390 | -0.101% | -0.001% | 0.9905 | 0.4591 | 195, -0.142% | 195, -0.060% | REJECT |
+
+* Idea 2 trades every night, so the random-entry null is the rule itself and p = 1 by construction. Idea 5 has only 9 trades and idea 4 only 50 (the minimum is 60). Windows: daily ideas 2018-10-22 to 2026-04-16 (halves split at 2022-07-19); ideas 5, 6, 7 on 2023-10-19 to 2026-04-16 (midpoint 2025-01-16).
+
+**Reading it in plain words.**
+- Before costs there is something in two places. Idea 2: NIFTY rose +0.113% a night on average while the open-to-close leg lost 0.06% a day (intraday leg: information only, 1,855 days). The zero-cost bootstrap p for overnight is 0.0001. The 0.10% round-trip cost eats 88% of it, leaving +0.013% with p 0.23, and the second half is negative. Idea 1 (a 5-day hold around the month turn, +0.58% before cost per trade, +0.48% after) is the nearest miss: bootstrap p 0.023 and random-entry p 0.046, both above the corrected 0.005, from only 90 trades over 7.5 years. Out of 10 ideas, a p of 0.02 to 0.05 is what luck alone produces. I cannot call it an edge and cannot rule it out; the pre-registered rule says REJECT.
+- Ideas 6, 7, 9 and 10 make nothing or less even at zero cost (-0.016%, +0.005%, -0.066%, -0.001% per trade): no edge before costs. Ideas 3 (gap fade) and 4 (after a big drop) have a small positive average, but idea 3 is negative in the second half and idea 4 has only 10 trades there.
+- Idea 4 beats random entries (p 0.0024) but its bootstrap p is 0.12 and it has 50 trades, so it fails.
+
+**Deviations and literal readings (all pre-registered before the run; see "Planned" above and its addendum):**
+1. Data are shorter than the idea file says: daily 2018-10-22 to 2026-04-16 (not 2000); 5-minute and VIX only 2023-10-19 onward. This is what `fetch_upstox.py` gives; I did not pull longer history because that would be a different test. Idea 5 therefore has 9 signals and can never reach 60 trades.
+2. The bootstrap block length (5 trades) and the random-entry null design were not specified; both are fixed in "Planned".
+3. The idea 10 expiry rule was corrected before any return was computed (Muhurat day, addendum). After the fix it reproduces every real expiry in `nifty_expiries.csv` up to 2026-04-16 and invents none (unit test). The Thursday rule is also applied before weekly NIFTY options existed (Oct 2018 to early 2019, about 20 of 390 trades): launch date not verified, small effect.
+4. Skipped signals: idea 6: 1 day, idea 7: 2 days (missing bars or special sessions), idea 9: 23 Fridays (Friday or Monday closed), others 0.
+
+**Verified / assumed / unknown.**
+- Verified: arithmetic reproduced by an independent plain-Python script for ideas 1, 2, 3, 4, 6, 7, 8, 9 (max difference 4e-19; `research/ideas/crosscheck_ideas.py`; ideas 5 and 10 are covered by unit tests only); 31 unit tests with hand-computed answers pass; the 12 other repo test files still pass; the expiry rule matches the real expiry list; the holdout directory was never opened (the existing fetch script wrote it); 2021-11-04 as a Muhurat/holiday day was checked against NSE holiday lists.
+- Assumed: index levels stand in for futures (no basis, roll, margin or lot size); fills exactly at the bar open or close print with only the flat 0.10% cost. The idea file says about 15 points measured (about 0.06%), so 0.10% is generous; at 0.06% only idea 2 would clear the 0.005 bootstrap threshold, and it would still fail the random-entry test by construction and the second half. Muhurat and weekend sessions stay as ordinary rows in the daily file (except for the expiry rule); Muhurat dates 2018-11-07 and 2022-10-24 are from memory.
+- Unknown: whether anyone can capture the overnight drift after realistic costs (not testable under the no-variants rule); anything before 2018 or on other indices; whether the vendor's daily "open" equals the exchange's official open.
+
+**Adversarial review (skill `adversarial-review`).**
+1. Lookahead: signals use only data known at decision time (unit tests: signals of ideas 3, 6, 7, 10 do not change when later prices change). Weak spot: rules that decide and fill at the same print. Controls only (not trials): entering one step later changes the gross mean as follows. Idea 3 on the 5-minute window (62 trades): +0.0003% to -0.150%, so the fade needs the very first print and a real order would not get it. Idea 5 (9 trades): +0.572% to +0.012%. Idea 6: -0.016% to -0.010%. Idea 7: +0.005% to +0.007%. These show the gap-fade and VIX results are fragile; no verdict changes, all are REJECT either way.
+2. Leakage: only the dev files; last bar and last VIX row 2026-04-16; the real-expiry list was used only to check the calendar.
+3. Trials: exactly 10, in `ledger_ideas.jsonl`; no rerun after seeing numbers (the one rule fix came before any return was computed). Bonferroni 0.005 applied. At an uncorrected 0.05 only idea 1 passes both tests, which is why the correction matters.
+4. Controls: random-entry null (same count and holding, same long/short mix, same cost), halves, zero-cost version. No sign-flip placebo: it would only restate the zero-cost column.
+5. Costs: flat 0.10% per round trip on every trade, long and short. Overnight holds carry margin interest that is not included.
+6. Fills: at open/close prints (see item 1).
+7. Selection: skip counts above; short or special sessions are skipped for ideas 6 and 7.
+8. Regime and period: 7.5 years (2.5 for five-minute and VIX data), including the 2020 crash; not checked how much of idea 4's gain is 2020. Expiry weekday, STT and lot-size changes inside the window are not priced separately (flat cost).
+9. Arithmetic: reproduced independently (above).
+10. Plausibility: overnight +0.113% a night against -0.06% intraday is large but a known pattern for indices whose open reflects a pre-open auction; nothing else looks too good.
+
+**Verdicts:** all ten **REJECT** (idea 1 is the nearest miss at p 0.023 / 0.046). Gate step reached: none (all fail gate step 2). **Next single step (owner's decision):** close batch 1. Following idea 1 or 2 further would need a new, separately pre-registered question, counted as new trials, and a longer history.
