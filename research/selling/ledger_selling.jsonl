@@ -1,0 +1,2 @@
+{"study": "SELL1", "strategy": "V1_condor_hold_to_expiry", "code_hash": "41dcc3f13333", "trial": 1, "net_mean_020": -642.0, "useful": false}
+{"study": "SELL1", "strategy": "V2_condor_stop_2x_credit", "code_hash": "41dcc3f13333", "trial": 2, "net_mean_020": -464.2, "useful": false}

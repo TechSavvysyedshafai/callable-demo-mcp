@@ -1,0 +1,199 @@
+{
+ "V1": {
+  "base": {
+   "weeks_traded": 80,
+   "weeks_skipped": 1,
+   "win_rate": 0.6,
+   "mean_net": -642.0,
+   "median_net": 2115.9,
+   "total_net": -51359.2,
+   "worst_week": -9184.6,
+   "max_drawdown": -53436.4,
+   "breach_rate": 0.5,
+   "ci90_lo": -1468.7,
+   "ci90_hi": 459.9
+  },
+  "entry_shift_+1_bar": {
+   "weeks_traded": 60,
+   "weeks_skipped": 21,
+   "win_rate": 0.6,
+   "mean_net": -191.7,
+   "median_net": 2278.6,
+   "total_net": -11503.9,
+   "worst_week": -9115.9,
+   "max_drawdown": -30979.0,
+   "breach_rate": 0.4,
+   "ci90_lo": -1133.5,
+   "ci90_hi": 984.5
+  },
+  "entry_shift_+2_bars": {
+   "weeks_traded": 55,
+   "weeks_skipped": 26,
+   "win_rate": 0.6,
+   "mean_net": -112.5,
+   "median_net": 2289.9,
+   "total_net": -6186.5,
+   "worst_week": -9005.9,
+   "max_drawdown": -18991.6,
+   "breach_rate": 0.4,
+   "ci90_lo": -653.1,
+   "ci90_hi": 794.5
+  },
+  "entry_shift_+1_bar__base_on_same_weeks": {
+   "n": 60,
+   "mean_net": -200.1,
+   "total_net": -12003.9
+  },
+  "entry_shift_+2_bars__base_on_same_weeks": {
+   "n": 55,
+   "mean_net": 22.7,
+   "total_net": 1249.8
+  },
+  "strikes_from_previous_bar_close__base_on_same_weeks": {
+   "n": 52,
+   "mean_net": -216.1,
+   "total_net": -11238.5
+  },
+  "strikes_from_previous_bar_close": {
+   "weeks_traded": 52,
+   "weeks_skipped": 29,
+   "win_rate": 0.6,
+   "mean_net": -158.7,
+   "median_net": 2239.5,
+   "total_net": -8254.8,
+   "worst_week": -9067.2,
+   "max_drawdown": -42962.4,
+   "breach_rate": 0.4,
+   "ci90_lo": -1342.6,
+   "ci90_hi": 1022.6
+  },
+  "first_half": {
+   "n": 40,
+   "total_net": -8902.4,
+   "mean_net": -222.6
+  },
+  "second_half": {
+   "n": 40,
+   "total_net": -42456.8,
+   "mean_net": -1061.4
+  },
+  "lower_stt_0.10_and_0.125": {
+   "weeks_traded": 80,
+   "weeks_skipped": 1,
+   "win_rate": 0.6,
+   "mean_net": -632.1,
+   "median_net": 2118.1,
+   "total_net": -50564.3,
+   "worst_week": -9178.9,
+   "max_drawdown": -52854.6,
+   "breach_rate": 0.5,
+   "ci90_lo": -1456.9,
+   "ci90_hi": 467.9
+  },
+  "gross_rs_mean_zero_slippage_zero_fees": -437.2,
+  "mean_credit_pts_zero_slippage": 54.54,
+  "mean_payout_pts_zero_slippage": 60.37
+ },
+ "V2": {
+  "base": {
+   "weeks_traded": 80,
+   "weeks_skipped": 1,
+   "win_rate": 0.6,
+   "mean_net": -464.2,
+   "median_net": 2115.9,
+   "total_net": -37137.5,
+   "worst_week": -7754.9,
+   "max_drawdown": -43426.1,
+   "breach_rate": 0.5,
+   "ci90_lo": -1230.1,
+   "ci90_hi": 566.0
+  },
+  "entry_shift_+1_bar": {
+   "weeks_traded": 60,
+   "weeks_skipped": 21,
+   "win_rate": 0.6,
+   "mean_net": 27.0,
+   "median_net": 2278.6,
+   "total_net": 1620.1,
+   "worst_week": -7666.0,
+   "max_drawdown": -23276.7,
+   "breach_rate": 0.4,
+   "ci90_lo": -803.7,
+   "ci90_hi": 1120.3
+  },
+  "entry_shift_+2_bars": {
+   "weeks_traded": 55,
+   "weeks_skipped": 26,
+   "win_rate": 0.6,
+   "mean_net": 39.8,
+   "median_net": 2289.9,
+   "total_net": 2188.2,
+   "worst_week": -7621.5,
+   "max_drawdown": -17305.9,
+   "breach_rate": 0.4,
+   "ci90_lo": -478.2,
+   "ci90_hi": 908.4
+  },
+  "entry_shift_+1_bar__base_on_same_weeks": {
+   "n": 60,
+   "mean_net": 37.4,
+   "total_net": 2243.4
+  },
+  "entry_shift_+2_bars__base_on_same_weeks": {
+   "n": 55,
+   "mean_net": 190.6,
+   "total_net": 10482.2
+  },
+  "strikes_from_previous_bar_close__base_on_same_weeks": {
+   "n": 52,
+   "mean_net": -86.7,
+   "total_net": -4506.7
+  },
+  "strikes_from_previous_bar_close": {
+   "weeks_traded": 52,
+   "weeks_skipped": 29,
+   "win_rate": 0.6,
+   "mean_net": -43.8,
+   "median_net": 2239.5,
+   "total_net": -2276.1,
+   "worst_week": -7458.6,
+   "max_drawdown": -38025.7,
+   "breach_rate": 0.4,
+   "ci90_lo": -1177.6,
+   "ci90_hi": 1085.5
+  },
+  "first_half": {
+   "n": 40,
+   "total_net": -3101.6,
+   "mean_net": -77.5
+  },
+  "second_half": {
+   "n": 40,
+   "total_net": -34035.9,
+   "mean_net": -850.9
+  },
+  "lower_stt_0.10_and_0.125": {
+   "weeks_traded": 80,
+   "weeks_skipped": 1,
+   "win_rate": 0.6,
+   "mean_net": -454.4,
+   "median_net": 2118.1,
+   "total_net": -36355.7,
+   "worst_week": -7740.1,
+   "max_drawdown": -42856.6,
+   "breach_rate": 0.5,
+   "ci90_lo": -1219.7,
+   "ci90_hi": 573.7
+  },
+  "gross_rs_mean_zero_slippage_zero_fees": -260.1,
+  "mean_credit_pts_zero_slippage": 54.54,
+  "mean_payout_pts_zero_slippage": 58.01,
+  "stopped_weeks": {
+   "n": 15,
+   "mean_net": -6222.4,
+   "worst": -7754.9,
+   "of_which_would_have_expired_worthless_or_profitable_under_V1": 1,
+   "v1_mean_net_same_weeks": -7170.5
+  }
+ }
+}
