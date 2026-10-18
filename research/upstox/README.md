@@ -27,3 +27,7 @@ Nothing here can place an order.
 
 Offline self-test (no token needed): `python research/upstox/tests/test_upstox_parse.py`
 Status: these scripts follow Upstox's published API formats but have not been run against the live service.
+
+## Easiest: Google Colab (no install)
+Open `colab_upstox.ipynb` in Google Colab (File > Open notebook > GitHub tab, repo `TechSavvysyedshafai/callable-demo-mcp`, branch
+`claude/zerodha-api-live-data-6tf1kn`), add the secret `UPSTOX_ANALYTICS_TOKEN` (key icon), then Runtime > Run all.
