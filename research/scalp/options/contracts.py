@@ -26,7 +26,11 @@ def _last_weekday_of_month(y: int, m: int, wd: int) -> date:
 
 
 def next_expiry(cfg: dict, d: date) -> date:
-    """First expiry on or after d (weekly if the underlying has weeklies, else monthly)."""
+    """First expiry on or after d. Uses the REAL expiry calendar (cfg["calendar"], sorted dates from Upstox) when
+    given and covering d; otherwise a formula (weekly if the underlying has weeklies, else monthly)."""
+    cal = cfg.get("calendar")
+    if cal and cal[0] <= d <= cal[-1]:
+        return next(e for e in cal if e >= d)
     if cfg["weekly"]:
         return _on_or_after(d, cfg["wd"])
     e = _last_weekday_of_month(d.year, d.month, cfg["wd"])

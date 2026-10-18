@@ -19,7 +19,7 @@ Nothing here can place an order.
 5. **Download NIFTY history** (free)  `python research/upstox/fetch_upstox.py`
 6. **Expired option history** needs the **Upstox Plus** plan. If check_setup shows a `[PLUS]` line, that part is locked; the rest still works.
    Upgrade in the Upstox app ("Get Plus", top-right). Then: `python research/upstox/download_expired_options.py`
-   (Upstox only keeps about 6 months of expired expiries, so run it regularly.)
+   (Upstox's docs say about 6 months of expiries, but a real account listed 107 NIFTY expiries from Oct 2024, roughly 2 years. Run it regularly to keep growing your archive.)
 7. **Run the tests on real data**
    `python research/scalp/options/evaluate_opt.py --underlying NIFTY --runs 200`
    `python research/scalp/evaluate.py --runs 200`

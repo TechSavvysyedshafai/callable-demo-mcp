@@ -70,6 +70,14 @@ if __name__ == "__main__":
         df = df[df["date"].dt.date.isin(set(days))].reset_index(drop=True)
         v = pd.read_csv(kd.DEV_DIR / "india_vix_day.csv", parse_dates=["date"])
         vix = dict(zip(v["date"].dt.date, v["close"]))
+        cal_file = kd.DEV_DIR / "nifty_expiries.csv"
+        if a.underlying == "NIFTY" and cal_file.exists():  # real expiries; drop days the calendar doesn't cover
+            cal = sorted(pd.to_datetime(pd.read_csv(cal_file)["expiry"]).dt.date)
+            cfg = {**cfg, "calendar": cal}
+            df = df[df["date"].dt.date >= cal[0]].reset_index(drop=True)
+            print(f"using real expiry calendar {cal[0]}..{cal[-1]}; {df['date'].dt.date.nunique()} sessions in range")
+        else:
+            print("WARNING: no real expiry calendar; expiry weekday is guessed and wrong for older data")
     h = hashlib.sha256((Path(strategy.__file__).read_bytes() + a.underlying.encode())).hexdigest()[:12]
     seen = {json.loads(l)["hash"] for l in LEDGER.read_text().splitlines() if l} if LEDGER.exists() else set()
     t0 = time.time()

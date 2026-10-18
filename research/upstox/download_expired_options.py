@@ -1,6 +1,6 @@
 """Save real expired-option candles (needs the Upstox Plus plan). UNTESTED against the live API.
 For each recent expiry it downloads ATM +/- N strikes, calls and puts, as CSV (date,open,high,low,close,volume,oi).
-Upstox only exposes about the last 6 months of expiries, so run this regularly to build a longer archive.
+Upstox's docs say about 6 months of expiries; a real account listed ~2 years (from Oct 2024). Run it regularly to grow your archive.
 
   python download_expired_options.py --underlying NIFTY --expiries 26 --strikes 5
 """

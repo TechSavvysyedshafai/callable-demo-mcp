@@ -33,3 +33,12 @@ for phi, want in ((0.0, "FAIL"), (0.5, "PASS")):
     res = eo.evaluate(df, vix, cfg, trials=1, runs=40)
     assert res["verdict"] == want, (phi, res["verdict"], res.get("p_vs_random_entries"))
 print("options ok")
+
+# real expiry calendar overrides the formula inside its range
+from datetime import date as _d
+cal = [_d(2025, 1, 2), _d(2025, 1, 9), _d(2025, 1, 16)]  # Thursdays: the formula would say Tuesday
+cfgc = {**UNDERLYINGS["NIFTY"], "calendar": cal}
+assert next_expiry(cfgc, _d(2025, 1, 3)) == _d(2025, 1, 9)
+assert next_expiry(cfgc, _d(2025, 1, 16)) == _d(2025, 1, 16)
+assert next_expiry(cfgc, _d(2025, 2, 1)).weekday() == 1  # outside the calendar: falls back to the formula
+print("calendar ok")

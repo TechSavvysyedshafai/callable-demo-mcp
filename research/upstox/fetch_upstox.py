@@ -34,3 +34,10 @@ if __name__ == "__main__":
     kd.DEV_DIR.mkdir(exist_ok=True)
     v[["date", "close"]].to_csv(kd.DEV_DIR / "india_vix_day.csv", index=False)
     print(f"India VIX: {len(v)} days saved")
+    try:  # real expiry dates (needs Plus): the model-based option backtest must not guess expiry weekdays
+        ex = sorted(u.get("/v2/expired-instruments/expiries", {"instrument_key": u.NIFTY})["data"])
+        import pandas as pd
+        pd.DataFrame({"expiry": ex}).to_csv(kd.DEV_DIR / "nifty_expiries.csv", index=False)
+        print(f"NIFTY expiries: {len(ex)} ({ex[0]} to {ex[-1]}) saved")
+    except u.UpstoxError as e:
+        print("Expiry calendar skipped:", "needs Upstox Plus" if e.needs_plus else e)

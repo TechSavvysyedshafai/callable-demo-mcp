@@ -38,7 +38,8 @@ def _token() -> str:
 
 def get(path: str, params: dict | None = None, retries: int = 4) -> dict:
     url = BASE + path + (("?" + urllib.parse.urlencode(params)) if params else "")
-    req = urllib.request.Request(url, headers={"Accept": "application/json", "Authorization": f"Bearer {_token()}"})
+    req = urllib.request.Request(url, headers={"Accept": "application/json", "Authorization": f"Bearer {_token()}",
+                                          "User-Agent": "Mozilla/5.0 (compatible; upstox-research/1.0)"})
     for attempt in range(retries):
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
