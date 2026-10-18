@@ -1,0 +1,20 @@
+G0: n=81 expiry days, std(A-S0)=34.18, std(S1-S0)=50.23, ratio=0.680 (theory 0.58 if the close is a 30-minute average, 1.0 if last print; STOP above 0.85) -> PASS (continue); skipped []
+
+T1: n=80 of 81 expiries (skipped 1: ['missing_option_file'])
+  mean net/trade Rs: 0.10 -37 | 0.20 -52 | 0.30 -67; mean before costs (mid, no fees) +32; mean fees at 0.20 +53
+  bootstrap p (0.20) 0.5454 (0.10: 0.5140, 0.30: 0.5785; before costs 0.3621); alpha 0.00385
+  halves (split 2025-07-08): first n=39 mean +227 | second n=41 mean -317
+  worst trade -7,511; best +2,614; max drawdown -19,889; total net -4,133; win rate 62.5%
+  calibration (straddle px / model Asian straddle 0.58*sigma*sqrt(T)): 1.132 pooled (mean of daily ratios 1.157, median 1.151); vs 0.798x that value: 1.418; mean px 24.6, mean model 21.8
+  checks {'a_mean_net_positive': False, 'b_boot_p': False, 'd_both_halves_positive': False, 'e_min_60_trades': True} -> REJECT
+
+T2: n=80 of 81 expiries (skipped 1: ['missing_option_file'])
+  mean net/trade Rs: 0.10 -157 | 0.20 -187 | 0.30 -217; mean before costs (mid, no fees) -26; mean fees at 0.20 +101
+  bootstrap p (0.20) 0.8352 (0.10: 0.7882, 0.30: 0.8720; before costs 0.5046); alpha 0.00385
+  halves (split 2025-07-08): first n=39 mean +161 | second n=41 mean -518
+  worst trade -5,082; best +2,211; max drawdown -26,386; total net -14,943; win rate 57.5%
+  calibration (straddle px / model Asian straddle 0.58*sigma*sqrt(T)): 1.132 pooled (mean of daily ratios 1.157, median 1.151); vs 0.798x that value: 1.418; mean px 24.6, mean model 21.8
+  checks {'a_mean_net_positive': False, 'b_boot_p': False, 'd_both_halves_positive': False, 'e_min_60_trades': True} -> REJECT
+
+T3: n=80 days (skipped 1: ['fewer_than_3_complete_strike_pairs']); mean |A-K_maxOI| 43.4 pts, random-strike mean 263.2 (expected 263.4), spot-nearest strike 24.2; p=0.0001 vs 0.00385 -> PASS
+  max-OI strike equals the spot strike on 61% of days; mean |K_maxOI - K0| 34; settlement within 25 pts of the max-OI strike on 49%; ties 1; mean strikes/day 21.0
