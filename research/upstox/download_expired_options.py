@@ -35,12 +35,16 @@ if __name__ == "__main__":
     a.add_argument("--expiries", type=int, default=26)
     a.add_argument("--strikes", type=int, default=5)
     a.add_argument("--interval", default="5minute")
+    a.add_argument("--before", default=None, help="only expiries on or before this date (YYYY-MM-DD); use the 5-minute dev cut-off to keep the holdout window out of the dev folder")
     a = a.parse_args()
     cfg = UNDERLYINGS[a.underlying]
     out = kd.DEV_DIR / "expired_options" / a.underlying
     out.mkdir(parents=True, exist_ok=True)
     try:
-        expiries = sorted(u.get("/v2/expired-instruments/expiries", {"instrument_key": cfg["key"]})["data"])[-a.expiries:]
+        expiries = sorted(u.get("/v2/expired-instruments/expiries", {"instrument_key": cfg["key"]})["data"])
+        if a.before:
+            expiries = [x for x in expiries if x <= a.before]
+        expiries = expiries[-a.expiries:]
     except u.UpstoxError as e:
         raise SystemExit("This needs the Upstox Plus plan (UDAPI1149)." if e.needs_plus else str(e))
     first = date.fromisoformat(expiries[0]) - timedelta(days=cfg["days"] + 5)

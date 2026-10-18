@@ -268,6 +268,7 @@ def check_expiries(ex: pd.DataFrame, daily: pd.DataFrame | None = None, dev_cut:
 # ---------------------------------------------------------------- option files
 
 OPT_NAME = re.compile(r"^(\d{4}-\d{2}-\d{2})_(\d+)(CE|PE)\.csv$")
+OI_FLOOR, OI_DROP = 100_000, 0.5  # an OI fall of more than 50% inside one bar, when OI was already >= 100k contracts
 
 
 def parse_opt_name(p: Path):
@@ -275,8 +276,8 @@ def parse_opt_name(p: Path):
     return (pd.Timestamp(m.group(1)), int(m.group(2)), m.group(3)) if m else None
 
 
-def check_option_file(df: pd.DataFrame, fname: str, bar_minutes: int = 5) -> list[Finding]:
-    """One expired-option candle file. Option bars legitimately have gaps (no trades); the gaps are COUNTED, not treated as errors."""
+def check_option_file(df: pd.DataFrame, fname: str, expiry: pd.Timestamp | None = None) -> list[Finding]:
+    """One expired-option candle file. Option bars legitimately have gaps and zero-volume bars; those are COUNTED, not treated as errors."""
     out: list[Finding] = []
     df = df.copy()
     if not _integrity(df, fname, out):
@@ -290,94 +291,120 @@ def check_option_file(df: pd.DataFrame, fname: str, bar_minutes: int = 5) -> lis
             _add(out, fname, f"negative_{col}", df[col] < 0, f"{col} < 0")
             _add(out, fname, f"nan_{col}", df[col].isna(), f"{col} is NaN")
     if "volume" in df.columns:
-        flat = (df["high"] == df["low"]) & (df["volume"] == 0)
-        _add(out, fname, "zero_volume_flat_bar", flat, "bars with no volume and high == low (a carried-forward price, not a trade)")
-        _add(out, fname, "zero_volume_bar", df["volume"] == 0, "bars with volume 0")
+        moved = (df["volume"] == 0) & ((df["high"] != df["low"]) | (df["open"] != df["close"]))
+        _add(out, fname, "price_move_without_volume", moved, "bars with volume 0 whose price still moved (inconsistent)")
+    if "oi" in df.columns:
+        _add(out, fname, "oi_zero", df["oi"] == 0, "bars with open interest 0")
+        prev = df["oi"].shift()
+        drop = (prev >= OI_FLOOR) & (df["oi"] < prev * (1 - OI_DROP))
+        if expiry is not None:
+            drop &= d.dt.normalize() != expiry  # unwinding on expiry day is normal
+        _add(out, fname, "oi_big_drop", drop, f"bars where OI (>= {OI_FLOOR:,}) falls by more than {OI_DROP:.0%} in one bar, not on expiry day")
     return out
 
 
-def option_file_stats(df: pd.DataFrame, bar_minutes: int = 5) -> dict:
-    """Candle coverage of one option file on the days it has data: expected bars vs bars present."""
-    d = df["date"]
-    per_day = df.groupby(d.dt.normalize()).size()
-    return {"rows": len(df), "days": len(per_day), "expected": 75 * len(per_day), "present": int(per_day.sum())}
+def _merge(findings: list[Finding], dataset: str) -> list[Finding]:
+    """Sum same-category findings from many files into one line, keeping up to 4 file names as examples."""
+    acc: dict = {}
+    for f in findings:
+        a = acc.setdefault(f.category, Finding(dataset, f.category, 0, f.detail, []))
+        a.count += f.count
+        if len(a.examples) < 4 and f.dataset not in a.examples:
+            a.examples.append(f.dataset)
+    for a in acc.values():
+        a.detail += f" (summed over {len({e for e in a.examples})}+ files)" if a.examples else ""
+    return list(acc.values())
 
 
-def check_options(folder: Path, daily5: pd.DataFrame, daily: pd.DataFrame, spot_step: int = 50, strikes_n: int | None = None) -> tuple[list[Finding], dict]:
-    """Checks across a folder of option files: per-file integrity, candle coverage, strike coverage vs where spot actually traded, volume/OI anomalies."""
+def check_options(folder: Path, spot5: pd.DataFrame, expiries: pd.Series | None = None, spot_step: int = 50, near: int = 100) -> tuple[list[Finding], dict]:
+    """Checks across a folder of option files: per-file integrity, candle coverage, strike coverage vs where spot actually traded,
+    volume/OI anomalies. `spot5` = the 5-minute index bars; `expiries` = the real expiry calendar (to find each contract's trading window)."""
     out: list[Finding] = []
-    stats = {"files": 0, "expiries": 0}
+    stats: dict = {"files": 0, "expiries": 0}
     files = sorted(p for p in folder.glob("*.csv") if parse_opt_name(p))
     bad_names = [p.name for p in folder.glob("*.csv") if not parse_opt_name(p)]
     _add(out, str(folder), "unparseable_filename", len(bad_names), "files not named <expiry>_<strike><CE|PE>.csv", bad_names)
     if not files:
         return out, stats
-    spot = daily5.copy()
-    spot["day"] = spot["date"].dt.normalize()
+    spot_close = spot5.drop_duplicates("date").set_index("date")["close"]
+    per_file: list[Finding] = []
     by_exp: dict = {}
-    cov_expected = cov_present = zero_vol = rows = 0
-    oi_jump: list = []
-    vol_spike: list = []
-    pre_cut_rows = after_expiry_rows = 0
+    rows = zero_vol = near_rows = near_zero = after_expiry = 0
+    exp_days_missing = exp_days_total = days_present = bars = 0
     for p in files:
         exp, strike, typ = parse_opt_name(p)
         df = pd.read_csv(p, parse_dates=["date"])
         stats["files"] += 1
         rows += len(df)
         if len(df) == 0:
-            _add(out, p.name, "empty_file", 1, "no rows")
+            per_file.append(Finding(p.name, "empty_file", 1, "no rows"))
             continue
-        out += check_option_file(df, p.name)
+        per_file += check_option_file(df, p.name, exp)
         by_exp.setdefault(exp, set()).add((strike, typ))
-        s = option_file_stats(df)
-        cov_expected += s["expected"]
-        cov_present += s["present"]
-        zero_vol += int((df["volume"] == 0).sum()) if "volume" in df.columns else 0
-        after_expiry_rows += int((df["date"].dt.normalize() > exp).sum())
-        if "oi" in df.columns and len(df) > 5:
-            oi = df["oi"].astype(float)
-            ch = oi.diff().abs()
-            base = max(oi.median(), 1.0)
-            big = ch > 5 * base  # open interest jumps by > 5x its median inside one 5-minute bar
-            if big.any():
-                oi_jump.append(f"{p.name}:{int(big.sum())}")
-        if "volume" in df.columns and len(df) > 20:
-            v = df["volume"].astype(float)
-            med = v[v > 0].median() if (v > 0).any() else 0
-            if med > 0 and (v > 50 * med).any():
-                vol_spike.append(f"{p.name}:{int((v > 50 * med).sum())}")
+        zv = df["volume"] == 0 if "volume" in df.columns else pd.Series(False, index=df.index)
+        zero_vol += int(zv.sum())
+        sp = df["date"].map(spot_close)
+        nr = (sp - strike).abs() <= near
+        near_rows += int(nr.sum())
+        near_zero += int((zv & nr).sum())
+        after_expiry += int((df["date"].dt.normalize() > exp).sum())
+        # candle coverage: trading days (from the index bars) inside the contract's life vs days present; bars present vs 75 per day
+        life = spot5[(spot5["date"].dt.normalize() >= df["date"].dt.normalize().min()) & (spot5["date"].dt.normalize() <= exp)]
+        days_idx = set(life["date"].dt.normalize())
+        per_day = df.groupby(df["date"].dt.normalize()).size()
+        days_opt = set(per_day.index)
+        days_present += len(per_day)
+        bars += int(per_day.sum())
+        exp_days_total += len(days_idx)
+        exp_days_missing += len(days_idx - days_opt)
     stats["expiries"] = len(by_exp)
     stats["rows"] = rows
-    _add(out, "option files", "candle_coverage_gap", cov_expected - cov_present,
-         f"bars missing on days an option file has data: {cov_present} of {cov_expected} expected 75-bar days present ({cov_present / max(cov_expected, 1):.1%})")
-    _add(out, "option files", "zero_volume_share", zero_vol, f"zero-volume bars: {zero_vol / max(rows, 1):.1%} of {rows} rows")
-    _add(out, "option files", "rows_after_expiry_date", after_expiry_rows, "rows dated after the contract's expiry")
-    _add(out, "option files", "oi_jump", len(oi_jump), "files with an open-interest jump above 5x its median inside one bar", oi_jump)
-    _add(out, "option files", "volume_spike", len(vol_spike), "files with a bar whose volume is above 50x the file's median non-zero volume", vol_spike)
+    out += _merge(per_file, "option files")
+    _add(out, "option files", "candle_gap_within_day", days_present * 75 - bars,
+         f"bars missing on days a file has data: {bars:,} of {days_present * 75:,} expected present ({bars / max(days_present * 75, 1):.2%}). Sessions are 75 bars; gaps = no trade recorded")
+    _add(out, "option files", "trading_days_missing_in_file", exp_days_missing,
+         f"index trading days inside a contract's life window with no rows in that contract's file: {exp_days_missing:,} of {exp_days_total:,} file-days (a contract may be listed late)")
+    _add(out, "option files", "zero_volume_share", zero_vol, f"zero-volume bars: {zero_vol / max(rows, 1):.1%} of {rows:,} rows (price carried forward, not traded)")
+    out.append(Finding("option files", "zero_volume_near_atm", near_zero,
+                       f"zero-volume bars within {near} points of spot: {near_zero / max(near_rows, 1):.1%} of {near_rows:,} such rows (the strikes a strategy would use)"))
+    _add(out, "option files", "rows_after_expiry_date", after_expiry, "rows dated after the contract's expiry")
 
-    # strike coverage: for each expiry, which strikes were saved vs where spot actually traded in the contract's life
-    lo_miss = []
-    skipped_bar_days = total_bar_days = 0
-    window = 9  # days a weekly contract trades before expiry (download_expired_options.py UNDERLYINGS['NIFTY']['days'])
+    # strike coverage vs where spot actually traded. A day is "tradeable for this expiry" when it is the nearest expiry with >= 1 day left:
+    # from the previous expiry date (inclusive) up to the day before this expiry.
+    cal = None if expiries is None else sorted(pd.to_datetime(expiries).dropna().unique())
+    sp = spot5.copy()
+    sp["day"] = sp["date"].dt.normalize()
+    asym, cov = [], []
     for exp, have in sorted(by_exp.items()):
         strikes = sorted({k for k, _ in have})
         for typ in ("CE", "PE"):
             n = sum(1 for k, t in have if t == typ)
             if n != len(strikes):
-                lo_miss.append(f"{exp:%Y-%m-%d}:{typ} has {n} of {len(strikes)} strikes")
-        sp = spot[(spot["day"] >= exp - pd.Timedelta(days=window)) & (spot["day"] <= exp)]
-        if sp.empty:
+                asym.append(f"{exp:%Y-%m-%d}:{typ} has {n} of {len(strikes)} strikes")
+        prev = None
+        if cal is not None:
+            before = [x for x in cal if x < exp]
+            prev = before[-1] if before else None
+        lo_day = prev if prev is not None else exp - pd.Timedelta(days=7)
+        win = sp[(sp["day"] >= lo_day) & (sp["day"] < exp)]
+        if win.empty:
             continue
-        lo_s, hi_s = strikes[0], strikes[-1]
-        # a spot bar's nearest strike (ATM) outside the saved range means signals on that bar could not be priced
-        atm = (sp["close"] / spot_step).round() * spot_step
-        outside = (atm < lo_s) | (atm > hi_s)
-        total_bar_days += len(sp)
-        skipped_bar_days += int(outside.sum())
-    _add(out, "option files", "strike_asymmetry", len(lo_miss), "expiries where CE and PE do not have the same strikes saved", lo_miss)
-    _add(out, "option files", "spot_outside_saved_strikes", skipped_bar_days,
-         f"5-min bars (in each contract's life window) whose ATM strike lies outside the saved strike range: {skipped_bar_days / max(total_bar_days, 1):.1%} of {total_bar_days} bars")
+        atm = (win["close"] / spot_step).round() * spot_step
+        outside = (atm < strikes[0]) | (atm > strikes[-1])
+        dte = (exp - win["day"]).dt.days
+        for dv, o in zip(dte, outside):
+            cov.append((int(dv), bool(o)))
     stats["strike_ranges"] = {f"{k:%Y-%m-%d}": (min(s for s, _ in v), max(s for s, _ in v)) for k, v in by_exp.items()}
+    _add(out, "option files", "strike_asymmetry", len(asym), "expiries where CE and PE do not have the same strikes saved", asym)
+    if cov:
+        c = pd.DataFrame(cov, columns=["dte", "outside"])
+        tot_out = int(c["outside"].sum())
+        by = c.groupby("dte")["outside"].agg(["sum", "size"])
+        detail = "; ".join(f"{int(k)}d to expiry: {int(v['sum'])}/{int(v['size'])} = {v['sum'] / v['size']:.0%}" for k, v in by.iterrows())
+        _add(out, "option files", "spot_outside_saved_strikes", tot_out,
+             f"5-min bars on tradeable days whose ATM strike lies OUTSIDE the saved strikes: {tot_out:,} of {len(c):,} = {tot_out / len(c):.1%}. By days left: {detail}")
+        stats["uncovered_share"] = tot_out / len(c)
+        stats["uncovered_by_dte"] = {int(k): float(v["sum"] / v["size"]) for k, v in by.iterrows()}
     return out, stats
 
 
@@ -411,7 +438,7 @@ def run_all(include_options: bool = False) -> list[Finding]:
     if ex is not None:
         out += check_expiries(ex, dd, cut, pd.Timestamp.today().normalize())
     if include_options and d5 is not None:
-        f, st = check_options(DATA / "expired_options" / "NIFTY", d5, dd)
+        f, st = check_options(DATA / "expired_options" / "NIFTY", d5, None if ex is None else ex["expiry"])
         out += f
         print(f"option files: {st.get('files')} files, {st.get('expiries')} expiries, {st.get('rows')} rows")
     return out
