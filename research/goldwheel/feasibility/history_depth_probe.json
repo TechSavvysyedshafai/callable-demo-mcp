@@ -1,0 +1,32 @@
+{
+ "GOLDM option 29OCT26 146500CE daily": {
+  "rows": 14,
+  "first": "2026-09-28 00:00:00",
+  "last": "2026-10-16 00:00:00",
+  "has_oi": true
+ },
+ "GOLDM fut NOV26 daily": {
+  "rows": 117,
+  "first": "2026-05-06 00:00:00",
+  "last": "2026-10-16 00:00:00",
+  "has_oi": true
+ },
+ "GOLD fut DEC26 daily": {
+  "rows": 174,
+  "first": "2025-12-16 00:00:00",
+  "last": "2026-10-16 00:00:00",
+  "has_oi": true
+ },
+ "GOLDM option 5m": {
+  "rows": 2434,
+  "first": "2026-09-28 09:10:00",
+  "last": "2026-10-16 23:25:00",
+  "has_oi": true
+ },
+ "GOLDM option GOLDM 150000 CE 29 DEC 26 daily": {
+  "rows": 7,
+  "first": "2026-10-06 00:00:00",
+  "last": "2026-10-16 00:00:00",
+  "has_oi": true
+ }
+}
