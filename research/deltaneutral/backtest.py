@@ -152,7 +152,8 @@ class DaySim:
             self.wings[n] = dict(key=k, strike=k[1], typ=n, buy=px)
         self.entry_info = dict(call_strike=picks["CE"][1], put_strike=picks["PE"][1], call_delta=picks["CE"][0], put_delta=picks["PE"][0],
                                call_px=self.legs["CE"]["sale"], put_px=self.legs["PE"]["sale"])
-        self._ev("enter", self.ts[i0], self.ts[j], call=picks["CE"][1], put=picks["PE"][1])
+        self._ev("enter", self.ts[i0], self.ts[j], call=picks["CE"][1], put=picks["PE"][1], wing_call=self.wings["CE"]["strike"] if self.wings else None,
+                 wing_put=self.wings["PE"]["strike"] if self.wings else None)
         self._width()
         return None
 
@@ -177,6 +178,7 @@ class DaySim:
             bpx, spx = self._buy_px(float(rb[0])), self._sell_px(float(rn[0]))
             self._order(bpx, True)
             self._order(spx, False)
+            old_strike = self.legs[other]["strike"]
             self.legs[other] = dict(key=new_key, strike=new_key[1], typ=other, sale=spx, ref=spx)
             self.legs[risen]["ref"] = target
             self.n_adjust += 1
@@ -184,7 +186,7 @@ class DaySim:
                 self.mode = "straddle"
                 for L in self.legs.values():
                     L["stop"] = (1 + self.p.straddle_stop) * L["ref"]
-            self._ev("adjust", dec_ts, self.ts[j], risen=risen, new_strike=new_key[1], bought=bpx, sold=spx)
+            self._ev("adjust", dec_ts, self.ts[j], risen=risen, typ=other, old_strike=old_strike, new_strike=new_key[1], bought=bpx, sold=spx)
             self._width()
         elif kind == "exit":
             _, reason, names, dec_ts = self.pending
@@ -200,7 +202,7 @@ class DaySim:
                 px = self._sell_px(float(r[0])) if nm.startswith("w") else self._buy_px(float(r[0]))
                 self._order(px, not nm.startswith("w"))
                 del grp[nm.lstrip("w")]
-                self._ev("exit_leg", dec_ts, self.ts[j], leg=nm, reason=reason, px=px)
+                self._ev("exit_leg", dec_ts, self.ts[j], leg=nm, typ=L["typ"], strike=L["strike"], reason=reason, px=px)
             if left:
                 self.pending = ("exit", reason, left, dec_ts)
             else:

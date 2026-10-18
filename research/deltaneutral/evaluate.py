@@ -213,6 +213,12 @@ def main():
         for v in VARIANTS:
             f.write(json.dumps(dict(date=str(date.today()), study="deltaneutral", variant=v, code_sha256=out["code_sha256"], slippages=list(SLIPS),
                                     window=out["window"], useful=out["pass_rule"][v]["useful"])) + "\n")
+    # full event logs of every traded day at slippage 0.20 (for crosscheck.py, which re-prices them from the raw candle files)
+    for v in VARIANTS:
+        ev_log = [dict(day=str(r["day"]), expiry=str(r["expiry"]), net=r["net"], gross=r["gross"], cost=r["cost"], orders=r["orders"],
+                       events=[{k: (str(x) if k in ("decision_ts", "fill_ts") else x) for k, x in e.items()} for e in r["events"]])
+                  for r in daily[v][0.20] if r["status"] == "traded"]
+        (res_dir / f"events_{v}_0.20.json").write_text(json.dumps(ev_log, default=str))
     # keep the event logs of the 6 worst days of each variant at slippage 0.20 for the review
     worst = {}
     for v in VARIANTS:
