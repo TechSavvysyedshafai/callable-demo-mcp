@@ -12,11 +12,15 @@ All numbers are on DEV data only; the newest 6 months were kept as a hidden hold
 | Low-turnover: 200-day trend filter | REJECT | -3.8 pp/yr vs buy-and-hold at 0.25% cost per trade; drawdown benefit not statistically separable |
 | Low-turnover: monthly 10-month trend filter | INCONCLUSIVE | Halves the worst drop (-31% vs -60%) for about -2 pp/yr; misses the pre-registered rule |
 | Low-turnover: volatility-targeted exposure | REJECT | Worse return in every period; daily resizing costs about 4 pp/yr |
+| Weekly NIFTY iron condor, selling, REAL expired-option prices (80 weeks) | REJECT | Premium collected ~54.5 pts, paid out ~60.4 pts, so it loses even before fees (-Rs437/wk/lot). After fees -Rs640/wk; a 2x-credit stop cuts the loss to -Rs460/wk but stays negative. Short strike breached 48% of weeks. 80 weeks cannot prove the true mean is below zero, and cannot show crash risk |
 
 ## Numbers worth remembering (NIFTY 50 price index, 2000-2026, cash assumed 6.5%)
 - Buy-and-hold: 12.6%/yr (about 13.5-14% with dividends), but a -60% worst drop (2008). That is roughly 2x an FD, not 3x.
 - Monthly trend filter: 10.5%/yr with a -31% worst drop. It trades return for smaller crashes; it does not add return.
 - Nothing tested comes close to 20%/year. Do not plan on it.
+
+## Selling note
+A model-based 17-year stress (informational only) says the condor loses if real selling prices sit about 15% below flat-vol Black-Scholes, which is what the real data showed. Any positive result depends on assuming the textbook prices.
 
 ## What this means
 1. No tested strategy has an edge after realistic costs. This is an honest, valuable answer, not a failure of the process.
