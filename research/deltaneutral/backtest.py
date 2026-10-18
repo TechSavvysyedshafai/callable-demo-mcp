@@ -105,8 +105,12 @@ class DaySim:
     def _ev(self, kind, dec_ts, fill_ts, **kw):
         self.events.append(dict(kind=kind, decision_ts=dec_ts, fill_ts=fill_ts, **kw))
 
+    def _row(self, key, ts):
+        """Candle starting exactly at ts, or None (also None when the strike's file was never downloaded)."""
+        return self.book.row(key, ts) if key in self.book.t else None
+
     def _mark(self, key, j):
-        return self.book.last_close(key, self.ts[j])
+        return (self.book.last_close(key, self.ts[j]) if key in self.book.t else None)
 
     # ----- entry -----
     def _decide_entry(self, i0):
@@ -117,7 +121,7 @@ class DaySim:
             best = None
             for K in self.book.strikes.get((self.expiry, typ), []):
                 key = (self.expiry, K, typ)
-                row = self.book.row(key, self.ts[i0])
+                row = self._row(key, self.ts[i0])
                 if row is None or row[3] <= 0:
                     continue
                 d = dl.delta_from_price(float(row[3]), spot, K, T, typ == "CE")
@@ -136,8 +140,8 @@ class DaySim:
         wing_keys = {}
         if self.v == "C":
             wing_keys = {"CE": (e, picks["CE"][1] + p.wing_points, "CE"), "PE": (e, picks["PE"][1] - p.wing_points, "PE")}
-        rows = {n: self.book.row(k, self.ts[j]) for n, k in want.items()}
-        wrows = {n: self.book.row(k, self.ts[j]) for n, k in wing_keys.items()}
+        rows = {n: self._row(k, self.ts[j]) for n, k in want.items()}
+        wrows = {n: self._row(k, self.ts[j]) for n, k in wing_keys.items()}
         if any(r is None for r in rows.values()):
             return "no_entry_candle"
         if any(r is None for r in wrows.values()):
@@ -169,8 +173,8 @@ class DaySim:
         if kind == "adjust":
             _, risen, other, new_key, target, dec_ts = self.pending
             self.pending = None
-            rb = self.book.row(self.legs[other]["key"], self.ts[j])
-            rn = self.book.row(new_key, self.ts[j])
+            rb = self._row(self.legs[other]["key"], self.ts[j])
+            rn = self._row(new_key, self.ts[j])
             if rb is None or rn is None:
                 self.skipped_adjust += 1
                 self._ev("adjust_skipped", dec_ts, self.ts[j])
@@ -194,7 +198,7 @@ class DaySim:
             for nm in names:
                 grp = self.wings if nm.startswith("w") else self.legs
                 L = grp[nm.lstrip("w")]
-                r = self.book.row(L["key"], self.ts[j])
+                r = self._row(L["key"], self.ts[j])
                 if r is None:
                     self.skipped_exit += 1
                     left.append(nm)
@@ -258,7 +262,7 @@ class DaySim:
             for K in self.book.strikes.get((self.expiry, other), []):
                 if (other == "CE" and K < atm) or (other == "PE" and K > atm):
                     continue
-                r = self.book.row((self.expiry, K, other), now)
+                r = self._row((self.expiry, K, other), now)
                 if r is None or r[3] <= 0:
                     continue
                 score = (abs(float(r[3]) - target), -abs(K - atm))  # tie -> further from ATM

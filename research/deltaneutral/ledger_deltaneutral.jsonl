@@ -1,0 +1,3 @@
+{"date": "2026-10-18", "study": "deltaneutral", "variant": "A", "code_sha256": "11b8bfb59730baa5", "slippages": [0.1, 0.2, 0.3], "window": ["2024-10-03", "2026-04-16"], "useful": false}
+{"date": "2026-10-18", "study": "deltaneutral", "variant": "B", "code_sha256": "11b8bfb59730baa5", "slippages": [0.1, 0.2, 0.3], "window": ["2024-10-03", "2026-04-16"], "useful": false}
+{"date": "2026-10-18", "study": "deltaneutral", "variant": "C", "code_sha256": "11b8bfb59730baa5", "slippages": [0.1, 0.2, 0.3], "window": ["2024-10-03", "2026-04-16"], "useful": false}

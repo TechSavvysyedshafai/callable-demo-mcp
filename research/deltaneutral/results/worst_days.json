@@ -1,0 +1,1646 @@
+{
+ "A": [
+  {
+   "day": "2025-05-15",
+   "expiry": "2025-05-15",
+   "dte": 0,
+   "net": -7189.622931085,
+   "end_reason": "range_exit",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 24700,
+    "put_strike": 24400,
+    "call_delta": 0.20372840996180325,
+    "put_delta": 0.21276523192193597,
+    "call_px": 20.3,
+    "put_px": 23.7
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-05-15 09:40:00",
+     "fill_ts": "2025-05-15 09:45:00",
+     "call": "24700",
+     "put": "24400",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2025-05-15 09:50:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2025-05-15 10:10:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-05-15 10:30:00",
+     "fill_ts": "2025-05-15 10:35:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24400",
+     "new_strike": "24550",
+     "bought": "17.9",
+     "sold": "60.449999999999996"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-05-15 10:35:00",
+     "fill_ts": "2025-05-15 10:40:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24550",
+     "new_strike": "24750",
+     "bought": "33.35",
+     "sold": "107.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 10:55:00",
+     "fill_ts": "2025-05-15 11:00:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24700",
+     "reason": "range_exit",
+     "px": "155.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 10:55:00",
+     "fill_ts": "2025-05-15 11:00:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24750",
+     "reason": "range_exit",
+     "px": "98.0"
+    }
+   ]
+  },
+  {
+   "day": "2024-11-28",
+   "expiry": "2024-11-28",
+   "dte": 0,
+   "net": -6764.719870503998,
+   "end_reason": "straddle_stop",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 24450,
+    "put_strike": 24150,
+    "call_delta": 0.17963118904013026,
+    "put_delta": 0.241527096764522,
+    "call_px": 18.150000000000002,
+    "put_px": 25.85
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2024-11-28 09:40:00",
+     "fill_ts": "2024-11-28 09:45:00",
+     "call": "24450",
+     "put": "24150",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2024-11-28 09:50:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-28 10:30:00",
+     "fill_ts": "2024-11-28 10:35:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24450",
+     "new_strike": "24250",
+     "bought": "13.35",
+     "sold": "59.8"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-28 10:35:00",
+     "fill_ts": "2024-11-28 10:40:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24250",
+     "new_strike": "24150",
+     "bought": "46.150000000000006",
+     "sold": "81.64"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24150",
+     "reason": "straddle_stop",
+     "px": "67.0"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24150",
+     "reason": "straddle_stop",
+     "px": "146.14"
+    }
+   ]
+  },
+  {
+   "day": "2025-06-16",
+   "expiry": "2025-06-19",
+   "dte": 3,
+   "net": -3534.6597663024963,
+   "end_reason": "range_exit",
+   "n_adjust": 5,
+   "entry": {
+    "call_strike": 25050,
+    "put_strike": 24500,
+    "call_delta": 0.21310091254701202,
+    "put_delta": 0.2349084570758888,
+    "call_px": 40.199999999999996,
+    "put_px": 54.0
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-06-16 09:40:00",
+     "fill_ts": "2025-06-16 09:45:00",
+     "call": "25050",
+     "put": "24500",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 09:45:00",
+     "fill_ts": "2025-06-16 09:50:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "25050",
+     "new_strike": "24900",
+     "bought": "31.75",
+     "sold": "67.25"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:15:00",
+     "fill_ts": "2025-06-16 10:20:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24500",
+     "new_strike": "24650",
+     "bought": "49.2",
+     "sold": "82.3"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:25:00",
+     "fill_ts": "2025-06-16 10:30:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24650",
+     "new_strike": "24750",
+     "bought": "75.25",
+     "sold": "104.95"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:40:00",
+     "fill_ts": "2025-06-16 10:45:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24750",
+     "new_strike": "24850",
+     "bought": "92.35000000000001",
+     "sold": "127.45"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 12:35:00",
+     "fill_ts": "2025-06-16 12:40:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24850",
+     "new_strike": "24950",
+     "bought": "100.05",
+     "sold": "137.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 12:55:00",
+     "fill_ts": "2025-06-16 13:00:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24900",
+     "reason": "range_exit",
+     "px": "159.89999999999998"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 12:55:00",
+     "fill_ts": "2025-06-16 13:00:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24950",
+     "reason": "range_exit",
+     "px": "146.39999999999998"
+    }
+   ]
+  },
+  {
+   "day": "2025-12-08",
+   "expiry": "2025-12-09",
+   "dte": 1,
+   "net": -3093.0309644325,
+   "end_reason": "range_exit",
+   "n_adjust": 4,
+   "entry": {
+    "call_strike": 26300,
+    "put_strike": 26000,
+    "call_delta": 0.1885014928521282,
+    "put_delta": 0.2170564083695089,
+    "call_px": 18.85,
+    "put_px": 21.6
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-12-08 09:40:00",
+     "fill_ts": "2025-12-08 09:45:00",
+     "call": "26300",
+     "put": "26000",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 09:45:00",
+     "fill_ts": "2025-12-08 09:50:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26300",
+     "new_strike": "26250",
+     "bought": "14.649999999999999",
+     "sold": "23.3"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 12:10:00",
+     "fill_ts": "2025-12-08 12:15:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26250",
+     "new_strike": "26150",
+     "bought": "13.95",
+     "sold": "36.4"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 13:20:00",
+     "fill_ts": "2025-12-08 13:25:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26150",
+     "new_strike": "26050",
+     "bought": "21.9",
+     "sold": "49.8"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 13:30:00",
+     "fill_ts": "2025-12-08 13:35:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26050",
+     "new_strike": "25900",
+     "bought": "35.800000000000004",
+     "sold": "102.2"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-12-08 13:40:00",
+     "fill_ts": "2025-12-08 13:45:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "25900",
+     "reason": "range_exit",
+     "px": "98.65"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-12-08 13:40:00",
+     "fill_ts": "2025-12-08 13:45:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "26000",
+     "reason": "range_exit",
+     "px": "104.05"
+    }
+   ]
+  },
+  {
+   "day": "2025-01-01",
+   "expiry": "2025-01-02",
+   "dte": 1,
+   "net": -3000.8532342175,
+   "end_reason": "range_exit",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 23850,
+    "put_strike": 23400,
+    "call_delta": 0.22490825820367333,
+    "put_delta": 0.24368325671459246,
+    "call_px": 39.05,
+    "put_px": 46.349999999999994
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-01-01 09:40:00",
+     "fill_ts": "2025-01-01 09:45:00",
+     "call": "23850",
+     "put": "23400",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-01 10:10:00",
+     "fill_ts": "2025-01-01 10:15:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "23400",
+     "new_strike": "23450",
+     "bought": "38.7",
+     "sold": "49.25"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-01 10:45:00",
+     "fill_ts": "2025-01-01 10:50:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "23450",
+     "new_strike": "23650",
+     "bought": "35.85",
+     "sold": "87.8"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-01-01 11:10:00",
+     "fill_ts": "2025-01-01 11:15:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "23850",
+     "reason": "range_exit",
+     "px": "96.9"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-01-01 11:10:00",
+     "fill_ts": "2025-01-01 11:15:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "23650",
+     "reason": "range_exit",
+     "px": "87.95"
+    }
+   ]
+  },
+  {
+   "day": "2025-01-29",
+   "expiry": "2025-01-30",
+   "dte": 1,
+   "net": -2799.4705617045,
+   "end_reason": "range_exit",
+   "n_adjust": 4,
+   "entry": {
+    "call_strike": 23350,
+    "put_strike": 22750,
+    "call_delta": 0.21046655270546644,
+    "put_delta": 0.22029150410463005,
+    "call_px": 43.349999999999994,
+    "put_px": 49.3
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-01-29 09:40:00",
+     "fill_ts": "2025-01-29 09:45:00",
+     "call": "23350",
+     "put": "22750",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 10:20:00",
+     "fill_ts": "2025-01-29 10:25:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "22750",
+     "new_strike": "22850",
+     "bought": "39.300000000000004",
+     "sold": "60.849999999999994"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 11:20:00",
+     "fill_ts": "2025-01-29 11:25:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "23350",
+     "new_strike": "23100",
+     "bought": "32.85",
+     "sold": "102.14999999999999"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 11:25:00",
+     "fill_ts": "2025-01-29 11:30:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "22850",
+     "new_strike": "23050",
+     "bought": "69.5",
+     "sold": "143.49"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 11:45:00",
+     "fill_ts": "2025-01-29 11:50:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "23050",
+     "new_strike": "23150",
+     "bought": "117.2",
+     "sold": "160.05"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-01-29 13:40:00",
+     "fill_ts": "2025-01-29 13:45:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "23100",
+     "reason": "range_exit",
+     "px": "171.45"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-01-29 13:40:00",
+     "fill_ts": "2025-01-29 13:45:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "23150",
+     "reason": "range_exit",
+     "px": "161.1"
+    }
+   ]
+  }
+ ],
+ "B": [
+  {
+   "day": "2025-05-15",
+   "expiry": "2025-05-15",
+   "dte": 0,
+   "net": -9643.22762047,
+   "end_reason": "cost_to_cost",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 24700,
+    "put_strike": 24400,
+    "call_delta": 0.20372840996180325,
+    "put_delta": 0.21276523192193597,
+    "call_px": 20.3,
+    "put_px": 23.7
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-05-15 09:40:00",
+     "fill_ts": "2025-05-15 09:45:00",
+     "call": "24700",
+     "put": "24400",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2025-05-15 09:50:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2025-05-15 10:10:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-05-15 10:30:00",
+     "fill_ts": "2025-05-15 10:35:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24400",
+     "new_strike": "24550",
+     "bought": "17.9",
+     "sold": "60.449999999999996"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-05-15 10:35:00",
+     "fill_ts": "2025-05-15 10:40:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24550",
+     "new_strike": "24750",
+     "bought": "33.35",
+     "sold": "107.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 10:55:00",
+     "fill_ts": "2025-05-15 11:00:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24700",
+     "reason": "range_exit",
+     "px": "155.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 11:00:00",
+     "fill_ts": "2025-05-15 11:05:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24750",
+     "reason": "cost_to_cost",
+     "px": "130.7"
+    }
+   ]
+  },
+  {
+   "day": "2024-11-28",
+   "expiry": "2024-11-28",
+   "dte": 0,
+   "net": -6764.719870503998,
+   "end_reason": "straddle_stop",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 24450,
+    "put_strike": 24150,
+    "call_delta": 0.17963118904013026,
+    "put_delta": 0.241527096764522,
+    "call_px": 18.150000000000002,
+    "put_px": 25.85
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2024-11-28 09:40:00",
+     "fill_ts": "2024-11-28 09:45:00",
+     "call": "24450",
+     "put": "24150",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2024-11-28 09:50:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-28 10:30:00",
+     "fill_ts": "2024-11-28 10:35:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24450",
+     "new_strike": "24250",
+     "bought": "13.35",
+     "sold": "59.8"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-28 10:35:00",
+     "fill_ts": "2024-11-28 10:40:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24250",
+     "new_strike": "24150",
+     "bought": "46.150000000000006",
+     "sold": "81.64"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24150",
+     "reason": "straddle_stop",
+     "px": "67.0"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24150",
+     "reason": "straddle_stop",
+     "px": "146.14"
+    }
+   ]
+  },
+  {
+   "day": "2025-12-08",
+   "expiry": "2025-12-09",
+   "dte": 1,
+   "net": -3644.529266175,
+   "end_reason": "cost_to_cost",
+   "n_adjust": 4,
+   "entry": {
+    "call_strike": 26300,
+    "put_strike": 26000,
+    "call_delta": 0.1885014928521282,
+    "put_delta": 0.2170564083695089,
+    "call_px": 18.85,
+    "put_px": 21.6
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-12-08 09:40:00",
+     "fill_ts": "2025-12-08 09:45:00",
+     "call": "26300",
+     "put": "26000",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 09:45:00",
+     "fill_ts": "2025-12-08 09:50:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26300",
+     "new_strike": "26250",
+     "bought": "14.649999999999999",
+     "sold": "23.3"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 12:10:00",
+     "fill_ts": "2025-12-08 12:15:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26250",
+     "new_strike": "26150",
+     "bought": "13.95",
+     "sold": "36.4"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 13:20:00",
+     "fill_ts": "2025-12-08 13:25:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26150",
+     "new_strike": "26050",
+     "bought": "21.9",
+     "sold": "49.8"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-12-08 13:30:00",
+     "fill_ts": "2025-12-08 13:35:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "26050",
+     "new_strike": "25900",
+     "bought": "35.800000000000004",
+     "sold": "102.2"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-12-08 13:40:00",
+     "fill_ts": "2025-12-08 13:45:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "26000",
+     "reason": "range_exit",
+     "px": "104.05"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-12-08 13:45:00",
+     "fill_ts": "2025-12-08 13:50:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "25900",
+     "reason": "cost_to_cost",
+     "px": "106.0"
+    }
+   ]
+  },
+  {
+   "day": "2025-06-16",
+   "expiry": "2025-06-19",
+   "dte": 3,
+   "net": -3407.102335967498,
+   "end_reason": "cost_to_cost",
+   "n_adjust": 5,
+   "entry": {
+    "call_strike": 25050,
+    "put_strike": 24500,
+    "call_delta": 0.21310091254701202,
+    "put_delta": 0.2349084570758888,
+    "call_px": 40.199999999999996,
+    "put_px": 54.0
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-06-16 09:40:00",
+     "fill_ts": "2025-06-16 09:45:00",
+     "call": "25050",
+     "put": "24500",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 09:45:00",
+     "fill_ts": "2025-06-16 09:50:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "25050",
+     "new_strike": "24900",
+     "bought": "31.75",
+     "sold": "67.25"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:15:00",
+     "fill_ts": "2025-06-16 10:20:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24500",
+     "new_strike": "24650",
+     "bought": "49.2",
+     "sold": "82.3"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:25:00",
+     "fill_ts": "2025-06-16 10:30:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24650",
+     "new_strike": "24750",
+     "bought": "75.25",
+     "sold": "104.95"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:40:00",
+     "fill_ts": "2025-06-16 10:45:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24750",
+     "new_strike": "24850",
+     "bought": "92.35000000000001",
+     "sold": "127.45"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 12:35:00",
+     "fill_ts": "2025-06-16 12:40:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24850",
+     "new_strike": "24950",
+     "bought": "100.05",
+     "sold": "137.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 12:55:00",
+     "fill_ts": "2025-06-16 13:00:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24900",
+     "reason": "range_exit",
+     "px": "159.89999999999998"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 13:00:00",
+     "fill_ts": "2025-06-16 13:05:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24950",
+     "reason": "cost_to_cost",
+     "px": "144.7"
+    }
+   ]
+  },
+  {
+   "day": "2024-10-28",
+   "expiry": "2024-10-31",
+   "dte": 3,
+   "net": -3171.813790911498,
+   "end_reason": "cost_to_cost",
+   "n_adjust": 3,
+   "entry": {
+    "call_strike": 24450,
+    "put_strike": 23850,
+    "call_delta": 0.20848662117299244,
+    "put_delta": 0.21864327967631392,
+    "call_px": 40.089999999999996,
+    "put_px": 51.449999999999996
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2024-10-28 09:40:00",
+     "fill_ts": "2024-10-28 09:45:00",
+     "call": "24450",
+     "put": "23850",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-10-28 09:50:00",
+     "fill_ts": "2024-10-28 09:55:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "23850",
+     "new_strike": "24050",
+     "bought": "27.4",
+     "sold": "58.449999999999996"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-10-28 10:15:00",
+     "fill_ts": "2024-10-28 10:20:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24050",
+     "new_strike": "24250",
+     "bought": "37.2",
+     "sold": "81.0"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-10-28 10:35:00",
+     "fill_ts": "2024-10-28 10:40:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24250",
+     "new_strike": "24350",
+     "bought": "66.65",
+     "sold": "96.7"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-10-28 12:25:00",
+     "fill_ts": "2024-10-28 12:30:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24450",
+     "reason": "range_exit",
+     "px": "129.89"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-10-28 14:00:00",
+     "fill_ts": "2024-10-28 14:05:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24350",
+     "reason": "cost_to_cost",
+     "px": "104.9"
+    }
+   ]
+  },
+  {
+   "day": "2025-01-29",
+   "expiry": "2025-01-30",
+   "dte": 1,
+   "net": -3137.1225831795,
+   "end_reason": "cost_to_cost",
+   "n_adjust": 4,
+   "entry": {
+    "call_strike": 23350,
+    "put_strike": 22750,
+    "call_delta": 0.21046655270546644,
+    "put_delta": 0.22029150410463005,
+    "call_px": 43.349999999999994,
+    "put_px": 49.3
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-01-29 09:40:00",
+     "fill_ts": "2025-01-29 09:45:00",
+     "call": "23350",
+     "put": "22750",
+     "wing_call": "None",
+     "wing_put": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 10:20:00",
+     "fill_ts": "2025-01-29 10:25:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "22750",
+     "new_strike": "22850",
+     "bought": "39.300000000000004",
+     "sold": "60.849999999999994"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 11:20:00",
+     "fill_ts": "2025-01-29 11:25:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "23350",
+     "new_strike": "23100",
+     "bought": "32.85",
+     "sold": "102.14999999999999"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 11:25:00",
+     "fill_ts": "2025-01-29 11:30:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "22850",
+     "new_strike": "23050",
+     "bought": "69.5",
+     "sold": "143.49"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-01-29 11:45:00",
+     "fill_ts": "2025-01-29 11:50:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "23050",
+     "new_strike": "23150",
+     "bought": "117.2",
+     "sold": "160.05"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-01-29 13:40:00",
+     "fill_ts": "2025-01-29 13:45:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "23100",
+     "reason": "range_exit",
+     "px": "171.45"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-01-29 14:30:00",
+     "fill_ts": "2025-01-29 14:35:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "23150",
+     "reason": "cost_to_cost",
+     "px": "165.6"
+    }
+   ]
+  }
+ ],
+ "C": [
+  {
+   "day": "2024-11-28",
+   "expiry": "2024-11-28",
+   "dte": 0,
+   "net": -3352.8166507109986,
+   "end_reason": "straddle_stop",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 24450,
+    "put_strike": 24150,
+    "call_delta": 0.17963118904013026,
+    "put_delta": 0.241527096764522,
+    "call_px": 18.150000000000002,
+    "put_px": 25.85
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2024-11-28 09:40:00",
+     "fill_ts": "2024-11-28 09:45:00",
+     "call": "24450",
+     "put": "24150",
+     "wing_call": "24650",
+     "wing_put": "23950"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2024-11-28 09:50:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-28 10:30:00",
+     "fill_ts": "2024-11-28 10:35:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24450",
+     "new_strike": "24250",
+     "bought": "13.35",
+     "sold": "59.8"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-28 10:35:00",
+     "fill_ts": "2024-11-28 10:40:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24250",
+     "new_strike": "24150",
+     "bought": "46.150000000000006",
+     "sold": "81.64"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24150",
+     "reason": "straddle_stop",
+     "px": "67.0"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24150",
+     "reason": "straddle_stop",
+     "px": "146.14"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "wCE",
+     "typ": "CE",
+     "strike": "24650",
+     "reason": "straddle_stop",
+     "px": "1.6500000000000001"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-28 10:45:00",
+     "fill_ts": "2024-11-28 10:50:00",
+     "leg": "wPE",
+     "typ": "PE",
+     "strike": "23950",
+     "reason": "straddle_stop",
+     "px": "53.349999999999994"
+    }
+   ]
+  },
+  {
+   "day": "2025-05-15",
+   "expiry": "2025-05-15",
+   "dte": 0,
+   "net": -3277.1306638125,
+   "end_reason": "range_exit",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 24700,
+    "put_strike": 24400,
+    "call_delta": 0.20372840996180325,
+    "put_delta": 0.21276523192193597,
+    "call_px": 20.3,
+    "put_px": 23.7
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-05-15 09:40:00",
+     "fill_ts": "2025-05-15 09:45:00",
+     "call": "24700",
+     "put": "24400",
+     "wing_call": "24900",
+     "wing_put": "24200"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2025-05-15 09:50:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "rematch_noop",
+     "decision_ts": "2025-05-15 10:10:00",
+     "fill_ts": "None"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-05-15 10:30:00",
+     "fill_ts": "2025-05-15 10:35:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24400",
+     "new_strike": "24550",
+     "bought": "17.9",
+     "sold": "60.449999999999996"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-05-15 10:35:00",
+     "fill_ts": "2025-05-15 10:40:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24550",
+     "new_strike": "24750",
+     "bought": "33.35",
+     "sold": "107.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 10:55:00",
+     "fill_ts": "2025-05-15 11:00:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24700",
+     "reason": "range_exit",
+     "px": "155.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 10:55:00",
+     "fill_ts": "2025-05-15 11:00:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24750",
+     "reason": "range_exit",
+     "px": "98.0"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 10:55:00",
+     "fill_ts": "2025-05-15 11:00:00",
+     "leg": "wCE",
+     "typ": "CE",
+     "strike": "24900",
+     "reason": "range_exit",
+     "px": "60.099999999999994"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-05-15 10:55:00",
+     "fill_ts": "2025-05-15 11:00:00",
+     "leg": "wPE",
+     "typ": "PE",
+     "strike": "24200",
+     "reason": "range_exit",
+     "px": "2.6999999999999997"
+    }
+   ]
+  },
+  {
+   "day": "2025-06-16",
+   "expiry": "2025-06-19",
+   "dte": 3,
+   "net": -3000.527890582497,
+   "end_reason": "range_exit",
+   "n_adjust": 5,
+   "entry": {
+    "call_strike": 25050,
+    "put_strike": 24500,
+    "call_delta": 0.21310091254701202,
+    "put_delta": 0.2349084570758888,
+    "call_px": 40.199999999999996,
+    "put_px": 54.0
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-06-16 09:40:00",
+     "fill_ts": "2025-06-16 09:45:00",
+     "call": "25050",
+     "put": "24500",
+     "wing_call": "25250",
+     "wing_put": "24300"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 09:45:00",
+     "fill_ts": "2025-06-16 09:50:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "25050",
+     "new_strike": "24900",
+     "bought": "31.75",
+     "sold": "67.25"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:15:00",
+     "fill_ts": "2025-06-16 10:20:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24500",
+     "new_strike": "24650",
+     "bought": "49.2",
+     "sold": "82.3"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:25:00",
+     "fill_ts": "2025-06-16 10:30:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24650",
+     "new_strike": "24750",
+     "bought": "75.25",
+     "sold": "104.95"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 10:40:00",
+     "fill_ts": "2025-06-16 10:45:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24750",
+     "new_strike": "24850",
+     "bought": "92.35000000000001",
+     "sold": "127.45"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-06-16 12:35:00",
+     "fill_ts": "2025-06-16 12:40:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24850",
+     "new_strike": "24950",
+     "bought": "100.05",
+     "sold": "137.5"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 12:55:00",
+     "fill_ts": "2025-06-16 13:00:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24900",
+     "reason": "range_exit",
+     "px": "159.89999999999998"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 12:55:00",
+     "fill_ts": "2025-06-16 13:00:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24950",
+     "reason": "range_exit",
+     "px": "146.39999999999998"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 12:55:00",
+     "fill_ts": "2025-06-16 13:00:00",
+     "leg": "wCE",
+     "typ": "CE",
+     "strike": "25250",
+     "reason": "range_exit",
+     "px": "32.449999999999996"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-06-16 12:55:00",
+     "fill_ts": "2025-06-16 13:00:00",
+     "leg": "wPE",
+     "typ": "PE",
+     "strike": "24300",
+     "reason": "range_exit",
+     "px": "19.6"
+    }
+   ]
+  },
+  {
+   "day": "2024-11-07",
+   "expiry": "2024-11-07",
+   "dte": 0,
+   "net": -2174.5349694535,
+   "end_reason": "range_exit",
+   "n_adjust": 3,
+   "entry": {
+    "call_strike": 24500,
+    "put_strike": 24250,
+    "call_delta": 0.21019520964477367,
+    "put_delta": 0.22281220468675023,
+    "call_px": 20.650000000000002,
+    "put_px": 19.19
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2024-11-07 09:40:00",
+     "fill_ts": "2024-11-07 09:45:00",
+     "call": "24500",
+     "put": "24250",
+     "wing_call": "24700",
+     "wing_put": "24050"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-07 09:50:00",
+     "fill_ts": "2024-11-07 09:55:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24500",
+     "new_strike": "24450",
+     "bought": "16.2",
+     "sold": "21.75"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-07 09:55:00",
+     "fill_ts": "2024-11-07 10:00:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24450",
+     "new_strike": "24300",
+     "bought": "19.05",
+     "sold": "54.05"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2024-11-07 10:00:00",
+     "fill_ts": "2024-11-07 10:05:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24300",
+     "new_strike": "24200",
+     "bought": "34.7",
+     "sold": "70.2"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-07 10:10:00",
+     "fill_ts": "2024-11-07 10:15:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24200",
+     "reason": "range_exit",
+     "px": "60.550000000000004"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-07 10:10:00",
+     "fill_ts": "2024-11-07 10:15:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24250",
+     "reason": "range_exit",
+     "px": "83.25"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-07 10:10:00",
+     "fill_ts": "2024-11-07 10:15:00",
+     "leg": "wCE",
+     "typ": "CE",
+     "strike": "24700",
+     "reason": "range_exit",
+     "px": "1.84"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2024-11-07 10:10:00",
+     "fill_ts": "2024-11-07 10:15:00",
+     "leg": "wPE",
+     "typ": "PE",
+     "strike": "24050",
+     "reason": "range_exit",
+     "px": "9.55"
+    }
+   ]
+  },
+  {
+   "day": "2025-03-11",
+   "expiry": "2025-03-13",
+   "dte": 2,
+   "net": -1432.00602113,
+   "end_reason": "range_exit",
+   "n_adjust": 4,
+   "entry": {
+    "call_strike": 22600,
+    "put_strike": 22150,
+    "call_delta": 0.21253137430286828,
+    "put_delta": 0.222396854895349,
+    "call_px": 34.349999999999994,
+    "put_px": 37.65
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-03-11 09:40:00",
+     "fill_ts": "2025-03-11 09:45:00",
+     "call": "22600",
+     "put": "22150",
+     "wing_call": "22800",
+     "wing_put": "21950"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-03-11 09:55:00",
+     "fill_ts": "2025-03-11 10:00:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "22150",
+     "new_strike": "22200",
+     "bought": "32.300000000000004",
+     "sold": "40.4"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-03-11 10:55:00",
+     "fill_ts": "2025-03-11 11:00:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "22200",
+     "new_strike": "22350",
+     "bought": "30.3",
+     "sold": "65.2"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-03-11 11:00:00",
+     "fill_ts": "2025-03-11 11:05:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "22350",
+     "new_strike": "22400",
+     "bought": "58.85",
+     "sold": "73.35"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-03-11 11:15:00",
+     "fill_ts": "2025-03-11 11:20:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "22600",
+     "new_strike": "22500",
+     "bought": "50.1",
+     "sold": "87.6"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-03-11 13:40:00",
+     "fill_ts": "2025-03-11 13:45:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "22500",
+     "reason": "range_exit",
+     "px": "104.3"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-03-11 13:40:00",
+     "fill_ts": "2025-03-11 13:45:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "22400",
+     "reason": "range_exit",
+     "px": "73.8"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-03-11 13:40:00",
+     "fill_ts": "2025-03-11 13:45:00",
+     "leg": "wCE",
+     "typ": "CE",
+     "strike": "22800",
+     "reason": "range_exit",
+     "px": "13.55"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-03-11 13:40:00",
+     "fill_ts": "2025-03-11 13:45:00",
+     "leg": "wPE",
+     "typ": "PE",
+     "strike": "21950",
+     "reason": "range_exit",
+     "px": "7.6"
+    }
+   ]
+  },
+  {
+   "day": "2025-04-24",
+   "expiry": "2025-04-24",
+   "dte": 0,
+   "net": -1358.9756254649997,
+   "end_reason": "straddle_stop",
+   "n_adjust": 2,
+   "entry": {
+    "call_strike": 24400,
+    "put_strike": 24150,
+    "call_delta": 0.18141788186149954,
+    "put_delta": 0.18694346208679513,
+    "call_px": 14.5,
+    "put_px": 13.100000000000001
+   },
+   "events": [
+    {
+     "kind": "enter",
+     "decision_ts": "2025-04-24 09:40:00",
+     "fill_ts": "2025-04-24 09:45:00",
+     "call": "24400",
+     "put": "24150",
+     "wing_call": "24600",
+     "wing_put": "23950"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-04-24 09:50:00",
+     "fill_ts": "2025-04-24 09:55:00",
+     "risen": "CE",
+     "typ": "PE",
+     "old_strike": "24150",
+     "new_strike": "24250",
+     "bought": "11.149999999999999",
+     "sold": "24.400000000000002"
+    },
+    {
+     "kind": "adjust",
+     "decision_ts": "2025-04-24 10:00:00",
+     "fill_ts": "2025-04-24 10:05:00",
+     "risen": "PE",
+     "typ": "CE",
+     "old_strike": "24400",
+     "new_strike": "24250",
+     "bought": "14.0",
+     "sold": "37.4"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-04-24 10:10:00",
+     "fill_ts": "2025-04-24 10:15:00",
+     "leg": "CE",
+     "typ": "CE",
+     "strike": "24250",
+     "reason": "straddle_stop",
+     "px": "54.1"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-04-24 10:10:00",
+     "fill_ts": "2025-04-24 10:15:00",
+     "leg": "PE",
+     "typ": "PE",
+     "strike": "24250",
+     "reason": "straddle_stop",
+     "px": "21.3"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-04-24 10:10:00",
+     "fill_ts": "2025-04-24 10:15:00",
+     "leg": "wCE",
+     "typ": "CE",
+     "strike": "24600",
+     "reason": "straddle_stop",
+     "px": "5.75"
+    },
+    {
+     "kind": "exit_leg",
+     "decision_ts": "2025-04-24 10:10:00",
+     "fill_ts": "2025-04-24 10:15:00",
+     "leg": "wPE",
+     "typ": "PE",
+     "strike": "23950",
+     "reason": "straddle_stop",
+     "px": "4.95"
+    }
+   ]
+  }
+ ]
+}

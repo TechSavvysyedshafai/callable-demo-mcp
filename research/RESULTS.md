@@ -292,3 +292,108 @@ Does it, implemented mechanically exactly as documented, earn a positive, robust
 **Reported per variant and slippage.** Days traded and skipped, win rate, mean/median daily net, total net, worst day, max drawdown (Rs and % of capital base), longest losing streak, average adjustments per day, share of days ended by each exit reason (EOD, range exit, straddle stop, cost-to-cost stop), table by days-to-expiry. About 80 weeks cannot show crash-day risk.
 **Data plan.** `fetch_upstox.py` (index bars, daily, VIX, expiry calendar), then `download_expired_options.py --underlying NIFTY --strikes 10 --before 2026-04-16` for all dev expiries since 2024-10-03, repeated until 0 failed, started only after 05:30 UTC (shared Upstox rate limit with another session). No result is reported from partial data.
 **Ambiguities resolved in the code (fixed before running):** see the "Interpretations" list written with the Result entry; they are also stated in the module docstring of `research/deltaneutral/backtest.py`.
+
+### Result (run 2026-10-18, one run, 3 variants x 3 slippages, no tuning; ledger `research/deltaneutral/ledger_deltaneutral.jsonl`; code `research/deltaneutral/`)
+**Answer first: no.** Implemented mechanically as documented, the routine does NOT show a positive, robust return after real costs on real NIFTY weekly option candles. None of A, B, C meets the "useful" rule. At Rs0.20 slippage A averages -Rs107 a day, B -Rs57, C -Rs267 (per lot of 75), and every 95% interval includes zero, so the data cannot prove a loss either: they only show no demonstrated edge. The main reason is cost: A earns about +Rs106 a day before fees and pays about Rs213 a day in brokerage, STT and taxes (about 7.7 orders a day). The worst days are naked-strangle trend days: A -Rs7,190 on 2025-05-15 (range exit after two adjustments) and -Rs6,765 on 2024-11-28 (straddle stop), each about 6% of the Rs1.2 lakh base. About 80 weeks and 73 traded days cannot show crash-day risk; a gap day such as an election result would be far worse for the naked versions.
+
+**Data (verified):** NIFTY 5-minute bars to 2026-04-16 (dev), 80 expiry calendars of real expired-option candles (3,355 files, ATM +/-10 strikes around the prior close; downloader pass 1 finished with 0 failed, 2026-10-18). The 2024-12-26 expiry has no files (the contract list gave none; 2 signal days lost). Window 2024-10-03 to 2026-04-16: 380 trading days, swing rule passes on 94 (of the 286 failures: 138 zone too narrow, 132 no swing on one side, 14 too wide, 2 no 09:40 bar).
+
+**Capital bases (ASSUMPTION):** A and B Rs1,20,000 per lot (teacher's quoted margin; real margin unverified). C: Rs1,20,000 plus the widest possible intraday loss of the structure seen (widest single wing-to-short spread seen, 650 points after adjustments moved shorts toward the money; 2 spreads x 650 x 75 = Rs97,500) = Rs2,17,500, because the hedged margin could not be found. On a plain Rs1.2 lakh base C would read -0.58% a month at Rs0.20 (comparison only).
+**Hedge bound for C (computed):** at entry the wings are 200 points out: held to expiry the loss is at most (200 - net credit) x 75 (about Rs10,000 before costs); intraday both spreads can carry value, so the bound is (400 - credit) x 75 (tested). Adjustments move the shorts toward the money and widen the spread to the old wings, up to 650 points in this sample, so "bounded" is true but the bound is far looser than 200 points. Realised worst C day: -Rs3,353 at Rs0.20.
+
+**Main table (per lot of 75; Rs; slippage in premium rupees per fill):**
+| Var | Slip | Days traded | Skipped (data) | Win % | Mean/day | Median | Total net | Worst day | Max DD (Rs / % base) | Losing streak | Adj/day | Orders/day | Mean 95% CI (5-day blocks) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| A | 0.1 | 73 | 23 | 44 | -47 | -179 | -3,403 | -7,130 | -10,542 / -8.8% | 7 | 1.85 | 7.7 | -370 to 280 |
+| A | 0.2 | 73 | 23 | 44 | -107 | -233 | -7,812 | -7,190 | -12,885 / -10.7% | 7 | 1.84 | 7.7 | -428 to 218 |
+| A | 0.3 | 73 | 23 | 42 | -164 | -293 | -12,003 | -7,250 | -16,086 / -13.4% | 7 | 1.84 | 7.7 | -492 to 164 |
+| B | 0.1 | 73 | 23 | 42 | 4 | -244 | 278 | -9,583 | -11,539 / -9.6% | 7 | 1.85 | 7.7 | -345 to 460 |
+| B | 0.2 | 73 | 23 | 41 | -57 | -289 | -4,132 | -9,643 | -13,417 / -11.2% | 8 | 1.84 | 7.7 | -405 to 401 |
+| B | 0.3 | 73 | 23 | 41 | -114 | -334 | -8,323 | -9,703 | -16,484 / -13.7% | 8 | 1.84 | 7.7 | -468 to 350 |
+| C | 0.1 | 42 | 54 | 40 | -176 | -281 | -7,401 | -3,263 | -11,495 / -5.3% | 6 | 1.86 | 11.7 | -631 to 317 |
+| C | 0.2 | 42 | 54 | 38 | -267 | -378 | -11,211 | -3,353 | -14,346 / -6.6% | 6 | 1.83 | 11.7 | -728 to 228 |
+| C | 0.3 | 42 | 54 | 36 | -358 | -475 | -15,030 | -3,443 | -17,205 / -7.9% | 6 | 1.83 | 11.7 | -821 to 148 |
+
+**Return on capital (not compounded; 4% a month is an UNVERIFIED claim from an interview title about the teacher's MONTHLY version, not tested here):**
+| Var | Slip | Capital base (Rs) | Net / month on base | Worst / best month | Annualised (simple x12) | Total return over sample | Months |
+|---|---|---|---|---|---|---|---|
+| A | 0.1 | 120,000 | -0.15% | -5.8% / 4.7% | -1.8% | -2.8% | 19 |
+| A | 0.2 | 120,000 | -0.34% | -5.9% / 4.7% | -4.1% | -6.5% | 19 |
+| A | 0.3 | 120,000 | -0.53% | -6.1% / 4.6% | -6.3% | -10.0% | 19 |
+| B | 0.1 | 120,000 | 0.01% | -6.3% / 4.9% | 0.1% | 0.2% | 19 |
+| B | 0.2 | 120,000 | -0.18% | -6.3% / 4.8% | -2.2% | -3.4% | 19 |
+| B | 0.3 | 120,000 | -0.37% | -6.4% / 4.7% | -4.4% | -6.9% | 19 |
+| C | 0.1 | 217,500 | -0.21% | -2.1% / 1.9% | -2.6% | -3.4% | 16 |
+| C | 0.2 | 217,500 | -0.32% | -2.2% / 1.7% | -3.9% | -5.2% | 16 |
+| C | 0.3 | 217,500 | -0.43% | -2.3% / 1.5% | -5.2% | -6.9% | 16 |
+
+**Exit reasons (share of traded days; B's range exit is a partial exit, so its day ends by EOD or cost-to-cost):**
+| Var | Slip | eod | range_exit | straddle_stop | cost_to_cost | forced_close | Breakout days | Skipped adj. | Skipped exit candles | Forced-close days |
+|---|---|---|---|---|---|---|---|---|---|---|
+| A | 0.1 | 25% | 63% | 12% | 0% | 0% | 46 | 0 | 0 | 0 |
+| A | 0.2 | 25% | 63% | 12% | 0% | 0% | 46 | 0 | 0 | 0 |
+| A | 0.3 | 23% | 63% | 14% | 0% | 0% | 46 | 0 | 0 | 0 |
+| B | 0.1 | 44% | 0% | 12% | 44% | 0% | 46 | 0 | 0 | 0 |
+| B | 0.2 | 44% | 0% | 12% | 44% | 0% | 46 | 0 | 0 | 0 |
+| B | 0.3 | 42% | 0% | 14% | 44% | 0% | 46 | 0 | 0 | 0 |
+| C | 0.1 | 31% | 52% | 17% | 0% | 0% | 22 | 0 | 0 | 0 |
+| C | 0.2 | 31% | 52% | 17% | 0% | 0% | 22 | 0 | 0 | 0 |
+| C | 0.3 | 29% | 52% | 19% | 0% | 0% | 22 | 0 | 0 | 0 |
+
+**By days to expiry (calendar days to the expiry used), slippage 0.20:**
+| Var | DTE | Days | Mean net | Total net | Win % | Worst |
+|---|---|---|---|---|---|---|
+| A | 0 | 24 | -313 | -7,503 | 42 | -7,190 |
+| A | 1 | 15 | -304 | -4,565 | 40 | -3,093 |
+| A | 2 | 12 | 336 | 4,034 | 50 | -2,773 |
+| A | 3-4 | 10 | -136 | -1,355 | 60 | -3,535 |
+| A | 5+ | 12 | 131 | 1,577 | 33 | -1,067 |
+| B | 0 | 24 | -75 | -1,803 | 38 | -9,643 |
+| B | 1 | 15 | -550 | -8,253 | 40 | -3,645 |
+| B | 2 | 12 | 960 | 11,522 | 58 | -1,379 |
+| B | 3-4 | 10 | -327 | -3,273 | 50 | -3,407 |
+| B | 5+ | 12 | -194 | -2,325 | 25 | -2,035 |
+| C | 0 | 22 | -347 | -7,638 | 32 | -3,353 |
+| C | 1 | 10 | 90 | 903 | 50 | -829 |
+| C | 2 | 5 | -314 | -1,570 | 40 | -1,432 |
+| C | 3-4 | 3 | -640 | -1,919 | 67 | -3,001 |
+| C | 5+ | 2 | -493 | -986 | 0 | -596 |
+Cells hold 2 to 24 days; the only cell with a consistent sign across A and B is DTE 0 (expiry day), negative; do not read the rest.
+
+**Skips and no-signal days (counts are identical across slippage):**
+| Var | Slip | No swing range (rule failed) | Data skips (reason: days) |
+|---|---|---|---|
+| A | 0.1 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'no_entry_bar': 2, 'no_option_files': 2} |
+| A | 0.2 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'no_entry_bar': 2, 'no_option_files': 2} |
+| A | 0.3 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'no_entry_bar': 2, 'no_option_files': 2} |
+| B | 0.1 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'no_entry_bar': 2, 'no_option_files': 2} |
+| B | 0.2 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'no_entry_bar': 2, 'no_option_files': 2} |
+| B | 0.3 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'no_entry_bar': 2, 'no_option_files': 2} |
+| C | 0.1 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'wing_unavailable': 31, 'no_entry_bar': 2, 'no_option_files': 2} |
+| C | 0.2 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'wing_unavailable': 31, 'no_entry_bar': 2, 'no_option_files': 2} |
+| C | 0.3 | 284 {'no_swing_range': 284} | {'no_strike': 19, 'wing_unavailable': 31, 'no_entry_bar': 2, 'no_option_files': 2} |
+Skipped entries are all "no strike with |delta| <= 0.25 inside the +/-10-strike file range" (19 days, every one 2 to 6 days to expiry) or a missing wing file (C, 31 days). Skipped adjustments: 0; skipped exit candles: 0; forced closes: 0 (liquid weekly strikes always had a candle). Because far-dated days are the ones skipped, the traded sample leans to 0 to 2 days to expiry (51 of 73 days).
+
+**Pre-registered pass rule (slippage 0.20 for a, b, d; 0.30 for c):**
+| Var | (a) mean>0 and CI low>0 @0.20 | (b) total>=3x worst day @0.20 | (c) mean>0 @0.30 | (d) worst day <5% of base @0.20 | USEFUL |
+|---|---|---|---|---|---|
+| A | False | False | False | False | **False** |
+| B | False | False | False | False | **False** |
+| C | False | False | False | True | **False** | 
+ capital={'A': 120000.0, 'B': 120000.0, 'C': 217500.0} widest=650 C_on_margin_only={'0.1': -0.3854577691336713, '0.2': -0.5838933186577604, '0.3': -0.7827910801081506}
+
+**Adversarial review** (skill `adversarial-review`; one line per item)
+1. Lookahead: unit test scrambles every candle after 11:00 and shows all fills up to 11:00 unchanged; decisions use bars starting at or before the decision bar; swing zone uses only the 3 prior sessions. An extra-delay run was NOT done (it would be a new variant). 
+2. Leakage: only `research/data/` dev files read; days after 2026-04-16 excluded; the 3 days after the last dev expiry (2026-04-13) were skipped, not priced from later files. Holdout untouched.
+3. Trials: exactly 3 variants, one run each; the only change after first launch was a crash fix (KeyError when a strike's file does not exist; now counted as a missing candle; test added) made before any number was seen. 
+4. Controls: no random-entry or placebo control (the trial cap forbids extra variants); with all intervals straddling zero none could rescue a pass. The statistic is days (73/73/42), not trades.
+5. Costs: Rs20 per order (Basic plan; Plus is Rs30, which would be worse), STT 0.15% on sells (from 1 Apr 2026) applied to the whole window although the rate was 0.1% before then, so costs are overstated for 2024-25 days (this flatters the strategy's *gross* conclusion not at all: even before fees A earns only about +Rs106 a day, against a Rs7,000 worst day). Exercise STT: 0.15% of intrinsic value (Upstox explainer read 2026-10-18; the charges page itself was not read); irrelevant because nothing is held to expiry.
+6. Fills: next-bar open plus an assumed slippage; real spreads on expiry-day wings and far strikes may be wider than Rs0.30. The cost-to-cost stop compares the mark with the slippage-adjusted sale price, so a flat market already triggers it (B ends 44% of days that way).
+7. Selection: skipped days listed above; far-dated days are over-skipped; C trades only 42 days, a different and shorter sample than A/B.
+8. Regime: A and B are -Rs42/-Rs171 and +Rs111/-Rs219 per day in the first and second half of the sample; C -Rs573 in the second half. The 5 worst days make up about 40% of A's total loss days; one NIFTY expiry-day trend (DTE 0: A -Rs7,503 total, 24 days) carries a large share.
+9. Arithmetic: `crosscheck.py` re-prices every fill from the raw CSVs with hand-written fee arithmetic: all 73/73/42 days agree with the harness to Rs0.000000.
+10. Plausibility: gross about +Rs100 a day on a Rs1.2 lakh margin is what a modest premium-selling edge looks like; nothing too good.
+Lot size: 75 units used for the whole window as instructed; real NIFTY lot sizes changed over 2024-26 (an Upstox article read 2026-10-18 says 65 currently), so rupee figures are for 75 units, not exact lots.
+
+**Verdicts:** **A: REJECT** (fails all four pass tests; costs are twice the gross edge even at Rs0.10 and the worst day is 6.0% of the base). **B: INCONCLUSIVE** (about zero at Rs0.10, negative at 0.20 and 0.30, interval -405 to +401; separating a real small edge from zero would need several hundred more signal days). **C: REJECT** (loses at every slippage, costs Rs303 a day against Rs36 gross because it pays 4 extra orders; it does cap the worst day at -Rs3,353 but the base is Rs2.2 lakh). **"Useful" rule met by none.**
+**Next single step (owner):** stop here on this routine; if option selling is of interest, record live bid/ask for several weeks before any further test, because cost, not direction, decided this result.

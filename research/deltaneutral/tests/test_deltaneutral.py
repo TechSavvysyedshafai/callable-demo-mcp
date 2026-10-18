@@ -361,6 +361,17 @@ def test_c_skipped_when_wing_candle_missing():
     assert oa["status"] == "traded"
 
 
+def test_strike_with_no_file_counts_as_missing_not_crash():
+    bars0, book0, base = make_world()
+    kc = expected_entry(base)["CE"]
+    far = [k for k in STRIKES if k <= kc + 150]  # no files above kc+150, so the C wing (kc+200) has no file at all
+    bars, book, _ = make_world(strikes=far)
+    s, o = sim("C", bars, book)
+    assert o["status"] == "skipped" and o["reason"] == "wing_unavailable"
+    sa, oa = sim("A", bars, book)
+    assert oa["status"] == "traded"
+
+
 # ---------- costs: every order is charged, adjustments add orders ----------
 def test_cost_counts_orders_and_matches_cost_model():
     base, kc, kp, sale_c, sale_p = _rematch_world()
