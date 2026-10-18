@@ -1,0 +1,1847 @@
+{
+ "expiries": 81,
+ "first_expiry": "2024-10-03",
+ "last_expiry": "2026-04-13",
+ "notional": 1952452.5,
+ "first_entry_spot": 26032.7,
+ "by_slip": {
+  "0.10": {
+   "wheel": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 129326.5128514317,
+     "mean": 1596.6236154497742,
+     "median": 2016.2251130125,
+     "worst_week": -45785.502242329836,
+     "best_week": 75455.4978163975,
+     "max_drawdown": -191605.7570583449,
+     "std": 23388.222700500715,
+     "sharpe_like": 0.06826613701671279
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 296011.6861639316,
+     "mean": 3654.4652612831064,
+     "median": 3734.1695659899997,
+     "worst_week": -53558.95902353,
+     "best_week": 40600.67743443255,
+     "max_drawdown": -111208.66239457439,
+     "std": 18310.617596409822,
+     "sharpe_like": 0.19958175861854274
+    },
+    "boot_p": 0.0115988401159884,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2766.635454338341,
+     "second_mean": 4520.640682692632
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.06623798164177193,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 31,
+    "weeks_start_long": 50,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 360440.25,
+    "intrinsic_paid_rs": 300037.4999999997,
+    "exposure_marks_rs": 93236.24999999985,
+    "option_fees_rs": 2556.6017110685,
+    "settle_stt_rs": 450.0562499999996,
+    "exposure_costs_rs": 21305.8291875,
+    "idle_cash_info_rs": 74754.85941780823,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 204081.37226923992
+   },
+   "put_only": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "CASH",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "CASH",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 22402.52364249318,
+     "mean": 276.5743659567059,
+     "median": 2158.4514511675,
+     "worst_week": -31962.39201632739,
+     "best_week": 14255.1757910875,
+     "max_drawdown": -85858.07528838211,
+     "std": 9374.84515405588,
+     "sharpe_like": 0.029501752979573248
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 189087.6969549931,
+     "mean": 2334.4160117900383,
+     "median": 10850.44324138761,
+     "worst_week": -99555.4476899075,
+     "best_week": 59562.67579108766,
+     "max_drawdown": -208922.16919625024,
+     "std": 28475.493065292736,
+     "sharpe_like": 0.08197982758146984
+    },
+    "boot_p": 0.23157684231576842,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2500.086969054058,
+     "second_mean": 2172.7858095812385
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.011474042847389721,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 81,
+    "weeks_start_long": 0,
+    "assignments": 17,
+    "called_away": 0,
+    "premium_rs": 350823.75,
+    "intrinsic_paid_rs": 325394.99999999936,
+    "exposure_marks_rs": 0.0,
+    "option_fees_rs": 2538.1338575075,
+    "settle_stt_rs": 488.09249999999906,
+    "exposure_costs_rs": 0.0,
+    "idle_cash_info_rs": 196101.1195890411,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 218503.64323153428
+   },
+   "call_only": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": -51212.7252590918,
+     "mean": -632.2558673961951,
+     "median": -757.9271428698908,
+     "worst_week": -61117.09854612178,
+     "best_week": 75455.4978163975,
+     "max_drawdown": -224953.5402839324,
+     "std": 28714.13650395383,
+     "sharpe_like": -0.022018975472556376
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 115472.44805340818,
+     "mean": 1425.585778437138,
+     "median": 3457.2024864250016,
+     "worst_week": -48251.49700387261,
+     "best_week": 16036.747816397503,
+     "max_drawdown": -97763.75882089966,
+     "std": 10106.440164559337,
+     "sharpe_like": 0.14105716307867705
+    },
+    "boot_p": 0.061993800619938005,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": -257.87611393068437,
+     "second_mean": 3067.987624649647
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": false
+    },
+    "total_return_wheel": -0.0262299468279468,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 0,
+    "weeks_start_long": 81,
+    "assignments": 0,
+    "called_away": 12,
+    "premium_rs": 357549.75,
+    "intrinsic_paid_rs": 239167.50000000038,
+    "exposure_marks_rs": -164253.74999999994,
+    "option_fees_rs": 2551.0506965915,
+    "settle_stt_rs": 358.7512500000006,
+    "exposure_costs_rs": 2431.4233125,
+    "idle_cash_info_rs": 0.0,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": -51212.7252590918
+   },
+   "shift_1": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 115236.28446919465,
+     "mean": 1422.6701786320327,
+     "median": 1896.4555650925,
+     "worst_week": -44168.61334540984,
+     "best_week": 73569.1274366575,
+     "max_drawdown": -188193.07350229946,
+     "std": 22842.57748930837,
+     "sharpe_like": 0.06228150826227573
+    },
+    "bench": {
+     "total": -167863.43868749996,
+     "mean": -2072.388131944444,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33440.39214313556,
+     "sharpe_like": -0.061972602566200796
+    },
+    "D": {
+     "total": 283099.72315669456,
+     "mean": 3495.058310576476,
+     "median": 4561.3280063125,
+     "worst_week": -54756.65450273,
+     "best_week": 40473.42228976756,
+     "max_drawdown": -107334.95678697986,
+     "std": 18634.524542571577,
+     "sharpe_like": 0.1875582230494707
+    },
+    "boot_p": 0.0103989601039896,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2363.2657678891674,
+     "second_mean": 4599.246157100682
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.05898572629883583,
+    "total_return_bench": -0.08592386413368958,
+    "weeks_start_cash": 33,
+    "weeks_start_long": 48,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 361470.75,
+    "intrinsic_paid_rs": 291453.74999999994,
+    "exposure_marks_rs": 69652.50000000007,
+    "option_fees_rs": 2558.5807183055,
+    "settle_stt_rs": 437.1806249999999,
+    "exposure_costs_rs": 21437.4541875,
+    "idle_cash_info_rs": 79670.63712328768,
+    "notional": 1953630.0,
+    "wheel_plus_idle_cash_total": 194906.92159248234
+   },
+   "shift_2": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 100781.14152893511,
+     "mean": 1244.2116238140138,
+     "median": 2094.823878835,
+     "worst_week": -46249.60924051984,
+     "best_week": 72906.652124725,
+     "max_drawdown": -198263.35609540492,
+     "std": 22980.106819865327,
+     "sharpe_like": 0.0541429869568076
+    },
+    "bench": {
+     "total": -166568.84775,
+     "mean": -2056.4055277777775,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33412.10456377909,
+     "sharpe_like": -0.06154672250149294
+    },
+    "D": {
+     "total": 267349.9892789351,
+     "mean": 3300.6171515917918,
+     "median": 3749.1407594799966,
+     "worst_week": -54247.63392407,
+     "best_week": 39554.17347534989,
+     "max_drawdown": -106376.80040361988,
+     "std": 18498.469061692846,
+     "sharpe_like": 0.17842650332760798
+    },
+    "boot_p": 0.012898710128987101,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2248.695483851379,
+     "second_mean": 4326.882193289755
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.05162079100305345,
+    "total_return_bench": -0.08531770474988619,
+    "weeks_start_cash": 33,
+    "weeks_start_long": 48,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 343222.5,
+    "intrinsic_paid_rs": 287703.74999999994,
+    "exposure_marks_rs": 69652.50000000007,
+    "option_fees_rs": 2523.536158565,
+    "settle_stt_rs": 431.5556249999999,
+    "exposure_costs_rs": 21435.0166875,
+    "idle_cash_info_rs": 79617.87693493151,
+    "notional": 1952336.25,
+    "wheel_plus_idle_cash_total": 180399.0184638666
+   },
+   "lookahead_as_written": {
+    "n_weeks": 81,
+    "n_traded": 80,
+    "n_skipped": 1,
+    "skipped": [
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 52200.23050963552,
+     "mean": 644.4472902424138,
+     "median": 3599.42882458,
+     "worst_week": -44767.46108500984,
+     "best_week": 69227.2929734799,
+     "max_drawdown": -181478.9745064574,
+     "std": 19496.264065737916,
+     "sharpe_like": 0.033054911857443706
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 218885.40382213547,
+     "mean": 2702.2889360757467,
+     "median": 5231.28891499,
+     "worst_week": -74395.25778146762,
+     "best_week": 57377.75703433011,
+     "max_drawdown": -138322.1291916644,
+     "std": 20900.372370971756,
+     "sharpe_like": 0.1292938177421623
+    },
+    "boot_p": 0.08839116088391161,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 1467.0364071383276,
+     "second_mean": 3907.413354551277
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.026735723665305824,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 47,
+    "weeks_start_long": 34,
+    "assignments": 11,
+    "called_away": 11,
+    "premium_rs": 460784.25,
+    "intrinsic_paid_rs": 482617.5000000001,
+    "exposure_marks_rs": 103867.50000000013,
+    "option_fees_rs": 2772.9057403645,
+    "settle_stt_rs": 723.9262500000002,
+    "exposure_costs_rs": 26337.1875,
+    "idle_cash_info_rs": 113349.22869863015,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 165549.45920826567
+   }
+  },
+  "0.20": {
+   "wheel": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 128735.15070857659,
+     "mean": 1589.322848254032,
+     "median": 2008.7395162675002,
+     "worst_week": -45792.98783907484,
+     "best_week": 75448.0122196525,
+     "max_drawdown": -191695.58421928497,
+     "std": 23388.147692912138,
+     "sharpe_like": 0.06795419924322103
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 295420.32402107655,
+     "mean": 3647.164494087365,
+     "median": 3726.6839692449976,
+     "worst_week": -53566.444620275,
+     "best_week": 40593.191837687555,
+     "max_drawdown": -111246.09037829937,
+     "std": 18310.580283965737,
+     "sharpe_like": 0.19918344681195738
+    },
+    "boot_p": 0.0115988401159884,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2759.5241374305906,
+     "second_mean": 4513.155085947633
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.06593509993640131,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 31,
+    "weeks_start_long": 50,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 359847.75,
+    "intrinsic_paid_rs": 300037.4999999997,
+    "exposure_marks_rs": 93236.24999999985,
+    "option_fees_rs": 2555.4638539234998,
+    "settle_stt_rs": 450.0562499999996,
+    "exposure_costs_rs": 21305.8291875,
+    "idle_cash_info_rs": 74754.85941780823,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 203490.01012638482
+   },
+   "put_only": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "CASH",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "CASH",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 21811.161499638143,
+     "mean": 269.2735987609647,
+     "median": 2150.9658544225,
+     "worst_week": -31969.877613072385,
+     "best_week": 14247.6901943425,
+     "max_drawdown": -85895.5032721071,
+     "std": 9374.839705967313,
+     "sharpe_like": 0.028723008308031713
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 188496.3348121381,
+     "mean": 2327.1152445942976,
+     "median": 10842.957644642607,
+     "worst_week": -99562.9332866525,
+     "best_week": 59555.190194342664,
+     "max_drawdown": -209229.0786627953,
+     "std": 28475.528885657917,
+     "sharpe_like": 0.08172333704278906
+    },
+    "boot_p": 0.23227677232276772,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2492.975652146309,
+     "second_mean": 2165.3002128362386
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.011171161142019149,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 81,
+    "weeks_start_long": 0,
+    "assignments": 17,
+    "called_away": 0,
+    "premium_rs": 350231.25,
+    "intrinsic_paid_rs": 325394.99999999936,
+    "exposure_marks_rs": 0.0,
+    "option_fees_rs": 2536.9960003625,
+    "settle_stt_rs": 488.09249999999906,
+    "exposure_costs_rs": 0.0,
+    "idle_cash_info_rs": 196101.1195890411,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 217912.28108867924
+   },
+   "call_only": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": -51804.08740194686,
+     "mean": -639.5566345919366,
+     "median": -765.412739614891,
+     "worst_week": -61124.584142866785,
+     "best_week": 75448.0122196525,
+     "max_drawdown": -225043.3674448724,
+     "std": 28714.089935249533,
+     "sharpe_like": -0.022273268490630944
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 114881.0859105531,
+     "mean": 1418.2850112413962,
+     "median": 3449.7168896799994,
+     "worst_week": -48258.98260061761,
+     "best_week": 16029.262219652504,
+     "max_drawdown": -97831.12919160466,
+     "std": 10106.413834692798,
+     "sharpe_like": 0.14033514107375827
+    },
+    "boot_p": 0.062993700629937,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": -264.9874308384345,
+     "second_mean": 3060.502027904646
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": false
+    },
+    "total_return_wheel": -0.026532828533317385,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 0,
+    "weeks_start_long": 81,
+    "assignments": 0,
+    "called_away": 12,
+    "premium_rs": 356957.25,
+    "intrinsic_paid_rs": 239167.50000000038,
+    "exposure_marks_rs": -164253.74999999994,
+    "option_fees_rs": 2549.9128394465,
+    "settle_stt_rs": 358.7512500000006,
+    "exposure_costs_rs": 2431.4233125,
+    "idle_cash_info_rs": 0.0,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": -51804.08740194686
+   },
+   "shift_1": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 114644.92232633964,
+     "mean": 1415.3694114362918,
+     "median": 1888.9699683475,
+     "worst_week": -44176.098942154844,
+     "best_week": 73561.6418399125,
+     "max_drawdown": -188282.90066323944,
+     "std": 22842.502115126874,
+     "sharpe_like": 0.061962100487187824
+    },
+    "bench": {
+     "total": -167863.43868749996,
+     "mean": -2072.388131944444,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33440.39214313556,
+     "sharpe_like": -0.061972602566200796
+    },
+    "D": {
+     "total": 282508.3610138396,
+     "mean": 3487.757543380736,
+     "median": 4553.8424095675,
+     "worst_week": -54764.140099475,
+     "best_week": 40465.93669302255,
+     "max_drawdown": -107372.38477070487,
+     "std": 18634.489479567495,
+     "sharpe_like": 0.18716678807890189
+    },
+    "boot_p": 0.010498950104989501,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2356.154450981417,
+     "second_mean": 4591.760560355681
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.058683027147586615,
+    "total_return_bench": -0.08592386413368958,
+    "weeks_start_cash": 33,
+    "weeks_start_long": 48,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 360878.25,
+    "intrinsic_paid_rs": 291453.74999999994,
+    "exposure_marks_rs": 69652.50000000007,
+    "option_fees_rs": 2557.4428611605,
+    "settle_stt_rs": 437.1806249999999,
+    "exposure_costs_rs": 21437.4541875,
+    "idle_cash_info_rs": 79670.63712328768,
+    "notional": 1953630.0,
+    "wheel_plus_idle_cash_total": 194315.55944962733
+   },
+   "shift_2": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 100189.77938608016,
+     "mean": 1236.9108566182736,
+     "median": 2087.33828209,
+     "worst_week": -46257.09483726484,
+     "best_week": 72899.16652798,
+     "max_drawdown": -198353.18325634493,
+     "std": 22980.033350071062,
+     "sharpe_like": 0.05382545959683947
+    },
+    "bench": {
+     "total": -166568.84775,
+     "mean": -2056.4055277777775,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33412.10456377909,
+     "sharpe_like": -0.06154672250149294
+    },
+    "D": {
+     "total": 266758.6271360801,
+     "mean": 3293.316384396051,
+     "median": 3741.655162734998,
+     "worst_week": -54255.119520815,
+     "best_week": 39546.68787860489,
+     "max_drawdown": -106414.22838734489,
+     "std": 18498.435707870598,
+     "sharpe_like": 0.1780321556051808
+    },
+    "boot_p": 0.013098690130986902,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2241.5841669436286,
+     "second_mean": 4319.396596544755
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.051317891262880645,
+    "total_return_bench": -0.08531770474988619,
+    "weeks_start_cash": 33,
+    "weeks_start_long": 48,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 342630.0,
+    "intrinsic_paid_rs": 287703.74999999994,
+    "exposure_marks_rs": 69652.50000000007,
+    "option_fees_rs": 2522.39830142,
+    "settle_stt_rs": 431.5556249999999,
+    "exposure_costs_rs": 21435.0166875,
+    "idle_cash_info_rs": 79617.87693493151,
+    "notional": 1952336.25,
+    "wheel_plus_idle_cash_total": 179807.65632101166
+   },
+   "lookahead_as_written": {
+    "n_weeks": 81,
+    "n_traded": 80,
+    "n_skipped": 1,
+    "skipped": [
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 51601.38277003548,
+     "mean": 637.054108272043,
+     "median": 3591.943227835,
+     "worst_week": -44774.94668175484,
+     "best_week": 69219.80737673488,
+     "max_drawdown": -181568.80166739738,
+     "std": 19496.188459771554,
+     "sharpe_like": 0.03267582838494513
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 218286.55608253542,
+     "mean": 2694.8957541053755,
+     "median": 5223.803318245002,
+     "worst_week": -74402.74337821262,
+     "best_week": 57370.27143758511,
+     "max_drawdown": -138389.49956236943,
+     "std": 20900.36028950046,
+     "sharpe_like": 0.12894015781436974
+    },
+    "boot_p": 0.0888911108889111,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 1459.737950311953,
+     "second_mean": 3899.9277578062765
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.02642900801429765,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 47,
+    "weeks_start_long": 34,
+    "assignments": 11,
+    "called_away": 11,
+    "premium_rs": 460184.25,
+    "intrinsic_paid_rs": 482617.5000000001,
+    "exposure_marks_rs": 103867.50000000013,
+    "option_fees_rs": 2771.7534799645,
+    "settle_stt_rs": 723.9262500000002,
+    "exposure_costs_rs": 26337.1875,
+    "idle_cash_info_rs": 113349.22869863015,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 164950.61146866562
+   }
+  },
+  "0.30": {
+   "wheel": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 128143.78856572165,
+     "mean": 1582.022081058292,
+     "median": 2001.2539195225,
+     "worst_week": -45800.47343581984,
+     "best_week": 75440.5266229075,
+     "max_drawdown": -191785.41138022492,
+     "std": 23388.07274350017,
+     "sharpe_like": 0.06764225930064953
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 294828.9618782216,
+     "mean": 3639.8637268916245,
+     "median": 3719.198372499999,
+     "worst_week": -53573.93021702,
+     "best_week": 40585.706240942556,
+     "max_drawdown": -111283.5183620244,
+     "std": 18310.543046061917,
+     "sharpe_like": 0.19878513257281338
+    },
+    "boot_p": 0.0115988401159884,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2752.4128205228412,
+     "second_mean": 4505.669489202633
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.0656322182310308,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 31,
+    "weeks_start_long": 50,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 359255.25,
+    "intrinsic_paid_rs": 300037.4999999997,
+    "exposure_marks_rs": 93236.24999999985,
+    "option_fees_rs": 2554.3259967785,
+    "settle_stt_rs": 450.0562499999996,
+    "exposure_costs_rs": 21305.8291875,
+    "idle_cash_info_rs": 74754.85941780823,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 202898.6479835299
+   },
+   "put_only": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "CASH",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "CASH",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 21219.799356783176,
+     "mean": 261.9728315652244,
+     "median": 2143.4802576775,
+     "worst_week": -31977.36320981739,
+     "best_week": 14240.204597597498,
+     "max_drawdown": -85932.93125583213,
+     "std": 9374.83440361309,
+     "sharpe_like": 0.027944262296970203
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 187904.97266928304,
+     "mean": 2319.814477398556,
+     "median": 10835.472047897609,
+     "worst_week": -99570.4188833975,
+     "best_week": 59547.70459759766,
+     "max_drawdown": -209535.98812934035,
+     "std": 28475.564753958293,
+     "sharpe_like": 0.08146684701226466
+    },
+    "boot_p": 0.23317668233176683,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2485.864335238558,
+     "second_mean": 2157.8146160912383
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.010868279436648613,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 81,
+    "weeks_start_long": 0,
+    "assignments": 17,
+    "called_away": 0,
+    "premium_rs": 349638.75,
+    "intrinsic_paid_rs": 325394.99999999936,
+    "exposure_marks_rs": 0.0,
+    "option_fees_rs": 2535.8581432175,
+    "settle_stt_rs": 488.09249999999906,
+    "exposure_costs_rs": 0.0,
+    "idle_cash_info_rs": 196101.1195890411,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 217320.9189458243
+   },
+   "call_only": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": -52395.449544801755,
+     "mean": -646.8574017876759,
+     "median": -772.8983363598909,
+     "worst_week": -61132.06973961178,
+     "best_week": 75440.5266229075,
+     "max_drawdown": -225133.1946058124,
+     "std": 28714.04341405148,
+     "sharpe_like": -0.022527562296264077
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 114289.72376769813,
+     "mean": 1410.984244045656,
+     "median": 3442.231292935001,
+     "worst_week": -48266.46819736261,
+     "best_week": 16021.776622907506,
+     "max_drawdown": -97898.49956230966,
+     "std": 10106.387639945926,
+     "sharpe_like": 0.1396131134401258
+    },
+    "boot_p": 0.06369363063693631,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": -272.0987477461845,
+     "second_mean": 3053.0164311596463
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": false
+    },
+    "total_return_wheel": -0.026835710238687884,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 0,
+    "weeks_start_long": 81,
+    "assignments": 0,
+    "called_away": 12,
+    "premium_rs": 356364.75,
+    "intrinsic_paid_rs": 239167.50000000038,
+    "exposure_marks_rs": -164253.74999999994,
+    "option_fees_rs": 2548.7749823015,
+    "settle_stt_rs": 358.7512500000006,
+    "exposure_costs_rs": 2431.4233125,
+    "idle_cash_info_rs": 0.0,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": -52395.449544801755
+   },
+   "shift_1": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 114053.5601834846,
+     "mean": 1408.0686442405506,
+     "median": 1881.4843716025,
+     "worst_week": -44183.58453889984,
+     "best_week": 73554.1562431675,
+     "max_drawdown": -188372.72782417946,
+     "std": 22842.42680050927,
+     "sharpe_like": 0.061642690443432124
+    },
+    "bench": {
+     "total": -167863.43868749996,
+     "mean": -2072.388131944444,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33440.39214313556,
+     "sharpe_like": -0.061972602566200796
+    },
+    "D": {
+     "total": 281916.99887098465,
+     "mean": 3480.4567761849958,
+     "median": 4546.3568128225,
+     "worst_week": -54771.62569622,
+     "best_week": 40458.45109627755,
+     "max_drawdown": -107409.8127544299,
+     "std": 18634.45448981673,
+     "sharpe_like": 0.18677535090104086
+    },
+    "boot_p": 0.010498950104989501,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2349.0431340736677,
+     "second_mean": 4584.274963610682
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.05838032799633738,
+    "total_return_bench": -0.08592386413368958,
+    "weeks_start_cash": 33,
+    "weeks_start_long": 48,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 360285.75,
+    "intrinsic_paid_rs": 291453.74999999994,
+    "exposure_marks_rs": 69652.50000000007,
+    "option_fees_rs": 2556.3050040155,
+    "settle_stt_rs": 437.1806249999999,
+    "exposure_costs_rs": 21437.4541875,
+    "idle_cash_info_rs": 79670.63712328768,
+    "notional": 1953630.0,
+    "wheel_plus_idle_cash_total": 193724.1973067723
+   },
+   "shift_2": {
+    "n_weeks": 81,
+    "n_traded": 79,
+    "n_skipped": 2,
+    "skipped": [
+     [
+      "2024-11-07",
+      "LONG",
+      "no_candle_at_entry"
+     ],
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 99598.41724322509,
+     "mean": 1229.610089422532,
+     "median": 2079.852685345,
+     "worst_week": -46264.58043400984,
+     "best_week": 72891.680931235,
+     "max_drawdown": -198443.01041728497,
+     "std": 22979.959939496533,
+     "sharpe_like": 0.053507930068631415
+    },
+    "bench": {
+     "total": -166568.84775,
+     "mean": -2056.4055277777775,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33412.10456377909,
+     "sharpe_like": -0.06154672250149294
+    },
+    "D": {
+     "total": 266167.2649932251,
+     "mean": 3286.01561720031,
+     "median": 3734.1695659899997,
+     "worst_week": -54262.60511756,
+     "best_week": 39539.20228185989,
+     "max_drawdown": -106451.65637106987,
+     "std": 18498.402427846755,
+     "sharpe_like": 0.17763780575200772
+    },
+    "boot_p": 0.013098690130986902,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 2234.472850035879,
+     "second_mean": 4311.910999799755
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.051014991522707775,
+    "total_return_bench": -0.08531770474988619,
+    "weeks_start_cash": 33,
+    "weeks_start_long": 48,
+    "assignments": 9,
+    "called_away": 8,
+    "premium_rs": 342037.5,
+    "intrinsic_paid_rs": 287703.74999999994,
+    "exposure_marks_rs": 69652.50000000007,
+    "option_fees_rs": 2521.260444275,
+    "settle_stt_rs": 431.5556249999999,
+    "exposure_costs_rs": 21435.0166875,
+    "idle_cash_info_rs": 79617.87693493151,
+    "notional": 1952336.25,
+    "wheel_plus_idle_cash_total": 179216.2941781566
+   },
+   "lookahead_as_written": {
+    "n_weeks": 81,
+    "n_traded": 80,
+    "n_skipped": 1,
+    "skipped": [
+     [
+      "2024-12-26",
+      "LONG",
+      "missing_option_file"
+     ]
+    ],
+    "wheel": {
+     "total": 51002.53503043549,
+     "mean": 629.6609263016727,
+     "median": 3584.45763109,
+     "worst_week": -44782.43227849984,
+     "best_week": 69212.3217799899,
+     "max_drawdown": -181658.62882833742,
+     "std": 19496.112888994954,
+     "sharpe_like": 0.03229674191397916
+    },
+    "bench": {
+     "total": -166685.17331249992,
+     "mean": -2057.841645833332,
+     "median": -5219.999999999891,
+     "worst_week": -63821.24999999978,
+     "best_week": 108937.5,
+     "max_drawdown": -288547.49999999994,
+     "std": 33414.62200532073,
+     "sharpe_like": -0.061585064332185316
+    },
+    "D": {
+     "total": 217687.70834293545,
+     "mean": 2687.5025721350057,
+     "median": 5216.317721500003,
+     "worst_week": -74410.22897495762,
+     "best_week": 57362.78584084011,
+     "max_drawdown": -138456.8699330744,
+     "std": 20900.348241121137,
+     "sharpe_like": 0.12858649727411636
+    },
+    "boot_p": 0.0898910108989101,
+    "halves": {
+     "midpoint": "2025-07-08",
+     "first_n": 40,
+     "second_n": 41,
+     "first_mean": 1452.439493485578,
+     "second_mean": 3892.4421610612762
+    },
+    "verdict": "REJECT",
+    "checks": {
+     "a_mean_D_positive": true,
+     "b_boot_p": false,
+     "c_smaller_drawdown": true,
+     "d_both_halves_positive": true
+    },
+    "total_return_wheel": 0.026122292363289498,
+    "total_return_bench": -0.08537220409331336,
+    "weeks_start_cash": 47,
+    "weeks_start_long": 34,
+    "assignments": 11,
+    "called_away": 11,
+    "premium_rs": 459584.25,
+    "intrinsic_paid_rs": 482617.5000000001,
+    "exposure_marks_rs": 103867.50000000013,
+    "option_fees_rs": 2770.6012195645,
+    "settle_stt_rs": 723.9262500000002,
+    "exposure_costs_rs": 26337.1875,
+    "idle_cash_info_rs": 113349.22869863015,
+    "notional": 1952452.5,
+    "wheel_plus_idle_cash_total": 164351.76372906563
+   }
+  }
+ },
+ "primary": {
+  "n_weeks": 81,
+  "n_traded": 79,
+  "n_skipped": 2,
+  "skipped": [
+   [
+    "2024-11-07",
+    "LONG",
+    "no_candle_at_entry"
+   ],
+   [
+    "2024-12-26",
+    "LONG",
+    "missing_option_file"
+   ]
+  ],
+  "wheel": {
+   "total": 128735.15070857659,
+   "mean": 1589.322848254032,
+   "median": 2008.7395162675002,
+   "worst_week": -45792.98783907484,
+   "best_week": 75448.0122196525,
+   "max_drawdown": -191695.58421928497,
+   "std": 23388.147692912138,
+   "sharpe_like": 0.06795419924322103
+  },
+  "bench": {
+   "total": -166685.17331249992,
+   "mean": -2057.841645833332,
+   "median": -5219.999999999891,
+   "worst_week": -63821.24999999978,
+   "best_week": 108937.5,
+   "max_drawdown": -288547.49999999994,
+   "std": 33414.62200532073,
+   "sharpe_like": -0.061585064332185316
+  },
+  "D": {
+   "total": 295420.32402107655,
+   "mean": 3647.164494087365,
+   "median": 3726.6839692449976,
+   "worst_week": -53566.444620275,
+   "best_week": 40593.191837687555,
+   "max_drawdown": -111246.09037829937,
+   "std": 18310.580283965737,
+   "sharpe_like": 0.19918344681195738
+  },
+  "boot_p": 0.0115988401159884,
+  "halves": {
+   "midpoint": "2025-07-08",
+   "first_n": 40,
+   "second_n": 41,
+   "first_mean": 2759.5241374305906,
+   "second_mean": 4513.155085947633
+  },
+  "verdict": "REJECT",
+  "checks": {
+   "a_mean_D_positive": true,
+   "b_boot_p": false,
+   "c_smaller_drawdown": true,
+   "d_both_halves_positive": true
+  },
+  "total_return_wheel": 0.06593509993640131,
+  "total_return_bench": -0.08537220409331336,
+  "weeks_start_cash": 31,
+  "weeks_start_long": 50,
+  "assignments": 9,
+  "called_away": 8,
+  "premium_rs": 359847.75,
+  "intrinsic_paid_rs": 300037.4999999997,
+  "exposure_marks_rs": 93236.24999999985,
+  "option_fees_rs": 2555.4638539234998,
+  "settle_stt_rs": 450.0562499999996,
+  "exposure_costs_rs": 21305.8291875,
+  "idle_cash_info_rs": 74754.85941780823,
+  "notional": 1952452.5,
+  "wheel_plus_idle_cash_total": 203490.01012638482
+ },
+ "controls": {
+  "put_only": {
+   "n_weeks": 81,
+   "n_traded": 79,
+   "n_skipped": 2,
+   "skipped": [
+    [
+     "2024-11-07",
+     "CASH",
+     "no_candle_at_entry"
+    ],
+    [
+     "2024-12-26",
+     "CASH",
+     "missing_option_file"
+    ]
+   ],
+   "wheel": {
+    "total": 21811.161499638143,
+    "mean": 269.2735987609647,
+    "median": 2150.9658544225,
+    "worst_week": -31969.877613072385,
+    "best_week": 14247.6901943425,
+    "max_drawdown": -85895.5032721071,
+    "std": 9374.839705967313,
+    "sharpe_like": 0.028723008308031713
+   },
+   "bench": {
+    "total": -166685.17331249992,
+    "mean": -2057.841645833332,
+    "median": -5219.999999999891,
+    "worst_week": -63821.24999999978,
+    "best_week": 108937.5,
+    "max_drawdown": -288547.49999999994,
+    "std": 33414.62200532073,
+    "sharpe_like": -0.061585064332185316
+   },
+   "D": {
+    "total": 188496.3348121381,
+    "mean": 2327.1152445942976,
+    "median": 10842.957644642607,
+    "worst_week": -99562.9332866525,
+    "best_week": 59555.190194342664,
+    "max_drawdown": -209229.0786627953,
+    "std": 28475.528885657917,
+    "sharpe_like": 0.08172333704278906
+   },
+   "boot_p": 0.23227677232276772,
+   "halves": {
+    "midpoint": "2025-07-08",
+    "first_n": 40,
+    "second_n": 41,
+    "first_mean": 2492.975652146309,
+    "second_mean": 2165.3002128362386
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_D_positive": true,
+    "b_boot_p": false,
+    "c_smaller_drawdown": true,
+    "d_both_halves_positive": true
+   },
+   "total_return_wheel": 0.011171161142019149,
+   "total_return_bench": -0.08537220409331336,
+   "weeks_start_cash": 81,
+   "weeks_start_long": 0,
+   "assignments": 17,
+   "called_away": 0,
+   "premium_rs": 350231.25,
+   "intrinsic_paid_rs": 325394.99999999936,
+   "exposure_marks_rs": 0.0,
+   "option_fees_rs": 2536.9960003625,
+   "settle_stt_rs": 488.09249999999906,
+   "exposure_costs_rs": 0.0,
+   "idle_cash_info_rs": 196101.1195890411,
+   "notional": 1952452.5,
+   "wheel_plus_idle_cash_total": 217912.28108867924
+  },
+  "call_only": {
+   "n_weeks": 81,
+   "n_traded": 79,
+   "n_skipped": 2,
+   "skipped": [
+    [
+     "2024-11-07",
+     "LONG",
+     "no_candle_at_entry"
+    ],
+    [
+     "2024-12-26",
+     "LONG",
+     "missing_option_file"
+    ]
+   ],
+   "wheel": {
+    "total": -51804.08740194686,
+    "mean": -639.5566345919366,
+    "median": -765.412739614891,
+    "worst_week": -61124.584142866785,
+    "best_week": 75448.0122196525,
+    "max_drawdown": -225043.3674448724,
+    "std": 28714.089935249533,
+    "sharpe_like": -0.022273268490630944
+   },
+   "bench": {
+    "total": -166685.17331249992,
+    "mean": -2057.841645833332,
+    "median": -5219.999999999891,
+    "worst_week": -63821.24999999978,
+    "best_week": 108937.5,
+    "max_drawdown": -288547.49999999994,
+    "std": 33414.62200532073,
+    "sharpe_like": -0.061585064332185316
+   },
+   "D": {
+    "total": 114881.0859105531,
+    "mean": 1418.2850112413962,
+    "median": 3449.7168896799994,
+    "worst_week": -48258.98260061761,
+    "best_week": 16029.262219652504,
+    "max_drawdown": -97831.12919160466,
+    "std": 10106.413834692798,
+    "sharpe_like": 0.14033514107375827
+   },
+   "boot_p": 0.062993700629937,
+   "halves": {
+    "midpoint": "2025-07-08",
+    "first_n": 40,
+    "second_n": 41,
+    "first_mean": -264.9874308384345,
+    "second_mean": 3060.502027904646
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_D_positive": true,
+    "b_boot_p": false,
+    "c_smaller_drawdown": true,
+    "d_both_halves_positive": false
+   },
+   "total_return_wheel": -0.026532828533317385,
+   "total_return_bench": -0.08537220409331336,
+   "weeks_start_cash": 0,
+   "weeks_start_long": 81,
+   "assignments": 0,
+   "called_away": 12,
+   "premium_rs": 356957.25,
+   "intrinsic_paid_rs": 239167.50000000038,
+   "exposure_marks_rs": -164253.74999999994,
+   "option_fees_rs": 2549.9128394465,
+   "settle_stt_rs": 358.7512500000006,
+   "exposure_costs_rs": 2431.4233125,
+   "idle_cash_info_rs": 0.0,
+   "notional": 1952452.5,
+   "wheel_plus_idle_cash_total": -51804.08740194686
+  },
+  "shift_1": {
+   "n_weeks": 81,
+   "n_traded": 79,
+   "n_skipped": 2,
+   "skipped": [
+    [
+     "2024-11-07",
+     "LONG",
+     "no_candle_at_entry"
+    ],
+    [
+     "2024-12-26",
+     "LONG",
+     "missing_option_file"
+    ]
+   ],
+   "wheel": {
+    "total": 114644.92232633964,
+    "mean": 1415.3694114362918,
+    "median": 1888.9699683475,
+    "worst_week": -44176.098942154844,
+    "best_week": 73561.6418399125,
+    "max_drawdown": -188282.90066323944,
+    "std": 22842.502115126874,
+    "sharpe_like": 0.061962100487187824
+   },
+   "bench": {
+    "total": -167863.43868749996,
+    "mean": -2072.388131944444,
+    "median": -5219.999999999891,
+    "worst_week": -63821.24999999978,
+    "best_week": 108937.5,
+    "max_drawdown": -288547.49999999994,
+    "std": 33440.39214313556,
+    "sharpe_like": -0.061972602566200796
+   },
+   "D": {
+    "total": 282508.3610138396,
+    "mean": 3487.757543380736,
+    "median": 4553.8424095675,
+    "worst_week": -54764.140099475,
+    "best_week": 40465.93669302255,
+    "max_drawdown": -107372.38477070487,
+    "std": 18634.489479567495,
+    "sharpe_like": 0.18716678807890189
+   },
+   "boot_p": 0.010498950104989501,
+   "halves": {
+    "midpoint": "2025-07-08",
+    "first_n": 40,
+    "second_n": 41,
+    "first_mean": 2356.154450981417,
+    "second_mean": 4591.760560355681
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_D_positive": true,
+    "b_boot_p": false,
+    "c_smaller_drawdown": true,
+    "d_both_halves_positive": true
+   },
+   "total_return_wheel": 0.058683027147586615,
+   "total_return_bench": -0.08592386413368958,
+   "weeks_start_cash": 33,
+   "weeks_start_long": 48,
+   "assignments": 9,
+   "called_away": 8,
+   "premium_rs": 360878.25,
+   "intrinsic_paid_rs": 291453.74999999994,
+   "exposure_marks_rs": 69652.50000000007,
+   "option_fees_rs": 2557.4428611605,
+   "settle_stt_rs": 437.1806249999999,
+   "exposure_costs_rs": 21437.4541875,
+   "idle_cash_info_rs": 79670.63712328768,
+   "notional": 1953630.0,
+   "wheel_plus_idle_cash_total": 194315.55944962733
+  },
+  "shift_2": {
+   "n_weeks": 81,
+   "n_traded": 79,
+   "n_skipped": 2,
+   "skipped": [
+    [
+     "2024-11-07",
+     "LONG",
+     "no_candle_at_entry"
+    ],
+    [
+     "2024-12-26",
+     "LONG",
+     "missing_option_file"
+    ]
+   ],
+   "wheel": {
+    "total": 100189.77938608016,
+    "mean": 1236.9108566182736,
+    "median": 2087.33828209,
+    "worst_week": -46257.09483726484,
+    "best_week": 72899.16652798,
+    "max_drawdown": -198353.18325634493,
+    "std": 22980.033350071062,
+    "sharpe_like": 0.05382545959683947
+   },
+   "bench": {
+    "total": -166568.84775,
+    "mean": -2056.4055277777775,
+    "median": -5219.999999999891,
+    "worst_week": -63821.24999999978,
+    "best_week": 108937.5,
+    "max_drawdown": -288547.49999999994,
+    "std": 33412.10456377909,
+    "sharpe_like": -0.06154672250149294
+   },
+   "D": {
+    "total": 266758.6271360801,
+    "mean": 3293.316384396051,
+    "median": 3741.655162734998,
+    "worst_week": -54255.119520815,
+    "best_week": 39546.68787860489,
+    "max_drawdown": -106414.22838734489,
+    "std": 18498.435707870598,
+    "sharpe_like": 0.1780321556051808
+   },
+   "boot_p": 0.013098690130986902,
+   "halves": {
+    "midpoint": "2025-07-08",
+    "first_n": 40,
+    "second_n": 41,
+    "first_mean": 2241.5841669436286,
+    "second_mean": 4319.396596544755
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_D_positive": true,
+    "b_boot_p": false,
+    "c_smaller_drawdown": true,
+    "d_both_halves_positive": true
+   },
+   "total_return_wheel": 0.051317891262880645,
+   "total_return_bench": -0.08531770474988619,
+   "weeks_start_cash": 33,
+   "weeks_start_long": 48,
+   "assignments": 9,
+   "called_away": 8,
+   "premium_rs": 342630.0,
+   "intrinsic_paid_rs": 287703.74999999994,
+   "exposure_marks_rs": 69652.50000000007,
+   "option_fees_rs": 2522.39830142,
+   "settle_stt_rs": 431.5556249999999,
+   "exposure_costs_rs": 21435.0166875,
+   "idle_cash_info_rs": 79617.87693493151,
+   "notional": 1952336.25,
+   "wheel_plus_idle_cash_total": 179807.65632101166
+  }
+ },
+ "lookahead_diag": {
+  "n_weeks": 81,
+  "n_traded": 80,
+  "n_skipped": 1,
+  "skipped": [
+   [
+    "2024-12-26",
+    "LONG",
+    "missing_option_file"
+   ]
+  ],
+  "wheel": {
+   "total": 51601.38277003548,
+   "mean": 637.054108272043,
+   "median": 3591.943227835,
+   "worst_week": -44774.94668175484,
+   "best_week": 69219.80737673488,
+   "max_drawdown": -181568.80166739738,
+   "std": 19496.188459771554,
+   "sharpe_like": 0.03267582838494513
+  },
+  "bench": {
+   "total": -166685.17331249992,
+   "mean": -2057.841645833332,
+   "median": -5219.999999999891,
+   "worst_week": -63821.24999999978,
+   "best_week": 108937.5,
+   "max_drawdown": -288547.49999999994,
+   "std": 33414.62200532073,
+   "sharpe_like": -0.061585064332185316
+  },
+  "D": {
+   "total": 218286.55608253542,
+   "mean": 2694.8957541053755,
+   "median": 5223.803318245002,
+   "worst_week": -74402.74337821262,
+   "best_week": 57370.27143758511,
+   "max_drawdown": -138389.49956236943,
+   "std": 20900.36028950046,
+   "sharpe_like": 0.12894015781436974
+  },
+  "boot_p": 0.0888911108889111,
+  "halves": {
+   "midpoint": "2025-07-08",
+   "first_n": 40,
+   "second_n": 41,
+   "first_mean": 1459.737950311953,
+   "second_mean": 3899.9277578062765
+  },
+  "verdict": "REJECT",
+  "checks": {
+   "a_mean_D_positive": true,
+   "b_boot_p": false,
+   "c_smaller_drawdown": true,
+   "d_both_halves_positive": true
+  },
+  "total_return_wheel": 0.02642900801429765,
+  "total_return_bench": -0.08537220409331336,
+  "weeks_start_cash": 47,
+  "weeks_start_long": 34,
+  "assignments": 11,
+  "called_away": 11,
+  "premium_rs": 460184.25,
+  "intrinsic_paid_rs": 482617.5000000001,
+  "exposure_marks_rs": 103867.50000000013,
+  "option_fees_rs": 2771.7534799645,
+  "settle_stt_rs": 723.9262500000002,
+  "exposure_costs_rs": 26337.1875,
+  "idle_cash_info_rs": 113349.22869863015,
+  "notional": 1952452.5,
+  "wheel_plus_idle_cash_total": 164950.61146866562
+ },
+ "index_first_entry_to_last_close": -2190.0499999999993,
+ "causal_entry_days_moved_vs_selling_rule": 79
+}
