@@ -66,7 +66,7 @@ Nothing here gets near 20% a year: buy-and-hold made 12.6% a year (price index o
 Data: Upstox daily NIFTY 50, 6,662 bars 2000-01-03 to 2026-10-16 downloaded; the newest 126 bars (6 months) went to the hidden holdout (never read). Dev = 6,536 bars to 2026-04-16.
 Scored from 2000-10-31 (first day all signals exist). Data checks: no duplicates, no NaN, no OHLC violations, no gaps over 6 days; the largest moves are real events (May 2004, 2008, May 2009, 2020).
 **Bias:** NIFTY 50 is the price index; it omits dividends (about 1.2-1.5%/yr). That understates B0 by more than the strategies (B0 is always invested).
-**Limited evidence:** about 26 years contain only about three large drawdowns (2001, 2008, 2020) plus 2011 and 2022; every comparison below rests on a handful of episodes.
+**Limited evidence:** about 26 years contain only a handful of large drawdowns (mainly 2008, then 2011 and the 2020 crash); every comparison below rests on a few episodes.
 
 **Full dev sample, cost 0.25% per one-way trade** (2000-10-31 to 2026-04-16):
 
@@ -144,7 +144,7 @@ After tax: B0 12.1%, S1 7.9%, S2 9.6%. Assumptions that favour the strategies: i
 - Extra signal delay (cost 0.25%): S1 CAGR 8.9% -> 8.2% (1 day) -> 8.2% (5 days); S2 10.5% -> 10.0% -> 10.0%; S3 5.9% -> 6.8% (1 day). Gradual or flat, no collapse and no flip: no sign of lookahead. A deliberately leaky signal (peeks at the next day's move) shows 137% a year with Sharpe 6.2 and is obviously caught.
 - Random on/off placebo (1,000 draws, same average time-in and time-out lengths as S1 and S2): median max drawdown about -53%, 5th percentile -63%. S1 (-29.6%) and S2 (-31.2%) are far better than random timing, so the drawdown reduction is a property of trend following, not of simply being out of the market part of the time. But placebo CAGR (8.9% S1-matched, 10.5% S2-matched) equals the strategies' own CAGR: the rules do not add return, they only shift when the risk is taken.
 - Independent re-computation (`lowturn/crosscheck.py`, plain loops, no shared code): B0 12.60% / -59.86% and S1 8.82% / -29.84% against 12.64% / -59.90% and 8.86% / -29.61% in the main engine. Agreement within 0.04 pp CAGR and 0.25 pp drawdown (the engine adds the overnight and intraday legs within a day; the check compounds them).
-- B0's -59.9% drawdown matches the known Jan to Oct 2008 closing peak-to-trough, and its CAGR matches the raw price ratio (1,283 to 24,197 over 25.5 years).
+- B0's -59.9% drawdown matches the known Jan to Oct 2008 closing peak-to-trough, and its CAGR matches the raw price ratio (close 1,173 on 2000-10-31 to 24,197 on 2026-04-16, 25.5 years).
 
 **Adversarial review** (skill `adversarial-review`, one line per item)
 1. Lookahead: signals tested to be causal by truncation (identical when future bars are removed); +1/+5 day delay degrades gently; the leak test is caught. S2 uses the NEXT bar's date to know a month has ended (a calendar fact, not a price).
@@ -154,7 +154,7 @@ After tax: B0 12.1%, S1 7.9%, S2 9.6%. Assumptions that favour the strategies: i
 5. Costs: the cost grid (0.10 / 0.25 / 0.50% per one-way trade) is an ASSUMPTION. It is deliberately harsh: a liquid index ETF or futures costs far less than 0.25% one way. At 0.10% S1 still gives up 2.5 pp, S2 1.8 pp, S3 4.0 pp, so the verdict does not hinge on costs, except S3 (turnover 17 full switches/yr) which is largely a cost story. Tax rates verified (above).
 6. Fills: trades at the next open with no slippage beyond the assumed cost. NIFTY itself is not tradable; an index fund, ETF or futures would be used, adding tracking error not modelled.
 7. Selection: nothing dropped; all years shown. S3's first year uses 59 bars of warm-up.
-8. Regime and period: results flip between halves. In the first half (2000 to mid-2013) S1 and S2 are within 0.8 pp of B0 with half the drawdown (they pass the rule there). In the second half (2013 to 2026) S1 gives up 6.7 pp and S2 3.4 pp. The drawdown benefit rests mainly on 2008; 2020 is a V-shape the filters mostly caught late.
+8. Regime and period: results flip between halves. In the first half (2000 to mid-2013) S1 and S2 are within 0.8 pp of B0 with half the drawdown (they pass the rule there). In the second half (2013 to 2026) S1 gives up 6.7 pp and S2 3.4 pp. The drawdown benefit rests on a few episodes: 2008 (B0 -51.8% in the year, S1 -22.0%, S2 -19.5%) and the 2020 crash (second-half drawdown B0 -38.5%, S2 -18.8%); in the calendar year 2020 S1 and S2 even beat B0 (+24.1% and +20.8% against +15.0%).
 9. Arithmetic: independent loop agrees (above); known-answer tests by hand (15 tests).
 10. Plausibility: Sharpe 0.2-0.4 and CAGR below the benchmark are what low-turnover trend filters usually deliver; nothing too good to be true.
 
