@@ -1,0 +1,440 @@
+{
+ "code_hash": "03e3c77355e8",
+ "results": [
+  {
+   "idea": 1,
+   "name": "SIP and salary inflows",
+   "n_trades": 90,
+   "skipped": 0,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.5888888888888889,
+   "mean_net": 0.004771340330863635,
+   "mean_gross": 0.005771340330863636,
+   "boot_p": 0.022797720227977204,
+   "boot_p_zero_cost": 0.006199380061993801,
+   "null_p": 0.045995400459954004,
+   "null_mean": 0.0011010666211278785,
+   "null_q95": 0.004669949215780131,
+   "null_p_zero_cost": 0.045995400459954004,
+   "midpoint": "2022-07-19",
+   "first_n": 45,
+   "first_mean": 0.006038574452563639,
+   "second_n": 45,
+   "second_mean": 0.0035041062091636303,
+   "halves_zero_cost": {
+    "first_mean": 0.00703857445256364,
+    "second_mean": 0.004504106209163631
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": true,
+    "e_min_60_trades": true
+   }
+  },
+  {
+   "idea": 2,
+   "name": "Day traders squaring off (overnight leg)",
+   "n_trades": 1854,
+   "skipped": 0,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.5560949298813377,
+   "mean_net": 0.0001250600647892418,
+   "mean_gross": 0.001125060064789242,
+   "boot_p": 0.2298770122987701,
+   "boot_p_zero_cost": 9.999000099990002e-05,
+   "null_p": 1.0,
+   "null_mean": 0.00012506006478924214,
+   "null_q95": 0.0001250600647892423,
+   "null_p_zero_cost": 1.0,
+   "midpoint": "2022-07-19",
+   "first_n": 929,
+   "first_mean": 0.0004539538342990523,
+   "second_n": 925,
+   "second_mean": -0.00020525594804817867,
+   "halves_zero_cost": {
+    "first_mean": 0.0014539538342990526,
+    "second_mean": 0.0007947440519518216
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   }
+  },
+  {
+   "idea": 3,
+   "name": "Gap chasers and stop-outs (fade the gap)",
+   "n_trades": 299,
+   "skipped": 0,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.4280936454849498,
+   "mean_net": 0.00010826720291071189,
+   "mean_gross": 0.0011082672029107126,
+   "boot_p": 0.42675732426757323,
+   "boot_p_zero_cost": 0.06189381061893811,
+   "null_p": 0.0240975902409759,
+   "null_mean": -0.0008939165881180545,
+   "null_q95": -6.793953382820765e-05,
+   "null_p_zero_cost": 0.0240975902409759,
+   "midpoint": "2022-07-19",
+   "first_n": 205,
+   "first_mean": 0.00045406953178241257,
+   "second_n": 94,
+   "second_mean": -0.0006458761738839545,
+   "halves_zero_cost": {
+    "first_mean": 0.0014540695317824134,
+    "second_mean": 0.00035412382611604604
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   }
+  },
+  {
+   "idea": 4,
+   "name": "Forced sellers (margin calls)",
+   "n_trades": 50,
+   "skipped": 0,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.56,
+   "mean_net": 0.002328270931908929,
+   "mean_gross": 0.0033282709319089297,
+   "boot_p": 0.1207879212078792,
+   "boot_p_zero_cost": 0.037396260373962605,
+   "null_p": 0.0023997600239976003,
+   "null_mean": -0.001630623092139915,
+   "null_q95": 0.0004056465136535118,
+   "null_p_zero_cost": 0.0023997600239976003,
+   "midpoint": "2022-07-19",
+   "first_n": 40,
+   "first_mean": 0.0029425154730531033,
+   "second_n": 10,
+   "second_mean": -0.0001287072326677685,
+   "halves_zero_cost": {
+    "first_mean": 0.003942515473053104,
+    "second_mean": 0.0008712927673322323
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": true,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": false
+   }
+  },
+  {
+   "idea": 5,
+   "name": "Panic hedgers (VIX +15%)",
+   "n_trades": 9,
+   "skipped": 0,
+   "window": [
+    "2023-10-19",
+    "2026-04-16"
+   ],
+   "win_rate": 0.4444444444444444,
+   "mean_net": 0.004716830765154451,
+   "mean_gross": 0.005716830765154452,
+   "boot_p": 0.042195780421957804,
+   "boot_p_zero_cost": 0.042195780421957804,
+   "null_p": 0.23557644235576441,
+   "null_mean": 0.0004972299502683485,
+   "null_q95": 0.010543745486782613,
+   "null_p_zero_cost": 0.23557644235576441,
+   "midpoint": "2025-01-16",
+   "first_n": 3,
+   "first_mean": 0.01999696629864271,
+   "second_n": 6,
+   "second_mean": -0.002923237001589677,
+   "halves_zero_cost": {
+    "first_mean": 0.02099696629864271,
+    "second_mean": -0.0019232370015896765
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": false
+   }
+  },
+  {
+   "idea": 6,
+   "name": "Closing-auction and index funds",
+   "n_trades": 612,
+   "skipped": 1,
+   "window": [
+    "2023-10-19",
+    "2026-04-16"
+   ],
+   "win_rate": 0.09313725490196079,
+   "mean_net": -0.0011633122947279557,
+   "mean_gross": -0.00016331229472795543,
+   "boot_p": 1.0,
+   "boot_p_zero_cost": 1.0,
+   "null_p": 1.0,
+   "null_mean": -0.0010012964247884545,
+   "null_q95": -0.0009351465851047675,
+   "null_p_zero_cost": 1.0,
+   "midpoint": "2025-01-16",
+   "first_n": 306,
+   "first_mean": -0.0011842294973927715,
+   "second_n": 306,
+   "second_mean": -0.0011423950920631397,
+   "halves_zero_cost": {
+    "first_mean": -0.00018422949739277129,
+    "second_mean": -0.00014239509206313958
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   }
+  },
+  {
+   "idea": 7,
+   "name": "Early-morning order flow",
+   "n_trades": 612,
+   "skipped": 2,
+   "window": [
+    "2023-10-19",
+    "2026-04-16"
+   ],
+   "win_rate": 0.434640522875817,
+   "mean_net": -0.00095295822677474,
+   "mean_gross": 4.704177322526053e-05,
+   "boot_p": 0.9999000099990001,
+   "boot_p_zero_cost": 0.43385661433856615,
+   "null_p": 0.42305769423057693,
+   "null_mean": -0.0009985536740901352,
+   "null_q95": -0.0005890791698498971,
+   "null_p_zero_cost": 0.42305769423057693,
+   "midpoint": "2025-01-16",
+   "first_n": 306,
+   "first_mean": -0.0011409723713294922,
+   "second_n": 306,
+   "second_mean": -0.0007649440822199875,
+   "halves_zero_cost": {
+    "first_mean": -0.00014097237132949176,
+    "second_mean": 0.00023505591778001284
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   }
+  },
+  {
+   "idea": 8,
+   "name": "Pre-holiday risk-takers",
+   "n_trades": 107,
+   "skipped": 0,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.5514018691588785,
+   "mean_net": 0.0005415598258125623,
+   "mean_gross": 0.001541559825812563,
+   "boot_p": 0.16498350164983502,
+   "boot_p_zero_cost": 0.012198780121987801,
+   "null_p": 0.25947405259474055,
+   "null_mean": 0.000127153316583837,
+   "null_q95": 0.0011674875647249643,
+   "null_p_zero_cost": 0.25947405259474055,
+   "midpoint": "2022-07-19",
+   "first_n": 50,
+   "first_mean": 0.00029684425598567585,
+   "second_n": 57,
+   "second_mean": 0.000756222606362463,
+   "halves_zero_cost": {
+    "first_mean": 0.0012968442559856764,
+    "second_mean": 0.0017562226063624635
+   },
+   "notes": {
+    "holidays_found": 107
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": true,
+    "e_min_60_trades": true
+   }
+  },
+  {
+   "idea": 9,
+   "name": "Weekend risk reducers",
+   "n_trades": 343,
+   "skipped": 23,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.5072886297376094,
+   "mean_net": -0.0016646805468057376,
+   "mean_gross": -0.000664680546805737,
+   "boot_p": 0.9505049495050495,
+   "boot_p_zero_cost": 0.7772222777722227,
+   "null_p": 0.9847015298470153,
+   "null_mean": -0.00047973384103145697,
+   "null_q95": 0.00039520377828799845,
+   "null_p_zero_cost": 0.9847015298470153,
+   "midpoint": "2022-07-19",
+   "first_n": 170,
+   "first_mean": -0.002732402863366826,
+   "second_n": 173,
+   "second_mean": -0.0006154736461387721,
+   "halves_zero_cost": {
+    "first_mean": -0.0017324028633668254,
+    "second_mean": 0.00038452635386122835
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   }
+  },
+  {
+   "idea": 10,
+   "name": "Weekly-expiry flows",
+   "n_trades": 390,
+   "skipped": 0,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.43333333333333335,
+   "mean_net": -0.001007748982365565,
+   "mean_gross": -7.748982365564408e-06,
+   "boot_p": 0.9905009499050095,
+   "boot_p_zero_cost": 0.48165183481651835,
+   "null_p": 0.459054094590541,
+   "null_mean": -0.00104912684304994,
+   "null_q95": -0.0003157832643322963,
+   "null_p_zero_cost": 0.459054094590541,
+   "midpoint": "2022-07-19",
+   "first_n": 195,
+   "first_mean": -0.0014152948341157134,
+   "second_n": 195,
+   "second_mean": -0.0006002031306154166,
+   "halves_zero_cost": {
+    "first_mean": -0.0004152948341157126,
+    "second_mean": 0.0003997968693845838
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   }
+  }
+ ],
+ "info": {
+  "idea2_intraday_leg": {
+   "idea": 2,
+   "name": "Intraday leg (information only, not a trial)",
+   "n_trades": 1855,
+   "skipped": 0,
+   "window": [
+    "2018-10-22",
+    "2026-04-16"
+   ],
+   "win_rate": 0.41347708894878704,
+   "mean_net": -0.001605233858445357,
+   "mean_gross": -0.0006052338584453563,
+   "boot_p": 1.0,
+   "boot_p_zero_cost": 0.9998000199980002,
+   "null_p": 1.0,
+   "null_mean": -0.0016052338584453562,
+   "null_q95": -0.0016052338584453562,
+   "null_p_zero_cost": 1.0,
+   "midpoint": "2022-07-19",
+   "first_n": 929,
+   "first_mean": -0.0018611829152137848,
+   "second_n": 926,
+   "second_mean": -0.0013484555930696881,
+   "halves_zero_cost": {
+    "first_mean": -0.0008611829152137837,
+    "second_mean": -0.00034845559306968766
+   },
+   "notes": {},
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_60_trades": true
+   }
+  },
+  "delay_idea3": {
+   "n": 62,
+   "base_mean_gross": 2.9450371173913153e-06,
+   "delayed_mean_gross": -0.001500836293230447
+  },
+  "delay_idea5": {
+   "n": 9,
+   "base_mean_gross": 0.005716830765154452,
+   "delayed_mean_gross": 0.0001235346887221711
+  },
+  "delay_idea6": {
+   "n": 612,
+   "base_mean_gross": -0.00016331229472795543,
+   "delayed_mean_gross": -0.00010448462730814788
+  },
+  "delay_idea7": {
+   "n": 612,
+   "base_mean_gross": 4.704177322526053e-05,
+   "delayed_mean_gross": 6.541236473232494e-05
+  },
+  "daily_rows": 1855,
+  "vix_rows": 617,
+  "bars_5min": 45988,
+  "expiry_days_found": 391
+ }
+}
