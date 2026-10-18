@@ -1,0 +1,4 @@
+wheel: weeks 81 (traded 79) total net Rs 128,735.15; benchmark total Rs -166,685.17; mean D Rs 3,647.16; same weeks: True; max abs weekly difference net Rs 0.000000000, benchmark Rs 0.000000000
+put_only: weeks 81 (traded 79) total net Rs 21,811.16; benchmark total Rs -166,685.17; mean D Rs 2,327.12; same weeks: True; max abs weekly difference net Rs 0.000000000, benchmark Rs 0.000000000
+call_only: weeks 81 (traded 79) total net Rs -51,804.09; benchmark total Rs -166,685.17; mean D Rs 1,418.29; same weeks: True; max abs weekly difference net Rs 0.000000000, benchmark Rs 0.000000000
+largest difference anywhere: Rs 0.0

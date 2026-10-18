@@ -1,0 +1,30 @@
+Wheel vs buy-and-hold: 81 weeks (2024-10-03 to 2026-04-13), lot 75 (unverified), notional Rs1,952,452 (first entry spot 26032.7); alpha 0.003571
+  skipped weeks (2): [('2024-11-07', 'LONG', 'no_candle_at_entry'), ('2024-12-26', 'LONG', 'missing_option_file')]
+
+PRIMARY (slippage 0.20)
+  wheel                  traded 79/81  wheel total +128,735 (bench -166,685)  mean D +3,647  boot p 0.0116  halves +2,760 / +4,513  max DD -191,696 vs -288,547  -> REJECT
+  halves split 2025-07-08: first n=40 mean D +2,760 | second n=41 mean D +4,513; checks {'a_mean_D_positive': True, 'b_boot_p': False, 'c_smaller_drawdown': True, 'd_both_halves_positive': True}
+  wheel: total +128,735  return 6.59%  mean +1,589  median +2,009  worst wk -45,793  best wk +75,448  max DD -191,696  sharpe-like 0.068
+  bench: total -166,685  return -8.54%  mean -2,058  median -5,220  worst wk -63,821  best wk +108,938  max DD -288,547  sharpe-like -0.062
+  D (wheel - bench): total +295,420 mean +3,647 median +3,727 worst -53,566 best +40,593
+  time: weeks starting CASH 31 / LONG 50; assignments 9; called away 8
+  money: premium collected +359,848; intrinsic paid -300,037; exposure marks +93,236; option fees -2,555; settlement STT -450; exposure costs -21,306
+  idle-cash information (6.5% on weeks starting CASH): +Rs74,755 -> wheel total with idle cash +203,490 (10.42%)
+  index move first entry spot -> last close: -2,190 points; causal entry day differs from the selling-rule day in 79 of 81 weeks
+
+SLIPPAGE SWEEP (wheel vs benchmark)
+  slip 0.10              traded 79/81  wheel total +129,327 (bench -166,685)  mean D +3,654  boot p 0.0116  halves +2,767 / +4,521  max DD -191,606 vs -288,547  -> REJECT
+  slip 0.20              traded 79/81  wheel total +128,735 (bench -166,685)  mean D +3,647  boot p 0.0116  halves +2,760 / +4,513  max DD -191,696 vs -288,547  -> REJECT
+  slip 0.30              traded 79/81  wheel total +128,144 (bench -166,685)  mean D +3,640  boot p 0.0116  halves +2,752 / +4,506  max DD -191,785 vs -288,547  -> REJECT
+
+CONTROLS at 0.20 (not trials; D is vs the same benchmark)
+  1 short-put-only       traded 79/81  wheel total +21,811 (bench -166,685)  mean D +2,327  boot p 0.2323  halves +2,493 / +2,165  max DD -85,896 vs -288,547  -> REJECT  [assign 17, called 0, skipped 2]
+  2 covered-call-only    traded 79/81  wheel total -51,804 (bench -166,685)  mean D +1,418  boot p 0.0630  halves -265 / +3,061  max DD -225,043 vs -288,547  -> REJECT  [assign 0, called 12, skipped 2]
+  3a wheel entry +1 bar  traded 79/81  wheel total +114,645 (bench -167,863)  mean D +3,488  boot p 0.0105  halves +2,356 / +4,592  max DD -188,283 vs -288,547  -> REJECT  [assign 9, called 8, skipped 2]
+  3b wheel entry +2 bars traded 79/81  wheel total +100,190 (bench -166,569)  mean D +3,293  boot p 0.0131  halves +2,242 / +4,319  max DD -198,353 vs -288,547  -> REJECT  [assign 9, called 8, skipped 2]
+  does the call overlay help? wheel total +128,735 vs put-only +21,811: difference +106,924; max DD -191,696 vs -85,896
+
+LOOKAHEAD DIAGNOSTIC (as-written selling-rule entry day = before the previous settlement; NOT tradeable, NOT used for the verdict)
+  as-written timing      traded 80/81  wheel total +51,601 (bench -166,685)  mean D +2,695  boot p 0.0889  halves +1,460 / +3,900  max DD -181,569 vs -288,547  -> REJECT
+
+controls and diagnostic at other slippages (mean D): 0.10: put_only +2,334, call_only +1,426, shift_1 +3,495, shift_2 +3,301, lookahead_as_written +2,702; 0.20: put_only +2,327, call_only +1,418, shift_1 +3,488, shift_2 +3,293, lookahead_as_written +2,695; 0.30: put_only +2,320, call_only +1,411, shift_1 +3,480, shift_2 +3,286, lookahead_as_written +2,688
