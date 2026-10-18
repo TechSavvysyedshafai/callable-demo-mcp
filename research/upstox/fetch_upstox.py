@@ -14,6 +14,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent))
 import kite_data as kd  # reuses the dev / hidden-holdout split and file layout
 import upstox_api as u
+from holdout_split import dev_expiries, split_vix
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser()
@@ -29,11 +30,16 @@ if __name__ == "__main__":
     name = "minute" if a.minutes == 1 else f"{a.minutes}minute"
     dev_p, hold_p = kd.write_split(df[["date", "open", "high", "low", "close", "volume"]], name, a.holdout_months)
     print(f"{len(df)} bars -> dev: {dev_p}\n   holdout (hidden, do not open): {hold_p}")
+    import pandas as pd
+    cut = df["date"].max() - pd.DateOffset(months=a.holdout_months)  # same cut-off write_split used
     v = u.historical(u.INDIA_VIX, "days", 1, start, end)
     v["date"] = v["date"].dt.normalize()
     kd.DEV_DIR.mkdir(exist_ok=True)
-    v[["date", "close"]].to_csv(kd.DEV_DIR / "india_vix_day.csv", index=False)
-    print(f"India VIX: {len(v)} days saved")
+    v_dev, v_hold = split_vix(v[["date", "close"]], cut)
+    v_dev.to_csv(kd.DEV_DIR / "india_vix_day.csv", index=False)
+    kd.HOLDOUT_DIR.mkdir(parents=True, exist_ok=True)
+    v_hold.to_csv(kd.HOLDOUT_DIR / "india_vix_day_holdout.csv", index=False)
+    print(f"India VIX: {len(v_dev)} dev days saved ({len(v_hold)} holdout days kept outside the repo)")
     # daily NIFTY bars (about 8 years) for the daily volatility / range forecasting lab (research/evaluate.py)
     dstart = max(end - timedelta(days=365 * 8), date(2016, 1, 1))
     dd = u.historical(u.NIFTY, "days", 1, dstart, end)
@@ -41,8 +47,7 @@ if __name__ == "__main__":
     dev_d, hold_d = kd.write_split(dd, "day", a.holdout_months)
     print(f"daily bars: {len(dd)} ({dd['date'].min().date()} to {dd['date'].max().date()}) -> {dev_d}")
     try:  # real expiry dates (needs Plus): the model-based option backtest must not guess expiry weekdays
-        ex = sorted(u.get("/v2/expired-instruments/expiries", {"instrument_key": u.NIFTY})["data"])
-        import pandas as pd
+        ex = dev_expiries(u.get("/v2/expired-instruments/expiries", {"instrument_key": u.NIFTY})["data"], cut)
         pd.DataFrame({"expiry": ex}).to_csv(kd.DEV_DIR / "nifty_expiries.csv", index=False)
         print(f"NIFTY expiries: {len(ex)} ({ex[0]} to {ex[-1]}) saved")
     except u.UpstoxError as e:
