@@ -1,6 +1,6 @@
-"""Indian index-futures cost model. RATES CHANGE: verify every number against the current
-Zerodha brokerage page and the NSE/SEBI circulars before trusting any result.
-Defaults reflect NIFTY futures as I last knew them (lot size and STT in particular have been revised)."""
+"""Indian index-futures cost model. Statutory/exchange rates below match Upstox's published charges page as read on
+2026-10-18 (STT 0.05% on futures sell side from 1 Apr 2026; NSE futures transaction charge 0.00183% from 1 Mar 2026).
+STT/exchange/SEBI/stamp are the same at any broker; brokerage differs. Rates change: re-verify, and verify lot size."""
 
 from dataclasses import dataclass
 
@@ -10,8 +10,8 @@ class CostModel:
     lot_size: int = 75  # VERIFY: NSE revises this
     brokerage_flat: float = 20.0  # Rs per executed order, or ...
     brokerage_pct_cap: float = 0.0003  # ... 0.03% of turnover, whichever is lower
-    stt_sell_pct: float = 0.0002  # futures, sell side. VERIFY (has been raised before)
-    exch_pct: float = 0.0000183  # NSE futures transaction charge
+    stt_sell_pct: float = 0.0005  # futures, sell side, from 1 Apr 2026 (was 0.0002)
+    exch_pct: float = 0.0000183  # NSE futures transaction charge 0.00183% (from 1 Mar 2026)
     sebi_pct: float = 0.000001  # Rs 10 per crore
     stamp_buy_pct: float = 0.00002  # buy side
     gst: float = 0.18  # on brokerage + exchange + SEBI

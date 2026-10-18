@@ -21,8 +21,8 @@ python ../tests/test_options.py; python ../tests/test_quote_paper.py
 ```
 Underlying settings (lot size, strike step, weekly vs monthly expiry, expiry weekday) are in `contracts.py` and are
 FROM MEMORY - verify them. Live code reads real lots/expiries from Kite's instruments dump.
-Costs: `costs_opt.py` (verify STT / exchange charges). A round trip on a Rs150 premium needs ~1.1 premium points (~2.2
-NIFTY points at delta 0.5) just to break even - far less than futures in index points, but option buyers also fight theta
+Costs: `costs_opt.py` (verify STT / exchange charges). A round trip on a Rs150 premium needs ~1.2 premium points (~2.4
+NIFTY points at delta 0.5; options STT is 0.15% on sell premium since 1 Apr 2026) just to break even - far less than futures in index points, but option buyers also fight theta
 and the bid-ask spread, and expiry-day gamma can wipe a position in minutes (`min_dte_days=1` avoids expiry day).
 
 Not yet wired: option mode in `lifecycle.py` (champion/challenger). It uses the same `strategy.py` interface, so it can be added once there is real quote data worth protecting.

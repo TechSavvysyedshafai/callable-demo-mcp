@@ -7,7 +7,7 @@ cd research
 python fetch_data.py --interval 5minute --years 3   # Kite data (needs Connect subscription + daily token)
 cd scalp
 python evaluate.py                    # backtest strategy.py on dev data, with costs, vs random entries
-python evaluate.py --synthetic-phi 0.5   # dry run on fake data with a planted edge (pipeline self-check)
+python evaluate.py --synthetic-phi 0.9   # dry run on fake data with a strong planted edge (pipeline self-check)
 python paper.py --replay              # paper-trade demo on fake bars
 python live_feed.py                   # LIVE paper trading from Kite ticks (untested; market hours)
 python final_holdout.py --confirm     # human, once, at the end
@@ -15,8 +15,8 @@ python final_holdout.py --confirm     # human, once, at the end
 
 How it avoids fooling you
 - **Costs first.** `costs.py` models brokerage, STT, exchange, SEBI, stamp, GST and slippage. `evaluate.py` prints
-  the break-even points a trade must move just to pay fees (about 8 index points per round trip with the defaults).
-  **Verify every rate in `costs.py` (lot size, STT) before trusting results.**
+  the break-even points a trade must move just to pay fees (about 16 index points per round trip at NIFTY 25,000 after the
+  1 Apr 2026 STT rise to 0.05% on futures). Rates match Upstox's published charges as read on 2026-10-18; re-verify, and verify lot size.
 - **Same engine for backtest and paper trading** (`engine.py`): decide at bar close, fill at next open + slippage,
   stop before target if a bar touches both, forced flat by 15:15, daily loss limit, trade cap, `KILL` file.
 - **Random-entry control.** The strategy must beat random entries run under identical exits and costs.
