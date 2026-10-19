@@ -1,0 +1,20 @@
+PASS research/crowd/tests/test_crowd.py | 16 tests passed
+PASS research/deltaneutral/tests/test_deltaneutral.py | 19/19 passed
+PASS research/ideas/loop/tests/test_loop_batch_forward.py | all passed
+PASS research/ideas/loop/tests/test_loop_core.py | all passed
+PASS research/ideas/loop/tests/test_loop_promotion_report.py | all passed
+PASS research/ideas/tests/test_forced_trader_ideas.py | all passed
+PASS research/lowturn/tests/test_lowturn.py | 15/15 passed
+PASS research/qa/tests/test_data_quality.py | data quality tests ok
+PASS research/qa/tests/test_repro_daily.py | repro daily ok
+PASS research/scalp/tests/test_lifecycle.py | lifecycle ok
+PASS research/scalp/tests/test_options.py | calendar ok
+PASS research/scalp/tests/test_quote_paper.py | quote-paper ok: 168 trades, reasons: ['eod', 'stop', 'target', 'time']
+PASS research/scalp/tests/test_real_backtest.py | real backtest plumbing ok
+PASS research/selling/tests/test_selling.py | all 8 selling tests passed
+PASS research/settlement/tests/test_settlement.py | 19 tests passed
+PASS research/tests/test_timesfm_adapter.py | ok
+PASS research/upstox/tests/test_holdout_split.py | holdout split ok
+PASS research/upstox/tests/test_upstox_parse.py | upstox parse ok
+PASS research/wheel/tests/test_wheel.py | 20 tests passed
+19 test files, 0 failing

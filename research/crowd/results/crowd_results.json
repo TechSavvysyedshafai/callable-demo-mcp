@@ -1,0 +1,383 @@
+{
+ "trial": {
+  "id": "B5-01",
+  "trial_number": 15,
+  "alpha": 0.0033333333333333335,
+  "study": "IDEAS_BATCH5_CROWD_POSITIONING",
+  "code_hash": "614a9b6b4c93",
+  "verdict": "REJECT",
+  "n_trades": 14,
+  "mean_net": 0.001092264363502904,
+  "boot_p": 0.47435256474352566,
+  "null_p": 0.33736626337366266,
+  "ledger_note": "NOT appended to the loop ledger (the project manager appends the trial after merging)"
+ },
+ "primary": {
+  "n_trades": 14,
+  "n_long": 5,
+  "n_short": 9,
+  "n_eligible_weeks": 58,
+  "lost": [],
+  "mean_net": 0.001092264363502904,
+  "mean_zero_cost": 0.002092264363502905,
+  "median_net": 0.0002884088538890337,
+  "win_rate": 0.5714285714285714,
+  "worst_trade_ret": -0.048850736629844405,
+  "best_trade_ret": 0.03963146836741249,
+  "worst_trade_rs": -83397.18375000005,
+  "best_trade_rs": 71584.98374999994,
+  "total_net_rs": 38070.34874999942,
+  "mean_net_rs": 2719.3106249999587,
+  "max_drawdown_rs": -141178.97625000012,
+  "boot_p": 0.47435256474352566,
+  "boot_p_zero_cost": 0.42275772422757724,
+  "worst_trade": {
+   "expiry": "2025-04-17",
+   "entry_day": "2025-04-11",
+   "direction": -1,
+   "entry": 22762.45,
+   "exit": 23851.65,
+   "net_ret": -0.048850736629844405,
+   "net_rs": -83397.18375000005
+  },
+  "null_p": 0.33736626337366266,
+  "null_mean": -0.0007509029950369497,
+  "null_q95": 0.006460770070884159,
+  "null_p_zero_cost": 0.33736626337366266,
+  "midpoint": "2025-07-10",
+  "first_n": 8,
+  "first_mean": -0.0026008040315763647,
+  "second_n": 6,
+  "second_mean": 0.0060163555569419285,
+  "halves_zero_cost": {
+   "first_mean": -0.0016008040315763639,
+   "second_mean": 0.007016355556941929
+  },
+  "verdict": "REJECT",
+  "checks": {
+   "a_mean_net_positive": true,
+   "b_boot_p": false,
+   "c_null_p": false,
+   "d_both_halves_positive": false,
+   "e_min_20_trades": false
+  }
+ },
+ "info": {
+  "zero_cost": {
+   "mean_net": 0.002092264363502905,
+   "boot_p_zero_cost": 0.42275772422757724,
+   "null_p_zero_cost": 0.33736626337366266,
+   "halves_zero_cost": {
+    "first_mean": -0.0016008040315763639,
+    "second_mean": 0.007016355556941929
+   }
+  },
+  "opposite_direction": {
+   "n_trades": 14,
+   "n_long": 9,
+   "n_short": 5,
+   "n_eligible_weeks": 58,
+   "lost": [],
+   "mean_net": -0.0030922643635029057,
+   "mean_zero_cost": -0.002092264363502905,
+   "median_net": -0.0022884088538890337,
+   "win_rate": 0.35714285714285715,
+   "worst_trade_ret": -0.041631468367412494,
+   "best_trade_ret": 0.0468507366298444,
+   "worst_trade_rs": -75197.51624999994,
+   "best_trade_rs": 79982.81625000006,
+   "total_net_rs": -89174.65124999938,
+   "mean_net_rs": -6369.617946428528,
+   "max_drawdown_rs": -199701.77249999944,
+   "boot_p": 0.6372362763723628,
+   "boot_p_zero_cost": 0.5773422657734226,
+   "worst_trade": {
+    "expiry": "2025-05-15",
+    "entry_day": "2025-05-09",
+    "direction": -1,
+    "entry": 24083.55,
+    "exit": 25062.1,
+    "net_ret": -0.041631468367412494,
+    "net_rs": -75197.51624999994
+   },
+   "null_p": 0.6798320167983202,
+   "null_mean": -0.0011087083073647672,
+   "null_q95": 0.00603160810714153,
+   "null_p_zero_cost": 0.6798320167983202,
+   "midpoint": "2025-07-10",
+   "first_n": 8,
+   "first_mean": 0.000600804031576363,
+   "second_n": 6,
+   "second_mean": -0.008016355556941931,
+   "halves_zero_cost": {
+    "first_mean": 0.0016008040315763639,
+    "second_mean": -0.007016355556941929
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": false,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_20_trades": false
+   }
+  },
+  "window_150": {
+   "n_trades": 14,
+   "n_long": 5,
+   "n_short": 9,
+   "n_eligible_weeks": 58,
+   "lost": [],
+   "mean_net": 0.0073473716568089,
+   "mean_zero_cost": 0.008347371656808902,
+   "median_net": 0.004701153333229125,
+   "win_rate": 0.7142857142857143,
+   "worst_trade_ret": -0.018060984126710422,
+   "best_trade_ret": 0.03963146836741249,
+   "worst_trade_rs": -31420.965,
+   "best_trade_rs": 71584.98374999994,
+   "total_net_rs": 190917.65249999924,
+   "mean_net_rs": 13636.975178571374,
+   "max_drawdown_rs": -54817.8675,
+   "boot_p": 0.020997900209979003,
+   "boot_p_zero_cost": 0.008599140085991401,
+   "worst_trade": {
+    "expiry": "2025-03-27",
+    "entry_day": "2025-03-21",
+    "direction": -1,
+    "entry": 23196.2,
+    "exit": 23591.95,
+    "net_ret": -0.018060984126710422,
+    "net_rs": -31420.965
+   },
+   "null_p": 0.0316968303169683,
+   "null_mean": -0.0007509029950369497,
+   "null_q95": 0.006460770070884159,
+   "null_p_zero_cost": 0.0316968303169683,
+   "midpoint": "2025-07-10",
+   "first_n": 6,
+   "first_mean": 0.0049448883462172395,
+   "second_n": 8,
+   "second_mean": 0.009149234139752646,
+   "halves_zero_cost": {
+    "first_mean": 0.00594488834621724,
+    "second_mean": 0.010149234139752647
+   },
+   "verdict": "INCONCLUSIVE",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": true,
+    "e_min_20_trades": false
+   },
+   "skips": {
+    "n_weeks": 81,
+    "n_with_z": 58,
+    "n_skipped": 23,
+    "by_reason": {
+     "lt20_history": {
+      "n": 20,
+      "weeks": [
+       "2024-10-03",
+       "2024-10-10",
+       "2024-10-17",
+       "2024-10-24",
+       "2024-10-31",
+       "2024-11-14",
+       "2024-11-21",
+       "2024-11-28",
+       "2024-12-05",
+       "2024-12-12",
+       "2024-12-19",
+       "2025-01-02",
+       "2025-01-09",
+       "2025-01-16",
+       "2025-01-23",
+       "2025-01-30",
+       "2025-02-06",
+       "2025-02-13",
+       "2025-02-20",
+       "2025-02-27"
+      ]
+     },
+     "no_0925_bar": {
+      "n": 2,
+      "weeks": [
+       "2024-11-07",
+       "2025-10-28"
+      ]
+     },
+     "no_oi_at_signal": {
+      "n": 1,
+      "weeks": [
+       "2024-12-26"
+      ]
+     }
+    }
+   }
+  },
+  "entry_plus_1_bar": {
+   "n_trades": 14,
+   "n_long": 5,
+   "n_short": 9,
+   "n_eligible_weeks": 58,
+   "lost": [],
+   "mean_net": 0.0017439794084128102,
+   "mean_zero_cost": 0.002743979408412811,
+   "median_net": 0.0006003256052515291,
+   "win_rate": 0.5714285714285714,
+   "worst_trade_ret": -0.04737282514279706,
+   "best_trade_ret": 0.04130418924595214,
+   "worst_trade_rs": -80988.34500000022,
+   "best_trade_rs": 74486.63249999979,
+   "total_net_rs": 53553.37874999951,
+   "mean_net_rs": 3825.2413392856793,
+   "max_drawdown_rs": -137548.86000000034,
+   "boot_p": 0.43345665433456654,
+   "boot_p_zero_cost": 0.3755624437556244,
+   "worst_trade": {
+    "expiry": "2025-04-17",
+    "entry_day": "2025-04-11",
+    "direction": -1,
+    "entry": 22794.6,
+    "exit": 23851.65,
+    "net_ret": -0.04737282514279706,
+    "net_rs": -80988.34500000022
+   },
+   "null_p": 0.28787121287871215,
+   "null_mean": -0.0007764422202052487,
+   "null_q95": 0.006445374327234176,
+   "null_p_zero_cost": 0.28787121287871215,
+   "midpoint": "2025-07-10",
+   "first_n": 8,
+   "first_mean": -0.001295562662967778,
+   "second_n": 6,
+   "second_mean": 0.005796702170253594,
+   "halves_zero_cost": {
+    "first_mean": -0.0002955626629677771,
+    "second_mean": 0.006796702170253595
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_20_trades": false
+   }
+  },
+  "entry_plus_2_bar": {
+   "n_trades": 14,
+   "n_long": 5,
+   "n_short": 9,
+   "n_eligible_weeks": 58,
+   "lost": [],
+   "mean_net": 0.0018823152885216823,
+   "mean_zero_cost": 0.002882315288521683,
+   "median_net": 0.0014384599589464262,
+   "win_rate": 0.5714285714285714,
+   "worst_trade_ret": -0.0450323561983218,
+   "best_trade_ret": 0.03951049660907524,
+   "worst_trade_rs": -77159.67750000006,
+   "best_trade_rs": 71374.77375,
+   "total_net_rs": 56454.51374999971,
+   "mean_net_rs": 4032.465267857122,
+   "max_drawdown_rs": -132686.22750000024,
+   "boot_p": 0.41285871412858716,
+   "boot_p_zero_cost": 0.3555644435556444,
+   "worst_trade": {
+    "expiry": "2025-04-17",
+    "entry_day": "2025-04-11",
+    "direction": -1,
+    "entry": 22845.7,
+    "exit": 23851.65,
+    "net_ret": -0.0450323561983218,
+    "net_rs": -77159.67750000006
+   },
+   "null_p": 0.2702729727027297,
+   "null_mean": -0.0008053016185092948,
+   "null_q95": 0.0062938581502685826,
+   "null_p_zero_cost": 0.2702729727027297,
+   "midpoint": "2025-07-10",
+   "first_n": 8,
+   "first_mean": -0.0012703672223322443,
+   "second_n": 6,
+   "second_mean": 0.006085891969660251,
+   "halves_zero_cost": {
+    "first_mean": -0.0002703672223322434,
+    "second_mean": 0.007085891969660252
+   },
+   "verdict": "REJECT",
+   "checks": {
+    "a_mean_net_positive": true,
+    "b_boot_p": false,
+    "c_null_p": false,
+    "d_both_halves_positive": false,
+    "e_min_20_trades": false
+   }
+  }
+ },
+ "skips": {
+  "n_weeks": 81,
+  "n_with_z": 58,
+  "n_skipped": 23,
+  "by_reason": {
+   "lt20_history": {
+    "n": 20,
+    "weeks": [
+     "2024-10-03",
+     "2024-10-10",
+     "2024-10-17",
+     "2024-10-24",
+     "2024-10-31",
+     "2024-11-14",
+     "2024-11-21",
+     "2024-11-28",
+     "2024-12-05",
+     "2024-12-12",
+     "2024-12-19",
+     "2025-01-02",
+     "2025-01-09",
+     "2025-01-16",
+     "2025-01-23",
+     "2025-01-30",
+     "2025-02-06",
+     "2025-02-13",
+     "2025-02-20",
+     "2025-02-27"
+    ]
+   },
+   "no_0925_bar": {
+    "n": 2,
+    "weeks": [
+     "2024-11-07",
+     "2025-10-28"
+    ]
+   },
+   "no_oi_at_signal": {
+    "n": 1,
+    "weeks": [
+     "2024-12-26"
+    ]
+   }
+  }
+ },
+ "coverage": {
+  "weeks_with_x": 78,
+  "strikes_used_min": 9,
+  "strikes_used_median": 10.0,
+  "strikes_used_max": 10,
+  "weeks_with_fewer_than_9_strikes": []
+ },
+ "lot_sizes_from_contract_lists": {
+  "25": 13,
+  "75": 51,
+  "65": 15
+ },
+ "window": [
+  "2024-10-03",
+  "2026-04-13"
+ ],
+ "dev_cutoff": "2026-04-16"
+}
