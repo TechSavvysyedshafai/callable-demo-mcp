@@ -1,0 +1,4 @@
+weeks compared: 81; trades: engine 14 / crosscheck 14
+max |x diff| 0.000e+00; max |z diff| 4.441e-16; max |net return diff| 0.000e+00; max |net rupee diff| 0.000e+00
+crosscheck mean net per trade +0.10923%; mean at zero cost +0.20923%; long 5, short 9
+CROSSCHECK OK: identical

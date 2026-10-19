@@ -716,3 +716,40 @@ Rules: `docs/ideas/IDEAS_BATCH5_CROWD_POSITIONING_2026-10-19.md`, exactly as wri
 10. *Skipped weeks:* every one is listed with its reason (2024-12-26 had no candles in earlier tasks). Skips are NOT replaced by another day.
 11. *Allowed code reuse (no frozen or existing file is edited):* `research/wheel/wheel_core.py` (entry-day fix, index loader, OPT_DIR), `research/ideas/forced_trader_ideas.py` (bootstrap, null, `Trades`), `research/selling/backtest.py` (via wheel_core; `max_drawdown`), `research/upstox/upstox_api.py` (client and throttle). New code only in `research/crowd/` with unique module names. Trial B5-01 is recorded in `research/crowd/results/crowd_results.json`; `research/ideas/loop/ledger_loop.jsonl` is NOT touched (the project manager appends it after merging).
 12. *Download etiquette:* Task 11 shares the Upstox per-user limit. My downloader runs the standard `upstox_api` throttle but with the three caps set to about half (set only inside my process: 22 / second, 225 / minute, 950 / 30 minutes; nothing in `upstox_api.py` is edited). 81 weeks x (1 contract list + 22 candle calls) is about 1,860 calls, so roughly an hour.
+
+
+## 2026-10-19: Task 10 results. Batch 5 "bet against the crowd" from option open interest (branch claude/employee-crowd). Trial B5-01 = trial 15 of 15; alpha 0.05/15 = 0.003333
+**Answer first: REJECT.** The rule produced only **14 trades** (the bar was 20) and no edge: mean net **+0.109%** per trade (+0.209% at zero cost) but bootstrap p **0.474**, random-entry null p **0.337**, first half **-0.260%** (8 trades), second half **+0.602%** (6 trades). Fourteen trades cannot tell luck from skill; what they show is no sign of a crowd effect. Nothing goes to forward paper.
+
+Data: dev only (index to 2026-04-16), Upstox, downloaded 2026-10-19: 1,713 of 1,738 wanted weekly call/put contracts (5-minute candles with open interest). Holdout not read. 81 weeks (2024-10-03 to 2026-04-13).
+**Skipped weeks: 23 of 81 have no z, so no trade possible:** 20 because fewer than 20 earlier weekly PCR values existed (2024-10-03 ... 2025-02-27), 2 with no 09:25 bar (2024-11-07 and 2025-10-28: the entry fell on a Diwali Muhurat evening session, as in the wheel study), 1 with no candles at all (**2024-12-26**, all 22 contracts; the same Upstox hole as before). Three more contracts are missing (2025-03-27 x2, 2025-09-30 x1); those weeks use 9 strikes instead of 10. Strikes used per week: min 9, median 10, max 10 (10 because |K-S| <= 250 excludes one of the 11 downloaded). 58 weeks had a z; 14 of them had |z| >= 1 (5 long, 9 short). Four weeks sat within 0.1 below the threshold.
+
+| B5-01 | Value |
+|---|---|
+| Trades | 14 (5 long, 9 short) |
+| Mean net per trade | +0.109% (median +0.029%, win rate 57%) |
+| Mean at zero cost | +0.209% |
+| Bootstrap p (blocks of 3, 10,000) | 0.4744 (0.4228 at zero cost) |
+| Random-entry null p (58 eligible weeks, 10,000 draws) | 0.3374 (null mean -0.075%, 95th pct +0.646%) |
+| Halves (split 2025-07-10) | first 8 trades -0.260%, second 6 trades +0.602% |
+| Worst trade | -4.89% = Rs -83,397 per 75 units (short, entered 2025-04-11, exit 2025-04-17: the April 2025 rebound) |
+| Best trade | +3.96% = Rs +71,585 |
+| Total net / mean per trade (Rs, 75 units) | +38,070 / +2,719 |
+| Max drawdown (cumulative Rs) | -141,179 |
+| Checks | a mean>0 PASS; b p<alpha FAIL; c null FAIL; d both halves FAIL; e n>=20 FAIL. Verdict REJECT |
+
+**Information only (not trials, not in the verdict):**
+| Run | Trades | Mean net | Zero cost | Boot p | Null p | Halves |
+|---|---|---|---|---|---|---|
+| opposite (momentum) direction | 14 | -0.309% | -0.209% | 0.637 | 0.680 | +0.060% / -0.802% |
+| strike window +/-150 | 14 | +0.735% | +0.835% | 0.021 | 0.032 | +0.494% / +0.915% |
+| entry +1 bar | 14 | +0.174% | +0.274% | 0.434 | 0.288 | -0.130% / +0.580% |
+| entry +2 bars | 14 | +0.188% | +0.288% | 0.413 | 0.270 | -0.127% / +0.609% |
+The +/-150 variant scores "INCONCLUSIVE" on the written rule, but it is the second look at the same 14-ish trades after the first one failed: its p of 0.021 is nowhere near 0.0033 and a corrected p is not significant. It is not a finding and must not be promoted without a fresh pre-registration. Entry shifts barely change the answer, so the 5-minute choice of fill is not driving it. Opposite direction is negative overall, as the "no effect" reading predicts.
+
+**Verified vs assumed.** Verified: independent plain-CSV recomputation (`research/crowd/crowd_crosscheck.py`, standard `csv` module only, shares no code) matches the engine for all 81 weeks (x identical, z to 4e-16) and all 14 trades (net return and rupees identical); bootstrap p re-derived with a separate loop: 0.4744 both; signals recomputed from option files cut at 09:25 are identical (lookahead test); every test file in the repo passes (19 files: 18 existing + `research/crowd/tests/test_crowd.py`, 16 tests, see `results/crowd_all_tests.txt`); the OI at 09:25 differs from the previous day's last OI in 1,713 of 1,713 strike legs, so it is intraday-updated in this data (not stale); lot sizes from Upstox contract lists: 25 (13 expiries), 75 (51), 65 (15). Assumed: that the `oi` field of the candle stamped 09:25 is the open interest at the end of that bar (about 09:30; the exchange and Upstox may publish OI with a delay we cannot see); lot 75 for every week (rupee figures are scale only); the daily close equals the settlement price; index levels stand in for futures (no basis, no roll); 0.10% round-trip cost covers a futures proxy. Unknown: whether any crowd effect exists over a longer window. 80 weeks hold one 10% fall and cannot show crash risk; 14 trades is far too few to find a small edge.
+
+**Deviations / readings (all written before running, see "Planned" above).** All literal: population = the wheel's 81 expiries; entry day = the wheel's causal rule; signal bar = the bar labelled 09:25 (so Muhurat sessions are skipped, not moved); z history = all earlier valid weeks, at most the last 52, sample sd; skipped weeks keep their x only if the x exists; null pool = the 58 weeks with a z. Downloader throttle: the standard `upstox_api` throttle at about half its caps (set in my process only) to leave room for Task 11. No frozen or existing file edited; `ledger_loop.jsonl` untouched (trial B5-01 recorded in `research/crowd/results/crowd_results.json`).
+
+**Adversarial review** (`research/crowd/crowd_review.py`, `results/crowd_review.txt`): lookahead none found beyond the shared 09:30 instant; no leakage; one trial; null p 0.34; costs do not decide the result (break-even cost 0.21%); fills are index levels, not tradeable; 23 skips listed; by direction LONG +0.93% (5) vs SHORT -0.35% (9); mean without the best trade -0.19%; the three biggest trades sum to more than the whole total, so the positive mean is a handful of weeks; z correlates +0.58 with the move from the previous expiry close to the entry, so the "crowd" signal is largely a price-move signal (descriptive only). Verdict: **REJECT**. Gate step reached: none beyond step 1.
+**Next single step (owner):** none for this idea on 80 weeks. A fair test needs a longer OI history (years, not 80 weeks) or NSE participant data, pre-registered fresh.
