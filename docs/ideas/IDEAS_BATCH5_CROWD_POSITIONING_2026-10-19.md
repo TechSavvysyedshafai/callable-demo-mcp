@@ -1,0 +1,17 @@
+# Batch 5: "Bet against the crowd" using option open interest (pre-registered 2026-10-19, BEFORE any test)
+
+Idea: when option buyers are heavily one-sided, the move that follows tends to go against them. We have no NSE participant data (blocked), so the crowd signal comes from the open interest (OI) in the real NIFTY weekly option candles we already download.
+
+Data: real expired NIFTY weekly option candles (Upstox, 5-minute, with open interest), expiries from 2024-10-03 to the dev cutoff 2026-04-16 (about 80 weeks), the same file layout as research/selling and research/wheel. NIFTY 5-minute index bars (dev). Holdout NOT touched. Eighty weeks give little power: expect roughly 25 to 30 signal weeks. A pass means "worth forward paper", never "proven".
+
+## Rule (fixed; ONE trial, trial 15 overall, alpha = 0.05 / 15 = 0.00333)
+- Weekly cycle. Entry day = the later of (a) the selling-rule day [first 5-minute bar at or after 09:30 on the trading day nearest on or before expiry minus 7 calendar days] and (b) the first trading day AFTER the previous expiry (this is the timing fix the wheel study found: entering on the previous expiry's own day would use information not yet known).
+- Signal time = the 09:25 bar of the entry day (the last bar completed before the 09:30 entry). Spot S = close of that bar. Strikes: all strikes K with |K - S| <= 250 points that have BOTH a call and a put file and an OI value at that bar. (Fetch the contracts at strikes S rounded to 50, +/- 250, for the entry expiry (the NEXT expiry after entry day), as both calls and puts.)
+- PCR = (sum of put OI) / (sum of call OI) over those strikes. x = ln(PCR). z = (x - mean of the previous 20 to 52 weekly x values) / their standard deviation, using only weeks BEFORE this one, expanding window, minimum 20 prior weeks. Weeks with fewer than 20 prior values are skipped (counted).
+- Crowd positioning reading: a LOW PCR means call-heavy (the crowd is bullish); a HIGH PCR means put-heavy (the crowd is bearish/hedged).
+- Contrarian trade: if z <= -1.0 (crowd bullish) go SHORT NIFTY futures proxy; if z >= +1.0 (crowd put-heavy) go LONG; otherwise no trade. Entry at the open of the 09:30 bar of the entry day; exit at the official daily close of the expiry day (settlement proxy), exposure marked on index levels. 1 lot = 75 units for rupee scale (lot size changed over the window; unverified).
+- Cost: 0.10% of notional per round trip (as in Batch 1).
+- Pass (all): number of trades >= 20; mean net return per trade > 0; one-sided block bootstrap (blocks of 3 trades, 10,000 resamples) p < 0.00333; positive mean net in each half of the dev period (split at the calendar midpoint); beats a random-entry null (same number of weeks, same long/short mix, random weeks, 10,000 draws) with p < 0.00333.
+- Verdict SURVIVES / REJECT / INCONCLUSIVE (INCONCLUSIVE = passes mean>0 and bootstrap p < 0.05 but not the strict bar).
+- Information only, NOT a trial: the opposite (momentum) direction, the same test with strike window +/- 150, entry shifted +1 and +2 bars, and the result at zero cost.
+- No variants, no tuning of the threshold. Skipped weeks counted and reported. Holdout never read. Do NOT append to research/ideas/loop/ledger_loop.jsonl: the project manager appends the trial after merging (two branches appending would break its hash chain). Write the trial id B5-01 and its numbers in your results JSON instead.
