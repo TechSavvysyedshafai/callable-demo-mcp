@@ -1,0 +1,43 @@
+1. LOOKAHEAD
+   entry minus signal stamp (should be 10 minutes only): ['0 days 00:10:00']
+   signal delayed by one extra day: n 434, mean net +0.095%, zero-cost +0.215% (headline +0.239% / +0.359%)
+   the 23:50 stamp: whether Binance stamps the START or END of the 5-minute window is NOT verified. If it is the END of the window the 23:50 row is complete by 23:50 (safe); if it is the START, the row covers 23:50-23:55 and the entry at 00:00 is still after it. Either way the entry is at or after the row's whole window.
+2. LEAKAGE: no 2026 file on disk: True | last metrics date 2025-12-31 | last kline bar 2025-12-31 00:00:00
+3. TRIALS: one pre-registered trial (B7-01, trial 17 overall). ETH and the information-only runs are not trials and not used for the verdict. alpha = 0.00294 | the loop ledger holds 16 trials before this one (not touched here)
+4. CONTROLS
+   random-entry null p 0.0054 (null mean -0.132%, null 95th pct +0.111%); bootstrap p 0.0621; opposite direction mean net -0.479% (zero cost -0.359%)
+   independent days: trades are daily and can chain, so adjacent trades share a price (exit of one = entry of the next); blocks of 5 handle some of that. n = 434
+5. COSTS (0.12% per round trip; funding NOT modelled)
+   cost 0.00%: mean net +0.359%
+   cost 0.12%: mean net +0.239%
+   cost 0.20%: mean net +0.159%
+   cost 0.30%: mean net +0.059%
+   cost 0.50%: mean net -0.141%
+   break-even round-trip cost 0.359% (the rule assumes 0.12%)
+   funding (information):  {"available": true, "n_payments": 5844, "first": "2020-09-01 00:00:00", "last": "2025-12-31 16:00:00.001000", "mean_rate_per_payment": 0.00011119282511978097, "mean_rate_per_day_if_3_payments": 0.00033357847535934294, "mean_rate_annualised_simple": 0.12175614350616017, "share_negative_payments": 0.12200547570157426, "mean_funding_paid_per_trade": -0.00024090011520737324, "mean_net_after_funding": 0.0026280478841791714}
+6. FILLS: entry/exit at the OPEN price of a daily candle with 0.02% slippage assumed; no order-book data; BTC perpetual is very liquid but a 00:00 UTC open print is a single instant (funding settles at 00:00/08:00/16:00 UTC and spreads can widen). No liquidation / leverage is modelled.
+7. SELECTION / SKIPS
+   day statuses: {'flat': 1430, 'traded': 434, 'lt60_history': 60, 'no_x': 22, 'no_price': 2} | days without a retail x: 22 | missing metrics files: 0
+   mean |day move|: traded days 2.29% vs flat days 2.09% (a signal that picks big-move days is not an edge by itself)
+8. REGIME / CONCENTRATION
+   2020: n 12 (L 1 / S 11) mean net -0.113%  total -1.360%  worst -5.609%  maxDD 11.3pp
+   2021: n 116 (L 37 / S 79) mean net +0.464%  total +53.773%  worst -8.997%  maxDD 25.1pp
+   2022: n 76 (L 48 / S 28) mean net +0.075%  total +5.666%  worst -10.052%  maxDD 32.0pp
+   2023: n 60 (L 47 / S 13) mean net +0.505%  total +30.305%  worst -5.980%  maxDD 24.1pp
+   2024: n 76 (L 37 / S 39) mean net +0.239%  total +18.182%  worst -4.090%  maxDD 6.2pp
+   2025: n 94 (L 33 / S 61) mean net -0.032%  total -2.964%  worst -5.629%  maxDD 19.2pp
+   best trade +14.323%, top 3 sum +41.291% vs total +103.602%; mean without best trade +0.206%; mean without best 3 +0.145%; without worst 3 +0.304%
+   LONG (crowd short): n 203, mean net +0.540%
+   SHORT (crowd long): n 231, mean net -0.026%
+   BTC open 2022-01-01 to 2022-12-31: 46211 -> 16601; whole sample first 7189 last 88455 (a long-biased drift matters for the L/S mix)
+9. ARITHMETIC: five trades recomputed from the raw monthly kline file text
+   signal 2020-11-10 z +1.73 dir -1: open 15294.68 -> 15690.24, gross +2.586%, net -2.706% (engine -2.706%)
+   signal 2021-11-06 z +2.04 dir -1: open 61511.30 -> 63316.40, gross +2.935%, net -3.055% (engine -3.055%)
+   signal 2023-03-18 z -1.86 dir +1: open 26907.00 -> 27955.80, gross +3.898%, net +3.778% (engine +3.778%)
+   signal 2024-10-19 z -1.74 dir +1: open 68357.10 -> 69020.20, gross +0.970%, net +0.850% (engine +0.850%)
+   signal 2025-11-20 z +2.15 dir -1: open 86601.40 -> 85093.60, gross -1.741%, net +1.621% (engine +1.621%)
+   re-run of the statistics gives identical numbers: boot p True, null p True
+10. PLAUSIBILITY: crowd retail long/short ratio vs the day's own move
+   correlation of z with the move OPEN(D)->OPEN(D+1) (the day the ratio was measured on): -0.322 (descriptive; the stamp is 23:50 of that day)
+   correlation of z with the NEXT day's move (the traded day): -0.069
+   mean win rate 46.3%

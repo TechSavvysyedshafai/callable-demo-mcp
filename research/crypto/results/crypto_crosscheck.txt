@@ -1,0 +1,5 @@
+BTCUSDT: independent trades 434 vs engine 434; same trade dates True; same directions True; max |z diff| 1.33e-15; max |net diff| 0.00e+00; eligible pool days 1864
+   mean net +0.2387%   (long 203, short 231)   worst -10.052%   independent bootstrap p 0.0628
+ETHUSDT: independent trades 294 vs engine 294; same trade dates True; same directions True; max |z diff| 1.78e-15; max |net diff| 0.00e+00; eligible pool days 1409
+   mean net +0.3432%   (long 153, short 141)   worst -12.554%   independent bootstrap p 0.0613
+CROSSCHECK PASS
