@@ -65,6 +65,7 @@ def funding_info(f: pd.DataFrame, run: cc.Run) -> dict:
     """Information only. Average funding rate over the sample, and what funding would have done to the trades (long pays +rate, short receives it)."""
     if f.empty:
         return {"available": False}
+    f = f[f["t"] >= pd.Timestamp(run.window[0])]  # only the study window (from the symbol's first metrics date)
     out = {"available": True, "n_payments": len(f), "first": str(f["t"].min()), "last": str(f["t"].max()), "mean_rate_per_payment": float(f["rate"].mean()),
            "mean_rate_per_day_if_3_payments": float(f["rate"].mean() * 3), "mean_rate_annualised_simple": float(f["rate"].mean() * 3 * 365),
            "share_negative_payments": float((f["rate"] < 0).mean())}
