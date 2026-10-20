@@ -7,3 +7,8 @@
 - Started: 2026-10-20 (day 1). Decision day: 2026-11-03 (or when 300 visits is reached, whichever is later).
 - If the test fails: delete page 126 (the owner asked for this) and keep the numbers in the repo.
 - Consent: the form has a required consent box. Message only people who ticked it. One message a week at most. Handle every STOP the same day.
+
+## Update 2026-10-20: page removed
+- The owner decided to focus on their own shop and asked for the test page to be deleted.
+- Page 126 was moved to the WordPress.com trash (recoverable; permanent delete is done in wp-admin: Pages -> Trash -> Delete Permanently).
+- The test never ran: no visits or sign-ups were counted, so there is no PASS/FAIL result. The profile-pages idea is untested, not disproven.
