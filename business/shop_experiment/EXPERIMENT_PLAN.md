@@ -51,3 +51,8 @@ Why one at a time: if everything changes on one day, you will not know what work
 
 ## How to read the results
 Run `python3 analyze.py daily_log.csv lost_sales.csv` (needs Python 3 only). It prints a table per phase, the lift, the range, the top lost-sale gaps and a plain verdict for each change.
+
+## Sheets (created 2026-10-20 in the owner's Google Drive)
+- Lost sales: https://docs.google.com/spreadsheets/d/1qmXHsGAeUqME_ZszGgTbW1GvQKXw_OSVGTef073Ve9k/edit
+- Daily log: https://docs.google.com/spreadsheets/d/1kgEZbQ9bH9eOYu5srJWIL0NqBJPHCM-1nIZBkXKp7pA/edit
+- Reason codes: PRICE / SIZE / STYLE / COLOUR / STOCK / QUALITY / JUST_LOOKING / OTHER. Delete the EXAMPLE rows first.
