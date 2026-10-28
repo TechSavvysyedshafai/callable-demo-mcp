@@ -1,3 +1,5 @@
 # personal data: keep out of git
 profile.json
 job_tracker.csv
+__pycache__/
+*.pyc
