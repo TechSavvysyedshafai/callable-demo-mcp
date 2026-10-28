@@ -28,12 +28,19 @@ def chance(score, has_gap):
 
 
 def main(path):
-    with open(path) as f:
-        jobs = json.load(f)
-    for j in jobs:
-        score, raw, capped = fit(j)
-        note = f" (raw {raw}, capped by: {'; '.join(j['hard_gaps'])})" if capped else ""
-        print(f"{j['company']} - {j['role']}: fit {score}%{note}; interview chance {chance(score, bool(j.get('hard_gaps')))}")
+    try:
+        with open(path) as f:
+            jobs = json.load(f)
+        lines = []
+        for j in jobs:
+            score, raw, capped = fit(j)
+            note = f" (raw {raw}, capped by: {'; '.join(j['hard_gaps'])})" if capped else ""
+            lines.append(f"{j['company']} - {j['role']}: fit {score}%{note}; interview chance {chance(score, bool(j.get('hard_gaps')))}")
+    except OSError as err:
+        sys.exit(f"score: cannot read {path}: {err}")
+    except KeyError as err:
+        sys.exit(f"score: a job is missing the field {err}")
+    print("\n".join(lines))
 
 
 if __name__ == "__main__":
