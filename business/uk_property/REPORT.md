@@ -76,3 +76,10 @@ At £820k the deal still makes +£48k with price -15%, +£13k in the bad mix, an
 - Ask a development-finance broker for a real indicative term sheet on a real plot (free).
 - Replace the sale value and cost with an actual plot's numbers and rerun `model.py`.
 - Agree with the uncle what he will and will not sign before spending money on any deal.
+
+## Lead checks (30 Oct 2026)
+- L1 North Finchley plot (Friern Barnet Road): the auction was on 29 Jul 2026. Stale. Dropped.
+- L2 Land rear of Howard Avenue, Bexley DA5 (planning 24/02599/FUL, 62 sq m bungalow): Sold STC at a guide of GBP 175-200k. Agent says GDV GBP 500-525k. Local data (ONS/HM Land Registry, Aug 2026): Bexley average GBP 415k; flats GBP 246k, terraced GBP 418k, semi GBP 536k, detached GBP 737k. A 62 sq m home at GBP 500k+ looks high; I have no sold-price evidence for this size.
+- Cost used (assumptions): land GBP 190k, build 62 sq m x GBP 3,000 (Build It 2026: GBP 2,500-3,000 per sq m for self-build; small projects cost more per sq m), 15% fees and contingency, CIL GBP 7.4k, other GBP 15k = about GBP 427k before finance.
+- Result: GDV GBP 400k = -GBP 77k; GBP 460k = -GBP 23k; GBP 512k (agent) = +GBP 25k (4.8% of sale value). 20% needs about GBP 630k. Fails the go/no-go rules.
+- Flag: LandSale shows Flood Zone 3 about 20 m away (high river/sea risk). Needs a flood risk check.
