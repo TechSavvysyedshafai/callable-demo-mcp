@@ -1,0 +1,451 @@
+{
+ "page": {
+  "scenarios": [
+   {
+    "profit": 130400.0,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.1811111111111111,
+    "roe": 1.3784355179704018,
+    "name": "Base"
+   },
+   {
+    "profit": 94400.0,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.13801169590643275,
+    "roe": 0.9978858350951374,
+    "name": "Sale price -5%"
+   },
+   {
+    "profit": 58400.0,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.09012345679012346,
+    "roe": 0.6173361522198731,
+    "name": "Sale price -10%"
+   },
+   {
+    "profit": 22400.0,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.036601307189542485,
+    "roe": 0.23678646934460887,
+    "name": "Sale price -15%"
+   },
+   {
+    "profit": -13600.0,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.02361111111111111,
+    "roe": -0.14376321353065538,
+    "name": "Sale price -20%"
+   },
+   {
+    "profit": -49600.0,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.09185185185185185,
+    "roe": -0.5243128964059197,
+    "name": "Sale price -25%"
+   },
+   {
+    "profit": -85600.00000000006,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 30600.00000000006,
+    "margin_on_gdv": -0.16984126984127,
+    "roe": -0.9048625792811845,
+    "name": "Sale price -30%"
+   },
+   {
+    "profit": -121600.0,
+    "equity_in": 94600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 66600.0,
+    "margin_on_gdv": -0.25982905982905985,
+    "roe": -1.285412262156448,
+    "name": "Sale price -35%"
+   },
+   {
+    "profit": 75400.0,
+    "equity_in": 149600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.10472222222222222,
+    "roe": 0.5040106951871658,
+    "name": "Build cost +10%"
+   },
+   {
+    "profit": 20400.0,
+    "equity_in": 204600.0,
+    "loan": 495000,
+    "finance": 39600.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.028333333333333332,
+    "roe": 0.09970674486803519,
+    "name": "Build cost +20%"
+   },
+   {
+    "profit": 120500.0,
+    "equity_in": 104500.0,
+    "loan": 495000,
+    "finance": 49500.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.1673611111111111,
+    "roe": 1.1531100478468899,
+    "name": "Delay +3 months"
+   },
+   {
+    "profit": 110600.0,
+    "equity_in": 114400.0,
+    "loan": 495000,
+    "finance": 59400.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.15361111111111111,
+    "roe": 0.9667832167832168,
+    "name": "Delay +6 months"
+   },
+   {
+    "profit": 90800.0,
+    "equity_in": 134200.0,
+    "loan": 495000,
+    "finance": 79200.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.12611111111111112,
+    "roe": 0.676602086438152,
+    "name": "Delay +12 months"
+   },
+   {
+    "profit": 120500.0,
+    "equity_in": 104500.0,
+    "loan": 495000,
+    "finance": 49500.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.1673611111111111,
+    "roe": 1.1531100478468899,
+    "name": "Interest +2 points a year"
+   },
+   {
+    "profit": -16400.0,
+    "equity_in": 169400.0,
+    "loan": 495000,
+    "finance": 59400.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.025308641975308643,
+    "roe": -0.09681227863046045,
+    "name": "BAD: price -10%, cost +10%, delay +6m"
+   },
+   {
+    "profit": -107125.0,
+    "equity_in": 224125.0,
+    "loan": 495000,
+    "finance": 86625.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.1750408496732026,
+    "roe": -0.47796988287785835,
+    "name": "SEVERE: price -15%, cost +15%, delay +9m, rate +2"
+   }
+  ],
+  "breakeven_price_drop": 0.18111111111111106,
+  "guarantee_trigger_price_drop": 0.2575000000000001,
+  "monte_carlo": {
+   "n": 20000,
+   "p_loss": 0.2635,
+   "p_lose_over_half_equity": 0.0537,
+   "p_lose_all_equity": 0.00285,
+   "p_lender_shortfall": 0.0,
+   "median_profit": 30763.362650211035,
+   "p5": -48725.29279623101,
+   "p95": 98157.29406604744,
+   "mean_profit": 28500.657263212735,
+   "worst": -140276.77475698385
+  }
+ },
+ "realistic": {
+  "scenarios": [
+   {
+    "profit": 73937.0,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.10269027777777778,
+    "roe": 0.46192436728038333,
+    "name": "Base"
+   },
+   {
+    "profit": 38837.0,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.056779239766081874,
+    "roe": 0.24263571218832586,
+    "name": "Sale price -5%"
+   },
+   {
+    "profit": 3737.0,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.005766975308641975,
+    "roe": 0.023347057096268345,
+    "name": "Sale price -10%"
+   },
+   {
+    "profit": -31363.0,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.05124673202614379,
+    "roe": -0.19594159799578917,
+    "name": "Sale price -15%"
+   },
+   {
+    "profit": -66463.0,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.11538715277777778,
+    "roe": -0.41523025308784667,
+    "name": "Sale price -20%"
+   },
+   {
+    "profit": -101563.0,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 4563.0,
+    "margin_on_gdv": -0.18807962962962962,
+    "roe": -0.6345189081799042,
+    "name": "Sale price -25%"
+   },
+   {
+    "profit": -136663.00000000006,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 39663.00000000006,
+    "margin_on_gdv": -0.27115674603174617,
+    "roe": -0.8538075632719621,
+    "name": "Sale price -30%"
+   },
+   {
+    "profit": -171763.0,
+    "equity_in": 160063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 74763.0,
+    "margin_on_gdv": -0.36701495726495725,
+    "roe": -1.0730962183640191,
+    "name": "Sale price -35%"
+   },
+   {
+    "profit": 18937.0,
+    "equity_in": 215063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.026301388888888888,
+    "roe": 0.08805326811213458,
+    "name": "Build cost +10%"
+   },
+   {
+    "profit": -36063.0,
+    "equity_in": 270063.0,
+    "loan": 468000.0,
+    "finance": 78063.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.0500875,
+    "roe": -0.13353550838137768,
+    "name": "Build cost +20%"
+   },
+   {
+    "profit": 64600.399999999994,
+    "equity_in": 169399.59999999998,
+    "loan": 468000.0,
+    "finance": 87399.6,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.08972277777777778,
+    "roe": 0.3813491885458998,
+    "name": "Delay +3 months"
+   },
+   {
+    "profit": 55263.8,
+    "equity_in": 178736.19999999995,
+    "loan": 468000.0,
+    "finance": 96736.2,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.07675527777777778,
+    "roe": 0.30919198237402395,
+    "name": "Delay +6 months"
+   },
+   {
+    "profit": 36590.600000000006,
+    "equity_in": 197409.40000000002,
+    "loan": 468000.0,
+    "finance": 115409.4,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.050820277777777784,
+    "roe": 0.18535388892322252,
+    "name": "Delay +12 months"
+   },
+   {
+    "profit": 65747.0,
+    "equity_in": 168253.0,
+    "loan": 468000.0,
+    "finance": 86253.0,
+    "shortfall": 0.0,
+    "margin_on_gdv": 0.09131527777777777,
+    "roe": 0.390762720426976,
+    "name": "Interest +2 points a year"
+   },
+   {
+    "profit": -69936.2,
+    "equity_in": 233736.19999999995,
+    "loan": 468000.0,
+    "finance": 96736.2,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.10792623456790124,
+    "roe": -0.2992099640534928,
+    "name": "BAD: price -10%, cost +10%, delay +6m"
+   },
+   {
+    "profit": -154976.8,
+    "equity_in": 283676.80000000005,
+    "loan": 468000.0,
+    "finance": 119176.79999999999,
+    "shortfall": 0.0,
+    "margin_on_gdv": -0.2532300653594771,
+    "roe": -0.5463146792406004,
+    "name": "SEVERE: price -15%, cost +15%, delay +9m, rate +2"
+   }
+  ],
+  "breakeven_price_drop": 0.1053233618233617,
+  "guarantee_trigger_price_drop": 0.2435000000000001,
+  "monte_carlo": {
+   "n": 20000,
+   "p_loss": 0.69835,
+   "p_lose_over_half_equity": 0.11655,
+   "p_lose_all_equity": 0.0005,
+   "p_lender_shortfall": 0.0,
+   "median_profit": -23114.863815824647,
+   "p5": -101011.63905594627,
+   "p95": 42879.67290271359,
+   "mean_profit": -25383.84071543884,
+   "worst": -187750.02573308224
+  }
+ },
+ "deal_quality_sweep": [
+  {
+   "gdv": 720000,
+   "base_profit": 73937.0,
+   "margin_on_gdv": 0.10269027777777778,
+   "profit_on_cost": 0.11772226671528174,
+   "p_loss": 0.6915
+  },
+  {
+   "gdv": 740000,
+   "base_profit": 91685.25,
+   "margin_on_gdv": 0.12389898648648649,
+   "profit_on_cost": 0.1455749488242376,
+   "p_loss": 0.551
+  },
+  {
+   "gdv": 760000,
+   "base_profit": 109433.5,
+   "margin_on_gdv": 0.14399144736842107,
+   "profit_on_cost": 0.1732731232578042,
+   "p_loss": 0.41183333333333333
+  },
+  {
+   "gdv": 780000,
+   "base_profit": 128798.75,
+   "margin_on_gdv": 0.16512660256410255,
+   "profit_on_cost": 0.20389187135532816,
+   "p_loss": 0.2788333333333333
+  },
+  {
+   "gdv": 800000,
+   "base_profit": 148298.75,
+   "margin_on_gdv": 0.1853734375,
+   "profit_on_cost": 0.23476089369777248,
+   "p_loss": 0.16583333333333333
+  },
+  {
+   "gdv": 820000,
+   "base_profit": 167798.75,
+   "margin_on_gdv": 0.2046326219512195,
+   "profit_on_cost": 0.2656299160402168,
+   "p_loss": 0.095
+  },
+  {
+   "gdv": 840000,
+   "base_profit": 187298.75,
+   "margin_on_gdv": 0.22297470238095238,
+   "profit_on_cost": 0.2964989383826611,
+   "p_loss": 0.04466666666666667
+  },
+  {
+   "gdv": 860000,
+   "base_profit": 206798.75,
+   "margin_on_gdv": 0.24046366279069767,
+   "profit_on_cost": 0.32736796072510543,
+   "p_loss": 0.02033333333333333
+  },
+  {
+   "gdv": 880000,
+   "base_profit": 226298.75,
+   "margin_on_gdv": 0.25715767045454546,
+   "profit_on_cost": 0.35823698306754975,
+   "p_loss": 0.007166666666666667
+  },
+  {
+   "gdv": 900000,
+   "base_profit": 245798.75,
+   "margin_on_gdv": 0.27310972222222224,
+   "profit_on_cost": 0.38910600540999407,
+   "p_loss": 0.0018333333333333333
+  },
+  {
+   "gdv": 920000,
+   "base_profit": 265298.75,
+   "margin_on_gdv": 0.2883682065217391,
+   "profit_on_cost": 0.41997502775243833,
+   "p_loss": 0.0005
+  },
+  {
+   "gdv": 940000,
+   "base_profit": 284798.75,
+   "margin_on_gdv": 0.30297739361702125,
+   "profit_on_cost": 0.45084405009488265,
+   "p_loss": 0.00016666666666666666
+  },
+  {
+   "gdv": 960000,
+   "base_profit": 304298.75,
+   "margin_on_gdv": 0.3169778645833333,
+   "profit_on_cost": 0.481713072437327,
+   "p_loss": 0.0
+  }
+ ]
+}

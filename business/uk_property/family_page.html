@@ -1,0 +1,195 @@
+<title>UK Property Venture — A Simple Explanation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Layout: one narrow reading column; plain cards; numbers in tables; red/green only for money in or out. */
+  :root {
+    --bg: #faf8f4;
+    --card: #ffffff;
+    --text: #2b2822;
+    --muted: #6b6459;
+    --accent: #1f6f54;
+    --accent-soft: #e7f2ec;
+    --warn-bg: #fdf1e8;
+    --warn-border: #b8672a;
+    --loss: #a3321f;
+    --gain: #1f6f54;
+    --border: #e6e1d8;
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1b1a17; --card: #24221e; --text: #ece7dc; --muted: #a8a094;
+      --accent: #6fc9a6; --accent-soft: #223832; --warn-bg: #332a20; --warn-border: #d98e4a;
+      --loss: #f08a77; --gain: #6fc9a6; --border: #3a362f; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1b1a17; --card: #24221e; --text: #ece7dc; --muted: #a8a094;
+    --accent: #6fc9a6; --accent-soft: #223832; --warn-bg: #332a20; --warn-border: #d98e4a;
+    --loss: #f08a77; --gain: #6fc9a6; --border: #3a362f; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--serif); line-height: 1.55; -webkit-font-smoothing: antialiased;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 28px 48px;
+  }
+  .wrap { max-width: 660px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+  header { border-bottom: 3px solid var(--accent); padding-bottom: 16px; }
+  h1 { font-size: 1.5rem; margin: 0 0 6px; letter-spacing: -0.01em; text-wrap: balance; }
+  header p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; min-width: 0; }
+  .card h2, .warn h2 { font-size: 1.05rem; margin: 0 0 10px; text-wrap: balance; }
+  .card h2 { color: var(--accent); }
+  .card p, .card li, .warn li, .warn p { font-size: 0.97rem; margin: 0 0 8px; }
+  ul { margin: 6px 0; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  .pill { display: inline-block; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 2px 10px; font: 600 0.8rem var(--sans); margin-bottom: 8px; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 18px; font-size: 0.93rem; }
+  .note strong { color: var(--accent); }
+  .warn { background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 10px; padding: 16px 18px; }
+  .warn h2 { color: var(--warn-border); }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 6px 0; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font: 600 0.78rem var(--sans); text-transform: uppercase; letter-spacing: 0.04em; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .loss { color: var(--loss); font-weight: 700; }
+  .gain { color: var(--gain); font-weight: 700; }
+  .split { display: flex; gap: 10px; flex-wrap: wrap; }
+  .split > div { flex: 1 1 140px; text-align: center; background: var(--accent-soft); border-radius: 8px; padding: 12px; min-width: 0; }
+  .split .num { font-size: 1.3rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .split .lbl { font-size: 0.82rem; color: var(--muted); }
+  .small { color: var(--muted); font-size: 0.86rem !important; }
+  footer { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 8px; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <h1>A UK Property Venture — In Plain English</h1>
+    <p>A short summary for a family conversation, not a legal document. Updated 30 October 2026.</p>
+  </header>
+
+  <div class="note">
+    <strong>What changed in this version.</strong> The first version used a rosy example: £55,000 of our cash and £130,000 profit. That left out the lender's limits, selling costs and fees. This version uses typical lender rules and tests what happens when things go wrong. The honest answer is that the first example deal was too thin to be safe.
+  </div>
+
+  <div class="card">
+    <span class="pill">The idea</span>
+    <p>Syed finds land and development deals in the UK, plans the finances, and does the research and paperwork remotely from India. He is asking whether you would be willing to be the UK-based director of a company that owns each deal, using your 20 years of UK residence and credit history to help with banks, solicitors and site visits.</p>
+  </div>
+
+  <div class="card">
+    <h2>Who does what</h2>
+    <div class="scroll"><table>
+      <tr><th>Job</th><th>Who</th></tr>
+      <tr><td>Find deals, run the numbers</td><td>Syed (remote)</td></tr>
+      <tr><td>Sign documents in person</td><td>You</td></tr>
+      <tr><td>Talk to banks and solicitors face to face</td><td>You</td></tr>
+      <tr><td>Visit sites occasionally</td><td>You</td></tr>
+      <tr><td>Legal responsibility as director</td><td>Both, shared</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h2>The same example deal, two ways</h2>
+    <div class="scroll"><table>
+      <tr><th>One small deal</th><th class="n">First version</th><th class="n">With lender rules</th></tr>
+      <tr><td>Expected sale value</td><td class="n">£720,000</td><td class="n">£720,000</td></tr>
+      <tr><td>Land, build, fees and contingency</td><td class="n">£550,000</td><td class="n">£550,000</td></tr>
+      <tr><td>Agent and legal fees on the sale (2.5%)</td><td class="n">not counted</td><td class="n">£18,000</td></tr>
+      <tr><td>Bank interest and fees</td><td class="n">£40,000</td><td class="n">£78,000</td></tr>
+      <tr><td>Bank loan</td><td class="n">£495,000</td><td class="n">£468,000</td></tr>
+      <tr><td>Cash we must put in</td><td class="n">£55,000</td><td class="n loss">£160,000</td></tr>
+      <tr><td>Profit if all goes to plan</td><td class="n">£130,000</td><td class="n">£74,000</td></tr>
+      <tr><td>Profit as a share of the sale value</td><td class="n">18%</td><td class="n">10%</td></tr>
+    </table></div>
+    <p class="small">Why the loan is smaller: lenders commonly cap a development loan at about 65% of the finished value (70% for experienced developers). 65% of £720,000 is £468,000. Interest is rolled up at about 0.95% a month (a first-time developer rate from a lender page dated April 2026), plus arrangement, exit and broker fees. The £160,000 and the loan limit are modelled figures, not a lender's offer.</p>
+  </div>
+
+  <div class="warn">
+    <h2>What you can lose</h2>
+    <ul>
+      <li><strong>The cash we put in.</strong> In this example about £160,000 in total. If building costs run 10% over, the lender does not lend more, so the partners must add about £55,000 and the total at risk is about £215,000. If the project cannot find that extra cash, the lender can take the site.</li>
+      <li><strong>More than you put in, if you sign a personal guarantee.</strong> Banks often ask directors for one. Then the bank can pursue you personally for whatever the sale fails to repay, even if you invested nothing. In the model this starts only if the sale price ends about 24% below plan. At 30% below plan the unpaid amount is about £40,000, and at 35% below plan about £75,000.</li>
+      <li><strong>Joint liability.</strong> If both of us sign, the bank can ask either one of us for the whole amount, not just a share.</li>
+      <li><strong>Time and stress.</strong> Delays are common. Planning decisions for larger housing schemes now often take more than 300 days.</li>
+    </ul>
+    <p class="small">The most likely bad outcome is losing part of the cash we put in. Losing more than that needs a large price fall and a guarantee.</p>
+  </div>
+
+  <div class="card">
+    <h2>What happens when things go wrong</h2>
+    <p class="small">Profit or loss on the example deal with lender rules. Each line changes one thing, except the last two.</p>
+    <div class="scroll"><table>
+      <tr><th>If this happens</th><th class="n">Profit or loss</th></tr>
+      <tr><td>Everything goes to plan</td><td class="n gain">+£74,000</td></tr>
+      <tr><td>Sells 10% below the plan</td><td class="n gain">+£4,000</td></tr>
+      <tr><td>Sells 15% below the plan</td><td class="n loss">−£31,000</td></tr>
+      <tr><td>Sells 20% below the plan</td><td class="n loss">−£66,000</td></tr>
+      <tr><td>Building costs 10% higher</td><td class="n gain">+£19,000</td></tr>
+      <tr><td>Building costs 20% higher</td><td class="n loss">−£36,000</td></tr>
+      <tr><td>Takes 6 months longer</td><td class="n gain">+£55,000</td></tr>
+      <tr><td>Interest rate 2 points higher</td><td class="n gain">+£66,000</td></tr>
+      <tr><td>Bad mix: price −10%, costs +10%, 6 months late</td><td class="n loss">−£70,000</td></tr>
+      <tr><td>Severe mix: price −15%, costs +15%, 9 months late, rate +2</td><td class="n loss">−£155,000</td></tr>
+    </table></div>
+    <p>The sale price only needs to come in about 10% under plan to wipe out the profit. That is why this example is too thin.</p>
+  </div>
+
+  <div class="card">
+    <h2>How likely is a loss?</h2>
+    <p>I ran 20,000 random versions of the deal. The ranges are my own guesses of how small projects often go: prices from 15% under to 5% over plan, building costs from 2% under to 25% over (most likely 8% over), delays up to 12 months, interest up to 3 points higher.</p>
+    <ul>
+      <li>This example deal loses money about <strong>7 times in 10</strong>.</li>
+      <li>It loses more than half of our cash about <strong>1 time in 9</strong>.</li>
+      <li>It loses all of our cash about <strong>1 time in 1,000</strong>.</li>
+      <li>The bank is not fully repaid (the guarantee is called) in almost none of the runs.</li>
+    </ul>
+    <p>A better deal changes this a lot. With the same costs but a sale value of £820,000 (a profit of about 20% of the sale value), a loss happens about <strong>1 time in 10</strong>. That deal still makes money if the price is 15% under plan (+£48,000) and in the bad mix (+£13,000). It loses £78,000 in the severe mix.</p>
+  </div>
+
+  <div class="card">
+    <h2>Rules before any deal</h2>
+    <ul>
+      <li>Planned profit of at least 20% of the sale value. Below that, we do not proceed.</li>
+      <li>The deal must still break even if the price comes in 15% under plan.</li>
+      <li>Planning permission granted before we buy, or a purchase that is conditional on it.</li>
+      <li>A fixed-price building contract and a contingency of at least 10% of the build cost.</li>
+      <li>A guarantee that is capped at a fixed sum, or a lender that offers no personal guarantee. Quotes from a broker, in writing.</li>
+      <li>Your own solicitor reads everything before you sign. Not Syed's, not the lender's.</li>
+      <li>One small deal first. No second deal until the first one has sold.</li>
+      <li>A fixed interest rate where possible, and cash set aside for 6 months of delay.</li>
+    </ul>
+    <p class="small">Personal Guarantee Insurance: the first version said it covers up to 80% of a guaranteed loan. I have not checked that. Ask for the policy wording and the price before counting on it.</p>
+  </div>
+
+  <div class="card">
+    <h2>If Syed is based in India</h2>
+    <ul>
+      <li>A person living outside the UK can form and own a UK company. Every director, including you, must verify their identity with Companies House (required since 18 November 2025).</li>
+      <li>Buying a home in England through a company controlled by non-UK residents can attract an extra 2% stamp duty. Whether it applies to a development plot depends on how the land is classed, so an adviser must check this.</li>
+      <li>Directors who live abroad can face UK tax questions if they attend meetings in the UK. Get an accountant before the first deal.</li>
+      <li>UK banks and lenders may ask extra questions about a partner who lives abroad.</li>
+    </ul>
+    <p class="small">These points come from government and adviser pages found on 30 October 2026. They are not tax or legal advice.</p>
+  </div>
+
+  <div class="card">
+    <h2>Questions worth discussing</h2>
+    <ul>
+      <li>Are you open to being a named director, or would you rather help in a lighter way first?</li>
+      <li>Would you put in any money yourself, or only lend your presence and name?</li>
+      <li>Would you sign a guarantee, and what is the most you would agree to be liable for?</li>
+      <li>How much time could you give for meetings, site visits and paperwork?</li>
+      <li>Do you want your own solicitor involved before agreeing to anything?</li>
+    </ul>
+  </div>
+
+  <footer>A starting point for conversation. Not financial or legal advice. The numbers come from a simple model with assumed inputs.</footer>
+
+</div>
