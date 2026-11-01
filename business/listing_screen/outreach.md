@@ -41,3 +41,18 @@ Hello [first name], a short nudge in case my note got buried. If it is not usefu
 
 ## Tracking sheet columns
 name or handle | where found (public page link) | date contacted | channel | reply (y/n) | free screen sent | feedback | would pay (amount) | do not contact
+
+## D. Referral-partner note (buy-side advisor or ETA CPA, public generic mailbox or contact form only)
+Subject: A cheap first screen for your buyers, free to test
+
+Hello,
+
+I work with first-time buyers of small businesses. I built a short written pre-offer screen (three pages: the seller's figures labelled copied / derived / assumed, a price check, red flags, ten questions for the seller). It is meant to filter out weak listings before a client pays you for full diligence. It is not a quality-of-earnings report and not advice.
+
+I am testing it free with five buyers. If you have a client or prospect with a listing in mind (about $100K to $2M), I will run it free and send you the result too. A sample is here: [link].
+
+Would that be useful? If not, just say so and I will not write again.
+
+Syed Shafai
+[postal address]
+Reply "no" to stop all contact.
