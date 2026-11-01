@@ -49,7 +49,9 @@ Hello,
 
 I work with first-time buyers of small businesses. I built a short written pre-offer screen (three pages: the seller's figures labelled copied / derived / assumed, a price check, red flags, ten questions for the seller). It is meant to filter out weak listings before a client pays you for full diligence. It is not a quality-of-earnings report and not advice.
 
-I am testing it free with five buyers. If you have a client or prospect with a listing in mind (about $100K to $2M), I will run it free and send you the result too. A sample is here: [link].
+A taste of the format (public listing, price estimated): East Insurance Group, a sold US insurance-guides site. Call: proceed with conditions. Suggested bid $29.5K to $36.9K, walk away above about $42.8K. Main flags: revenue per 1,000 page views of about $636 suggests a few lead partners, and the listing admits a Google update hurt traffic. The full 3-page sample (PDF) is ready; reply "sample" and I will send it.
+
+I am testing it free with five buyers. If you have a client or prospect with a listing in mind (about $100K to $2M), I will run it free and send you the result too.
 
 Would that be useful? If not, just say so and I will not write again.
 
