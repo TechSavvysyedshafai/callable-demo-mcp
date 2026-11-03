@@ -9,6 +9,7 @@ Chances are my judgment, not data. "Sent" means sent from the owner's Gmail. Gma
 | Synpulse (UK) | Insurance consulting, possible sponsor | Resume ready | Sponsor register check not done | Owner searches UK sponsor CSV for "Synpulse" |
 | Orient Insurance (UAE) | Insurance, UAE | Job read and scored | Resume not tailored | Closes 6 Dec |
 | CoverGo | Insurance software | Application materials ready | On hold | Send on owner's yes |
+| Irish recruitment agencies | Permit route to Ireland (low odds) | 20 agencies checked; 14 on WRC licence list; profile email sent 3 Nov to 6 office mailboxes (label Outreach/Ireland agencies) | Awaiting replies | Follow-up ~10 Nov; upload CV on Hays, CPL sites yourself |
 | Wellfound BAs (ContexQ, Zoniqx) | Remote, open from India | 26 listings checked 1 Nov; most US-only | Not applied | Tailor resume if wanted |
 
 ## B. Service and product tests (outreach live)
