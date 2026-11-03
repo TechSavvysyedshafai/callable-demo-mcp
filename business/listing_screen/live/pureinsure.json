@@ -1,0 +1,47 @@
+{
+ "title": "Pureinsure: cheap, but it depends on paid Google ads",
+ "subject": "Canada life-insurance lead-generation site, live on Flippa (listing 11015517), asking $3,500",
+ "date": "3 Nov 2026",
+ "price_note": "Price shown is the seller's asking price (multiples set to match it).",
+ "monthly_profit": 987,
+ "margin": 0.541,
+ "page_views": 7150,
+ "profit_multiple": 0.3,
+ "revenue_multiple": 0.2,
+ "notes": [
+  "Asking price is about 3.5 months of the stated profit, which is low enough to suggest a catch.",
+  "Revenue comes from Google Ads, so profit depends on ad spend and lead price staying stable; stop paying and the leads stop.",
+  "The title says the site is a year old; the listing says 6 years. Ask which is true.",
+  "Selling leads to insurers may need a licence in Canada; this screen cannot confirm that. Ask the seller who buys the leads and under what terms."
+ ],
+ "flags": [
+  {
+   "risk": "Ad costs rise or lead buyers pay less",
+   "chance": "about 40%",
+   "why": "Margin of 54% rests on paid traffic"
+  },
+  {
+   "risk": "Licensing or compliance problem for lead selling",
+   "chance": "about 25%",
+   "why": "Regulated product; not checked here"
+  },
+  {
+   "risk": "Account or CRM not transferable",
+   "chance": "about 25%",
+   "why": "Google Ads accounts have their own rules"
+  }
+ ],
+ "questions": [
+  "Monthly ad spend, leads, price per lead and buyer, for 12 months.",
+  "Contracts or terms with each lead buyer.",
+  "Is the Google Ads account (with history) included and transferable?",
+  "Is the site one year old or six? Show the domain registration date.",
+  "Which licence, if any, allows this lead sale, and does it transfer?",
+  "How many leads are generated without paid ads?",
+  "Refunds or rejected leads in the last 12 months.",
+  "What does the CRM cost per month and who owns it?",
+  "Why is it priced at about 0.3x profit?",
+  "Proof of profit: ad invoices and buyer payments."
+ ],
+ "asking_price": 3500
+}

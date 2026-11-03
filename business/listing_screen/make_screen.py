@@ -15,9 +15,10 @@ pm = inp["monthly_profit"]; margin = inp["margin"]; views = inp["page_views"]
 pmult = inp["profit_multiple"]; rmult = inp["revenue_multiple"]
 rev_m = pm / margin; cost_m = rev_m - pm
 ann_profit = pm * 12; ann_rev = rev_m * 12
-price = round((ann_profit * pmult + ann_rev * rmult) / 2, -2)
+price = inp.get("asking_price") or round((ann_profit * pmult + ann_rev * rmult) / 2, -2)
 rev_1000 = rev_m / views * 1000
-bid_lo = round(ann_profit * 1.6, -2); bid_hi = round(ann_profit * 2.0, -2)
+bid_hi = round(min(ann_profit * 2.0, price * 0.95), -2)
+bid_lo = round(min(ann_profit * 1.6, price * 0.80), -2)
 
 scen = []
 for name, d in [("Flat", 0.0), ("Revenue -20%", -0.2), ("Revenue -40%", -0.4), ("Revenue -60%", -0.6)]:
@@ -28,7 +29,8 @@ for name, d in [("Flat", 0.0), ("Revenue -20%", -0.2), ("Revenue -40%", -0.4), (
 rng = np.random.default_rng(1)
 N = 20000
 d12 = rng.triangular(-0.60, -0.10, 0.30, N)
-extra = rng.triangular(0, 150, 500, N)
+lo_x, md_x, hi_x = inp.get("extra_cost_range") or [0, 0.04 * rev_m, 0.14 * rev_m]
+extra = rng.triangular(lo_x, md_x, hi_x, N)
 lose = rng.random(N) < 0.15
 lm = rng.integers(1, 25, N)
 cum = np.zeros(N); cum24 = np.zeros(N)
@@ -88,7 +90,7 @@ ol, ul {{ margin: 4px 0 4px 18px; padding: 0; }} li {{ margin-bottom: 3px; }}
 <div class="kick">Pre-offer deal screen</div>
 <h1>{inp["title"]}</h1>
 <div class="meta">Subject: {inp["subject"]} · Screen date: {inp["date"]} · Basis: the public listing only. {inp.get("price_note", "The sold or asking price may be hidden; the price below is an estimate.")}</div>
-<div class="box"><b>Call: {call.lower()}.</b> Suggested bid <b>{money(bid_lo)} to {money(bid_hi)}</b> (1.6x to 2.0x annual profit). Walk away above about <b>{money(price)}</b>. My rule: proceed if payback with revenue down 20% is 3.5 years or less.</div>
+<div class="box"><b>Call: {call.lower()}.</b> Suggested bid <b>{money(bid_lo)} to {money(bid_hi)}</b> (up to 2.0x annual profit, never above 95% of the price). Walk away above about <b>{money(price)}</b>{" (asking price)" if inp.get("asking_price") else ""}. My rule: proceed if payback with revenue down 20% is 3.5 years or less.</div>
 <h2>1. The numbers at a glance</h2>
 <table><tr><th>Item</th><th class="n">Value</th><th>Status</th></tr>
 <tr><td>Monthly profit</td><td class="n">{money(pm)}</td><td><span class="tag">copied</span> listing</td></tr>
@@ -98,13 +100,13 @@ ol, ul {{ margin: 4px 0 4px 18px; padding: 0; }} li {{ margin-bottom: 3px; }}
 <tr><td>Monthly revenue, monthly costs</td><td class="n">{money(rev_m)} / {money(cost_m)}</td><td><span class="tag">derived</span> profit / margin</td></tr>
 <tr><td>Annual profit</td><td class="n">{money(ann_profit)}</td><td><span class="tag">derived</span></td></tr>
 <tr><td>Revenue per 1,000 views</td><td class="n">{money(rev_1000)}</td><td><span class="tag">derived</span></td></tr>
-<tr><td>Estimated price</td><td class="n">about {money(price)}</td><td><span class="tag">assumed</span> average of profit and revenue multiples</td></tr>
+<tr><td>{"Asking price" if inp.get("asking_price") else "Estimated price"}</td><td class="n">about {money(price)}</td><td><span class="tag">{"copied" if inp.get("asking_price") else "assumed"}</span> {"asking price on the listing" if inp.get("asking_price") else "average of profit and revenue multiples"}</td></tr>
 </table>
 <h2>2. What drives the call</h2><ul>{note_items}</ul>
 <div class="pb"></div>
 <h2>2b. Payback under falling revenue (costs held at {money(cost_m)} a month)</h2>
 <table><tr><th>Scenario</th><th class="n">Profit / month</th><th class="n">Payback (years)</th></tr>{rows}</table>
-<p class="small">Simulation (20,000 runs, assumed ranges: revenue change -60% to +30%, a 15% chance the main income source leaves, $0 to $500 a month of added cost): price recovered within 36 months in about {p36*100:.0f}% of runs and within 24 months in about {p24*100:.0f}%. Ranges are assumptions, not data.</p>
+<p class="small">Simulation (20,000 runs, assumed ranges: revenue change -60% to +30%, a 15% chance the main income source leaves, {money(lo_x)} to {money(hi_x)} a month of added cost): price recovered within 36 months in about {p36*100:.0f}% of runs and within 24 months in about {p24*100:.0f}%. Ranges are assumptions, not data.</p>
 <h2>Red flags</h2><table><tr><th>Risk</th><th class="n">Chance (my judgment)</th><th>Why</th></tr>{flag_rows}</table>
 <div class="pb"></div>
 <h2>3. Questions for the seller</h2><ol>{q_items}</ol>

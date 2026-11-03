@@ -1,0 +1,47 @@
+{
+ "title": "investadvisors.org: a small ad site with no clear revenue",
+ "subject": "Insurance and finance article site, live on Flippa (listing 10896092), asking $4,000",
+ "date": "3 Nov 2026",
+ "price_note": "Price shown is the seller's asking price (multiples set to match it).",
+ "monthly_profit": 82,
+ "margin": 0.91,
+ "page_views": 5233,
+ "profit_multiple": 4.1,
+ "revenue_multiple": 3.7,
+ "notes": [
+  "The numbers do not agree: the card shows revenue $90 and profit $82 a month, the page shows revenue $0, and the description claims about $180 a month from AdSense.",
+  "Asking price is about 4 years of stated profit for a site earning under $100 a month.",
+  "Only AdSense is verified. The seller describes it as a starter site from January 2021 with hand-written articles.",
+  "Page views are 5,233 a month, which is thin for insurance content; search traffic could be wiped out by one update."
+ ],
+ "flags": [
+  {
+   "risk": "Real income is far below the claimed $180",
+   "chance": "about 60%",
+   "why": "Three different numbers on one listing"
+  },
+  {
+   "risk": "Search traffic falls",
+   "chance": "about 40%",
+   "why": "Small site, insurance topic, hard to rank"
+  },
+  {
+   "risk": "AdSense account cannot move to buyer",
+   "chance": "about 30%",
+   "why": "AdSense accounts are tied to the publisher"
+  }
+ ],
+ "questions": [
+  "AdSense payment history for 24 months (screenshots of payments, not estimates).",
+  "Which is right: $0, $90 or $180 monthly revenue?",
+  "Traffic by source and country for 24 months.",
+  "Search Console export: queries and positions.",
+  "How are AdSense payouts transferred to a new owner?",
+  "Who wrote the articles, were they AI generated, and who owns the rights?",
+  "Any AdSense warnings or limited-ads notices.",
+  "Hosting and domain costs and renewal dates.",
+  "Any backlinks bought or exchanged.",
+  "Why is the price about 4 years of profit?"
+ ],
+ "asking_price": 4000
+}

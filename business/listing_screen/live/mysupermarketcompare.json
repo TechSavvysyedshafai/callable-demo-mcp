@@ -1,0 +1,47 @@
+{
+ "title": "mysupermarketcompare.com: tiny profit, big traffic, numbers that do not agree",
+ "subject": "UK insurance comparison site, live on Flippa (listing 12168548), asking $10,789",
+ "date": "3 Nov 2026",
+ "price_note": "Price shown is the seller's asking price (multiples set to match it).",
+ "monthly_profit": 309,
+ "margin": 0.957,
+ "page_views": 152122,
+ "profit_multiple": 2.9,
+ "revenue_multiple": 2.8,
+ "notes": [
+  "The listing page and the search card disagree: card shows revenue $323 and profit $309 a month; the page shows revenue $383 and profit $285. This screen uses the card; ask which is right.",
+  "Revenue per 1,000 views is only about $2, so 152,122 views earn very little. Either the traffic count is wrong or most visitors never click through to the partner.",
+  "All revenue is affiliate commission from one partner company (single payer). The seller says 1 hour a week of work and a 95% margin.",
+  "Only Google Analytics is verified; the seller advertises 16 months of partner statements, which should be seen before any offer."
+ ],
+ "flags": [
+  {
+   "risk": "The one partner cuts or ends the commission",
+   "chance": "about 25%",
+   "why": "Single payer; no contract shown"
+  },
+  {
+   "risk": "Traffic figure is overstated or bot-inflated",
+   "chance": "about 30%",
+   "why": "152k views but about $2 revenue per 1,000"
+  },
+  {
+   "risk": "Profit really is lower than listed",
+   "chance": "about 40%",
+   "why": "Two different profit numbers on the same listing"
+  }
+ ],
+ "questions": [
+  "Partner statements for all 16 months, matching bank deposits.",
+  "Which profit figure is right: $309 or $285, and why do they differ?",
+  "Traffic by country and by source for 12 months (Search Console export).",
+  "Why is revenue per 1,000 views so low: how many clicks go to the partner?",
+  "Is there a written agreement with the partner company, and does it transfer to a new owner?",
+  "Does the seller write or update the content, and who would after sale?",
+  "Any Google penalty, manual action or traffic drop in the last 12 months.",
+  "Do you hold FCA or affiliate-network permissions the site relies on? (UK comparison sites can need them.)",
+  "What costs sit between revenue and profit, who is paid?",
+  "Will the seller stay 60 days for hand-over?"
+ ],
+ "asking_price": 10789
+}
