@@ -1,0 +1,18 @@
+{
+  "title": "East Insurance Group: a fair price for a fragile traffic base",
+  "subject": "US insurance-guides website, sold on Flippa (listing 11356430)",
+  "date": "3 Nov 2026",
+  "price_note": "The sold price is hidden, so the price below is my estimate.",
+  "monthly_profit": 1539, "margin": 0.94, "page_views": 2573,
+  "profit_multiple": 2.3, "revenue_multiple": 2.2,
+  "notes": [
+    "Price is in range: 2.3x profit sits between comparable listings (2.9x and 0.3x).",
+    "Income is probably concentrated: about $636 per 1,000 views is far above display-ad income, so revenue is likely lead sales to a few partners.",
+    "Traffic is the weak point: the listing admits a Google update hurt the site."
+  ],
+  "flags": [
+    {"risk": "Search traffic falls again", "chance": "about 36%", "why": "Single traffic source; a core update already hurt it"},
+    {"risk": "Main lead partner leaves", "chance": "15 to 25%", "why": "Revenue per view implies few payers"},
+    {"risk": "AI search takes clicks", "chance": "about 40%", "why": "Insurance guides are easy for AI answers to summarise"}
+  ]
+}
