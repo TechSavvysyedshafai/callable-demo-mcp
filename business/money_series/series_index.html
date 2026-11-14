@@ -1,0 +1,67 @@
+<title>Money Series</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: one column, three episode cards with the headline odds, then shared rules. */
+:root{--bg:#f6f7f9;--surface:#fff;--fg:#17202b;--muted:#566170;--line:#dde2e8;--g:#1f7a5c;--c:#c25a1b;--ink2:#2b3a4d;
+--font-d:'Space Grotesk',Arial,sans-serif;--font-b:'Inter',Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10161d;--surface:#18212b;--fg:#e8edf2;--muted:#9aa7b5;--line:#2b3745;--g:#4fc29a;--c:#f0925a;--ink2:#c5d0dc;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10161d;--surface:#18212b;--fg:#e8edf2;--muted:#9aa7b5;--line:#2b3745;--g:#4fc29a;--c:#f0925a;--ink2:#c5d0dc;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:16px;line-height:1.55;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2{font-family:var(--font-d);margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(30px,6vw,44px)}h2{font-size:22px}
+p{margin:0;max-width:64ch}.muted{color:var(--muted);font-size:14px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.ep{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.ep:nth-of-type(2){border-left-color:var(--g)}.ep:nth-of-type(3){border-left-color:var(--ink2)}
+.ep:hover,.ep:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.ep h2 span{color:var(--muted);font-weight:500}
+.stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:4px}
+.stat b{display:block;font-family:var(--font-d);font-size:26px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.go{font-weight:600;font-size:14px;color:var(--g)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+</style>
+<main>
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">Money series · 14 Nov 2026 · for a beginner in Patna</span>
+  <h1>Three ways to earn, tested on paper first</h1>
+  <p>Each episode is a researched page with a chart, a table, a scorecard, my odds and a kill rule. Every probability is my judgment, not a measurement.</p>
+</header>
+
+<a class="ep" href="https://claude.ai/artifact/6bAeDmTVXDDhVreSdSpsgH">
+  <h2><span>Episode 1</span> Business profile setup</h2>
+  <p>Google Business Profile vs the new ChatGPT business profile for small Indian shops, and what a freelancer can honestly sell.</p>
+  <div class="stats"><div class="stat"><b>93%</b><span>Google profile is the better first step</span></div><div class="stat"><b>70%</b><span>Setup bundle finds paying clients in 3 months</span></div></div>
+  <span class="go">Open episode 1</span>
+</a>
+
+<a class="ep" href="https://claude.ai/artifact/Ybv1FWZrCt7RPwgtbf4ZH8">
+  <h2><span>Episode 2</span> Export lead research</h2>
+  <p>Researching buyers for small spice exporters as a paid service. Public sources only, and the exporter sends everything.</p>
+  <div class="stats"><div class="stat"><b>25%</b><span>At least one paying client in 30 days</span></div><div class="stat"><b>65%</b><span>Plan hits its kill rule at day 30</span></div></div>
+  <span class="go">Open episode 2</span>
+</a>
+
+<a class="ep" href="https://claude.ai/artifact/G4NiaGyGgc7KNFwDRwiK7V">
+  <h2><span>Episode 3</span> Insurance BA and QA gigs</h2>
+  <p>Remote freelance work using your insurance BA and UAT background. Rates, fees, scams and a 30-day plan.</p>
+  <div class="stats"><div class="stat"><b>45%</b><span>First paid gig within 90 days</span></div><div class="stat"><b>90%</b><span>You get at least one scam message</span></div></div>
+  <span class="go">Open episode 3</span>
+</a>
+
+<section class="panel" style="display:flex;flex-direction:column;gap:10px">
+  <h2>Rules for every episode</h2>
+  <ul>
+    <li>Nothing is sent, applied for or paid for without your clear yes.</li>
+    <li>Business emails only, with an opt-out line and a postal address.</li>
+    <li>No scraping of LinkedIn, Facebook, Instagram or Reddit.</li>
+    <li>Each number is labelled verified, reported or my estimate.</li>
+    <li>Each plan has a kill rule, so you stop early instead of hoping.</li>
+  </ul>
+</section>
+<p class="muted">Next episode ideas: insurance evidence briefs, the Deal Screen, short explainer videos.</p>
+</main>

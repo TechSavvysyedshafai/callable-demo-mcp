@@ -1,0 +1,317 @@
+<title>Insurance BA QA Gigs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: one reading column, verdict first, then evidence blocks (table, charts, scorecard, odds, plan). */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#17202b; --muted:#566170; --line:#dde2e8;
+  --g:#1f7a5c; --g-soft:#d6ece3; --c:#c25a1b; --c-soft:#f6e1d2; --ink2:#2b3a4d;
+  --font-d:'Space Grotesk',Arial,sans-serif; --font-b:'Inter',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:16px;line-height:1.55;
+  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--font-d);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,42px)}
+h2{font-size:24px;margin-bottom:4px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted);font-size:14px}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vcard{border-radius:10px;padding:16px;border:1px solid var(--line);background:var(--surface)}
+.vcard.g{border-top:4px solid var(--g)}.vcard.c{border-top:4px solid var(--c)}
+.big{font-family:var(--font-d);font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.g .big{color:var(--g)}.c .big{color:var(--c)}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:var(--line);color:var(--ink2)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:700px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td:first-child{font-weight:600;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+/* bar charts */
+.bars{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.lab{font-size:13px;line-height:1.25}
+.lab small{display:block;color:var(--muted);font-size:11px}
+.track{position:relative;height:26px;background:var(--bg);border-radius:4px;border:1px solid var(--line)}
+.bar{position:absolute;left:0;top:0;bottom:0;border-radius:3px 0 0 3px;min-width:3px}
+.bar.est{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(255,255,255,.35) 5px 8px)}
+.rng{position:absolute;top:4px;bottom:4px;border-radius:4px}
+.rng.est{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(255,255,255,.35) 5px 8px)}
+.val{position:absolute;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;padding-left:6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-left:160px;font-variant-numeric:tabular-nums}
+.bg{background:var(--g)}.bc{background:var(--c)}.bn{background:var(--ink2)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+/* scorecard */
+.sc{display:grid;grid-template-columns:minmax(120px,1.2fr) 1fr 1fr;gap:8px 12px;align-items:center;font-size:13px}
+.sc .h{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.pips{display:flex;gap:3px;align-items:center}
+.pip{width:100%;max-width:26px;height:12px;border-radius:2px;background:var(--line)}
+.pips b{margin-left:6px;font-variant-numeric:tabular-nums;font-size:13px}
+.total{font-weight:700;border-top:2px solid var(--fg);padding-top:8px}
+/* odds */
+.odds{display:flex;flex-direction:column;gap:10px}
+.orow{display:grid;grid-template-columns:1fr 54px;gap:10px;align-items:center;font-size:14px}
+.otrack{height:8px;background:var(--line);border-radius:4px;margin-top:5px;overflow:hidden}
+.ofill{height:100%;background:var(--ink2)}
+.orow .pc{font-family:var(--font-d);font-weight:700;font-size:20px;text-align:right;font-variant-numeric:tabular-nums}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:68ch}
+a{color:var(--g)}
+.kill{border-left:4px solid var(--c)}
+@media(max-width:560px){.verdict{grid-template-columns:1fr}.row{grid-template-columns:1fr;gap:4px}.axis{margin-left:0}.sc{grid-template-columns:1fr 1fr}.sc .crit{grid-column:1/-1;font-weight:600;margin-top:6px}}
+</style>
+
+<main>
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">Money series · Episode 3 · 14 Nov 2026</span>
+  <h1>Remote BA, QA and UAT gigs in insurance, from Patna</h1>
+  <p>It is a real but small side income, not a quick one. The skills fit. Proof of work and a first client are the hard part. Costs ₹0 in cash if you stay careful.</p>
+</header>
+
+<section>
+  <div class="verdict">
+    <div class="vcard g"><span class="tag">First paid gig</span><div class="big" style="margin-top:10px">45%</div>
+      <p style="margin-top:8px">Chance of any paid insurance BA, QA or UAT gig within 90 days, starting with no reviews <span class="muted">(my judgment)</span></p></div>
+    <div class="vcard c"><span class="tag">Real income</span><div class="big" style="margin-top:10px">15%</div>
+      <p style="margin-top:8px">Chance of earning ₹25,000 or more in one month by day 90 <span class="muted">(my judgment)</span></p></div>
+  </div>
+  <div class="panel">
+    <ul>
+      <li><b>No India-eligible remote insurance gig was confirmed open on 14 Nov 2026.</b> I ran 2 Firecrawl job searches (about 39 credits). One returned nothing. The other showed a few remote insurance BA roles, none confirmed open to India.</li>
+      <li><b>Most insurance BA contract postings in India ask for 5 or more years.</b> Postings seen asked 5 to 7, 6+, 5+ and 8 to 12 years. Your years of experience are unknown to me, so this may or may not block you.</li>
+      <li><b>Rate data is weak and conflicting.</b> Upwork lists business systems analysts at $19 to $76 an hour (reported). One Indian aggregator says ₹1,500 to ₹4,000 an hour for overseas clients. My guess for a first gig is lower.</li>
+      <li><b>Nothing here is VERIFIED.</b> Upwork and its help pages could not be opened from this session. Every number is REPORTED or MY ESTIMATE.</li>
+    </ul>
+    <p class="muted" style="margin-top:10px">Labels used: <span class="tag">Verified</span> official page text read. <span class="tag">Reported</span> press, vendor or search extract. <span class="tag">My estimate</span> my own arithmetic or guess.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Where the gigs are</h2>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Channel</th><th>What it is</th><th>India fit</th><th>Cost to you</th><th>What I found</th></tr></thead>
+    <tbody>
+      <tr><td>Upwork</td><td>Big marketplace. Insurance expert and test jobs exist.</td><td>Open to Indian freelancers (not checked on the official page)</td><td>Fee 0% to 15% a contract (reported). Fee to apply not verified.</td><td>Insurance expert labelling and quoting jobs seen. Rates often hidden.</td></tr>
+      <tr><td>Freelancer.com</td><td>Bid-based marketplace</td><td>Open, not checked</td><td>$5 or 10%, whichever is more (reported, one outlier says 3%)</td><td>No insurance BA data found. Price pressure is likely (my judgment).</td></tr>
+      <tr><td>Contra</td><td>Portfolio-first network</td><td>Not checked</td><td>0% on freelancer side (reported)</td><td>No insurance gig data found.</td></tr>
+      <tr><td>Toptal</td><td>Vetted network. Hard entry.</td><td>Unknown</td><td>Free to apply</td><td>Global "top 3%" claim only. Not a day-30 route (my judgment).</td></tr>
+      <tr><td>Jobgether and remote boards</td><td>Aggregates remote jobs and filters by your country</td><td>Shows jobs that accept your country (Jobgether's claim)</td><td>Free to apply (Jobgether's claim)</td><td>2 insurance BA postings seen, mostly full-time, not confirmed open to India.</td></tr>
+      <tr><td>Insurtech and Guidewire subcontractors</td><td>Consulting firms that hire BAs and testers on contract</td><td>Several India contract postings seen</td><td>Free. Needs outreach.</td><td>Postings ask 5+ years. Duck Creek and Majesco not researched.</td></tr>
+      <tr><td>Offshore QA shops</td><td>Small testing firms that need extra hands</td><td>Likely good (my judgment)</td><td>Free. Needs outreach.</td><td>No sourced rate or volume data found.</td></tr>
+    </tbody></table></div>
+  <p class="muted">Sources: Upwork, goLance, Jobgether, Hirist, Capgemini, Guidewire careers, Dice, Akkodis, Firecrawl job search of 14 Nov 2026. Links are in the research notes file.</p>
+</section>
+
+<section>
+  <h2>Figure 1. Hourly rate signals (US dollars)</h2>
+  <p>Bars span the low to high figure. These are not like for like. Some are platform prices, some are salary conversions, some are US onsite bills. Hatched bars are my estimate.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">US dollars per hour</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Upwork business systems analysts<small>reported, not insurance only</small></div><div class="track"><div class="rng bg" style="left:15.2%;width:45.6%"></div><span class="val" style="left:61.5%">$19 to $76</span></div></div>
+      <div class="row"><div class="lab">goLance "experienced BA" claim<small>reported, competitor site, also shows $15 median</small></div><div class="track"><div class="rng bn" style="left:60%;width:38.4%"></div><span class="val" style="left:60%;color:#fff;padding-left:8px">$75 to $123</span></div></div>
+      <div class="row"><div class="lab">India BA, overseas clients<small>reported, rate-calculator site</small></div><div class="track"><div class="rng bg" style="left:14.4%;width:24%"></div><span class="val" style="left:39.5%">$18 to $48</span></div></div>
+      <div class="row"><div class="lab">US Guidewire BA contract bills<small>reported, US postings, not India</small></div><div class="track"><div class="rng bn" style="left:39.2%;width:16.8%"></div><span class="val" style="left:56.5%">$49 to $70</span></div></div>
+      <div class="row"><div class="lab">BA salary converted to hourly<small>reported, employees, Jul 2026</small></div><div class="track"><div class="rng bn" style="left:8%;width:12%"></div><span class="val" style="left:20.8%">$10 to $25</span></div></div>
+      <div class="row"><div class="lab">My guess, first gigs<small>my estimate</small></div><div class="track"><div class="rng bc est" style="left:5.6%;width:8.8%"></div><span class="val" style="left:15%">$7 to $18</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>$0</span><span>$60</span><span>$125</span></div>
+    <p class="muted" style="margin-top:10px">The goLance page contradicts itself ($75 to $123 average, $15 median). I trust none of these as a quote. Treat them as a loose map.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Figure 2. Monthly money signals (Indian rupees)</h2>
+  <p>Rupees only on this chart. The salary bar is a full-time employee figure, shown for scale. It is not freelance pay.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Rupees per month</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Guidewire tester, employee salary, India<small>reported, ₹3.6 to 13 lakh a year, 129 salaries</small></div><div class="track"><div class="rng bn" style="left:25%;width:65%"></div><span class="val" style="left:25%;color:#fff;padding-left:8px">₹30,000</span><span class="val" style="right:6px;color:#fff">₹1,08,000</span></div></div>
+      <div class="row"><div class="lab">Month 1, all cases<small>my estimate</small></div><div class="track"><div class="rng bc est" style="left:0;width:12.5%"></div><span class="val" style="left:13%">₹0 to ₹15,000</span></div></div>
+      <div class="row"><div class="lab">Day 90, base case<small>my estimate</small></div><div class="track"><div class="rng bc est" style="left:8.3%;width:16.7%"></div><span class="val" style="left:25.5%">₹10,000 to ₹30,000</span></div></div>
+      <div class="row"><div class="lab">Day 90, good case<small>my estimate</small></div><div class="track"><div class="rng bc est" style="left:33.3%;width:33.3%"></div><span class="val" style="left:67%">₹40,000 to ₹80,000</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹60,000</span><span>₹1,20,000</span></div>
+    <p class="muted" style="margin-top:10px">My scenarios assume 8 to 10 hours a week and about ₹90 per US dollar (an assumption, not checked). Example: 10 hours a week at $12 is about $516 a month, about ₹46,000 before fees and tax.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Skills, certificates and AI</h2>
+  <div class="panel"><ul>
+    <li><b>What clients ask for.</b> Insurance domain knowledge (policy, claims, billing), written requirements, test case design, UAT coordination and clear English. Guidewire tool knowledge is often listed. I do not know what you hold, so I assume nothing.</li>
+    <li><b>ISTQB Foundation (testing).</b> India price about ₹4,700 plus 18% GST, so about ₹5,546 <span class="tag">Reported</span> (2026 guide). The US list price is $229 <span class="tag">Reported</span>. Sources disagree, so check the invoice.</li>
+    <li><b>AINS (insurance, The Institutes).</b> About $1,824 to $2,064 for first attempts <span class="tag">Reported</span> (secondary guide, not the official price page). It does not expire. Too costly for day 30. Do it later only if clients ask.</li>
+    <li><b>Not needed to start.</b> No capital means no paid certificate in the first 30 days. Sample work is a cheaper proof (my judgment).</li>
+    <li><b>AI changes the speed, not the need for judgment.</b> Claude and similar tools can draft test cases, requirement documents and UAT scripts in minutes. You then check them against the real rules. Clients pay for the checking.</li>
+  </ul></div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">How many testing teams use AI (%)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Any AI use<small>BrowserStack 2026 survey</small></div><div class="track"><div class="bar bg" style="width:94%"></div><span class="val" style="left:calc(94% - 36px);color:#fff">94</span></div></div>
+      <div class="row"><div class="lab">Exploring or using<small>TestRail report</small></div><div class="track"><div class="bar bg" style="width:86%"></div><span class="val" style="left:calc(86% - 36px);color:#fff">86</span></div></div>
+      <div class="row"><div class="lab">Adoption<small>PractiTest 2026</small></div><div class="track"><div class="bar bg" style="width:76.8%"></div><span class="val" style="left:calc(76.8% - 46px);color:#fff">76.8</span></div></div>
+      <div class="row"><div class="lab">Use AI to create test cases<small>PractiTest, big firms only</small></div><div class="track"><div class="bar bg" style="width:69.6%"></div><span class="val" style="left:calc(69.6% - 46px);color:#fff">69.6</span></div></div>
+      <div class="row"><div class="lab">Full AI autonomy<small>BrowserStack</small></div><div class="track"><div class="bar bc" style="width:12%"></div><span class="val" style="left:12%">12</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>0%</span><span>50%</span><span>100%</span></div>
+    <p class="muted" style="margin-top:10px">All reported, vendor surveys, different samples. Directional only. A small interview study (8 of 15 testers used AI for test case creation) also warns about made-up content and broken tests. AI also makes fast drafts normal, so clients may pay less per document (my judgment).</p>
+  </div>
+</section>
+
+<section>
+  <h2>Platform fees and getting paid</h2>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Platform fee on your earnings (%)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Upwork<small>reported, set per contract since 1 May 2025</small></div><div class="track"><div class="rng bg" style="left:0;width:75%"></div><span class="val" style="left:0;color:#fff;padding-left:8px">0%</span><span class="val" style="left:calc(75% - 40px);color:#fff">15%</span></div></div>
+      <div class="row"><div class="lab">Freelancer.com<small>reported, or $5 minimum</small></div><div class="track"><div class="bar bn" style="width:50%"></div><span class="val" style="left:calc(50% - 40px);color:#fff">10%</span></div></div>
+      <div class="row"><div class="lab">Contra<small>reported, freelancer side</small></div><div class="track"><span class="val" style="left:0">0%</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>0%</span><span>10%</span><span>20%</span></div>
+    <p class="muted" style="margin-top:10px">Upwork's own help page could not be opened. Blogs say the rate is fixed once a contract starts and shown before you accept. Older contracts may stay at the old flat 10%. Check the offer screen every time.</p>
+  </div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Cost to receive a $3,000 invoice (US dollars)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Skydo</div><div class="track"><div class="bar bg" style="width:12.6%"></div><span class="val" style="left:13%">$34</span></div></div>
+      <div class="row"><div class="lab">Payoneer</div><div class="track"><div class="bar bg" style="width:22.2%"></div><span class="val" style="left:22.8%">$60</span></div></div>
+      <div class="row"><div class="lab">Wise Business</div><div class="track"><div class="bar bg" style="width:22.6%"></div><span class="val" style="left:23.2%">$61</span></div></div>
+      <div class="row"><div class="lab">Stripe</div><div class="track"><div class="bar bn" style="width:82.6%"></div><span class="val" style="left:calc(82.6% - 40px);color:#fff">$223</span></div></div>
+      <div class="row"><div class="lab">PayPal</div><div class="track"><div class="bar bn" style="width:96.7%"></div><span class="val" style="left:calc(96.7% - 40px);color:#fff">$261</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>$0</span><span>$135</span><span>$270</span></div>
+    <p class="muted" style="margin-top:10px">Reported. This comparison comes from Skydo, a seller, so it favours Skydo. Skydo adds 18% GST on its fee. Wise charges about $2 for each FIRA paper (one source says $2.50). For small invoices under $1,000, a percentage fee can be cheaper.</p>
+  </div>
+  <div class="panel"><ul>
+    <li><b>Keep a paper for every payment.</b> Ask the platform for a FIRA or the bank for a FIRC. Your CA will want it for tax and GST.</li>
+    <li><b>Use the right purpose code.</b> One source suggests P0802 for software services. Ask your bank which code fits consulting.</li>
+    <li><b>If the client is an Indian firm,</b> the payment is a domestic invoice, not an export. Different GST rules apply. Ask a CA.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Tax and GST in plain words</h2>
+  <p>Read on 14 Nov 2026 from tax blogs and vendor guides. <b>I could not read the government pages.</b> Please check the GST portal and incometax.gov.in, or ask a CA, before you rely on any line.</p>
+  <div class="panel"><ul>
+    <li><b>GST sign-up limit.</b> ₹20 lakh of yearly turnover for service providers (₹10 lakh in a few special category states) <span class="tag">Reported</span>. Bihar is not in the special list I saw, but check this. Foreign income counts toward the limit.</li>
+    <li><b>Overseas clients.</b> Services sold abroad are "zero rated". You charge 0% GST, but only if conditions are met, including payment in foreign money <span class="tag">Reported</span>. A Letter of Undertaking (LUT) lets you skip paying GST first. Blogs disagree on whether you can file an LUT before you register.</li>
+    <li><b>Once registered,</b> returns are still due even when no tax is payable <span class="tag">Reported</span>.</li>
+    <li><b>Income tax, simple scheme.</b> Section 44ADA treats 50% of receipts as profit, with a receipts cap of ₹50 lakh (₹75 lakh if cash receipts are 5% or less) <span class="tag">Reported</span>. Whether it suits you depends on your salary and other income. Slabs and rebates were not checked.</li>
+    <li><b>Salary job.</b> If you have a job, side income adds to it. Keep every invoice and bank record. Read your employment contract for any side-work rule before you start (my judgment).</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Scams to avoid</h2>
+  <div class="panel"><ul>
+    <li><b>Never pay to get a job.</b> Registration fee, ID card, training kit or "refundable security deposit" is the common trap <span class="tag">Reported</span> (job-portal blogs). Real employers and real clients do not charge you.</li>
+    <li><b>Check the sender.</b> A big company offer from a free Gmail or Yahoo address is a warning sign.</li>
+    <li><b>Keep chat and payment on the platform.</b> Do not move to Telegram or WhatsApp for "faster hiring". Do not do unpaid "test projects" that look like real work.</li>
+    <li><b>Never share bank PIN, OTP or ID scans</b> before a signed contract on a known platform. Never "receive and forward" money for a client.</li>
+    <li><b>Report fraud</b> on helpline 1930 and cybercrime.gov.in <span class="tag">Reported</span>. I could not read the official advisory text.</li>
+    <li><b>Expect scam messages.</b> I put that at about 90% within 30 days (my judgment).</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Scorecard: two ways to find work</h2>
+  <p>Scores from 1 (poor) to 5 (strong) for you, a beginner with no reviews and no capital. <b>This is my judgment, not measured data.</b> Equal weights. For "scam risk" and "fee leakage", a high score means safer or cheaper.</p>
+  <div class="panel"><div class="sc" id="sc"></div></div>
+  <p class="muted">The totals are close. That is the point. Use marketplaces to get proof and first reviews, then move to direct outreach for better pay (my judgment).</p>
+</section>
+
+<section>
+  <h2>30-day plan to a first gig, ₹0 budget</h2>
+  <div class="panel"><ol>
+    <li><b>Day 0, rules first.</b> Read your job contract for side-work limits. Never reuse your employer's documents, screens or real customer data. Make every sample from a made-up insurer.</li>
+    <li><b>Days 1 to 3, profile.</b> One line: "Insurance BA and UAT tester, policy and claims flows, AI-assisted, human-checked." List only skills you truly have. Do not claim AINS, CPCU, Guidewire or ISTQB unless you hold them. Make a free portfolio page or a shared folder.</li>
+    <li><b>Days 4 to 12, three sample deliverables</b> (use Claude to draft, then you fix and own them):
+      <ul style="margin-top:6px">
+        <li><b>Sample 1.</b> A UAT test pack for a made-up motor claim intake flow. About 30 cases, expected results and a traceability sheet.</li>
+        <li><b>Sample 2.</b> User stories and acceptance rules for a made-up "mid-term policy change" feature. Two pages.</li>
+        <li><b>Sample 3.</b> A UAT script, a defect log template and a one-page note on how you use AI and check its output.</li>
+      </ul></li>
+    <li><b>Days 13 to 25, apply.</b> Send 3 to 5 tailored pitches a day on Upwork, Freelancer.com, Contra and Jobgether, and 10 short notes to Guidewire partners and small offshore QA shops. Use free allowances only. The cost to apply on Upwork was not verified.</li>
+    <li><b>Pitch shape, four lines.</b> One: their problem in their words. Two: a link to the closest sample. Three: a small paid first task, such as 20 test cases in 2 days. Four: your price and a question.</li>
+    <li><b>Starter price (my estimate).</b> $8 to $12 an hour or a fixed fee per deliverable. Raise it after two good reviews.</li>
+    <li><b>Days 26 to 30, review.</b> Count pitches, replies, calls and paid tasks. Improve the sample that got the most clicks.</li>
+  </ol></div>
+  <div class="panel kill">
+    <h3 style="font-size:16px;margin-bottom:8px">Kill rule</h3>
+    <ul>
+      <li><b>Day 30:</b> fewer than 60 pitches sent means you fixed nothing yet. Fix the effort, not the market.</li>
+      <li><b>Day 60:</b> 100 or more pitches and no reply or call at all. Stop the marketplace route. Change the samples or the target.</li>
+      <li><b>Day 90:</b> under ₹10,000 total earned. Stop and take stock. Do not buy courses to "fix" it.</li>
+      <li><b>Any time:</b> anyone asks you to pay, or you spend more than ₹2,000 of cash, or the work eats more than 12 hours a week. Stop.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Scenarios for income</h2>
+  <p><b>All figures and chances are my judgment</b>, built on the weak rate data above. They assume 8 to 10 hours a week and no repeat clients at first.</p>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Scenario</th><th>Chance</th><th>Day 30</th><th>Day 90 monthly pace</th><th>What it looks like</th></tr></thead>
+    <tbody>
+      <tr><td>Bad</td><td class="num">45%</td><td class="num">₹0</td><td class="num">₹0 to ₹5,000</td><td>Few replies. Samples need work. Kill rule triggers.</td></tr>
+      <tr><td>Base</td><td class="num">40%</td><td class="num">₹0 to ₹5,000</td><td class="num">₹10,000 to ₹30,000</td><td>One or two small test or document jobs. One repeat client.</td></tr>
+      <tr><td>Good</td><td class="num">15%</td><td class="num">₹5,000 to ₹15,000</td><td class="num">₹40,000 to ₹80,000</td><td>A subcontract or part-time contract starts. Pay is on the platform or by wire.</td></tr>
+    </tbody></table></div>
+</section>
+
+<section>
+  <h2>My odds</h2>
+  <div class="panel"><div class="odds" id="odds"></div>
+    <p class="muted" style="margin-top:12px">All labelled <b>my judgment</b>. They are opinion, not model output.</p></div>
+</section>
+
+<section>
+  <h2>Risks and data gaps</h2>
+  <div class="panel"><ul>
+    <li><b>Experience gap.</b> Insurance BA contracts often ask for 5+ years. Your years are unknown to me.</li>
+    <li><b>Employer rules.</b> A side-work clause in your job contract could end this plan.</li>
+    <li><b>Client data.</b> Real policyholder data is private. Do not take it out of a client system. Sign an NDA before seeing any.</li>
+    <li><b>Price pressure.</b> AI makes drafts cheap. Buyers may expect lower prices (my judgment).</li>
+    <li><b>Time zone and payment delay.</b> US and UK clients may need overlap hours. Wire payments can take days.</li>
+    <li><b>Platform risk.</b> Fees can change, and accounts can be suspended.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>What is verified, and what is not</h2>
+  <div class="panel"><ul>
+    <li><b>Nothing here is VERIFIED.</b> upwork.com and support.upwork.com did not load in this session, so no official fee or rate page was read. All numbers came from search extracts, blogs, vendor sites and job postings.</li>
+    <li><b>Reported only:</b> Upwork's 0% to 15% fee and 1 May 2025 date, Freelancer.com and Contra fees, all rate ranges, ISTQB and AINS prices, the AI survey shares, payment costs, GST and 44ADA rules.</li>
+    <li><b>My estimates:</b> every rupee scenario, the ₹90 per US dollar assumption, the starter price, the scorecard and every chance.</li>
+    <li><b>Job search limits.</b> 2 Firecrawl searches only. The India search returned 0 rows. The remote search returned 15 rows, 12 not confirmed on an employer board. Absence of a gig here does not prove none exists.</li>
+    <li><b>Not found anywhere:</b> sourced hourly rates for insurance BA or UAT work from India, Duck Creek and Majesco subcontractor demand, Toptal acceptance for India, and the official Indian scam advisory text.</li>
+    <li><b>Dated sources.</b> The AmbitionBox salary page was last updated in March 2025.</li>
+    <li><b>What would change my mind:</b> a reply to real pitches. Ten replies from India-friendly clients would push my odds up. Zero replies after 100 pitches would push them down.</li>
+  </ul></div>
+  <p class="muted">Full notes with every source link: research_notes/Money series ep3 remote BA QA gigs/notes.md in the repository. Not tax or legal advice.</p>
+</section>
+
+<footer class="muted" style="border-top:1px solid var(--line);padding-top:14px">
+  Series: Episode 1 Profile setup, Episode 2 Export leads, Episode 3 Remote BA/QA gigs
+</footer>
+</main>
+
+<script>
+(function(){
+  var rows=[["Easy to start with no reviews",5,2],["Insurance-specific work",2,4],["Pay per hour",2,4],["Number of listings",5,2],["Open to Indian freelancers",4,3],["Scam safety (high is safer)",3,2],["Fee leakage (high is cheaper)",2,4],["Speed to first money",3,2],["Long-term income",2,4]];
+  var el=document.getElementById('sc'),h='<div class="h crit">Criterion</div><div class="h">Marketplaces</div><div class="h">Direct and subcontract</div>',tg=0,tc=0;
+  function pips(n,cls){var s='<div class="pips">';for(var i=1;i<=5;i++)s+='<span class="pip" style="'+(i<=n?'background:var(--'+cls+')':'')+'"></span>';return s+'<b>'+n+'</b></div>';}
+  rows.forEach(function(r){tg+=r[1];tc+=r[2];h+='<div class="crit">'+r[0]+'</div>'+pips(r[1],'g')+pips(r[2],'c');});
+  h+='<div class="crit total">Total (out of 45)</div><div class="total num" style="color:var(--g)">'+tg+'</div><div class="total num" style="color:var(--c)">'+tc+'</div>';
+  el.innerHTML=h;
+  var odds=[["At least one real client call or interview within 30 days",55],["First paid insurance BA, QA or UAT gig within 30 days",20],["First paid gig within 90 days",45],["A repeat client or a contract over 3 months by day 90",10],["Earn ₹25,000 or more in one month by day 90",15],["The kill rule stops the plan at day 90",50],["Get at least one scam or fee-for-job message within 30 days",90]];
+  document.getElementById('odds').innerHTML=odds.map(function(o){return '<div class="orow"><div>'+o[0]+'<div class="otrack"><div class="ofill" style="width:'+o[1]+'%"></div></div></div><div class="pc">'+o[1]+'%</div></div>';}).join('');
+})();
+</script>

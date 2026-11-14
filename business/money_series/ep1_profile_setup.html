@@ -1,0 +1,227 @@
+<title>Google vs ChatGPT Business Profile</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: one reading column, verdict first, then evidence blocks (table, charts, scorecard, odds). */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#17202b; --muted:#566170; --line:#dde2e8;
+  --g:#1f7a5c; --g-soft:#d6ece3; --c:#c25a1b; --c-soft:#f6e1d2; --ink2:#2b3a4d;
+  --font-d:'Space Grotesk',Arial,sans-serif; --font-b:'Inter',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:16px;line-height:1.55;
+  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--font-d);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,42px)}
+h2{font-size:24px;margin-bottom:4px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted);font-size:14px}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vcard{border-radius:10px;padding:16px;border:1px solid var(--line);background:var(--surface)}
+.vcard.g{border-top:4px solid var(--g)}.vcard.c{border-top:4px solid var(--c)}
+.big{font-family:var(--font-d);font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.g .big{color:var(--g)}.c .big{color:var(--c)}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:var(--line);color:var(--ink2)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td:first-child{font-weight:600;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+/* bar charts */
+.bars{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.lab{font-size:13px;line-height:1.25}
+.lab small{display:block;color:var(--muted);font-size:11px}
+.track{position:relative;height:26px;background:var(--bg);border-radius:4px;border:1px solid var(--line)}
+.bar{position:absolute;left:0;top:0;bottom:0;border-radius:3px 0 0 3px;min-width:3px}
+.bar.est{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(255,255,255,.35) 5px 8px)}
+.rng{position:absolute;top:4px;bottom:4px;border-radius:4px}
+.val{position:absolute;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;padding-left:6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-left:160px;font-variant-numeric:tabular-nums}
+.bg{background:var(--g)}.bc{background:var(--c)}.bn{background:var(--ink2)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+/* scorecard */
+.sc{display:grid;grid-template-columns:minmax(120px,1.2fr) 1fr 1fr;gap:8px 12px;align-items:center;font-size:13px}
+.sc .h{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.pips{display:flex;gap:3px;align-items:center}
+.pip{width:100%;max-width:26px;height:12px;border-radius:2px;background:var(--line)}
+.pips b{margin-left:6px;font-variant-numeric:tabular-nums;font-size:13px}
+.total{font-weight:700;border-top:2px solid var(--fg);padding-top:8px}
+/* odds */
+.odds{display:flex;flex-direction:column;gap:10px}
+.orow{display:grid;grid-template-columns:1fr 54px;gap:10px;align-items:center;font-size:14px}
+.otrack{height:8px;background:var(--line);border-radius:4px;margin-top:5px;overflow:hidden}
+.ofill{height:100%;background:var(--ink2)}
+.orow .pc{font-family:var(--font-d);font-weight:700;font-size:20px;text-align:right;font-variant-numeric:tabular-nums}
+ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:68ch}
+a{color:var(--g)}
+@media(max-width:560px){.verdict{grid-template-columns:1fr}.row{grid-template-columns:1fr;gap:4px}.axis{margin-left:0}.sc{grid-template-columns:1fr 1fr}.sc .crit{grid-column:1/-1;font-weight:600;margin-top:6px}}
+</style>
+
+<main>
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">Research report · 14 Nov 2026 · small business in India</span>
+  <h1>Google Business Profile vs the new ChatGPT business profile</h1>
+  <p>Google wins today. The ChatGPT profile is a free extra, not a replacement. Reasons, charts and what is still unknown are below.</p>
+</header>
+
+<section>
+  <div class="verdict">
+    <div class="vcard g"><span class="tag">Winner today</span><div class="big" style="margin-top:10px">93%</div>
+      <p style="margin-top:8px">Chance Google profile is the better first investment for an Indian local shop over 12 months <span class="muted">(my judgment)</span></p></div>
+    <div class="vcard c"><span class="tag">Free add-on</span><div class="big" style="margin-top:10px">5%</div>
+      <p style="margin-top:8px">Chance a ChatGPT profile brings a typical Indian shop measurable customers within 6 months <span class="muted">(my judgment)</span></p></div>
+  </div>
+  <div class="panel">
+    <ul>
+      <li><b>OpenAI's Business Hub started on 10 Nov 2026.</b> It is a beta, four days old. No results data exists.</li>
+      <li><b>Local shops and restaurants can claim only US listings.</b> Business Agents are US-only. India is neither confirmed nor excluded for website-based profiles.</li>
+      <li><b>Most Indian small shops have no website</b> (about 18% to 27%), and the ChatGPT claim starts with a website.</li>
+      <li><b>AI chatbots send about 0.3% to 1.1% of website traffic.</b> Organic search sends about 43%.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Side by side</h2>
+  <div class="panel scroll"><table>
+    <thead><tr><th></th><th>Google Business Profile</th><th>ChatGPT Business Hub (beta)</th></tr></thead>
+    <tbody>
+      <tr><td>Cost</td><td>Free in India</td><td>Free at launch. OpenAI did not rule out charging later.</td></tr>
+      <tr><td>Who can use it</td><td>Businesses with in-person service. Online-only is not eligible.</td><td>Businesses where ChatGPT is available, starting with those that have a website. Local stores: US listings only.</td></tr>
+      <tr><td>India</td><td>Available</td><td>Not confirmed or excluded. One Indian agency says a website claim worked in about 5 minutes.</td></tr>
+      <tr><td>Verification</td><td>Phone, SMS, email or video. Up to 5 business days.</td><td>Phone, email, domain or Shopify, plus a Persona ID check.</td></tr>
+      <tr><td>What you see</td><td>Searches, views, calls, directions, website clicks</td><td>28-day mentions, website clicks, topics. Blank when counts are low.</td></tr>
+      <tr><td>Does claiming help ranking?</td><td>Reviews, completeness and distance feed ranking. It cannot be bought.</td><td>OpenAI says claiming does not guarantee higher placement.</td></tr>
+      <tr><td>Main weakness</td><td>Suspensions, fake reviews, falling calls and clicks</td><td>Beta, US-first, no outcome data, OpenAI controls edits</td></tr>
+    </tbody></table></div>
+  <p class="muted">Sources: Google India and Help pages, OpenAI Help Center, Digiday, BananaBlocks, Gadgets Now. Full links are in the report file.</p>
+</section>
+
+<section>
+  <h2>Figure 1. Huge audience, small customer flow</h2>
+  <p>ChatGPT is very large. Weekly users and monthly users are different units, so each is its own chart.</p>
+
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Weekly active users (millions)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">ChatGPT, world<small>Sep 2026, company claim, reported</small></div><div class="track"><div class="bar bc" style="width:100%"></div><span class="val" style="left:calc(100% - 64px);color:#fff">1,200</span></div></div>
+      <div class="row"><div class="lab">ChatGPT, India<small>Nov 2026, my arithmetic</small></div><div class="track"><div class="bar bc est" style="width:16.7%"></div><span class="val" style="left:16.7%">about 200</span></div></div>
+      <div class="row"><div class="lab">ChatGPT, India<small>Feb 2026, Altman</small></div><div class="track"><div class="bar bc" style="width:8.3%"></div><span class="val" style="left:8.3%">100+</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>0</span><span>600</span><span>1,200</span></div>
+  </div>
+
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Google AI products, monthly active users (millions)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Gemini app<small>Q3 2026</small></div><div class="track"><div class="bar bg" style="width:100%"></div><span class="val" style="left:calc(100% - 64px);color:#fff">1,000+</span></div></div>
+      <div class="row"><div class="lab">Google AI Mode<small>Q2 2026</small></div><div class="track"><div class="bar bg" style="width:100%"></div><span class="val" style="left:calc(100% - 64px);color:#fff">1,000+</span></div></div>
+      <div class="row"><div class="lab">AI Overviews<small>Q3 2025, older</small></div><div class="track"><div class="bar bg" style="width:100%"></div><span class="val" style="left:calc(100% - 64px);color:#fff">1,000+</span></div></div>
+    </div>
+    <p class="muted" style="margin-top:10px">Google Search has 5+ trillion queries a year (a January 2025 figure). Google Maps says "hundreds of millions" of monthly users, with no number. Both are left off this chart because the units differ.</p>
+  </div>
+
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Share of website traffic (%)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Organic search<small>SE Ranking</small></div><div class="track"><div class="bar bn" style="width:100%"></div><span class="val" style="left:calc(100% - 52px);color:#fff">42.75</span></div></div>
+      <div class="row"><div class="lab">AI referrals<small>Conductor</small></div><div class="track"><div class="bar bc" style="width:2.5%"></div><span class="val" style="left:2.5%">1.08</span></div></div>
+      <div class="row"><div class="lab">AI referrals<small>SEOcrawl, Aug 2026</small></div><div class="track"><div class="bar bc" style="width:1%"></div><span class="val" style="left:1%">0.42</span></div></div>
+      <div class="row"><div class="lab">AI referrals<small>SE Ranking</small></div><div class="track"><div class="bar bc" style="width:.75%"></div><span class="val" style="left:.75%">0.32</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>0%</span><span>20%</span><span>42.75%</span></div>
+    <p class="muted" style="margin-top:10px">Google sent about 134 times more visitors than AI platforms in the SE Ranking data. These are vendor studies, not India-specific, and they miss calls and walk-ins that a shop cares about.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Figure 2. What setup costs in India (₹)</h2>
+  <p>Bars span the low to high advertised price. These are seller list prices, not what shops paid. Monthly and one-time prices are on separate charts.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">One-time setup</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Google profile setup<small>agencies, freelancers</small></div><div class="track"><div class="rng bg" style="left:14%;width:86%"></div><span class="val" style="left:14%;color:#fff;padding-left:8px">₹999</span><span class="val" style="right:6px;color:#fff">₹7,000</span></div></div>
+      <div class="row"><div class="lab">ChatGPT profile claim<small>free in beta</small></div><div class="track"><span class="val" style="left:0">₹0</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹7,000</span></div>
+  </div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Per month</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Google profile, small agencies</div><div class="track"><div class="rng bg" style="left:2.3%;width:9.4%"></div><span class="val" style="left:12.5%">₹700 to ₹3,500</span></div></div>
+      <div class="row"><div class="lab">Google or local SEO, larger agencies, per location</div><div class="track"><div class="rng bg" style="left:23%;width:37%"></div><span class="val" style="left:61%">₹6,999 to ₹18,000+</span></div></div>
+      <div class="row"><div class="lab">AI-visibility (GEO) services, SMB tiers</div><div class="track"><div class="rng bc" style="left:33%;width:67%"></div><span class="val" style="left:33%;color:#fff;padding-left:8px">₹9,999</span><span class="val" style="right:6px;color:#fff">₹30,000</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹15,000</span><span>₹30,000</span></div>
+    <p class="muted" style="margin-top:10px">Other units, not on the chart: Justdial paid listing ₹30,000 to ₹1,00,000+ per year. ChatGPT Ads in India start at about ₹725 per day.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Figure 3. Scorecard</h2>
+  <p>Scores from 1 (poor) to 5 (strong) for a small Indian business. <b>This is my judgment, not measured data.</b> Equal weights.</p>
+  <div class="panel"><div class="sc" id="sc"></div></div>
+</section>
+
+<section>
+  <h2>Why ChatGPT rarely uses your Google profile</h2>
+  <div class="panel"><ul>
+    <li>In a BrightLocal vendor study of 200,085 prompts (US, UK, Australia), the Google profile supplied <b>28.5%</b> of citations across Google's AI answers. ChatGPT barely used it.</li>
+    <li>Yelp was a source in <b>80%</b> of ChatGPT local answers. Yelp is thin in India, so directories such as Justdial probably matter more there (my judgment).</li>
+    <li>Repeating the same ChatGPT prompt gave an overlapping result only <b>23%</b> of the time. A one-time listing cannot promise stable visibility.</li>
+    <li>ChatGPT's business details fully matched Google's in <b>55.6%</b> of 10,000 US businesses, mostly wrong phone numbers.</li>
+  </ul></div>
+  <p>What helps every platform: a real website, the same name, address, phone and hours everywhere, and good reviews.</p>
+</section>
+
+<section>
+  <h2>If you sell this as a freelancer</h2>
+  <div class="panel"><ul>
+    <li><b>Sell:</b> Google profile setup, the same data on Google, Justdial and the website, a review routine, and a monthly check of what Google and ChatGPT say about the shop.</li>
+    <li><b>Price idea (my extrapolation, not an observed price):</b> about ₹3,000 to ₹8,000 once, plus ₹1,500 to ₹4,000 a month.</li>
+    <li><b>Never promise</b> "rank in ChatGPT" or "customers from ChatGPT". OpenAI says claiming does not change visibility and no outcome data exists.</li>
+    <li><b>The shop owner should own</b> the Google and ChatGPT accounts, not you.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>My odds</h2>
+  <div class="panel"><div class="odds" id="odds"></div>
+    <p class="muted" style="margin-top:12px">All labelled <b>my judgment</b>. They are opinion, not model output.</p></div>
+</section>
+
+<section>
+  <h2>What is verified, and what is not</h2>
+  <div class="panel"><ul>
+    <li><b>No outcome data</b> exists for ChatGPT profiles. The beta is four days old.</li>
+    <li><b>India availability is unconfirmed</b> for Business Hub, agents and sponsored agents. OpenAI lists no countries or dates.</li>
+    <li><b>Most numbers come from vendors or search summaries</b>: the traffic shares, BrightLocal and SOCi studies, the 18.4% website sample and all rupee prices.</li>
+    <li><b>Official OpenAI and Google text</b> was read through search extracts and may be incomplete.</li>
+    <li><b>The 200 million India figure is my arithmetic.</b> The 1.2 billion figure is a company claim seen through secondary sources.</li>
+    <li><b>Not found anywhere:</b> India-specific studies on ChatGPT local sources, Hindi accuracy, Google profile adoption by Indian shops, or suspension rates.</li>
+    <li><b>What would change my mind:</b> OpenAI opening Indian local listings and the mentions and clicks counters showing real numbers.</li>
+  </ul></div>
+  <p class="muted">Full report with every source link: reports/ChatGPT vs Google business profiles.md in the repository.</p>
+</section>
+</main>
+
+<script>
+(function(){
+  var rows=[["Works for Indian local shops today",5,1],["Audience that sends customers",5,2],["Cost to start",5,5],["Ease for a non-technical owner",4,2],["Owner analytics",4,2],["Evidence it produces customers",4,1],["Platform risk (suspensions, control)",2,2],["Future upside",3,4],["Sales value for a freelancer today",4,2]];
+  var el=document.getElementById('sc'),h='<div class="h crit">Criterion</div><div class="h">Google profile</div><div class="h">ChatGPT profile</div>',tg=0,tc=0;
+  function pips(n,cls){var s='<div class="pips">';for(var i=1;i<=5;i++)s+='<span class="pip" style="'+(i<=n?'background:var(--'+cls+')':'')+'"></span>';return s+'<b>'+n+'</b></div>';}
+  rows.forEach(function(r){tg+=r[1];tc+=r[2];h+='<div class="crit">'+r[0]+'</div>'+pips(r[1],'g')+pips(r[2],'c');});
+  h+='<div class="crit total">Total (out of 45)</div><div class="total num" style="color:var(--g)">'+tg+'</div><div class="total num" style="color:var(--c)">'+tc+'</div>';
+  el.innerHTML=h;
+  var odds=[["Google profile is the better first investment for a typical Indian local shop, next 12 months",93],["A GBP plus multi-platform data clean-up bundle finds paying Indian clients within 3 months",70],["OpenAI opens local-shop profile claiming in India within 12 months",35],["A freelancer selling only ChatGPT listing setup builds steady income in 6 months",8],["ChatGPT profile brings a typical Indian shop measurable customers in 6 months",5],["ChatGPT refers more than 5% of a typical small business's web traffic within 12 months",3]];
+  document.getElementById('odds').innerHTML=odds.map(function(o){return '<div class="orow"><div>'+o[0]+'<div class="otrack"><div class="ofill" style="width:'+o[1]+'%"></div></div></div><div class="pc">'+o[1]+'%</div></div>';}).join('');
+})();
+</script>

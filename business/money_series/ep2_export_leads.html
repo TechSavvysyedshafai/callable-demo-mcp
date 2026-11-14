@@ -1,0 +1,292 @@
+<title>Export Lead Research Service</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: one reading column, verdict first, then evidence blocks (table, charts, scorecard, odds). */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#17202b; --muted:#566170; --line:#dde2e8;
+  --g:#1f7a5c; --g-soft:#d6ece3; --c:#c25a1b; --c-soft:#f6e1d2; --ink2:#2b3a4d;
+  --font-d:'Space Grotesk',Arial,sans-serif; --font-b:'Inter',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:16px;line-height:1.55;
+  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--font-d);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,42px)}
+h2{font-size:24px;margin-bottom:4px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted);font-size:14px}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vcard{border-radius:10px;padding:16px;border:1px solid var(--line);background:var(--surface)}
+.vcard.g{border-top:4px solid var(--g)}.vcard.c{border-top:4px solid var(--c)}
+.big{font-family:var(--font-d);font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.g .big{color:var(--g)}.c .big{color:var(--c)}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:var(--line);color:var(--ink2)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td:first-child{font-weight:600;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+/* bar charts */
+.bars{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.lab{font-size:13px;line-height:1.25}
+.lab small{display:block;color:var(--muted);font-size:11px}
+.track{position:relative;height:26px;background:var(--bg);border-radius:4px;border:1px solid var(--line)}
+.bar{position:absolute;left:0;top:0;bottom:0;border-radius:3px 0 0 3px;min-width:3px}
+.bar.est{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(255,255,255,.35) 5px 8px)}
+.rng{position:absolute;top:4px;bottom:4px;border-radius:4px;min-width:4px}
+.val{position:absolute;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;padding-left:6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-left:160px;font-variant-numeric:tabular-nums}
+.bg{background:var(--g)}.bc{background:var(--c)}.bn{background:var(--ink2)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+/* scorecard */
+.sc{display:grid;grid-template-columns:minmax(120px,1.2fr) 1fr 1fr;gap:8px 12px;align-items:center;font-size:13px}
+.sc .h{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.pips{display:flex;gap:3px;align-items:center}
+.pip{width:100%;max-width:26px;height:12px;border-radius:2px;background:var(--line)}
+.pips b{margin-left:6px;font-variant-numeric:tabular-nums;font-size:13px}
+.total{font-weight:700;border-top:2px solid var(--fg);padding-top:8px}
+/* odds */
+.odds{display:flex;flex-direction:column;gap:10px}
+.orow{display:grid;grid-template-columns:1fr 54px;gap:10px;align-items:center;font-size:14px}
+.otrack{height:8px;background:var(--line);border-radius:4px;margin-top:5px;overflow:hidden}
+.ofill{height:100%;background:var(--ink2)}
+.orow .pc{font-family:var(--font-d);font-weight:700;font-size:20px;text-align:right;font-variant-numeric:tabular-nums}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:68ch}
+a{color:var(--g)}
+.tg{font-size:10px;font-weight:700;letter-spacing:.05em;padding:1px 5px;border-radius:3px;background:var(--line);color:var(--ink2);white-space:nowrap}
+footer{border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:560px){.verdict{grid-template-columns:1fr}.row{grid-template-columns:1fr;gap:4px}.axis{margin-left:0}.sc{grid-template-columns:1fr 1fr}.sc .crit{grid-column:1/-1;font-weight:600;margin-top:6px}}
+</style>
+
+<main>
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">Money series · Episode 2 · 14 Nov 2026</span>
+  <h1>Finding export buyers for small spice exporters, as a paid lead-research service</h1>
+  <p>Worth a cheap 30-day test, not a sure income. The market is big, but buyers of cheap lists are many and trust is low. Tags show how each number was checked: <span class="tg">VERIFIED</span> official page text, <span class="tg">REPORTED</span> press or vendor, <span class="tg">MY ESTIMATE</span>.</p>
+</header>
+
+<section>
+  <div class="verdict">
+    <div class="vcard g"><span class="tag">Cheap test</span><div class="big" style="margin-top:10px">25%</div>
+      <p style="margin-top:8px">Chance you get at least one paying client within 30 days <span class="muted">(my judgment)</span></p></div>
+    <div class="vcard c"><span class="tag">Real income</span><div class="big" style="margin-top:10px">10%</div>
+      <p style="margin-top:8px">Chance you earn ₹10,000 or more from it in the first 30 days <span class="muted">(my judgment)</span></p></div>
+  </div>
+  <div class="panel">
+    <ul>
+      <li><b>The market is large.</b> India shipped about $4.43 billion of spices in FY2025-26, down about 6% from a record $4.72 billion the year before <span class="tg">REPORTED</span>.</li>
+      <li><b>There are thousands of exporters.</b> The Spices Board says more than 6,600 are registered <span class="tg">VERIFIED</span>, on an undated page. How many are small is not published anywhere I found.</li>
+      <li><b>Prices are low.</b> Freelancers charge about ₹100 to ₹400 per researched lead <span class="tg">REPORTED</span>. At that price you need volume, and volume means many hours.</li>
+      <li><b>Rules shape the plan.</b> IndiaMART bans building lists from its pages. Business emails to named people are personal data under the DPDP Act. So this is a research service, and you send nothing without the owner's yes.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>How the service works, step by step</h2>
+  <p>Only public and allowed sources. No LinkedIn, Facebook, Instagram or Reddit scraping. You do the work by hand or with simple tools.</p>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Step</th><th>What you do</th><th>Allowed source</th><th>Watch out</th></tr></thead>
+    <tbody>
+      <tr><td>1. Pick a client</td><td>Find a small exporter and one product, for example turmeric to the UAE.</td><td>Spices Board public trader directory of exporters</td><td>I did not read that directory's terms. Check before copying names in bulk.</td></tr>
+      <tr><td>2. Define the buyer</td><td>Write down country, buyer type (importer, packer, wholesaler), size and pack form.</td><td>Talk to the client</td><td>A vague target gives useless leads.</td></tr>
+      <tr><td>3. Find real importers</td><td>Look for companies that actually import the product.</td><td>Free trade-data trial pages, public customs summaries, trade-fair exhibitor lists, company websites</td><td>Paid customs data costs $149 to $1,500 a year <span class="tg">REPORTED</span>. Check each vendor's licence before reusing its data.</td></tr>
+      <tr><td>4. Check they are real</td><td>Website, address, years in business, product match, shipment history if the trial shows it.</td><td>Company websites, registries</td><td>Fraud and non-payment are the exporter's biggest fear.</td></tr>
+      <tr><td>5. Find a business contact</td><td>Use role addresses (sales@, info@, purchase@) or the contact form on their site.</td><td>The company's own website</td><td>Skip personal addresses. See the rules section.</td></tr>
+      <tr><td>6. Deliver a sheet</td><td>Company, country, why it fits, source link, date checked, contact route, a draft first message.</td><td>Google Sheets</td><td>Give a replacement promise for bounced contacts.</td></tr>
+      <tr><td>7. Owner sends</td><td>The exporter reviews and sends the messages from their own mail.</td><td>Their own email</td><td>You never send bulk mail for them without a written yes.</td></tr>
+    </tbody></table></div>
+  <p class="muted">IndiaMART's terms ban systematic retrieval of its content "by robots, spiders, automatic devices or manual processes" without written permission <span class="tg">VERIFIED</span> (terms page, updated 20 Feb 2026 per a secondary summary). So use IndiaMART and TradeIndia only for a one-off look at a single company, never to build a list. TradeIndia's terms were not fully read.</p>
+</section>
+
+<section>
+  <h2>Figure 1. Market size</h2>
+  <p>Value of spice exports and number of exporters are different units, so each is its own chart.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">India spice exports (US$ billion, financial year)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">FY2020-21<small>VERIFIED, Spices Board page</small></div><div class="track"><div class="bar bn" style="width:72.4%"></div><span class="val" style="left:72.4%">3.62</span></div></div>
+      <div class="row"><div class="lab">FY2024-25<small>REPORTED, record year</small></div><div class="track"><div class="bar bg est" style="width:94.4%"></div><span class="val" style="left:94.4%;transform:translate(-100%,-50%);padding-right:6px;color:#fff">4.72</span></div></div>
+      <div class="row"><div class="lab">FY2025-26<small>REPORTED, Spices Board extract</small></div><div class="track"><div class="bar bg est" style="width:88.6%"></div><span class="val" style="left:88.6%">4.43</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>0</span><span>2.5</span><span>5</span></div>
+    <p class="muted" style="margin-top:10px">FY2025-26 volume was 17.34 lakh tonnes, worth ₹39,140 crore <span class="tg">REPORTED</span>. I could not open the Board's own PDF from this session, so I rely on the search extract of it and on Informist, which reports volume down 4% and value down 6%. One site gave a different volume (1.19 million tonnes). I ignored it because it conflicts with the Board figure. Chilli fell about 12% in value while small cardamom more than doubled, so product mix matters.</p>
+  </div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Number of spice exporters (count)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Registered, parliament reply<small>REPORTED, undated</small></div><div class="track"><div class="bar bn" style="width:37.9%"></div><span class="val" style="left:37.9%">2,653</span></div></div>
+      <div class="row"><div class="lab">Registered, Spices Board page<small>VERIFIED, undated</small></div><div class="track"><div class="bar bg" style="width:94.3%"></div><span class="val" style="left:94.3%;transform:translate(-100%,-50%);padding-right:6px;color:#fff">6,600+</span></div></div>
+      <div class="row"><div class="lab">Seen shipping, trade-data blog<small>REPORTED, one vendor</small></div><div class="track"><div class="bar bc" style="width:95.3%"></div><span class="val" style="left:95.3%;transform:translate(-100%,-50%);padding-right:6px;color:#fff">6,674</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>0</span><span>3,500</span><span>7,000</span></div>
+    <p class="muted" style="margin-top:10px">The sources disagree and none is dated. <b>The number of small exporters is missing.</b> The Board page says about 600 of the 6,600 are manufacturers, so most are merchant exporters.</p>
+  </div>
+  <div class="panel">
+    <h3 style="font-size:16px;margin-bottom:8px">Pain points of small exporters in finding buyers</h3>
+    <ul>
+      <li>Months of research through trade shows, directories and word of mouth <span class="tg">REPORTED</span> (a software vendor's case study, so it has a motive).</li>
+      <li>Hard to tell real importers from fake ones, and fear of non-payment <span class="tg">REPORTED</span>.</li>
+      <li>Contact lists are generic and out of date <span class="tg">REPORTED</span>.</li>
+      <li>Cold outreach on general B2B portals gives mostly noise. Buyer-seller meets and trade fairs work better <span class="tg">REPORTED</span> (a Kerala trade network guide, July 2026).</li>
+    </ul>
+    <p class="muted" style="margin-top:8px">These are vendor and blog claims. I found no independent survey of small spice exporters.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Figure 2. What others charge</h2>
+  <p>All are seller list prices, not what clients paid. Per-lead, monthly and yearly prices are on separate charts.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Price per lead (₹)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Freelancer, basic contact<small>eGig</small></div><div class="track"><div class="rng bn" style="left:0.1%;width:0.5%"></div><span class="val" style="left:1.5%">₹20 to ₹100</span></div></div>
+      <div class="row"><div class="lab">Freelancer, researched lead<small>eGig</small></div><div class="track"><div class="rng bg" style="left:0.6%;width:1.8%"></div><span class="val" style="left:3%">₹100 to ₹400</span></div></div>
+      <div class="row"><div class="lab">Freelancer, qualified lead<small>eGig</small></div><div class="track"><div class="rng bn" style="left:2.4%;width:9.4%"></div><span class="val" style="left:13%">₹400 to ₹2,000</span></div></div>
+      <div class="row"><div class="lab">Agency, qualified domestic lead<small>Global Associates, 10 Nov 2026</small></div><div class="track"><div class="rng bn" style="left:2.9%;width:20.6%"></div><span class="val" style="left:25%">₹500 to ₹4,000</span></div></div>
+      <div class="row"><div class="lab">Exclusive export lead, one "genuine"<small>Export Import Globe, MOQ 20</small></div><div class="track"><div class="rng bc" style="left:32.4%;width:67.6%"></div><span class="val" style="left:32.4%;color:#fff;padding-left:8px">₹5,500</span><span class="val" style="right:6px;color:#fff">₹17,000</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹8,500</span><span>₹17,000</span></div>
+    <p class="muted" style="margin-top:10px">The top row filters 10 to 20 raw leads for each genuine one and delivers in 30 to 50 days. That is the closest thing I found to an export-buyer price. Its high price shows what a verified, filtered lead is worth to some exporters. It is one seller's list price, not proof that exporters pay it.</p>
+  </div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Subscription from an export-buyer lead seller (₹ per month, from list prices)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Basic, 12-month plan<small>₹29,999 / 12</small></div><div class="track"><div class="bar bg" style="width:50%"></div><span class="val" style="left:50%">₹2,500</span></div></div>
+      <div class="row"><div class="lab">Basic, 3-month plan<small>₹9,999 / 3</small></div><div class="track"><div class="bar bg" style="width:66.7%"></div><span class="val" style="left:66.7%">₹3,333</span></div></div>
+      <div class="row"><div class="lab">Pro, 12-month plan<small>₹49,999 / 12</small></div><div class="track"><div class="bar bc" style="width:83.3%"></div><span class="val" style="left:83.3%">₹4,167</span></div></div>
+      <div class="row"><div class="lab">Pro, 3-month plan<small>₹14,999 / 3</small></div><div class="track"><div class="bar bc" style="width:100%"></div><span class="val" style="left:calc(100% - 60px);color:#fff">₹5,000</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹2,500</span><span>₹5,000</span></div>
+    <p class="muted" style="margin-top:10px">Source: EximXpert pricing page (published 6 Aug 2025). Each plan lists 20 leads a week. That is about 87 leads a month, so roughly ₹29 to ₹57 per lead (my arithmetic). This is the nearest model to copy for a retainer. Note the price is far below the ₹5,500+ exclusive-lead price. Quality and exclusivity differ.</p>
+  </div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Customs-data tools an exporter could buy instead (US$ per year)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">SEAIR (India only)<small>saleshandy, 10 Aug 2026</small></div><div class="track"><div class="bar bn" style="width:9.9%"></div><span class="val" style="left:9.9%">149</span></div></div>
+      <div class="row"><div class="lab">Eximpedia<small>saleshandy</small></div><div class="track"><div class="bar bn" style="width:80%"></div><span class="val" style="left:80%">1,200</span></div></div>
+      <div class="row"><div class="lab">Export Genius<small>saleshandy</small></div><div class="track"><div class="bar bn" style="width:93.3%"></div><span class="val" style="left:93.3%;transform:translate(-100%,-50%);padding-right:6px;color:#fff">1,400</span></div></div>
+      <div class="row"><div class="lab">Siomex<small>saleshandy</small></div><div class="track"><div class="bar bn" style="width:99.9%"></div><span class="val" style="left:calc(100% - 52px);color:#fff">1,499</span></div></div>
+      <div class="row"><div class="lab">Volza, Startup tier<small>checked 22 Aug 2026 by a third party</small></div><div class="track"><div class="bar bn" style="width:100%"></div><span class="val" style="left:calc(100% - 52px);color:#fff">1,500</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>$0</span><span>$750</span><span>$1,500</span></div>
+    <p class="muted" style="margin-top:10px">Volza's own page lists a 3-month free trial with $50 credit on sign-up <span class="tg">VERIFIED</span> page text. Trial terms can change, so check before relying on it. Panjiva quotes by sales call. ImportYeti is free but covers US imports only. At about ₹1.25 lakh a year for the mid tools, a small exporter may prefer to pay you per sheet. That is my judgment, not tested.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Rules: what you can and cannot do</h2>
+  <div class="panel"><ul>
+    <li><b>DPDP Act 2023 covers named business contacts.</b> A work email of an identifiable person is personal data, and commentary says the Act has no business-contact exemption <span class="tg">REPORTED</span>. Marketing is not a listed "legitimate use", so consent is the safe base.</li>
+    <li><b>The public-data exclusion is narrow.</b> Section 3(c)(ii) of the Act text <span class="tg">VERIFIED</span> excludes data the person made public themselves, or data a law forces someone to publish. A company website listing a staff email may not qualify.</li>
+    <li><b>Timing.</b> The DPDP Rules were notified on 13 or 14 Nov 2025 and the main duties are reported to start about 13 May 2027 <span class="tg">REPORTED</span>. I did not read the gazette. The Act's principles are still the right habit now.</li>
+    <li><b>Email law.</b> One source found no Indian anti-spam statute for email. The telecom rules (TCCCPR 2018) cover calls and texts <span class="tg">REPORTED</span>. Do not use that gap as permission.</li>
+    <li><b>Your own habits:</b> role or company addresses only (sales@, info@), no personal Gmail or phone numbers, no scraping behind logins, source link and date for every lead, an opt-out line and a postal address in every message, and delete a contact on request.</li>
+    <li><b>No mass unsolicited sending without the owner's yes.</b> You research. The exporter reviews and sends. You do not send, and no tool sends, until the owner says yes in writing.</li>
+    <li><b>Foreign buyers.</b> Buyers in the EU, UK or US may fall under their own email laws. I did not research these. This is a gap. This page is not legal advice.</li>
+  </ul></div>
+  <p class="muted">Sources: DPDP Act 2023 text (MeitY), Clifford Chance briefing, India Briefing (10 Sep 2026), ComplyDP (Aug and Oct 2026), ken.so cold-email guide, IndiaMART terms of use.</p>
+</section>
+
+<section>
+  <h2>Figure 3. Scorecard</h2>
+  <p>Scores from 1 (poor) to 5 (strong) for you, in Patna, with no capital. <b>This is my judgment, not measured data.</b> Equal weights. "Spices first" is compared with "any small product" as the target market.</p>
+  <div class="panel"><div class="sc" id="sc"></div></div>
+</section>
+
+<section>
+  <h2>30-day cost and income scenario</h2>
+  <p><b>All of this is my judgment.</b> No client has been contacted and nothing was sold.</p>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Case</th><th>What happens</th><th>Income</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Bad</td><td>Few replies. Exporters want free lists.</td><td class="num">₹0</td><td class="num">₹0 to ₹1,000</td></tr>
+      <tr><td>Base</td><td>Two small paid pilots of 30 checked buyers at ₹3,000 each.</td><td class="num">about ₹6,000</td><td class="num">about ₹1,000</td></tr>
+      <tr><td>Good</td><td>Three pilots plus one monthly plan at ₹4,000.</td><td class="num">about ₹13,000</td><td class="num">about ₹1,000</td></tr>
+    </tbody></table></div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Income in 30 days (₹, my judgment)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Bad case</div><div class="track"><span class="val" style="left:0">₹0</span></div></div>
+      <div class="row"><div class="lab">Base case</div><div class="track"><div class="bar bn est" style="width:46%"></div><span class="val" style="left:46%">about ₹6,000</span></div></div>
+      <div class="row"><div class="lab">Good case</div><div class="track"><div class="bar bg est" style="width:100%"></div><span class="val" style="left:calc(100% - 100px);color:#fff">about ₹13,000</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹6,500</span><span>₹13,000</span></div>
+  </div>
+  <div class="panel"><ul>
+    <li><b>Cost is small.</b> Free Gmail, Google Sheets and free trials. A custom-domain email may cost about ₹800 a year (my estimate, unverified). No paid data tool is needed for the test.</li>
+    <li><b>Time is the real cost.</b> I guess 60 to 80 hours in the month. The base case then pays only about ₹60 to ₹80 an hour (my arithmetic). That is below the ₹200 to ₹450 hourly range for beginner lead freelancers <span class="tg">REPORTED</span>. Speed and a template make or break it.</li>
+    <li><b>Price idea (my judgment):</b> a ₹3,000 pilot for 30 checked buyers is about ₹100 each, the low end of the ₹100 to ₹400 researched-lead range. Later, ₹4,000 a month for about 40 leads.</li>
+    <li><b>Never promise orders.</b> Sell researched, checked contacts, not sales. Replies and orders depend on the exporter's samples, price and follow-up.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>First-client test plan and kill rule</h2>
+  <p>Write this down before you start. Change nothing mid-test to make it look better.</p>
+  <div class="panel">
+    <ol>
+      <li><b>Days 1 to 3.</b> Build one free sample of 10 checked buyers for one product and one country. This is your proof. Ask a friend in trade to judge it.</li>
+      <li><b>Days 4 to 14.</b> Pick 40 small exporters from the public directory. Contact each one by hand, one at a time, after you get your own yes to do so. Send a short message, an opt-out line and your postal address. No bulk tools.</li>
+      <li><b>Days 10 to 21.</b> Offer the free sample to everyone who replies. Then offer the ₹3,000 pilot.</li>
+      <li><b>Days 22 to 30.</b> Deliver the pilots. Ask each client for a short written comment and one change to improve the sheet.</li>
+    </ol>
+    <p style="margin-top:10px"><b>Pass:</b> at least 1 paid pilot and 5 replies from the 40 messages by day 30.</p>
+    <p style="margin-top:6px"><b>Kill rule:</b> stop if by day 30 there are fewer than 3 replies and no paid pilot. Also stop if each 20-lead sheet takes more than 4 hours after your first 3 sheets. Do not spend money on tools or ads to rescue it. Note the result plainly and move to Episode 3.</p>
+  </div>
+</section>
+
+<section>
+  <h2>My odds</h2>
+  <div class="panel"><div class="odds" id="odds"></div>
+    <p class="muted" style="margin-top:12px">All labelled <b>my judgment</b>. They are opinion, not model output.</p></div>
+</section>
+
+<section>
+  <h2>Risks and data gaps</h2>
+  <div class="panel"><ul>
+    <li><b>Low trust, free alternatives.</b> Many exporters can use free trade-fair lists, free US data (ImportYeti) or tool trials. Your edge is time saved and checking, not secret data.</li>
+    <li><b>Data licence risk.</b> Reusing a trial or paid tool's data for a client may break its terms. Check each one.</li>
+    <li><b>Bad leads hurt you.</b> A fake importer on your sheet damages your name. Keep source links and dates.</li>
+    <li><b>Legal gaps.</b> I did not read foreign email laws, the Spices Board directory terms or TradeIndia's full terms.</li>
+    <li><b>Seasonality and trade shocks.</b> FY2025-26 exports fell. I did not research why, or whether the trend continues.</li>
+    <li><b>Payment risk for you.</b> Ask for payment before delivering the full sheet, or half upfront.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>What is verified, and what is not</h2>
+  <div class="panel"><ul>
+    <li><b>Verified from official text I could read:</b> the Spices Board page (6,600+ registered exporters, about 600 manufacturers, FY2020-21 exports of $3.62 billion, undated), the DPDP Act section 3 text, the IndiaMART terms excerpt, and Volza's own price page excerpt.</li>
+    <li><b>Not opened directly:</b> the Spices Board FY2025-26 PDF and the parliament reply. The Board's site was blocked in this session. I used search extracts of them.</li>
+    <li><b>Reported only:</b> FY2024-25 and FY2025-26 totals, the 6,674 exporter count, all price points, DPDP Rules dates and the "no email anti-spam law" finding.</li>
+    <li><b>My estimate:</b> the per-lead arithmetic, hours, 30-day cases, the ₹3,000 pilot idea and every percentage.</li>
+    <li><b>Not found anywhere:</b> the number of small spice exporters, cold-email reply rates for exporters, what exporters actually pay lead researchers, and any independent survey of exporter pain points.</li>
+    <li><b>What would change my mind:</b> three exporters paying for the sample sheet within 14 days (odds go up), or fewer than 3 replies from 40 messages (stop).</li>
+    <li>No emails were sent, no paid credits were used, and no one was contacted for this page. Dates: prices as read between Aug and 14 Nov 2026, with the checking date shown where the source gave one.</li>
+  </ul></div>
+</section>
+
+<footer><p class="muted">Series: Episode 1 Profile setup, Episode 2 Export leads, Episode 3 Remote BA/QA gigs</p></footer>
+</main>
+
+<script>
+(function(){
+  var rows=[["Market size and need",5,3],["Fit with no capital",5,5],["Ease to find first clients",3,3],["Price you can charge",3,2],["Rules and legal risk",3,3],["Skill from your BA/QA work",4,4],["Repeat income chance",3,2],["Speed to first rupee",3,3]];
+  var el=document.getElementById('sc'),h='<div class="h crit">Criterion</div><div class="h">Spices first</div><div class="h">Any small product</div>',tg=0,tc=0;
+  function pips(n,cls){var s='<div class="pips">';for(var i=1;i<=5;i++)s+='<span class="pip" style="'+(i<=n?'background:var(--'+cls+')':'')+'"></span>';return s+'<b>'+n+'</b></div>';}
+  rows.forEach(function(r){tg+=r[1];tc+=r[2];h+='<div class="crit">'+r[0]+'</div>'+pips(r[1],'g')+pips(r[2],'c');});
+  h+='<div class="crit total">Total (out of 40)</div><div class="total num" style="color:var(--g)">'+tg+'</div><div class="total num" style="color:var(--c)">'+tc+'</div>';
+  el.innerHTML=h;
+  var odds=[["At least 1 paying client within 30 days",25],["₹10,000 or more earned in the first 30 days",10],["3 or more repeat or monthly clients by day 90",12],["A client credits a lead from your sheet with a real order within 90 days",5],["Test hits the kill rule and I stop at day 30",65],["A legal complaint or platform ban if the rules above are followed",2]];
+  document.getElementById('odds').innerHTML=odds.map(function(o){return '<div class="orow"><div>'+o[0]+'<div class="otrack"><div class="ofill" style="width:'+o[1]+'%"></div></div></div><div class="pc">'+o[1]+'%</div></div>';}).join('');
+})();
+</script>
