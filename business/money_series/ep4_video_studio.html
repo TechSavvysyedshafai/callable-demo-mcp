@@ -1,0 +1,374 @@
+<title>Code Video Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: one reading column, verdict first, then evidence blocks (table, charts, scorecard, odds, plan). */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#17202b; --muted:#566170; --line:#dde2e8;
+  --g:#1f7a5c; --g-soft:#d6ece3; --c:#c25a1b; --c-soft:#f6e1d2; --ink2:#2b3a4d;
+  --font-d:'Space Grotesk',Arial,sans-serif; --font-b:'Inter',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161d; --surface:#18212b; --fg:#e8edf2; --muted:#9aa7b5; --line:#2b3745;
+  --g:#4fc29a; --g-soft:#1c3a31; --c:#f0925a; --c-soft:#44291a; --ink2:#c5d0dc; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:16px;line-height:1.55;
+  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--font-d);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,42px)}
+h2{font-size:24px;margin-bottom:4px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted);font-size:14px}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vcard{border-radius:10px;padding:16px;border:1px solid var(--line);background:var(--surface)}
+.vcard.g{border-top:4px solid var(--g)}.vcard.c{border-top:4px solid var(--c)}
+.big{font-family:var(--font-d);font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.g .big{color:var(--g)}.c .big{color:var(--c)}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:var(--line);color:var(--ink2)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:700px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td:first-child{font-weight:600;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+/* bar charts */
+.bars{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.lab{font-size:13px;line-height:1.25}
+.lab small{display:block;color:var(--muted);font-size:11px}
+.track{position:relative;height:26px;background:var(--bg);border-radius:4px;border:1px solid var(--line)}
+.bar{position:absolute;left:0;top:0;bottom:0;border-radius:3px 0 0 3px;min-width:3px}
+.bar.est{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(255,255,255,.35) 5px 8px)}
+.rng{position:absolute;top:4px;bottom:4px;border-radius:4px}
+.rng.est{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(255,255,255,.35) 5px 8px)}
+.val{position:absolute;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;padding-left:6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-left:160px;font-variant-numeric:tabular-nums}
+.bg{background:var(--g)}.bc{background:var(--c)}.bn{background:var(--ink2)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+/* scorecard */
+.sc{display:grid;grid-template-columns:minmax(120px,1.2fr) 1fr 1fr;gap:8px 12px;align-items:center;font-size:13px}
+.sc .h{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.pips{display:flex;gap:3px;align-items:center}
+.pip{width:100%;max-width:26px;height:12px;border-radius:2px;background:var(--line)}
+.pips b{margin-left:6px;font-variant-numeric:tabular-nums;font-size:13px}
+.total{font-weight:700;border-top:2px solid var(--fg);padding-top:8px}
+/* odds */
+.odds{display:flex;flex-direction:column;gap:10px}
+.orow{display:grid;grid-template-columns:1fr 54px;gap:10px;align-items:center;font-size:14px}
+.otrack{height:8px;background:var(--line);border-radius:4px;margin-top:5px;overflow:hidden}
+.ofill{height:100%;background:var(--ink2)}
+.orow .pc{font-family:var(--font-d);font-weight:700;font-size:20px;text-align:right;font-variant-numeric:tabular-nums}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:68ch}
+a{color:var(--g)}
+.kill{border-left:4px solid var(--c)}
+@media(max-width:560px){.verdict{grid-template-columns:1fr}.row{grid-template-columns:1fr;gap:4px}.axis{margin-left:0}.sc{grid-template-columns:1fr 1fr}.sc .crit{grid-column:1/-1;font-weight:600;margin-top:6px}}
+</style>
+
+<main>
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">Money series · Episode 4 · 14 Nov 2026</span>
+  <h1>A code-made video studio: short videos for local businesses, from Patna</h1>
+  <p>The tech works and costs ₹0 to test. The money is the hard part. Local shops pay little, AI tools are cheap, and the big "creator income" routes in the two articles mostly do not open for you in India.</p>
+</header>
+
+<section>
+  <div class="verdict">
+    <div class="vcard g"><span class="tag">First paid video job</span><div class="big" style="margin-top:10px">40%</div>
+      <p style="margin-top:8px">Chance of one paid short-video job from a local business within 90 days <span class="muted">(my judgment)</span></p></div>
+    <div class="vcard c"><span class="tag">Real income</span><div class="big" style="margin-top:10px">18%</div>
+      <p style="margin-top:8px">Chance of earning ₹15,000 or more in one month by day 90 <span class="muted">(my judgment)</span></p></div>
+    <div class="vcard c"><span class="tag">AI animated series</span><div class="big" style="margin-top:10px">5%</div>
+      <p style="margin-top:8px">Chance the series earns anything by day 90. Treat it as a hobby, not a plan <span class="muted">(my judgment)</span></p></div>
+    <div class="vcard g"><span class="tag">Cost to test</span><div class="big" style="margin-top:10px">₹0</div>
+      <p style="margin-top:8px">A 10-second test reel was built here with free tools. No Remotion, no credits, no sign-ups <span class="muted">(my test, 14 Nov 2026)</span></p></div>
+  </div>
+  <div class="panel">
+    <ul>
+      <li><b>The "seek(t)" method works.</b> I built a 10-second reel from a web page, Playwright and ffmpeg. The file came out at exactly 10.0 seconds. The same frame rendered twice was byte-identical. That part of Article A is true <span class="tag">My test</span>.</li>
+      <li><b>Remotion is free for you.</b> Its own license page says free for individuals and teams of up to 3 people, commercial use included. A team of 4 or more needs a paid license <span class="tag">Verified</span>.</li>
+      <li><b>TikTok rewards are not for you.</b> TikTok has been banned in India since 29 June 2020. Its own rewards page lists 8 countries and India is not one <span class="tag">Verified</span> (rewards page), <span class="tag">Reported</span> (ban news).</li>
+      <li><b>Both articles give no income numbers.</b> The only number I found is Picsart's own: over $1M paid to over 80,000 creators. That is about $12.50 each on average <span class="tag">My estimate</span> from <span class="tag">Reported</span> figures.</li>
+      <li><b>Price pressure is heavy.</b> Reel editors bid ₹400 to ₹4,500 a reel in India <span class="tag">Reported</span>. Clients can also make AI videos themselves for roughly $6 to $50 a month <span class="tag">Reported</span>.</li>
+    </ul>
+    <p class="muted" style="margin-top:10px">Labels used: <span class="tag">Verified</span> official page text read. <span class="tag">Reported</span> press, vendor or search extract. <span class="tag">My estimate</span> my own arithmetic or guess. <span class="tag">My test</span> something I ran here.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Article claims check</h2>
+  <p>Both articles are X posts by promoters. I could not confirm who they are or whether they earn what they say.</p>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Claim</th><th>Verdict</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Claude plus Remotion, Playwright and ffmpeg can render video from a seek(t) function</td><td>True</td><td>I ran the same idea with a plain web page. Output was exact and repeatable. Remotion itself was not installed or tested.</td></tr>
+      <tr><td>3 hooks x 3 formats x 2 CTAs makes 18 variants</td><td>Plausible</td><td>The maths is right and one data file can drive it. Whether a client pays for 18 versions is not shown.</td></tr>
+      <tr><td>Remotion is free to use for client work</td><td>True, with a limit</td><td>Free for up to 3 people. From 4 people it costs $25 a seat or $100 a month minimum (official page text).</td></tr>
+      <tr><td>Picsart MCP gives 84 video models</td><td>Unverified</td><td>Picsart says "140+ models" for image, video and audio. Other pages say 102 video models, 141 or 174 in all. The count changes and I found no source for 84.</td></tr>
+      <tr><td>A "$1M animation studio" built this way</td><td>Unverified</td><td>No revenue proof, no client names, no numbers. Picsart's $1M is spread over 80,000 creators.</td></tr>
+      <tr><td>"Fable 5.2" is the tool behind it</td><td>Unverified</td><td>I did not find this tool in the sources I read. I cannot say if it exists as described.</td></tr>
+      <tr><td>Income from Picsart Earn</td><td>Plausible, small</td><td>The program is real and open to anyone, paid by engagement. India status and tax form are not stated on the page. Picsart says posting plain AI images will not earn much.</td></tr>
+      <tr><td>Income from TikTok Creator rewards</td><td>False for India</td><td>App banned in India. India is not on the official country list.</td></tr>
+      <tr><td>Income from YouTube Shorts</td><td>Plausible, far off</td><td>Ads need 1,000 subscribers and 10 million Shorts views in 90 days. New applicants need 20 million from 1 Feb 2027 (reported).</td></tr>
+      <tr><td>Brands and clients will pay</td><td>Plausible</td><td>Some do. Price pressure is high and no article gives a price.</td></tr>
+      <tr><td>480p drafts first, then 1080p final</td><td>Plausible</td><td>A normal way to save time and credits. I did not test it with paid models.</td></tr>
+    </tbody></table></div>
+</section>
+
+<section>
+  <h2>Where views might pay, and what holds in India</h2>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Program</th><th>Rule I read</th><th>India</th><th>Source quality</th></tr></thead>
+    <tbody>
+      <tr><td>YouTube ads on Shorts</td><td>1,000 subscribers plus 10 million Shorts views in 90 days, or 4,000 watch hours in 12 months. Needs 2-step verification and AdSense.</td><td>India is on the YPP country list</td><td>Verified</td></tr>
+      <tr><td>YouTube early tier</td><td>500 subscribers plus 3 uploads plus 3 million Shorts views in 90 days. Fan funding and shopping, not ad share.</td><td>India is on the list</td><td>Verified</td></tr>
+      <tr><td>YouTube from 1 Feb 2027</td><td>New applicants: 8,000 watch hours or 20 million Shorts views.</td><td>Applies to new applicants</td><td>Reported (news). YouTube's page confirms a change starts that day.</td></tr>
+      <tr><td>TikTok Creator Rewards</td><td>Videos over 1 minute, 1,000 For You views, age 18+. Open in US, UK, Germany, Japan, South Korea, France, Mexico, Brazil.</td><td>Not listed. App banned since 2020.</td><td>Verified (rewards page), Reported (ban)</td></tr>
+      <tr><td>Instagram Reels bonus</td><td>No official page found. Blogs say invite-only and unclear.</td><td>Unknown</td><td>Unverified</td></tr>
+      <tr><td>Picsart Earn</td><td>Open to any creator, no follower minimum. Pay by views, comments, shares, reach on content made with Picsart tools.</td><td>Page lists no countries. India status not shown.</td><td>Verified (page), Reported (earnings)</td></tr>
+    </tbody></table></div>
+  <p class="muted">Sources: YouTube Help pages, TikTok Creator Academy (updated 10 Sep 2026), Picsart Earn page, Outlook Business, OdishaBytes, Oneindia. Links are in the research notes file. YouTube RPM for India is in conflict: ₹5 to ₹40 per 1,000 views in one guide, $0.003 to $0.015 in another. At ₹5 to ₹40, one million views is ₹5,000 to ₹40,000 <span class="tag">My estimate</span>. I trust none of it as a quote.</p>
+</section>
+
+<section>
+  <h2>Figure 1. Price of one short video (US dollars)</h2>
+  <p>Dollars only on this chart. Bars show the low to high figure seen. Hatched bar is my estimate. Most of this is vendor or marketplace data, so it is a loose map.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">US dollars per project</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Fiverr, India-based 2D explainer gigs<small>reported, gig pages</small></div><div class="track"><div class="rng bg" style="left:1.25%;width:3.75%"></div><span class="val" style="left:5.5%">$100 to $400</span></div></div>
+      <div class="row"><div class="lab">One Fiverr seller, 30 to 90 s<small>reported, location not shown</small></div><div class="track"><div class="rng bg" style="left:3.1%;width:4.4%"></div><span class="val" style="left:8%">$250 to $600</span></div></div>
+      <div class="row"><div class="lab">Freelancer, 60 s explainer<small>reported, vendor blogs vary a lot</small></div><div class="track"><div class="rng bn" style="left:3.75%;width:58.75%"></div><span class="val" style="left:63%">$300 to $5,000</span></div></div>
+      <div class="row"><div class="lab">Agency, 60 s explainer<small>reported, vendor blogs</small></div><div class="track"><div class="rng bn" style="left:25%;width:75%"></div><span class="val" style="left:25%;color:#fff;padding-left:8px">$2,000 to $8,000</span></div></div>
+      <div class="row"><div class="lab">My guess, first marketplace clip<small>my estimate</small></div><div class="track"><div class="rng bc est" style="left:.2%;width:.6%"></div><span class="val" style="left:2%">$15 to $60</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>$0</span><span>$4,000</span><span>$8,000</span></div>
+    <p class="muted" style="margin-top:10px">Agency and freelancer figures are for polished 60 s animation. A cheap generated clip is not the same product and sells for far less.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Figure 2. Price of one short video (Indian rupees)</h2>
+  <p>Rupees only on this chart. These are marketplace bids and one agency price list. Not a survey.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Rupees per video or reel</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Reel editor bids, Freelancer.in<small>reported, 4 bids seen</small></div><div class="track"><div class="rng bn" style="left:2.86%;width:29.3%"></div><span class="val" style="left:32.5%">₹400 to ₹4,500</span></div></div>
+      <div class="row"><div class="lab">Indian agency, basic to premium reel<small>reported, one price list</small></div><div class="track"><div class="rng bn" style="left:3.57%;width:10.7%"></div><span class="val" style="left:14.8%">₹500 to ₹2,000</span></div></div>
+      <div class="row"><div class="lab">Same agency, 8-reel month<small>₹6,000 / 8, my arithmetic</small></div><div class="track"><div class="bar bn" style="width:5.36%"></div><span class="val" style="left:6%">₹750 each</span></div></div>
+      <div class="row"><div class="lab">Explainer bids, 60 to 120 s<small>reported, 2 bids seen</small></div><div class="track"><div class="rng bn" style="left:17.9%;width:39.3%"></div><span class="val" style="left:57.7%">₹2,500 to ₹8,000</span></div></div>
+      <div class="row"><div class="lab">One animated intro bid<small>reported, single bid</small></div><div class="track"><div class="bar bg" style="width:89.3%"></div><span class="val" style="left:calc(89.3% - 78px);color:#fff">₹12,500</span></div></div>
+      <div class="row"><div class="lab">My guess, first local pack<small>my estimate, 6 clips from one brief</small></div><div class="track"><div class="rng bc est" style="left:10.7%;width:25%"></div><span class="val" style="left:36.2%">₹1,500 to ₹5,000</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹7,000</span><span>₹14,000</span></div>
+    <p class="muted" style="margin-top:10px">Local shops compare you with a ₹500 to ₹2,000 editor. Selling "6 versions in 2 days, with captions in Hindi and English" has to beat that on speed, not just price (my judgment).</p>
+  </div>
+</section>
+
+<section>
+  <h2>Figure 3. Upwork hourly rates for video editors (US dollars)</h2>
+  <p>This is the one price chart from an official page. Upwork's own page was read on 14 Nov 2026.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">US dollars per hour</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">"Typical" range<small>verified, Upwork page</small></div><div class="track"><div class="rng bg" style="left:4%;width:12.67%"></div><span class="val" style="left:17%">$6 to $25</span></div></div>
+      <div class="row"><div class="lab">Entry tier<small>verified, median $10</small></div><div class="track"><div class="rng bg" style="left:0;width:20%"></div><span class="val" style="left:20.7%">under $30</span></div></div>
+      <div class="row"><div class="lab">Mid tier<small>verified, median $40</small></div><div class="track"><div class="rng bg" style="left:20.67%;width:19.33%"></div><span class="val" style="left:40.7%">$31 to $60</span></div></div>
+      <div class="row"><div class="lab">Senior tier<small>verified, median $100</small></div><div class="track"><div class="rng bg" style="left:40.67%;width:59.33%"></div><span class="val" style="left:40.67%;color:#fff;padding-left:8px">$61 to $150</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>$0</span><span>$75</span><span>$150</span></div>
+    <p class="muted" style="margin-top:10px">Upwork says the typical range is $6 to $25, yet the tiers go much higher. These are different slices of the same marketplace. A beginner with no reviews sits at the bottom (my judgment). Fiverr takes 20% from sellers and Upwork 0% to 15% a contract. Contra takes 0% from freelancers. All reported by blogs, not read on the official pages.</p>
+  </div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Platform fee on your earnings (%)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Fiverr<small>reported, seller side</small></div><div class="track"><div class="bar bn" style="width:80%"></div><span class="val" style="left:calc(80% - 40px);color:#fff">20%</span></div></div>
+      <div class="row"><div class="lab">Upwork<small>reported, per contract</small></div><div class="track"><div class="rng bg" style="left:0;width:60%"></div><span class="val" style="left:0;color:#fff;padding-left:8px">0%</span><span class="val" style="left:calc(60% - 40px);color:#fff">15%</span></div></div>
+      <div class="row"><div class="lab">Contra<small>reported, freelancer side</small></div><div class="track"><span class="val" style="left:0">0%</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>0%</span><span>12.5%</span><span>25%</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Competition and why price pressure is high</h2>
+  <div class="panel"><ul>
+    <li><b>Clients can make AI video themselves.</b> HeyGen Creator is about $24 to $29 a month <span class="tag">Reported</span>. Runway starts around $12 a month and bills by seconds of footage <span class="tag">Reported</span>. Canva Pro in India was listed at ₹500 a month or ₹4,000 a year by one September 2026 blog <span class="tag">Reported</span>. Official pages were not read, and these figures conflict across sources.</li>
+    <li><b>A plain AI video has no moat.</b> If a shop owner can make one for ₹500 a month, you cannot charge much for one. You sell the work around it: the brief, local language, brand fit, fixes, and fast changes (my judgment).</li>
+    <li><b>Many cheap editors already bid.</b> Reel editors on Freelancer.in bid ₹400 to ₹4,500 a reel <span class="tag">Reported</span>.</li>
+    <li><b>The articles' own tools are open to everyone.</b> That is the point of the promoter pitch, and it is also why a copy-paste studio is not rare (my judgment).</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Rules to follow</h2>
+  <p>I am not a lawyer. Most of this comes from law-firm blogs and press. Please check the sources in the notes file.</p>
+  <div class="panel"><ul>
+    <li><b>Music: use licensed tracks only.</b> Zee sued Nykaa in the Delhi High Court over 12 reels, claiming about ₹2 crore <span class="tag">Reported</span>. The case is not finished. Platform music licences cover personal use. For a business, use Instagram's Sound Collection or a commercially licensed library, and read the licence. The videos in this plan are silent or text-only, which avoids the issue.</li>
+    <li><b>AI output may not be protected by copyright.</b> The US Copyright Office says purely AI output needs human authorship to be protected, and mixed work is judged case by case <span class="tag">Reported</span>. I found nothing on India's rule for AI output. Do not promise a client "you own it exclusively".</li>
+    <li><b>Do not copy characters or brands.</b> No lookalike cartoon or film characters, no real person faces or voices without written consent (my judgment).</li>
+    <li><b>Client claims need approval.</b> Prices, offers, "best", "cure", exam "results" and similar claims must come from the client in writing. Keep the message. You are not the one who can prove them (my judgment).</li>
+    <li><b>Label realistic AI content.</b> India's IT Rules amendment on "synthetically generated information" took effect on 20 Feb 2026. Platforms must label such content clearly <span class="tag">Reported</span>. YouTube also asks for disclosure of realistic altered or synthetic content <span class="tag">Reported</span>, 2024 coverage. Obviously cartoon or text-on-screen videos are lower risk (my judgment).</li>
+    <li><b>Clinics and coaching.</b> I did not research the Indian advertising rules for doctors, clinics or coaching classes. Check those before taking such a job. Until then, offer them plain service explainers with no health or result claims.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Remotion license in plain words</h2>
+  <p>Read on 14 Nov 2026. remotion.dev could not be opened with the normal fetch tool, so I read the official text through a cached copy.</p>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Remotion cost, US dollars per month</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">You alone, or up to 3 people<small>verified, Free License</small></div><div class="track"><span class="val" style="left:0">$0, commercial use allowed</span></div></div>
+      <div class="row"><div class="lab">Company, 1 seat<small>verified, Creators, 4+ people</small></div><div class="track"><div class="bar bg" style="width:5%"></div><span class="val" style="left:5.5%">$25</span></div></div>
+      <div class="row"><div class="lab">Company, automation<small>verified, $0.01 a render, minimum</small></div><div class="track"><div class="bar bn" style="width:20%"></div><span class="val" style="left:20.5%">$100 minimum</span></div></div>
+      <div class="row"><div class="lab">Enterprise<small>verified, starting price</small></div><div class="track"><div class="bar bn" style="width:100%"></div><span class="val" style="left:calc(100% - 100px);color:#fff">from $500</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>$0</span><span>$250</span><span>$500</span></div>
+    <p class="muted" style="margin-top:10px">Eligibility counts the total headcount of your organisation, not the number who use Remotion. If you hire 3 helpers, you are 4 people and need a Company License. Even then, the free test here did not use Remotion at all.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What a micro-studio can honestly sell locally</h2>
+  <p>Prices are <b>my estimate</b>, anchored on the ₹500 to ₹2,500 reel market above. I have no sourced price for Bihar businesses.</p>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Customer</th><th>Offer</th><th>Starter price</th><th>Watch out for</th></tr></thead>
+    <tbody>
+      <tr><td>Kirana or apparel shop</td><td>15 s offer reel: price list, new stock, festival offer. 3 hooks, 2 CTAs, Hindi captions.</td><td class="num">₹1,000 to ₹2,500 a pack</td><td>Low budgets. Sell a monthly pack of 4 (₹3,000 to ₹6,000) after the first.</td></tr>
+      <tr><td>Coaching class</td><td>Admission-season promo: batch timing, fees, faculty text slides. 6 versions.</td><td class="num">₹3,000 to ₹6,000</td><td>No invented results or toppers. Written approval of every claim.</td></tr>
+      <tr><td>Clinic</td><td>Plain service explainer: timings, services, how to book. Text on screen.</td><td class="num">₹3,000 to ₹6,000</td><td>Medical ad rules not researched. No patient faces. No claims.</td></tr>
+      <tr><td>Small exporter</td><td>20 to 30 s product reel in English with captions for a catalogue or Instagram.</td><td class="num">₹4,000 to ₹10,000</td><td>Needs a real product photo set. Clients may want voice and music, which I cannot supply here.</td></tr>
+    </tbody></table></div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:8px">First-client test (about 2 weeks)</h3>
+    <ol>
+      <li>Make 1 sample reel for a made-up shop. Do not use a real brand's logo.</li>
+      <li>Show it, in person or on WhatsApp, to 10 owners you already know. Ask one question: "I make 6 versions of a 15 s offer reel for ₹1,500. Would you try it for the wedding-season or year-end offer?"</li>
+      <li>Pass: 2 of 10 say yes to a paid pack, or 1 pays. Anything less means the offer or the sample needs work.</li>
+      <li>Take 50% upfront by UPI if a client agrees. Send the final file only after the rest is paid (my judgment).</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>Free test plan: what Claude can build here at zero spend</h2>
+  <div class="panel"><ul>
+    <li><b>Done: a 10-second breakdown reel.</b> A web page with a seek(t) function, Playwright to capture 100 frames, ffmpeg to join them. Result: 10.0 s, 31 KB, repeatable <span class="tag">My test</span>. It sits in the scratchpad, not in the repo.</li>
+    <li><b>Studio folder.</b> One folder per client: brief.json, brand.json, scenes, renders, qa. One data file makes all variants.</li>
+    <li><b>Animatic.</b> A rough 480p cut with text and still frames, to agree the story before any polish.</li>
+    <li><b>QA script.</b> Check duration, size, resolution and cut-off text with ffprobe and a screenshot. A person still watches every video.</li>
+    <li><b>No sound.</b> Audio downloads from ElevenLabs are blocked in this session. So videos here are silent or text-on-screen. A voice or music version would be a later step.</li>
+    <li><b>Not done on purpose.</b> I did not install anything from the articles, sign up for Picsart, use credits or send anything to anyone. Picsart MCP video models cost credits, and I did not check their price.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Optional: the AI animated series</h2>
+  <div class="panel"><ul>
+    <li><b>Treat it as practice.</b> Article B's method is sensible: character sheets, a story bible, shot cards, frames first, cheap 480p drafts, then a final render. The method is not the problem. The income is.</li>
+    <li><b>Income routes are weak for you.</b> TikTok is closed. YouTube needs 10 to 20 million Shorts views. Instagram has no open program. Picsart Earn is open but pays on engagement and has no India page I could read.</li>
+    <li><b>Costs real money.</b> AI video generation spends credits. A free-only series would be silent text and stills.</li>
+    <li><b>Risks.</b> Realistic AI needs a label. Characters must be your own. Music must be licensed.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Scorecard: two routes</h2>
+  <p>Scores from 1 (poor) to 5 (strong) for you, a beginner in Patna with no capital. <b>This is my judgment, not measured data.</b> Equal weights. For cost, competition and legal risk, a high score means lower cost or safer.</p>
+  <div class="panel"><div class="sc" id="sc"></div></div>
+  <p class="muted">The gap is wide. Local client work is the only route here with a believable first rupee (my judgment).</p>
+</section>
+
+<section>
+  <h2>30-day plan, ₹0 budget</h2>
+  <div class="panel"><ol>
+    <li><b>Day 0, rules.</b> Read your job contract for side-work limits. Make every sample for a made-up brand. Use silent or text-only videos and no real faces.</li>
+    <li><b>Days 1 to 5, template.</b> Ask Claude to build one reusable page with seek(t), one data file, and a render script. Keep it plain HTML. Do not install Remotion yet.</li>
+    <li><b>Days 6 to 10, three samples.</b> One shop offer reel, one coaching promo, one product reel. Each 15 s, 3 hooks x 2 CTAs, in Hindi and English.</li>
+    <li><b>Days 11 to 25, show them.</b> Show to 20 owners in person or by WhatsApp to people you know. Use the first-client test above. Ask what they would pay.</li>
+    <li><b>Days 26 to 30, review.</b> Count owners seen, yes answers, and paid packs. Fix the sample that got most interest.</li>
+  </ol></div>
+  <div class="panel kill">
+    <h3 style="font-size:16px;margin-bottom:8px">Kill rule</h3>
+    <ul>
+      <li><b>Day 30:</b> fewer than 15 owners shown a sample means you fixed nothing yet. Fix the effort, not the market.</li>
+      <li><b>Day 60:</b> 40 owners shown and no paid pack. Stop the local route. Change the offer or the target.</li>
+      <li><b>Day 90:</b> under ₹10,000 total earned. Stop and take stock. Do not buy courses or AI credits to "fix" it.</li>
+      <li><b>Any time:</b> you spend more than ₹2,000 cash, a client asks for sign-ups you do not understand, or the work eats more than 10 hours a week. Stop.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Scenarios for income</h2>
+  <p><b>All figures and chances are my judgment.</b> They assume 8 to 10 hours a week, silent videos, and local clients only.</p>
+  <div class="panel scroll"><table>
+    <thead><tr><th>Scenario</th><th>Chance</th><th>Day 30</th><th>Day 90 monthly pace</th><th>What it looks like</th></tr></thead>
+    <tbody>
+      <tr><td>Bad</td><td class="num">50%</td><td class="num">₹0</td><td class="num">₹0 to ₹1,000</td><td>Owners say "nice" and do not pay. Kill rule triggers.</td></tr>
+      <tr><td>Base</td><td class="num">35%</td><td class="num">₹0 to ₹3,000</td><td class="num">₹5,000 to ₹15,000</td><td>One or two small clients. One repeat monthly pack.</td></tr>
+      <tr><td>Good</td><td class="num">15%</td><td class="num">₹3,000 to ₹8,000</td><td class="num">₹20,000 to ₹40,000</td><td>4 to 6 regular local clients, or an exporter retainer.</td></tr>
+    </tbody></table></div>
+  <div class="panel"><h3 style="font-size:16px;margin-bottom:12px">Day-90 monthly pace, Indian rupees (my estimate)</h3>
+    <div class="bars">
+      <div class="row"><div class="lab">Bad, 50%</div><div class="track"><div class="rng bc est" style="left:0;width:2.5%"></div><span class="val" style="left:3.5%">₹0 to ₹1,000</span></div></div>
+      <div class="row"><div class="lab">Base, 35%</div><div class="track"><div class="rng bc est" style="left:12.5%;width:25%"></div><span class="val" style="left:38%">₹5,000 to ₹15,000</span></div></div>
+      <div class="row"><div class="lab">Good, 15%</div><div class="track"><div class="rng bc est" style="left:50%;width:50%"></div><span class="val" style="left:50%;color:#fff;padding-left:8px">₹20,000 to ₹40,000</span></div></div>
+    </div>
+    <div class="axis" style="margin-top:6px"><span>₹0</span><span>₹20,000</span><span>₹40,000</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>My odds</h2>
+  <div class="panel"><div class="odds" id="odds"></div>
+    <p class="muted" style="margin-top:12px">All labelled <b>my judgment</b>. They are opinion, not model output.</p></div>
+</section>
+
+<section>
+  <h2>Risks and data gaps</h2>
+  <div class="panel"><ul>
+    <li><b>Price pressure.</b> Self-serve AI tools and ₹500 reel editors cap what you can charge.</li>
+    <li><b>Music and rights.</b> One unlicensed track on a client reel can cause a claim. The Nykaa case shows the stakes.</li>
+    <li><b>Client claims.</b> A false offer or health claim in your video can come back to you.</li>
+    <li><b>Employer rules.</b> A side-work clause in your job contract could end this plan.</li>
+    <li><b>Payment risk.</b> Small clients may pay late. Take part payment upfront.</li>
+    <li><b>Tool and price changes.</b> Remotion terms, Picsart credits and YouTube thresholds change. The YouTube rise is due on 1 Feb 2027.</li>
+    <li><b>Scams.</b> Offers to "buy a course" or "pay to join" a creator program are the same trap as in Episode 3.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>What is verified, and what is not</h2>
+  <div class="panel"><ul>
+    <li><b>Verified (official page text read):</b> Remotion Free and Company License terms and prices. Picsart Earn page text and the 140+ model claim in Picsart's own blog. TikTok's list of 8 Creator Rewards countries. YouTube's 1,000 subscribers plus 10 million Shorts views rule, and India on its country list. Upwork's $6 to $25 typical range and tier medians. Three of these pages (Remotion, Picsart, YouTube) could not be opened by the normal fetch tool, so I read cached copies through Exa on 14 Nov 2026.</li>
+    <li><b>Reported only:</b> TikTok ban news, YouTube's Feb 2027 thresholds, every Indian rupee price, Fiverr and Freelancer.in rates, agency prices, competitor tool prices, platform fees, Picsart's $1M and 80,000 creators, music and AI-labelling law summaries.</li>
+    <li><b>My estimates:</b> every starter price, every scenario, the $12.50 average, the ₹5,000 to ₹40,000 per million views, the scorecard and every chance.</li>
+    <li><b>My test:</b> the 10-second reel. Remotion, Picsart MCP and paid video models were not tested.</li>
+    <li><b>Not found:</b> any income number from the two articles, "Fable 5.2", official Instagram Reels bonus rules, India's rule on copyright for AI output, Indian advertising rules for clinics and coaching, Picsart Earn India eligibility and credit prices, prices paid by Bihar businesses.</li>
+    <li><b>Firecrawl:</b> 0 paid calls used out of a cap of 3. Search and page reads used other tools.</li>
+    <li><b>What would change my mind:</b> 2 of 10 owners paying for a pack would lift my odds. Zero interest after 40 owners would lower them.</li>
+  </ul></div>
+  <p class="muted">Full notes with every source link: research_notes/Money series ep4 video studio/notes.md in the repository. Not tax or legal advice.</p>
+</section>
+
+<footer class="muted" style="border-top:1px solid var(--line);padding-top:14px">
+  Series: Episode 1 Profile setup, Episode 2 Export leads, Episode 3 Remote BA/QA gigs, Episode 4 Video studio
+</footer>
+</main>
+
+<script>
+(function(){
+  var rows=[["Cash needed to start (5 = none)",5,3],["Speed to first money",3,1],["Proof that someone pays",3,1],["Legal and payable from India",5,2],["Less competition",2,1],["Fit for a beginner",3,2],["Rights and legal risk (5 = safer)",3,2],["Repeat income potential",3,2],["Effort per video (5 = easy)",4,2]];
+  var el=document.getElementById('sc'),h='<div class="h crit">Criterion</div><div class="h">Local client videos</div><div class="h">AI animated series</div>',tg=0,tc=0;
+  function pips(n,cls){var s='<div class="pips">';for(var i=1;i<=5;i++)s+='<span class="pip" style="'+(i<=n?'background:var(--'+cls+')':'')+'"></span>';return s+'<b>'+n+'</b></div>';}
+  rows.forEach(function(r){tg+=r[1];tc+=r[2];h+='<div class="crit">'+r[0]+'</div>'+pips(r[1],'g')+pips(r[2],'c');});
+  h+='<div class="crit total">Total (out of 45)</div><div class="total num" style="color:var(--g)">'+tg+'</div><div class="total num" style="color:var(--c)">'+tc+'</div>';
+  el.innerHTML=h;
+  var odds=[["Show a sample to at least 5 real owners within 30 days",65],["First paid video job within 30 days",20],["First paid video job within 90 days",40],["A repeat client or monthly pack by day 90",15],["Earn ₹15,000 or more in one month by day 90",18],["Any YouTube or Picsart payout of ₹1,000 or more by day 90",8],["AI animated series earns anything by day 90",5],["The kill rule stops the plan at day 90",55]];
+  document.getElementById('odds').innerHTML=odds.map(function(o){return '<div class="orow"><div>'+o[0]+'<div class="otrack"><div class="ofill" style="width:'+o[1]+'%"></div></div></div><div class="pc">'+o[1]+'%</div></div>';}).join('');
+})();
+</script>
