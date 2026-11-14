@@ -1,0 +1,115 @@
+<!doctype html><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1920px;overflow:hidden;background:linear-gradient(170deg,#0f1c2e 0%,#12304a 60%,#0e4a4f 100%);font-family:'Noto Sans','DejaVu Sans',Arial,sans-serif;color:#f3f7fa;position:relative}
+#hd{position:absolute;left:70px;right:70px;top:150px;height:300px;font-size:92px;font-weight:800;line-height:1.12;display:flex;align-items:center}
+#cp{position:absolute;left:70px;right:70px;top:1480px;height:300px;font-size:54px;line-height:1.35;color:#d4e3ea}
+#fig{position:absolute;left:0;top:0}
+#bar{position:absolute;left:90px;right:90px;bottom:80px;height:10px;background:#1f3b52;border-radius:5px}
+#bar i{display:block;height:100%;background:#5fd0c4;border-radius:5px;width:0}
+</style>
+<div id="hd"></div><svg id="fig" width="1080" height="1920" viewBox="0 0 1080 1920"></svg><div id="cp"></div><div id="bar"><i></i></div>
+<script>
+const TEAL='#5fd0c4', AMBER='#f2b84b', CORAL='#ef7d6b', WHITE='#f3f7fa', MUTED='#9fb8c4';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const prog=(t,a,b)=>clamp((t-a)/(b-a));
+const ease=p=>p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+const fig=document.getElementById('fig'), hd=document.getElementById('hd'), cp=document.getElementById('cp'), barI=document.querySelector('#bar i');
+const f=n=>n.toFixed(1);
+function poly(pts,fill,stroke,sw,op=1){return `<polygon points="${pts.map(p=>f(p[0])+','+f(p[1])).join(' ')}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" opacity="${op}"/>`}
+function line(a,b,stroke,sw,op=1){return `<line x1="${f(a[0])}" y1="${f(a[1])}" x2="${f(b[0])}" y2="${f(b[1])}" stroke="${stroke}" stroke-width="${sw}" opacity="${op}" stroke-linecap="round"/>`}
+function txt(x,y,s,size,fill,op=1,w=800){return `<text x="${f(x)}" y="${f(y)}" font-size="${size}" font-weight="${w}" fill="${fill}" opacity="${op}" text-anchor="middle" dominant-baseline="central" font-family="Noto Sans,DejaVu Sans,Arial,sans-serif">${s}</text>`}
+function setText(el,s,op){if(el._s!==s){el.innerHTML=s;el._s=s}el.style.opacity=op}
+
+// ---------- Video A: squares on the sides of a 3-4-5 triangle ----------
+const SA=88, CXA=408, CYA=1056; // world (x right, y up) -> px
+const WA=(x,y)=>[CXA+x*SA, CYA-y*SA];
+function gridSquare(P0,e1,e2,L,color,p,op,sw=4){
+  const q=(a,b)=>WA(P0[0]+e1[0]*a+e2[0]*b, P0[1]+e1[1]*a+e2[1]*b);
+  const h=L*p; let s=poly([q(0,0),q(L,0),q(L,h),q(0,h)],color,color,2,0).replace('opacity="0"',`opacity="${0.30*op}"`);
+  s=s.replace(/fill="[^"]*"/,`fill="${color}"`);
+  for(let k=1;k<L;k++){ s+=line(q(k,0),q(k,h),color,2,0.55*op); if(k<=h) s+=line(q(0,k),q(L,k),color,2,0.55*op); }
+  s+=poly([q(0,0),q(L,0),q(L,h),q(0,h)],'none',color,sw,op);
+  return s;
+}
+function frameA(t){
+  const op=1; let s='', H='', C='';
+  const O=[0,0],A=[3,0],B=[0,4];
+  const tri=prog(t,3,6), sq1=ease(prog(t,7,11)), sq2=ease(prog(t,10,14)), sq3=ease(prog(t,14,19));
+  const dim = t>31? 0.15 : 1;
+  if(t<3){H='Pythagorean<br>theorem'; C='A famous idea about right triangles, in 30 seconds.'}
+  else if(t<7){H='A right triangle'; C='It has one square corner. The sides here are 3, 4 and 5.'}
+  else if(t<14){H='Squares on the sides'; C='Build a square on each short side. Count the little squares.'}
+  else if(t<19){H='One on the long side'; C='Now build one on the long side, the one opposite the square corner.'}
+  else if(t<25){H='9 + 16 = 25'; C='The two small squares add up to the big one.'}
+  else if(t<31){H='a² + b² = c²'; C='This works for every right triangle. c is the long side.'}
+  else {H='Try 5, 12, 13'; C='5² + 12² = 25 + 144 = 169 = 13². It works again.'}
+  const pulse = (t>=19&&t<25)? 1+0.5*Math.sin((t-19)*2*Math.PI) : 0;
+  const sw=4+(pulse>0?3*Math.max(0,Math.sin((t-19)*2*Math.PI)):0);
+  if(t>=7) s+=gridSquare([0,0],[1,0],[0,-1],3,TEAL,sq1,dim,sw);
+  if(t>=10) s+=gridSquare([0,0],[0,1],[-1,0],4,AMBER,sq2,dim,sw);
+  if(t>=14) s+=gridSquare([3,0],[-0.6,0.8],[0.8,0.6],5,CORAL,sq3,dim,sw);
+  if(t>=3){ s+=poly([WA(...O),WA(...A),WA(...B)],'rgba(255,255,255,0.16)',WHITE,6,tri*dim);
+    const m=0.35; s+=poly([WA(m,0),WA(m,m),WA(0,m)].map(p=>p),'none',WHITE,4,tri*dim).replace(/<polygon[^>]*>/,'<polyline points="'+[WA(m,0),WA(m,m),WA(0,m)].map(p=>f(p[0])+','+f(p[1])).join(' ')+'" fill="none" stroke="'+WHITE+'" stroke-width="4" opacity="'+(tri*dim)+'"/>'); }
+  // numbers or letters on sides
+  if(t>=4 && t<25){ const o=prog(t,4,6)*dim; s+=txt(...WA(1.5,0.45),'3',52,WHITE,o)+txt(...WA(0.3,1.5),'4',52,WHITE,o); }
+  if(t>=5 && t<25){ s+=txt(...WA(1.4,1.7),'5',52,WHITE,prog(t,5,7)*dim); }
+  if(t>=25 && t<31){ const o=prog(t,25,26.5); s+=txt(...WA(1.5,0.45),'a',60,TEAL,o)+txt(...WA(0.5,2),'b',60,AMBER,o)+txt(...WA(1.2,2.2),'c',60,CORAL,o); }
+  // counts in squares
+  if(t>=9&&t<31){ s+=txt(...WA(1.5,-1.5),'9',110,TEAL,prog(t,9,11)*dim,800); }
+  if(t>=12&&t<31){ s+=txt(...WA(-2,2),'16',110,AMBER,prog(t,12,14)*dim,800); }
+  if(t>=17&&t<31){ s+=txt(...WA(3.5,3.5),'25',130,CORAL,prog(t,17,19)*dim,800); }
+  if(t>=25&&t<31){ const o=prog(t,26,28); s+=txt(...WA(1.5,-1.5),'a²',110,TEAL,o)+txt(...WA(-2,2),'b²',110,AMBER,o)+txt(...WA(3.5,3.5),'c²',130,CORAL,o); }
+  return {s,H,C};
+}
+
+// ---------- Video B: proof by sliding four triangles ----------
+const SB=118, OXB=127, OYB=560;
+const WB=(x,y)=>[OXB+x*SB, OYB+y*SB];
+const TRI=[ // [R,a-end,b-end] layout1 -> layout2 (pure slides)
+  {p:[[0,0],[3,0],[0,4]], q:[[4,0],[7,0],[4,4]]},
+  {p:[[7,0],[7,3],[3,0]], q:[[7,4],[4,4],[7,0]]},
+  {p:[[7,7],[4,7],[7,3]], q:[[4,4],[4,7],[0,4]]},
+  {p:[[0,7],[0,4],[4,7]], q:[[0,7],[0,4],[4,7]]},
+];
+// note: triangle 2 and 3 q's use the matching pairs worked out in notes
+const PAIRS=[[0,0],[1,2],[2,1],[3,3]];
+function frameB(t){
+  let s='',H='',C='';
+  const move=ease(prog(t,8,14));
+  if(t<3){H='Why a² + b² = c²'; C='A proof you can see, with no algebra.'}
+  else if(t<8){H='Four triangles, one square'; C='Four identical right triangles fit inside a big square. The gap in the middle is a square on the long side: c².'}
+  else if(t<14){H='Now slide them'; C='Move the same four triangles. The big square does not change.'}
+  else if(t<20){H='Two squares left'; C='Two squares are left: one on each short side.'}
+  else if(t<28){H='Same gap, same area'; C='Both times the empty space is what is left of the big square. So c² = a² + b².'}
+  else {H='a² + b² = c²'; C='Works for every right triangle. Named after Pythagoras.'}
+  const fade=prog(t,2,3.5);
+  // outer square
+  s+=poly([WB(0,0),WB(7,0),WB(7,7),WB(0,7)],'rgba(255,255,255,0.05)',MUTED,6,fade);
+  // gaps
+  const g1=[WB(3,0),WB(7,3),WB(4,7),WB(0,4)];
+  s+=poly(g1,CORAL,CORAL,0,0).replace('opacity="0"',`opacity="${0.45*fade*(1-clamp(move*2))}"`).replace('stroke-width="0"','stroke-width="0"');
+  s+=poly([WB(0,0),WB(4,0),WB(4,4),WB(0,4)],AMBER,AMBER,0,0).replace('opacity="0"',`opacity="${0.45*fade*clamp(move*2-1)}"`);
+  s+=poly([WB(4,4),WB(7,4),WB(7,7),WB(4,7)],TEAL,TEAL,0,0).replace('opacity="0"',`opacity="${0.45*fade*clamp(move*2-1)}"`);
+  // triangles
+  const cols=['#ffffff','#ffffff','#ffffff','#ffffff'];
+  for(const [i,j] of PAIRS){
+    const P=TRI[i].p, Q=TRI[j].q;
+    const pts=P.map((pp,k)=>WB(pp[0]+(Q[k][0]-pp[0])*move, pp[1]+(Q[k][1]-pp[1])*move));
+    s+=poly(pts,'rgba(255,255,255,0.20)',WHITE,5,fade);
+  }
+  // labels
+  if(t>=4&&t<8){ const o=prog(t,4,5.5); s+=txt(...WB(1.5,-0.35),'a = 3',46,TEAL,o)+txt(...WB(-0.55,2),'b = 4',46,AMBER,o); s+=txt(...WB(5,1.2),'c = 5',46,CORAL,o);}
+  if(t>=3&&t<14){ s+=txt(...WB(3.5,3.5),'c²',110,CORAL,fade*(1-clamp(move*2))); }
+  if(t>=12){ const o=clamp(move*2-1); s+=txt(...WB(2,2),'b²',110,AMBER,o)+txt(...WB(5.5,5.5),'a²',110,TEAL,o); }
+  if(t>=20&&t<28){ const o=prog(t,20,22); s+=txt(540,OYB+7*SB+110,'c² = a² + b²',84,WHITE,o); }
+  return {s,H,C};
+}
+window.frame=function(which,t,T){
+  const r=which==='A'?frameA(t):frameB(t);
+  fig.innerHTML=r.s;
+  const o=clamp(Math.min(1,(t-Math.floor(t*0)))>0?1:1);
+  setText(hd,r.H,1); setText(cp,r.C,1);
+  barI.style.width=(100*t/T)+'%';
+};
+</script>
