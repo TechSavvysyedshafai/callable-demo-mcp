@@ -1,0 +1,13 @@
+What is the Pythagorean theorem?,"In a right triangle, a² + b² = c². The squares on the two short sides add up to the square on the long side.",Video 1
+What is a right triangle?,A triangle with one square corner (a 90° angle).,Video 1
+Which side is c?,"The longest side, opposite the square corner. It is called the hypotenuse.",Video 1
+Which sides are a and b?,The two shorter sides that meet at the square corner. They are called the legs.,Video 1
+Check the 3-4-5 triangle.,3² + 4² = 9 + 16 = 25 = 5². The two small squares hold 9 and 16 little squares. The big one holds 25.,Video 1
+Check the 5-12-13 triangle.,5² + 12² = 25 + 144 = 169 = 13². It works again.,Video 1
+How does the sliding proof work?,"Four identical right triangles sit in a big square and leave a gap shaped like c². Slide the same triangles and the gap becomes a² and b². The gap has the same area both times, so c² = a² + b².",Video 2
+Why is the gap the same area both times?,Because it is the big square minus the same four triangles. The big square and the triangles do not change when you slide them.,Video 2
+A 2.5 m ladder has its foot 0.7 m from a wall. How high does it reach?,0.7² + h² = 2.5² / 0.49 + h² = 6.25 / h² = 5.76 / h = 2.4 m The ladder is the long side (c).,Video 3
+How do you find a missing short side?,Subtract. a² = c² − b². Then take the square root.,Video 3
+Common mistake: you get h² = 5.76. Are you done?,"No. Take the square root: h = 2.4. The answer is the side, not its square.",Video 3
+How can builders check that a corner is square?,"Mark 3 m along one wall and 4 m along the other. If the marks are 5 m apart, the corner is square.",Video 3
+Does the theorem work for every triangle?,"No. Only for right triangles. If a² + b² = c² for the three sides, the triangle is a right triangle.",Video 3
