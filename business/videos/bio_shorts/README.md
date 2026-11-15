@@ -12,3 +12,11 @@ Science was checked against standard NCERT Class 11 facts from memory. It was no
 Changes from the pasted scripts:
 - Cardiac: "at about 72 beats a minute" was added before 0.8 s.
 - Nephron: the loop of Henle now shows water leaving the descending limb and salts leaving the ascending limb. The middle volume numbers (about 45 L after the PCT, about 25 L after the loop) are rough and labelled "approx.".
+
+## Blender 3D versions (`bio3d_*.mp4`)
+Same scripts, rebuilt as 3D clay-style scenes in Blender (Cycles, CPU).
+- `render.js <scene>.js st_<name> 24 "" state` dumps each frame's positions to `state.json`.
+- `render.js <scene>.js ov_<name> 24 "" overlay` renders only the text layer (captions, labels) with a transparent background.
+- `blender/<name>3d.py` reads `state.json` and renders the 3D frames (12 fps, shown on twos).
+- `blender/make.sh <name> <name>3d.py` runs all of it and composites with ffmpeg.
+Needs Blender's Python module (`bpy`), Node + Playwright, ffmpeg. About 4 s per frame on a 4-core CPU.

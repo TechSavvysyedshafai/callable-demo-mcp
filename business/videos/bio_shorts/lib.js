@@ -3,6 +3,9 @@ const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const ease=x=>{x=clamp(x);return x*x*(3-2*x)};
 const lerp=(a,b,u)=>a+(b-a)*u;
 const svg=document.getElementById('s'), cap=document.getElementById('cap');
+const OVER=location.hash=='#overlay';const DIA=[];window.ST={};
+function dia(e){DIA.push(e);return e}
+function finishOverlay(){if(!OVER)return;document.body.style.background='transparent';document.documentElement.style.background='transparent';svg.firstChild.style.display='none';for(const g of DIA){[g,...g.querySelectorAll('*')].forEach(e=>{if(e.tagName!='text'&&e.tagName!='g')e.style.display='none'})}}
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||svg).appendChild(e);return e}
 function txt(s,attrs,parent){const e=el('text',Object.assign({'font-family':'Inter, sans-serif'},attrs),parent);e.textContent=s;return e}
 function set(e,attrs){for(const k in attrs)e.setAttribute(k,attrs[k])}
@@ -24,7 +27,7 @@ function makeMascot(parent){const g=el('g',{},parent);const c='#e8803f',d='#c965
  el('rect',{x:-60,y:-36,width:120,height:70,fill:c,rx:7},g);
  const eyes=el('g',{},g);el('rect',{x:-24,y:-16,width:10,height:20,fill:'#222',rx:2},eyes);el('rect',{x:14,y:-16,width:10,height:20,fill:'#222',rx:2},eyes);
  g._eyes=eyes;return g}
-function placeMascot(g,x,y,s,t,op=1){const b=((t%3.1)<0.12)?0.1:1;
+function placeMascot(g,x,y,s,t,op=1){const b=((t%3.1)<0.12)?0.1:1;g._st=[x,y,s,op,b];
  g._eyes.setAttribute('transform',`translate(0,-6) scale(1,${b}) translate(0,6)`);
  g.setAttribute('transform',`translate(${x},${y}) scale(${s})`);g.setAttribute('opacity',op)}
 function pills(labels,y,parent){const n=labels.length,gap=12,w=(W-80-gap*(n-1))/n;return labels.map((l,k)=>{const g=el('g',{},parent);

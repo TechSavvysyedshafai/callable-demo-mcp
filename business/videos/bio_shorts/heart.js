@@ -16,7 +16,7 @@ setSegments([
 ]);
 header('BIOLOGY IN 50 SECONDS · CLASS 11','The Cardiac Cycle');
 const RB='#cfdcf7',RS='#3f63b8',LB='#f7d0cd',LS='#b8403a';
-const heart=el('g',{});
+const heart=dia(el('g',{}));
 // arteries
 const pa=el('path',{d:'M100,250 L140,250 L140,560 L160,560 L160,610 L100,610 Z',fill:RB,stroke:RS,'stroke-width':5,'stroke-linejoin':'round'},heart);
 const ao=el('path',{d:'M620,250 L580,250 L580,560 L560,560 L560,610 L620,610 Z',fill:LB,stroke:LS,'stroke-width':5,'stroke-linejoin':'round'},heart);
@@ -34,7 +34,7 @@ const av=[[178,1,RS],[312,-1,RS],[408,1,LS],[542,-1,LS]].map(([x,dir,c])=>({x,di
 const sl=[[100,1,RS],[140,-1,RS],[580,1,LS],[620,-1,LS]].map(([x,dir,c])=>({x,dir,l:flap(c)}));
 txt('tricuspid',{x:245,y:492,'text-anchor':'middle','font-size':17,fill:RS,opacity:.0,id:'tl'},heart);
 const dots=el('g',{},heart);const D=[];for(let i=0;i<48;i++)D.push(el('circle',{r:7},dots));
-const masc=makeMascot();
+const masc=dia(makeMascot());finishOverlay();
 const phaseNames=pills(['Atria contract','Ventricles contract','Relax'],850);phaseNames.forEach(p=>p.g.setAttribute('opacity',0));
 const timer=el('g',{opacity:0});el('rect',{x:110,y:830,width:500,height:22,rx:11,fill:'#e9e1d4'},timer);const tf=el('rect',{x:110,y:830,width:0,height:22,rx:11,fill:'#e8803f'},timer);
 txt('0 s',{x:110,y:885,'font-size':22,fill:'#6b6258'},timer);txt('0.8 s',{x:610,y:885,'text-anchor':'end','font-size':22,fill:'#6b6258'},timer);
@@ -67,6 +67,7 @@ function seek(t){caption(t);const i=segAt(t),p=phaseAt(t),loop=i>=12;
   else if(p>=1.9&&p<2.15)op=0;else if(p>=2.15){y=lerp(230,400,ease((p-2.15)/.85));op=ease((p-2.15)/.2)}
   placeMascot(masc,x,y+Math.sin(t*6)*3,0.3,t,op)}
  else if(i==13){placeMascot(masc,360,470-Math.abs(Math.sin(t*5))*30,0.6,t,ease(segU(13,t)/0.2))}else masc.setAttribute('opacity',0);
+ ST={sq:[aS,aS,vS,vS],avO,slO,dots:D.map(d=>[+d.getAttribute('cx')||0,+d.getAttribute('cy')||0,d.getAttribute('fill')==RS?0:1,+(d.getAttribute('opacity')||0)]),masc:masc._st&&masc.getAttribute('opacity')!=='0'?masc._st:[0,0,0,0,1]};
  // overlays
  timer.setAttribute('opacity',(i==1||i==2)?1:0);tf.setAttribute('width',i==2?500*ease(segU(2,t)/0.8):0);
  const showP=i>=3&&i<=12;phaseNames.forEach((q,k)=>{q.g.setAttribute('opacity',showP?1:0);q.on(Math.floor(p)==k&&i>=3)});
