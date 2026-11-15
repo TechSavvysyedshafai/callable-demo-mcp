@@ -4,8 +4,8 @@ sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 from blib import *
 STATE,OUT,F0,F1,PCT,SAMP=args(); S=json.load(open(STATE))['states']
 sc=setup(PCT,SAMP)
-cyto=mat('cyto',hexc('#fbe3cc'),0.5,0.3); nucm=mat('nuc',hexc('#efc6a2'),0.45,0.35); nlm=mat('nl',hexc('#8e5a3a'),0.35,0.4)
-cells=[sphere(1,cyto,48) for _ in range(2)]
+cyto=mat('cyto',hexc('#fbe3cc'),0.8,0.0); nucm=mat('nuc',hexc('#efc6a2'),0.45,0.35); nlm=mat('nl',hexc('#8e5a3a'),0.35,0.4)
+cells=[sphere(1,cyto,96) for _ in range(2)]
 nuc=sphere(1,nucm,48); nucl=sphere(P(28),nlm,24); nucl.location=(X(410),-0.17,Z(545))
 def curve(pts,r,m,parent=None):
     cu=bpy.data.curves.new('c','CURVE'); cu.dimensions='3D'; cu.bevel_depth=r; cu.bevel_resolution=4; cu.use_fill_caps=True
@@ -48,7 +48,7 @@ def sc3(o,k): k=max(0.0,min(1.0,k)); o.scale=(k,k,k)
 t0=time.time(); n=0
 for f in range(F0,F1+1,int(os.environ.get('STEP','1'))):
     s=S[f]
-    for o,(cx,cy,rx,ry) in zip(cells,s['cells']): o.location=(X(cx),0,Z(cy)); o.scale=(P(rx),0.10,P(ry))
+    for i,(o,(cx,cy,rx,ry)) in enumerate(zip(cells,s['cells'])): o.location=(X(cx),0.012*i,Z(cy)); o.scale=(P(rx),0.10,P(ry))
     nuc.location=(X(360),-0.07,Z(600)); k=s['nuc']; nuc.scale=(P(175)*k,0.06*k+1e-4,P(175)*k); sc3(nucl,s['nuc'])
     for o in chromatin: sc3(o,s['chromatin'])
     for o in dch: sc3(o,s['dn'])
