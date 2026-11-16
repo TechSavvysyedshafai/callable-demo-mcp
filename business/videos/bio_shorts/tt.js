@@ -43,9 +43,10 @@ const masc=makeMascot(world);
 const bands=[el('rect',{x:0,y:0,width:720,height:172,fill:'#f6f1e8'}),el('rect',{x:0,y:940,width:720,height:340,fill:'#f6f1e8'})];
 for(const e of [...svg.querySelectorAll(':scope > text')].slice(0,2))svg.appendChild(e);svg.appendChild(_bar);
 // ---- screen-space overlay (labels, pills, legend, codon marks)
-const lab=(s,attrs)=>txt(s,Object.assign({'font-size':21,'font-weight':600,fill:'#2b2b2b','text-anchor':'middle'},attrs));
+const lab=(s,attrs)=>txt(s,Object.assign({'font-size':24,'font-weight':600,fill:'#2b2b2b','text-anchor':'middle'},attrs));
 const nucT=lab('nucleus',{}),promT=lab('promoter',{}),polT=lab('RNA polymerase',{fill:'#6b3d85'}),tmplT=lab('template strand',{}),mT=lab('mRNA',{fill:'#1f6b45'});
 const capT=lab('cap',{fill:'#8a6a10'}),tailT=lab('poly-A tail',{fill:'#8a6a10','text-anchor':'end'}),poreT=lab('nuclear pore',{fill:'#8a6a10'}),riboT=lab('ribosome',{fill:'#4a5a6a'});
+const dnaT=lab('DNA',{fill:'#3b4a5c'}),cellT=lab('cell',{fill:'#a8714a'}),aaT=lab('amino acid',{fill:'#6b3d85'});
 const startT=lab('start codon',{fill:'#1f6b45'}),trT=lab('tRNA',{fill:'#3f6b3e'}),antiT=lab('anticodon',{fill:'#3f6b3e'}),pepT=lab('peptide bond',{}),stopT=lab('stop codon',{fill:'#d62828'}),protT=lab('protein',{fill:'#6b3d85'});
 const trA=arrow(svg,'#3f6b3e'),antiA=arrow(svg,'#3f6b3e');
 const letters=[...Array(NB)].map((_,i)=>txt(SEQ[i],{'text-anchor':'middle','font-weight':800,fill:BC[CI(SEQ[i])]}));
@@ -130,10 +131,17 @@ function seek(t){caption(t);const i=segAt(t),u=segU(i,t);
  place(startT,360,805,i==9?ease(u/.3):i==10?1-ease(u/.4):0);
  {const op=i==10?ease(u/.3):i==11?1-ease(u/.4):0;const d=tr.find(v=>v[1]>700&&v[0]>330&&v[0]<390);const tx=d?d[0]:360,ty=d?d[1]:742;
   place(trT,470,690,op);const [ax,ay]=V(tx+12,ty-20),[bx2,by2]=V(440,690);trA.at(bx2-20,by2+6,ax+6,ay,op);
-  place(antiT,480,790,op);const [cx2,cy2]=V(tx+16,ty+28),[dx2,dy2]=V(448,790);antiA.at(dx2-20,dy2-6,cx2+6,cy2,op)}
+  place(antiT,250,800,op);const [cx2,cy2]=V(tx-16,ty+28),[dx2,dy2]=V(300,800);antiA.at(dx2+10,dy2-6,cx2-6,cy2,op)}
  place(pepT,250,640,i==11?ease(u/.3):i==12?1-ease(u/.4):0);
  place(stopT,360,810,i==12?ease(u/.3):i==13?1-ease(u/.4):0);
  place(protT,470,648,i==13?ease(u/.3):i==14?1-ease(u/.4):0);
+ { // persistent labels: stay (at 85%) while the object is on screen
+  const k=0.85;
+  place(nucT,360,300,(i<=2||i==14)?k:0); place(dnaT,480,364,(i<=5||i==14)?k:0); place(cellT,615,330,(i<=2||i==14)?k:0);
+  place(polT,bx,HY-62,(i>=3&&i<=5)?k:0); place(tmplT,300,HY+108,(i==4||i==5)?k:0);
+  if(i==6)place(mT,capP[0]-30,capP[1]+34,k); else if(i>=7)place(mT,i==14?213:548,my+34,k,{'text-anchor':'end'}); else place(mT,232,HY+34,(i>=4)?k:0);
+  place(riboT,360,860,i>=7?k:0); place(aaT,235,580,(i>=10&&i<=11)?k:0);
+ }
  pA1.forEach((p,k)=>{p.g.setAttribute('opacity',i<=13?1:0);p.on(i==1?u*2.4>k+0.5:(k==0?i>=2&&i<=6:i>=7&&i<=13))});
  pA2.forEach((p,k)=>{p.g.setAttribute('opacity',i==14?1:0);p.on(i==14&&u*3.6>k+0.5)});
  const P3=p=>[r1(p[0]),r1(p[1]),r1(p[2]||0)];
