@@ -60,6 +60,11 @@ def mascot(scale_px=1.0):
     for x in (-19,19): box((P(10),P(4),P(20)),(P(x),0,0),e,P(2),parent=eyes)
     root['eyes']=eyes.name; return root,eyes
 def place_mascot(root,eyes,st,ydepth=-0.32):
-    x,y,s,op,b=st
-    root.location=(X(x),ydepth,Z(y)); root.scale=(s,s,s) if op>0.5 else (0,0,0); eyes.scale=(1,1,b)
+    x,y,s,op,b=st[:5]; sq=st[5] if len(st)>5 else 1.0; q=s/math.sqrt(sq)
+    root.location=(X(x),ydepth,Z(y)); root.scale=(q,q,s*sq) if op>0.5 else (0,0,0); eyes.scale=(1,1,b)
+def set_view(sc,z,cx,cy,screen_cy=555):
+    """Camera zoom z about design point (cx,cy), which lands at screen y=screen_cy (matches the 2D view transform)."""
+    cam=sc.camera; cam.data.ortho_scale=(1280/360)/z; cam.location=(X(cx),-5,Z(cy+(640-screen_cy)/z))
+def set_dof(sc,focus_y=-0.05,fstop=1.0):
+    d=sc.camera.data.dof; d.use_dof=True; d.focus_distance=5+focus_y; d.aperture_fstop=fstop
 def render(sc,path): sc.render.filepath=path; bpy.ops.render.render(write_still=True)

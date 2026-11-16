@@ -27,9 +27,9 @@ function makeMascot(parent){const g=el('g',{},parent);const c='#e8803f',d='#c965
  el('rect',{x:-60,y:-36,width:120,height:70,fill:c,rx:7},g);
  const eyes=el('g',{},g);el('rect',{x:-24,y:-16,width:10,height:20,fill:'#222',rx:2},eyes);el('rect',{x:14,y:-16,width:10,height:20,fill:'#222',rx:2},eyes);
  g._eyes=eyes;return g}
-function placeMascot(g,x,y,s,t,op=1){const b=((t%3.1)<0.12)?0.1:1;g._st=[x,y,s,op,b];
+function placeMascot(g,x,y,s,t,op=1,sq=1){const b=((t%3.1)<0.12)?0.1:1;g._st=[x,y,s,op,b,sq];
  g._eyes.setAttribute('transform',`translate(0,-6) scale(1,${b}) translate(0,6)`);
- g.setAttribute('transform',`translate(${x},${y}) scale(${s})`);g.setAttribute('opacity',op)}
+ g.setAttribute('transform',`translate(${x},${y}) scale(${s/Math.sqrt(sq)},${s*sq})`);g.setAttribute('opacity',op)}
 function pills(labels,y,parent){const n=labels.length,gap=12,w=(W-80-gap*(n-1))/n;return labels.map((l,k)=>{const g=el('g',{},parent);
  const r=el('rect',{x:40+k*(w+gap),y:y-26,width:w,height:52,rx:26,fill:'#e9e1d4'},g);
  const tx=txt(l,{x:40+k*(w+gap)+w/2,y:y+8,'text-anchor':'middle','font-size':21,'font-weight':600,fill:'#6b6258'},g);
