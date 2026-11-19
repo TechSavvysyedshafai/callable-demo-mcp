@@ -1,0 +1,336 @@
+<title>UAT Test Case Generator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: test-management workbench. Requirement editor on the left, generated pack on the right; stacks on phones. */
+:root {
+  --paper: #f3f5f8;
+  --sheet: #ffffff;
+  --ink: #1b2330;
+  --muted: #5b6676;
+  --line: #d9dee6;
+  --accent: #1d4fa0;
+  --accent-soft: #e6eefb;
+  --pass: #1f7a4d;
+  --pass-soft: #e5f4ec;
+  --fail: #b3261e;
+  --fail-soft: #fbe9e7;
+  --rule: #9a5b00;
+  --rule-soft: #fdf1dc;
+  --code-bg: #f7f8fb;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12161d; --sheet: #1a2029; --ink: #e5e9f0; --muted: #9aa5b5; --line: #2c3442;
+    --accent: #8db4ff; --accent-soft: #1d2a42; --pass: #6fd3a0; --pass-soft: #15291f;
+    --fail: #ff8f86; --fail-soft: #331a19; --rule: #f2b55c; --rule-soft: #33260f; --code-bg: #151a22;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12161d; --sheet: #1a2029; --ink: #e5e9f0; --muted: #9aa5b5; --line: #2c3442;
+  --accent: #8db4ff; --accent-soft: #1d2a42; --pass: #6fd3a0; --pass-soft: #15291f;
+  --fail: #ff8f86; --fail-soft: #331a19; --rule: #f2b55c; --rule-soft: #33260f; --code-bg: #151a22;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 40px; }
+.wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
+h1 { font-size: 1.6rem; line-height: 1.2; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 span { font-family: var(--font-mono); font-weight: 500; font-size: 0.75rem; color: var(--accent); display: block; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.lede { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.panel h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0; font-weight: 600; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.spread { justify-content: space-between; }
+label.small { font-size: 0.85rem; color: var(--muted); }
+select, button { font: inherit; font-size: 0.9rem; border-radius: 7px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); padding: 7px 12px; cursor: pointer; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--sheet); font-weight: 600; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, select:focus-visible, textarea:focus-visible, .chip:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+textarea#spec { width: 100%; min-height: 420px; resize: vertical; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--code-bg); color: var(--ink); tab-size: 2; }
+.errors { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; }
+.errors div { color: var(--fail); background: var(--fail-soft); border-radius: 6px; padding: 6px 10px; }
+.errors b { font-family: var(--font-mono); font-weight: 600; }
+details.help { font-size: 0.88rem; color: var(--muted); }
+details.help summary { cursor: pointer; color: var(--accent); font-weight: 500; }
+details.help pre { font-family: var(--font-mono); font-size: 12px; background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow-x: auto; color: var(--ink); white-space: pre; }
+details.help ul { padding-left: 18px; margin: 8px 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 0.82rem; border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; background: var(--sheet); color: var(--ink); cursor: pointer; font-variant-numeric: tabular-nums; }
+.chip b { font-weight: 600; margin-left: 4px; }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.questions { border-left: 4px solid var(--rule); background: var(--rule-soft); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.questions h3 { margin: 0; font-size: 0.95rem; color: var(--rule); }
+.questions ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; }
+.questions .kind { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--rule); margin-right: 6px; }
+.cases { display: flex; flex-direction: column; gap: 10px; }
+.case { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; background: var(--sheet); }
+.case .head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.case .id { font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem; color: var(--accent); }
+.case .title { font-weight: 600; flex: 1 1 260px; min-width: 0; }
+.tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 4px; padding: 1px 7px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.tag.High { color: var(--fail); border-color: var(--fail); }
+.tag.Medium { color: var(--rule); border-color: var(--rule); }
+.data { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.data mark { background: var(--accent-soft); color: var(--accent); border-radius: 3px; padding: 0 3px; font-weight: 600; }
+.expect { font-size: 0.9rem; border-radius: 6px; padding: 6px 10px; border-left: 3px solid var(--pass); background: var(--pass-soft); }
+.expect.reject { border-left-color: var(--fail); background: var(--fail-soft); }
+.expect.rule { border-left-color: var(--rule); background: var(--rule-soft); }
+.expect b { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-right: 6px; font-weight: 600; }
+.covers { font-size: 0.78rem; color: var(--muted); }
+.copybox { width: 100%; min-height: 120px; font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--code-bg); color: var(--ink); padding: 8px; }
+.toast { font-size: 0.85rem; color: var(--pass); min-height: 1.2em; }
+.empty { color: var(--muted); font-size: 0.9rem; }
+footer { color: var(--muted); font-size: 0.82rem; max-width: 80ch; }
+footer dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0 0; }
+footer dt { font-weight: 600; color: var(--ink); }
+footer dd { margin: 0; }
+@media (max-width: 520px) { footer dl { grid-template-columns: 1fr; } footer dd { margin-bottom: 6px; } }
+@media (prefers-reduced-motion: no-preference) { .case { transition: border-color .15s; } .case:hover { border-color: var(--accent); } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1><span>Insurance QA · UAT</span>UAT Test Case Generator</h1>
+      <p class="lede">Write the fields and business rules from a requirement. You get a traceable UAT pack: boundary values, valid and invalid inputs, required fields, and coverage of every rule. It also lists the questions to take back to the business before testing starts.</p>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="req-h">
+      <div class="row spread">
+        <h2 id="req-h">Requirement</h2>
+        <div class="row">
+          <label class="small" for="sample">Example</label>
+          <select id="sample">
+            <option value="motor">Motor insurance quote</option>
+            <option value="health">Health claim submission</option>
+            <option value="life">Term life application</option>
+            <option value="blank">Blank template</option>
+          </select>
+        </div>
+      </div>
+      <textarea id="spec" spellcheck="false" aria-describedby="help-sum"></textarea>
+      <div id="errors" class="errors" aria-live="polite"></div>
+      <details class="help">
+        <summary id="help-sum">How to write a requirement</summary>
+        <pre>Feature: Motor insurance quote
+Default: Quote issued at standard premium
+
+Field: Driver age | number | 18..75 | required
+Field: Vehicle value | number | 1000..150000 | step 500
+Field: Cover type | choice | Comprehensive, Third party only
+Field: Pre-authorisation obtained | yesno | required
+Field: Registration number | text | max 8 | required
+
+Rule R1: Driver age &lt; 25 AND Cover type = Comprehensive =&gt; Apply 20% loading</pre>
+        <ul>
+          <li><b>Field types:</b> number (add <code>step 0.01</code> for decimals), choice, yesno, text.</li>
+          <li><b>Field limits:</b> <code>18..75</code>, <code>min 0</code>, <code>max 8</code> (characters, for text), <code>required</code>.</li>
+          <li><b>Rule conditions:</b> &gt;, &gt;=, &lt;, &lt;=, =, != joined with AND. For OR, write two rules with the same outcome.</li>
+          <li><b>Default:</b> what happens when no rule applies.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="panel" aria-labelledby="pack-h">
+      <div class="row spread">
+        <h2 id="pack-h">Generated UAT pack</h2>
+        <div class="row">
+          <button class="primary" id="copy-excel" type="button">Copy for Excel</button>
+          <button id="copy-csv" type="button">Copy CSV</button>
+          <button id="copy-md" type="button">Copy Markdown</button>
+        </div>
+      </div>
+      <div class="toast" id="toast" aria-live="polite"></div>
+      <textarea class="copybox" id="copybox" hidden readonly aria-label="Copied text"></textarea>
+      <div class="stats" id="stats" role="group" aria-label="Filter by technique"></div>
+      <div id="questions"></div>
+      <div class="cases" id="cases"></div>
+    </section>
+  </div>
+
+  <footer>
+    <strong>The techniques, in plain words</strong>
+    <dl>
+      <dt>Happy path</dt><dd>One normal, valid case that should go straight through.</dd>
+      <dt>Boundary value</dt><dd>Values at each limit and one step either side, where most input bugs hide.</dd>
+      <dt>Equivalence class</dt><dd>One test for each kind of valid choice, and one invalid one.</dd>
+      <dt>Required field</dt><dd>The field left blank must be stopped with a clear message.</dd>
+      <dt>Invalid format</dt><dd>Letters typed into a number field must be stopped.</dd>
+      <dt>Decision rule</dt><dd>Each rule is tested where it just applies, then each condition is switched off on its own to prove it matters.</dd>
+    </dl>
+    <p>Expected results come from the rules as written, so a wrong rule gives a wrong expectation. Review the requirement questions first. Dates and rules that compare two fields are not supported yet.</p>
+  </footer>
+</div>
+
+<script src="engine.js"></script>
+<script>
+(function () {
+  var SAMPLES = {
+    motor: [
+      'Feature: Motor insurance quote',
+      'Default: Quote issued at standard premium',
+      '',
+      'Field: Driver age | number | 18..75 | required',
+      'Field: Years licence held | number | 0..57 | required',
+      'Field: Vehicle value | number | 1000..150000 | step 500 | required',
+      'Field: Claims in last 3 years | number | 0..10 | required',
+      'Field: Cover type | choice | Comprehensive, Third party fire and theft, Third party only | required',
+      'Field: Registration number | text | max 8 | required',
+      '',
+      'Rule R1: Claims in last 3 years > 2 => Decline: claims history outside appetite',
+      'Rule R2: Driver age < 25 AND Cover type = Comprehensive => Apply 20% young driver loading',
+      'Rule R3: Vehicle value >= 100000 => Refer to underwriter: high value vehicle',
+      'Rule R4: Years licence held < 1 => Refer to underwriter: new driver'
+    ].join('\n'),
+    health: [
+      'Feature: Health claim submission',
+      'Default: Claim accepted for assessment',
+      '',
+      'Field: Claim amount | number | 1..500000 | required',
+      'Field: Days since treatment | number | 0..365 | required',
+      'Field: Policy status | choice | Active, Lapsed, Cancelled | required',
+      'Field: Pre-authorisation obtained | yesno | required',
+      'Field: Hospital in network | yesno | required',
+      '',
+      'Rule C1: Policy status != Active => Reject: policy not in force',
+      'Rule C2: Days since treatment > 90 => Reject: submitted after 90-day deadline',
+      'Rule C3: Claim amount > 50000 AND Pre-authorisation obtained = No => Refer: pre-authorisation required above 50,000',
+      'Rule C4: Hospital in network = Yes AND Claim amount <= 50000 => Fast-track: cashless settlement'
+    ].join('\n'),
+    life: [
+      'Feature: Term life application',
+      'Default: Accepted at standard rates',
+      '',
+      'Field: Applicant age | number | 18..65 | required',
+      'Field: Sum assured | number | 500000..50000000 | step 100000 | required',
+      'Field: Policy term years | number | 5..40 | required',
+      'Field: Smoker | yesno | required',
+      'Field: BMI | number | 15..50 | step 0.1 | required',
+      '',
+      'Rule L1: Smoker = Yes => Apply smoker rates',
+      'Rule L2: BMI >= 35 => Refer for medical underwriting',
+      'Rule L3: Sum assured > 10000000 AND Applicant age > 45 => Medical examination required',
+      'Rule L4: Applicant age > 60 AND Policy term years > 15 => Decline: term ends beyond age 75'
+    ].join('\n'),
+    blank: [
+      'Feature: ',
+      'Default: ',
+      '',
+      'Field: | number | 0..100 | required',
+      '',
+      'Rule R1:  =>'
+    ].join('\n')
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var specEl = $('spec'), sampleEl = $('sample');
+  var current = { cases: [], questions: [] };
+  var activeFilter = 'All';
+
+  function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  var saved = load('uat-spec'), savedSample = load('uat-sample');
+  if (savedSample && SAMPLES[savedSample]) sampleEl.value = savedSample;
+  specEl.value = saved || SAMPLES[sampleEl.value];
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function run() {
+    var spec = UATEngine.parse(specEl.value);
+    var errBox = $('errors'); errBox.textContent = '';
+    spec.errors.forEach(function (e) {
+      var d = el('div'); var b = el('b', null, 'Line ' + e.line + ': '); d.appendChild(b); d.appendChild(document.createTextNode(e.message)); errBox.appendChild(d);
+    });
+    current = spec.fields.length ? UATEngine.generate(spec) : { cases: [], questions: [] };
+    renderStats(); renderQuestions(); renderCases();
+  }
+
+  function renderStats() {
+    var counts = { All: current.cases.length };
+    current.cases.forEach(function (c) { counts[c.technique] = (counts[c.technique] || 0) + 1; });
+    if (!counts[activeFilter]) activeFilter = 'All';
+    var box = $('stats'); box.textContent = '';
+    Object.keys(counts).forEach(function (k) {
+      var b = el('button', 'chip'); b.type = 'button';
+      b.setAttribute('aria-pressed', String(k === activeFilter));
+      b.appendChild(document.createTextNode(k === 'All' ? 'All cases' : k));
+      b.appendChild(el('b', null, String(counts[k])));
+      b.addEventListener('click', function () { activeFilter = k; renderStats(); renderCases(); });
+      box.appendChild(b);
+    });
+  }
+
+  function renderQuestions() {
+    var box = $('questions'); box.textContent = '';
+    if (!current.questions.length) return;
+    var wrap = el('div', 'questions');
+    wrap.appendChild(el('h3', null, 'Requirement questions for the business (' + current.questions.length + ')'));
+    var item = function (q) { var li = el('li'); li.appendChild(el('span', 'kind', q.kind)); li.appendChild(document.createTextNode(q.text)); return li; };
+    var hasPriority = current.questions.some(function (q) { return q.kind === 'Priority'; });
+    var main = current.questions.filter(function (q) { return !(hasPriority && q.kind === 'Overlap'); });
+    var pairs = current.questions.filter(function (q) { return hasPriority && q.kind === 'Overlap'; });
+    var ol = el('ol'); main.forEach(function (q) { ol.appendChild(item(q)); });
+    wrap.appendChild(ol);
+    if (pairs.length) {
+      var d = el('details', 'help'); d.appendChild(el('summary', null, 'Show the ' + pairs.length + ' overlapping rule pairs'));
+      var ol2 = el('ol'); pairs.forEach(function (q) { ol2.appendChild(item(q)); }); d.appendChild(ol2); wrap.appendChild(d);
+    }
+    box.appendChild(wrap);
+  }
+
+  function renderCases() {
+    var box = $('cases'); box.textContent = '';
+    var list = current.cases.filter(function (c) { return activeFilter === 'All' || c.technique === activeFilter; });
+    if (!list.length) { box.appendChild(el('p', 'empty', 'Add at least one field to see test cases.')); return; }
+    list.forEach(function (c) {
+      var card = el('article', 'case');
+      var head = el('div', 'head');
+      head.appendChild(el('span', 'id', c.id));
+      head.appendChild(el('span', 'title', c.title));
+      head.appendChild(el('span', 'tag', c.technique));
+      head.appendChild(el('span', 'tag ' + c.priority, c.priority));
+      card.appendChild(head);
+      var data = el('div', 'data');
+      c.dataText.split('; ').forEach(function (pair) {
+        var name = pair.split(' = ')[0];
+        var span = c.focus.indexOf(name) >= 0 ? el('mark', null, pair) : el('span', null, pair);
+        data.appendChild(span);
+      });
+      card.appendChild(data);
+      var ex = el('div', 'expect ' + c.outcomeKind); ex.appendChild(el('b', null, 'Expected')); ex.appendChild(document.createTextNode(c.expected));
+      card.appendChild(ex);
+      card.appendChild(el('div', 'covers', 'Covers: ' + c.covers));
+      box.appendChild(card);
+    });
+  }
+
+  function copy(text, label) {
+    var box = $('copybox'), toast = $('toast');
+    var done = function () { box.hidden = true; toast.textContent = label + ' copied (' + current.cases.length + ' test cases).'; };
+    var fallback = function () { box.hidden = false; box.value = text; box.focus(); box.select(); toast.textContent = 'Copy was blocked here. The text is selected below: copy it with Ctrl+C or a long press.'; };
+    if (!current.cases.length) { toast.textContent = 'Nothing to copy yet.'; return; }
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  }
+  $('copy-excel').addEventListener('click', function () { copy(UATEngine.toTSV(current.cases), 'Table for Excel'); });
+  $('copy-csv').addEventListener('click', function () { copy(UATEngine.toCSV(current.cases), 'CSV'); });
+  $('copy-md').addEventListener('click', function () { copy(UATEngine.toMarkdown(current.cases), 'Markdown table'); });
+
+  var t;
+  specEl.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () { store('uat-spec', specEl.value); run(); }, 250); });
+  sampleEl.addEventListener('change', function () { specEl.value = SAMPLES[sampleEl.value]; store('uat-sample', sampleEl.value); store('uat-spec', specEl.value); activeFilter = 'All'; run(); });
+  run();
+})();
+</script>
