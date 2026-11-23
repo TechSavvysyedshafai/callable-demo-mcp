@@ -1,0 +1,239 @@
+<title>Cannon Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one blueprint sheet. Field drawing on top, controls and the worked formula below; level strip at the bottom. Single deliberate dark look. */
+:root{
+  --paper:#0f2a44; --paper2:#13324f; --grid:#1d4266; --line:#9cc3e6; --ink:#eaf2fb; --muted:#8fb0cf;
+  --shot:#ffb347; --hit:#7be0a6; --miss:#ff7a6b; --accent:#ffd36b;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme:dark;
+}
+html,body{background:var(--paper);color:var(--ink)}
+body{font-family:var(--body);font-size:15px;line-height:1.45;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 28px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,5vw,38px);letter-spacing:-.01em;margin:0;line-height:1}
+h1 span{color:var(--shot)}
+.lvl{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.lvl b{color:var(--ink);font-weight:600}
+.stage{position:relative;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper2)}
+canvas{display:block;width:100%;height:auto;touch-action:none}
+.toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);background:rgba(10,28,46,.92);border:1px solid var(--line);border-radius:6px;padding:8px 14px;font-weight:600;text-align:center;max-width:calc(100% - 28px)}
+.toast.hit{border-color:var(--hit);color:var(--hit)} .toast.miss{border-color:var(--miss);color:var(--miss)}
+.toast small{display:block;font-weight:400;color:var(--ink);font-size:13px}
+.panel{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:14px}
+@media (max-width:720px){.panel{grid-template-columns:minmax(0,1fr)}}
+.controls,.work{border:1px solid var(--grid);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.ctl{display:grid;grid-template-columns:70px minmax(0,1fr) auto;align-items:center;gap:8px}
+.ctl label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ctl output{font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:86px;text-align:right;font-size:17px;font-weight:600}
+.nudge{display:flex;gap:6px;justify-content:flex-end;grid-column:2/4}
+input[type=range]{width:100%;accent-color:var(--shot)}
+button{font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:5px;padding:6px 10px;cursor:pointer}
+button:hover{background:var(--grid)} button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:disabled{opacity:.45;cursor:default}
+.fire{background:var(--shot);color:#1b1305;border-color:var(--shot);font-family:var(--display);font-weight:800;font-size:20px;padding:10px;letter-spacing:.02em}
+.fire:hover{background:#ffc46e}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row button{flex:1}
+.work h2,.levels h2{font-family:var(--display);font-weight:600;font-size:17px;margin:0}
+.eq{font-family:var(--mono);font-size:14px;line-height:1.55;display:flex;flex-direction:column;gap:6px;overflow-wrap:anywhere}
+.eq .k{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.eq .k{color:var(--muted)} .eq b{color:var(--accent);font-weight:600}
+.tip{font-size:14px;color:var(--muted);border-left:2px solid var(--shot);padding-left:10px}
+.hint{font-size:14px;color:var(--accent)}
+.levels{display:flex;flex-direction:column;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
+.grid button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;font-family:var(--mono);font-size:15px}
+.grid button.cur{border-color:var(--shot);background:var(--grid)}
+.grid .st{font-size:12px;color:var(--accent);letter-spacing:1px;min-height:1em}
+.grid .pl{font-size:10px;color:var(--muted);text-transform:uppercase}
+.foot{font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Cannon <span>Lab</span></h1>
+    <div class="lvl" id="lvlLabel"></div>
+  </header>
+
+  <div class="stage">
+    <canvas id="cv" width="960" height="540" aria-label="Firing range"></canvas>
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+  <div class="panel">
+    <section class="controls" aria-label="Aim">
+      <div class="ctl">
+        <label for="ang">Angle θ</label>
+        <input type="range" id="ang" min="5" max="85" step="1" value="45">
+        <output id="angOut">45°</output>
+        <div class="nudge"><button data-n="ang:-1">−1°</button><button data-n="ang:1">+1°</button></div>
+      </div>
+      <div class="ctl">
+        <label for="spd">Speed v</label>
+        <input type="range" id="spd" min="5" max="60" step="0.5" value="20">
+        <output id="spdOut">20.0 m/s</output>
+        <div class="nudge"><button data-n="spd:-0.5">−0.5</button><button data-n="spd:0.5">+0.5</button></div>
+      </div>
+      <button class="fire" id="fire">Fire</button>
+      <div class="row"><button id="clear">Clear trails</button><button id="sound" aria-pressed="false">Sound: off</button></div>
+      <div class="hint" id="hint" hidden></div>
+    </section>
+
+    <section class="work" aria-label="The physics of your last shot">
+      <h2>Your last shot, worked out</h2>
+      <div class="eq" id="eq"><span class="k">Fire once to see the numbers.</span></div>
+      <div class="tip" id="tip"></div>
+    </section>
+  </div>
+
+  <section class="levels">
+    <h2>Levels</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+  <p class="foot">No air resistance. Gravity values: Earth 9.81, Moon 1.62, Mars 3.71, Jupiter 24.79 m/s². Fewer shots earn more stars.</p>
+</div>
+
+<script>
+/*LEVELS_JS*/
+(function(){
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const $=id=>document.getElementById(id);
+const ang=$('ang'), spd=$('spd');
+let store={}; try{store=JSON.parse(localStorage.getItem('cannonlab')||'{}')}catch(e){store={}}
+const save=()=>{try{localStorage.setItem('cannonlab',JSON.stringify(store))}catch(e){}};
+let li=Math.min(store.cur||0,LEVELS.length-1), L=LEVELS[li], shots=0, misses=0, trails=[], flying=null, done=false;
+let W=960,H=540,dpr=1, view={};
+let audio=null, soundOn=false;
+
+function resize(){
+  const r=cv.getBoundingClientRect(); dpr=Math.min(window.devicePixelRatio||1,2);
+  W=Math.max(300,r.width); H=Math.round(W*(W<560?0.9:0.56));
+  cv.width=W*dpr; cv.height=H*dpr; cv.style.height=H+'px'; ctx.setTransform(dpr,0,0,dpr,0,0); computeView(); draw();
+}
+function computeView(){
+  const right=L.d+L.w/2+Math.max(12,L.d*0.15), left=-Math.max(8,L.d*0.08);
+  const top=Math.max(L.h,L.y0,...L.walls.map(w=>w.h))*1.25+L.d*0.2+10;
+  const s=Math.min(W/(right-left),(H-40)/top);
+  view={s,ox:-left*s+(W-(right-left)*s)/2,oy:H-24};
+}
+const sx=x=>view.ox+x*view.s, sy=y=>view.oy-y*view.s;
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // grid in metres
+  const step=niceStep(40/view.s); ctx.lineWidth=1; ctx.font='11px "IBM Plex Mono", monospace'; ctx.fillStyle='#5f86ab';
+  for(let x=Math.ceil(-view.ox/view.s/step)*step; sx(x)<W; x+=step){ctx.strokeStyle='#1d4266';ctx.beginPath();ctx.moveTo(sx(x),0);ctx.lineTo(sx(x),view.oy);ctx.stroke(); if(x>=0) ctx.fillText(x+' m',sx(x)+3,view.oy+15);}
+  for(let y=step; sy(y)>0; y+=step){ctx.strokeStyle='#1d4266';ctx.beginPath();ctx.moveTo(0,sy(y));ctx.lineTo(W,sy(y));ctx.stroke(); ctx.fillText(y+' m',4,sy(y)-3);}
+  // ground
+  ctx.strokeStyle='#9cc3e6'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(0,view.oy); ctx.lineTo(W,view.oy); ctx.stroke();
+  // cliff for launcher
+  if(L.y0>0){ctx.fillStyle='#244d76';ctx.fillRect(0,sy(L.y0),sx(2),view.oy-sy(L.y0));ctx.strokeRect(0,sy(L.y0),sx(2),view.oy-sy(L.y0));}
+  // walls
+  const half=Math.max(1,L.d*0.012);
+  for(const w of L.walls){ctx.fillStyle='#3b6a96';ctx.fillRect(sx(w.x-half),sy(w.h),Math.max(3,2*half*view.s),view.oy-sy(w.h));ctx.strokeStyle='#9cc3e6';ctx.lineWidth=1.5;ctx.strokeRect(sx(w.x-half),sy(w.h),Math.max(3,2*half*view.s),view.oy-sy(w.h));ctx.fillStyle='#8fb0cf';ctx.fillText(w.h+' m',sx(w.x)-12,sy(w.h)-6);}
+  // tower + target
+  const tx0=sx(L.d-L.w/2), tw=L.w*view.s;
+  if(L.h>0){ctx.fillStyle='#244d76';ctx.fillRect(tx0,sy(L.h),tw,view.oy-sy(L.h));ctx.strokeStyle='#9cc3e6';ctx.lineWidth=1.5;ctx.strokeRect(tx0,sy(L.h),tw,view.oy-sy(L.h));}
+  ctx.fillStyle=done?'#7be0a6':'#ffd36b'; ctx.fillRect(tx0,sy(L.h)-5,tw,5);
+  const fx=sx(L.d), fy=sy(L.h)-5; ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(fx,fy); ctx.lineTo(fx,fy-26); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(fx,fy-26); ctx.lineTo(fx+16,fy-20); ctx.lineTo(fx,fy-14); ctx.fill();
+  ctx.fillStyle='#8fb0cf'; ctx.fillText(L.d+' m'+(L.h?', '+L.h+' m up':''),fx-20,fy-32);
+  // old trails
+  trails.forEach((t,i)=>{const last=i===trails.length-1;ctx.strokeStyle=last?(t.res==='hit'?'#7be0a6':'#ffb347'):'rgba(255,179,71,.28)';ctx.lineWidth=last?2:1.2;ctx.setLineDash(last?[]:[4,4]);ctx.beginPath();t.pts.forEach((p,k)=>k?ctx.lineTo(sx(p[0]),sy(p[1])):ctx.moveTo(sx(p[0]),sy(p[1])));ctx.stroke();ctx.setLineDash([]);});
+  // aim guide (first 25% of the path) on guide levels
+  if(L.guide&&!flying){const s=newShot(L,+ang.value,+spd.value);const g=PLANETS[L.planet];const T=2*s.vy/g*0.25;ctx.strokeStyle='rgba(234,242,251,.55)';ctx.setLineDash([2,5]);ctx.lineWidth=1.5;ctx.beginPath();for(let t=0;t<=T;t+=T/30){const x=s.vx*t,y=L.y0+s.vy*t-g*t*t/2;t?ctx.lineTo(sx(x),sy(y)):ctx.moveTo(sx(x),sy(y));}ctx.stroke();ctx.setLineDash([]);}
+  // cannon
+  const a=ang.value*Math.PI/180, cx=sx(0), cy=sy(L.y0), len=Math.max(26,W*0.045);
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(-a); ctx.fillStyle='#eaf2fb'; ctx.fillRect(-4,-7,len,14); ctx.restore();
+  ctx.fillStyle='#9cc3e6'; ctx.beginPath(); ctx.arc(cx,cy,11,Math.PI,0); ctx.fill();
+  // ball
+  if(flying){const s=flying.s;let bx=sx(s.x),by=sy(s.y);ctx.fillStyle='#ffb347';
+    if(by<6){ctx.beginPath();ctx.moveTo(bx,4);ctx.lineTo(bx-7,16);ctx.lineTo(bx+7,16);ctx.fill();ctx.fillText(s.y.toFixed(0)+' m',bx+10,16);}
+    else{ctx.beginPath();ctx.arc(bx,by,6,0,7);ctx.fill();}
+    ctx.fillStyle='#eaf2fb'; ctx.font='13px "IBM Plex Mono", monospace'; ctx.fillText('t = '+s.t.toFixed(2)+' s',W-110,20);}
+}
+function niceStep(raw){const p=Math.pow(10,Math.floor(Math.log10(raw)));for(const m of [1,2,5,10]) if(m*p>=raw) return m*p;return 10*p;}
+
+function setLevel(i){
+  li=i; L=LEVELS[i]; shots=0; misses=0; trails=[]; flying=null; done=false; store.cur=i; save();
+  $('lvlLabel').innerHTML='Level <b>'+(i+1)+'</b> / '+LEVELS.length+' · <b>'+L.name+'</b> · '+L.planet+', g = '+PLANETS[L.planet]+' m/s²';
+  $('tip').textContent=L.tip; $('hint').hidden=true; $('toast').hidden=true;
+  $('eq').innerHTML='<span class="k">Fire once to see the numbers.</span>';
+  computeView(); renderGrid(); draw();
+}
+function renderGrid(){
+  $('grid').innerHTML=LEVELS.map((l,i)=>{const st=(store.stars||{})[i]||0;return '<button class="'+(i===li?'cur':'')+'" data-l="'+i+'" aria-label="Level '+(i+1)+', '+st+' stars"><span>'+(i+1)+'</span><span class="st">'+'★'.repeat(st)+'</span><span class="pl">'+l.planet+'</span></button>'}).join('');
+}
+function updOut(){ $('angOut').textContent=(+ang.value)+'°'; $('spdOut').textContent=(+spd.value).toFixed(1)+' m/s'; if(!flying) draw(); }
+
+function beep(f,d,type){ if(!soundOn) return; try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(.18,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+d);}catch(e){} }
+
+function fire(){
+  if(flying) return;
+  const s=newShot(L,+ang.value,+spd.value); shots++; $('toast').hidden=true;
+  const g=PLANETS[L.planet], Tflat=Math.max(0.5,2*s.vy/g), speed=Math.min(10,Math.max(1,Tflat/1.8));
+  flying={s,pts:[[s.x,s.y]],speed,last:performance.now()}; $('fire').disabled=true; beep(110,.25,'triangle'); requestAnimationFrame(tick);
+}
+function tick(now){
+  const f=flying; let dt=Math.min(0.05,(now-f.last)/1000)*f.speed; f.last=now; let res=null;
+  const n=Math.ceil(dt*240);
+  for(let k=0;k<n&&!res;k++){res=stepShot(L,f.s,dt/n); f.s.maxY=Math.max(f.s.maxY,f.s.y);}
+  f.pts.push([f.s.x,f.s.y]);
+  if(res){finish(res);return;}
+  draw(); requestAnimationFrame(tick);
+}
+function finish(res){
+  const f=flying; trails.push({pts:f.pts,res}); if(trails.length>6) trails.shift(); flying=null; $('fire').disabled=false;
+  const t=$('toast'); t.hidden=false;
+  if(res==='hit'){
+    done=true; const stars=shots===1?3:shots<=3?2:1; store.stars=store.stars||{}; store.stars[li]=Math.max(store.stars[li]||0,stars); save();
+    t.className='toast hit'; t.innerHTML='Direct hit! '+'★'.repeat(stars)+'<small>'+shots+' shot'+(shots>1?'s':'')+(li<LEVELS.length-1?' · <button id="next">Next level</button>':' · All levels cleared')+'</small>';
+    const nb=$('next'); if(nb) nb.onclick=()=>setLevel(li+1); beep(660,.15); setTimeout(()=>beep(880,.25),130); renderGrid();
+  } else {
+    misses++; const short=f.s.x<L.d-L.w/2; t.className='toast miss';
+    t.innerHTML=(res==='wall'?'Blocked':short?'Too short':'Too long')+'<small>landed at '+f.s.x.toFixed(1)+' m, target at '+L.d+' m</small>'; beep(180,.2,'square');
+    if(misses>=2) showHint();
+  }
+  showWork(f.s); draw();
+}
+function showWork(s){
+  const g=PLANETS[L.planet], a=+ang.value, v=+spd.value, r=a*Math.PI/180, sn=Math.sin(r);
+  const R=v*v*Math.sin(2*r)/g, Hm=v*v*sn*sn/(2*g), T=2*v*sn/g;
+  $('eq').innerHTML=
+   '<div><span class="k">Range on flat ground</span>R = v² sin 2θ / g = '+v+'² × sin '+(2*a)+'° / '+g+' = <b>'+R.toFixed(1)+' m</b></div>'+
+   '<div><span class="k">Highest point</span>H = v² sin²θ / 2g = <b>'+(Hm+L.y0).toFixed(1)+' m</b>'+(L.y0?' (incl. '+L.y0+' m cliff)':'')+'</div>'+
+   '<div><span class="k">Flight time, flat</span>T = 2v sinθ / g = <b>'+T.toFixed(2)+' s</b></div>'+
+   '<div><span class="k">This shot</span>flew <b>'+s.t.toFixed(2)+' s</b>, reached <b>'+s.x.toFixed(1)+' m</b></div>';
+}
+function showHint(){
+  const g=PLANETS[L.planet], a=+ang.value*Math.PI/180, dy=L.h-L.y0, x=L.d;
+  const den=2*Math.cos(a)**2*(x*Math.tan(a)-dy); const h=$('hint'); h.hidden=false;
+  if(den<=0){h.textContent='Hint: at this angle the arch can never reach that height. Aim higher.';return;}
+  const v=Math.sqrt(g*x*x/den);
+  h.textContent='Hint: ignoring walls, at '+ang.value+'° you need about '+v.toFixed(1)+' m/s (from y = x tanθ − g x² / 2v²cos²θ).'+(L.walls.length?' Check it clears the wall.':'');
+}
+
+ang.addEventListener('input',updOut); spd.addEventListener('input',updOut);
+document.querySelectorAll('[data-n]').forEach(b=>b.addEventListener('click',()=>{const [id,d]=b.dataset.n.split(':');const el=$(id);el.value=Math.min(+el.max,Math.max(+el.min,+el.value+ +d));updOut();}));
+$('fire').addEventListener('click',fire);
+$('clear').addEventListener('click',()=>{trails=[];draw();});
+$('sound').addEventListener('click',e=>{soundOn=!soundOn;e.target.textContent='Sound: '+(soundOn?'on':'off');e.target.setAttribute('aria-pressed',soundOn);beep(440,.08);});
+$('grid').addEventListener('click',e=>{const b=e.target.closest('button[data-l]');if(b&&!flying) setLevel(+b.dataset.l);});
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'&&e.key!==' ')return; if(e.key===' '||e.key==='Enter'){e.preventDefault();fire();}});
+// drag on the field to aim: direction sets angle, length sets speed
+let drag=false;
+function aimFrom(e){const r=cv.getBoundingClientRect();const px=e.clientX-r.left,py=e.clientY-r.top;const dx=px-sx(0),dy=sy(L.y0)-py;if(dx<=0||dy<=0)return;ang.value=Math.round(Math.atan2(dy,dx)*180/Math.PI);spd.value=Math.min(60,Math.max(5,Math.round(Math.hypot(dx,dy)/Math.min(W,H)*120)/2));updOut();}
+cv.addEventListener('pointerdown',e=>{if(flying)return;drag=true;cv.setPointerCapture(e.pointerId);aimFrom(e);});
+cv.addEventListener('pointermove',e=>{if(drag)aimFrom(e);});
+cv.addEventListener('pointerup',()=>{drag=false;});
+window.addEventListener('resize',resize);
+setLevel(li); resize(); updOut();
+})();
+</script>
