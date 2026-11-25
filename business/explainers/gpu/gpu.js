@@ -202,7 +202,7 @@ $('load').oninput = e => { S.target = e.target.value/100; };
 [['tgPkg','pkg'],['tgFlow','flow'],['tgLabels','labels'],['tgOrbit','orbit']].forEach(([id,k]) => $(id).onclick = () => { S.show[k] = !S.show[k]; $(id).setAttribute('aria-pressed', String(S.show[k])); });
 
 let drag = null; const pinch = new Map();
-canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]); drag = {x:e.clientX, y:e.clientY, az:orbit.az, el:orbit.el}; });
+canvas.addEventListener('pointerdown', e => { e.preventDefault(); canvas.setPointerCapture(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]); drag = {x:e.clientX, y:e.clientY, az:orbit.az, el:orbit.el}; });
 canvas.addEventListener('pointermove', e => {
   if (!pinch.has(e.pointerId)) return; const prev = pinch.get(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]);
   if (pinch.size === 2){ const [a,b] = [...pinch.values()]; const d = Math.hypot(a[0]-b[0], a[1]-b[1]); const o = [...pinch.keys()].find(k => k !== e.pointerId); const q = pinch.get(o); const d0 = Math.hypot(prev[0]-q[0], prev[1]-q[1]); orbit.dist = Math.min(260, Math.max(60, orbit.dist*d0/d)); return; }
@@ -261,7 +261,7 @@ function drawChart(){
 }
 const chart = $('chart'); let scrub = null;
 function chartPos(e){ const r = chart.getBoundingClientRect(); const x = e.clientX - r.left, y = e.clientY - r.top; return {cyc: Math.min(CYC-0.01, Math.max(0, (x-CH.l)/(r.width-CH.l-CH.r)*CYC)), row: Math.floor((y-CH.t)/((r.height-CH.t-CH.b)/4)), x}; }
-chart.addEventListener('pointerdown', e => { chart.setPointerCapture(e.pointerId); const p = chartPos(e); scrub = {x:p.x, moved:false, was:S.playing}; S.playing = false; syncPlay(); S.cyc = S.cyc - (((S.cyc % CYC)+CYC)%CYC) + p.cyc; });
+chart.addEventListener('pointerdown', e => { e.preventDefault(); chart.setPointerCapture(e.pointerId); const p = chartPos(e); scrub = {x:p.x, moved:false, was:S.playing}; S.playing = false; syncPlay(); S.cyc = S.cyc - (((S.cyc % CYC)+CYC)%CYC) + p.cyc; });
 chart.addEventListener('pointermove', e => { if (!scrub) return; const p = chartPos(e); if (Math.abs(p.x - scrub.x) > 4) scrub.moved = true; S.cyc = S.cyc - (((S.cyc % CYC)+CYC)%CYC) + p.cyc; });
 chart.addEventListener('pointerup', e => { if (!scrub) return; const p = chartPos(e); if (!scrub.moved && p.row >= 0 && p.row < 4){ S.follow = p.row; S.playing = scrub.was; syncPlay(); } scrub = null; });
 

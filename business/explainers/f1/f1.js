@@ -305,7 +305,7 @@ $('bDRS').onclick = () => { S.drs = !S.drs; $('bDRS').textContent = S.drs ? 'DRS
 document.querySelectorAll('[data-rh]').forEach(b => b.onclick = () => { S.rh = b.dataset.rh; document.querySelectorAll('[data-rh]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); applyRide(); });
 [['tgBody','body'],['tgStream','stream'],['tgPart','part'],['tgLabels','labels'],['tgOrbit','orbit']].forEach(([id,k]) => $(id).onclick = () => { S.show[k] = !S.show[k]; $(id).setAttribute('aria-pressed', String(S.show[k])); });
 let drag = null; const pinch = new Map();
-canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]); drag = {x:e.clientX, y:e.clientY, az:orbit.az, el:orbit.el}; });
+canvas.addEventListener('pointerdown', e => { e.preventDefault(); canvas.setPointerCapture(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]); drag = {x:e.clientX, y:e.clientY, az:orbit.az, el:orbit.el}; });
 canvas.addEventListener('pointermove', e => {
   if (!pinch.has(e.pointerId)) return; const prev = pinch.get(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]);
   if (pinch.size === 2){ const [a,b] = [...pinch.values()]; const d = Math.hypot(a[0]-b[0], a[1]-b[1]); const o = [...pinch.keys()].find(k => k !== e.pointerId); const q = pinch.get(o); const d0 = Math.hypot(prev[0]-q[0], prev[1]-q[1]); orbit.dist = Math.min(260, Math.max(50, orbit.dist*d0/d)); return; }
@@ -369,7 +369,7 @@ function drawChart(){
 }
 const chart = $('chart'); let scrub = null;
 function chartX(e){ const r = chart.getBoundingClientRect(); const x = e.clientX - r.left; return {x, pos: Math.min(XMAX, Math.max(XMIN, XMIN + (x-CH.l)/(r.width-CH.l-CH.r)*(XMAX-XMIN)))}; }
-chart.addEventListener('pointerdown', e => { chart.setPointerCapture(e.pointerId); const p = chartX(e); scrub = {x:p.x, moved:false, was:S.playing}; S.playing = false; syncPlay(); S.probe = p.pos; });
+chart.addEventListener('pointerdown', e => { e.preventDefault(); chart.setPointerCapture(e.pointerId); const p = chartX(e); scrub = {x:p.x, moved:false, was:S.playing}; S.playing = false; syncPlay(); S.probe = p.pos; });
 chart.addEventListener('pointermove', e => { if (!scrub) return; const p = chartX(e); if (Math.abs(p.x - scrub.x) > 4) scrub.moved = true; S.probe = p.pos; });
 chart.addEventListener('pointerup', e => { if (!scrub) return; const p = chartX(e); if (!scrub.moved){ const r = regionAt(p.pos); if (r >= 0){ follow(r); S.playing = scrub.was; syncPlay(); } } scrub = null; });
 

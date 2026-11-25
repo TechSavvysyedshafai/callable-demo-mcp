@@ -50,7 +50,7 @@ section.op{border-top:3px solid var(--rule);padding-top:8px;display:flex;flex-di
 .ro dt{color:var(--ink2)} .ro dd{margin:0;text-align:right}
 .ro .on{color:var(--red);font-weight:500}
 .view-wrap{position:relative;min-width:0;min-height:440px;border:1px solid var(--ink)}
-#view{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#view{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 #view:active{cursor:grabbing}
 #leaders{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .view-wrap{overflow:hidden}
@@ -72,7 +72,7 @@ input[type=range]{width:100%;accent-color:var(--red)}
 .bottom{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;margin-top:20px;align-items:end}
 @media (max-width:900px){.bottom{grid-template-columns:minmax(0,1fr)}}
 .chart-wrap{overflow-x:auto}
-#chart{width:100%;min-width:520px;height:150px;display:block;cursor:ew-resize;touch-action:none}
+#chart{width:100%;min-width:520px;height:150px;display:block;cursor:ew-resize;touch-action:none;user-select:none;-webkit-user-select:none}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px}
 .legend i{display:inline-block;width:12px;height:12px;border:1.2px solid var(--ink);vertical-align:-2px;margin-right:5px}
 .tblock{border:2px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;font-family:var(--mono);font-size:10.5px}
@@ -402,7 +402,7 @@ $('load').oninput = e => { S.target = e.target.value/100; };
 [['tgPkg','pkg'],['tgFlow','flow'],['tgLabels','labels'],['tgOrbit','orbit']].forEach(([id,k]) => $(id).onclick = () => { S.show[k] = !S.show[k]; $(id).setAttribute('aria-pressed', String(S.show[k])); });
 
 let drag = null; const pinch = new Map();
-canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]); drag = {x:e.clientX, y:e.clientY, az:orbit.az, el:orbit.el}; });
+canvas.addEventListener('pointerdown', e => { e.preventDefault(); canvas.setPointerCapture(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]); drag = {x:e.clientX, y:e.clientY, az:orbit.az, el:orbit.el}; });
 canvas.addEventListener('pointermove', e => {
   if (!pinch.has(e.pointerId)) return; const prev = pinch.get(e.pointerId); pinch.set(e.pointerId, [e.clientX, e.clientY]);
   if (pinch.size === 2){ const [a,b] = [...pinch.values()]; const d = Math.hypot(a[0]-b[0], a[1]-b[1]); const o = [...pinch.keys()].find(k => k !== e.pointerId); const q = pinch.get(o); const d0 = Math.hypot(prev[0]-q[0], prev[1]-q[1]); orbit.dist = Math.min(260, Math.max(60, orbit.dist*d0/d)); return; }
@@ -461,7 +461,7 @@ function drawChart(){
 }
 const chart = $('chart'); let scrub = null;
 function chartPos(e){ const r = chart.getBoundingClientRect(); const x = e.clientX - r.left, y = e.clientY - r.top; return {cyc: Math.min(CYC-0.01, Math.max(0, (x-CH.l)/(r.width-CH.l-CH.r)*CYC)), row: Math.floor((y-CH.t)/((r.height-CH.t-CH.b)/4)), x}; }
-chart.addEventListener('pointerdown', e => { chart.setPointerCapture(e.pointerId); const p = chartPos(e); scrub = {x:p.x, moved:false, was:S.playing}; S.playing = false; syncPlay(); S.cyc = S.cyc - (((S.cyc % CYC)+CYC)%CYC) + p.cyc; });
+chart.addEventListener('pointerdown', e => { e.preventDefault(); chart.setPointerCapture(e.pointerId); const p = chartPos(e); scrub = {x:p.x, moved:false, was:S.playing}; S.playing = false; syncPlay(); S.cyc = S.cyc - (((S.cyc % CYC)+CYC)%CYC) + p.cyc; });
 chart.addEventListener('pointermove', e => { if (!scrub) return; const p = chartPos(e); if (Math.abs(p.x - scrub.x) > 4) scrub.moved = true; S.cyc = S.cyc - (((S.cyc % CYC)+CYC)%CYC) + p.cyc; });
 chart.addEventListener('pointerup', e => { if (!scrub) return; const p = chartPos(e); if (!scrub.moved && p.row >= 0 && p.row < 4){ S.follow = p.row; S.playing = scrub.was; syncPlay(); } scrub = null; });
 
