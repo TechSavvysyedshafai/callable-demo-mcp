@@ -1,0 +1,386 @@
+<title>Shop Orders</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<script type="application/json" id="claude-artifacts-manifest">{"permissions": ["notifications", "menu-bar"]}</script>
+<style>
+/* Layout: an industrial control-panel sheet. Status strip on top, then a two-column work area (order queue | new order + week), stacking on phones. Single dark look by choice. */
+:root{
+  --bg:#0d0d0c; --panel:#151513; --line:#2a2925; --line2:#3a3832;
+  --ink:#ecebe6; --mute:#8d8a80; --accent:#ef6f2e; --accent-ink:#140a04;
+  --ok:#5fbf7a; --warn:#e6b13d; --bad:#e5564b;
+  --sans:"Geist", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme:dark;
+}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--sans);font-size:14px;line-height:1.45;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 32px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.mono{font-family:var(--mono)}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 20px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.brand{display:flex;flex-direction:column;gap:4px;min-width:0}
+.brand h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.brand h1 .dot{color:var(--accent)}
+#shopName{background:transparent;border:0;color:var(--mute);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0;width:min(320px,70vw)}
+#shopName:focus{outline:1px dashed var(--line2);color:var(--ink)}
+.hdr-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.clock{font-family:var(--mono);font-size:12px;color:var(--mute);text-align:right}
+.clock b{color:var(--ink);font-weight:500}
+button{font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line2);border-radius:3px;padding:7px 12px;cursor:pointer}
+button:hover{border-color:var(--mute)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn-accent:hover{background:#f5844a;border-color:#f5844a}
+.notice{border:1px solid var(--line2);border-left:3px solid var(--warn);padding:8px 12px;font-size:13px;color:var(--ink);background:var(--panel)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line)}
+.kpi{padding:12px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi:last-child{border-right:0}
+.kpi .v{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi.alert .v{color:var(--bad)} .kpi.hot .v{color:var(--accent)}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi:nth-child(2){border-right:0}.kpi:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:880px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{border:1px solid var(--line);background:var(--panel);min-width:0}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.panel-h h2{margin:0;font-size:13px;font-weight:600;letter-spacing:.02em}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:5px 9px;border-radius:2px}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.chip .n{color:var(--mute);margin-left:4px}
+.list{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:0 12px;border-bottom:1px solid var(--line);padding:12px 14px 12px 0;transition:background .15s}
+.row:last-child{border-bottom:0}
+.row:hover{background:#1a1a17}
+.stripe{background:var(--line2);align-self:stretch}
+.row.overdue .stripe{background:var(--bad)} .row.today .stripe{background:var(--accent)} .row.done .stripe{background:var(--ok)}
+.main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.who{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.who b{font-weight:600;font-size:15px}
+.ex{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--warn);border:1px solid var(--warn);padding:0 4px;border-radius:2px}
+.items{color:var(--ink);overflow-wrap:anywhere}
+.meta{display:flex;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.meta .due-bad{color:var(--bad)} .meta .due-today{color:var(--accent)}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.amt{font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums}
+.pipe{display:flex;border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.pipe button{border:0;border-radius:0;padding:5px 9px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+.pipe button+button{border-left:1px solid var(--line2)}
+.pipe button.on{background:var(--ink);color:var(--bg)}
+.pipe button.on.last{background:var(--ok);color:#06140a}
+.acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.acts button{padding:4px 8px;font-size:12px}
+.paid-on{border-color:var(--ok);color:var(--ok)}
+.paid-off{border-color:var(--warn);color:var(--warn)}
+.del-confirm{border-color:var(--bad);color:var(--bad)}
+.empty{padding:28px 18px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;color:var(--mute)}
+.empty b{color:var(--ink);font-size:15px}
+form{padding:14px;display:flex;flex-direction:column;gap:10px}
+.f{display:flex;flex-direction:column;gap:4px}
+.f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line2);border-radius:3px;padding:8px 10px;width:100%;box-sizing:border-box}
+textarea{resize:vertical;min-height:54px}
+.form-msg{font-family:var(--mono);font-size:12px;min-height:1em}
+.form-msg.err{color:var(--bad)} .form-msg.ok{color:var(--ok)}
+.week{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end;height:90px}
+.bar{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.bar i{display:block;width:100%;background:var(--line2);min-height:2px}
+.bar.today-b i{background:var(--accent)}
+.bar span{font-family:var(--mono);font-size:10px;color:var(--mute)}
+.wk-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;font-variant-numeric:tabular-nums}
+.wk-stats div{display:flex;flex-direction:column;gap:2px}
+.wk-stats b{font-family:var(--mono);font-weight:500;font-size:14px}
+.foot{font-family:var(--mono);font-size:11px;color:var(--mute);display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:520px){.row{grid-template-columns:4px minmax(0,1fr)}.side{grid-column:2;align-items:flex-start;margin-top:8px}.acts{justify-content:flex-start}.f2{grid-template-columns:minmax(0,1fr)}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>Shop Orders<span class="dot">.</span></h1>
+      <input id="shopName" aria-label="Shop name" value="My Shop, Patna" maxlength="40">
+    </div>
+    <div class="hdr-right">
+      <div class="clock"><span class="label">Today</span><br><b id="today">—</b> · <span id="check">4 PM check</span></div>
+      <button id="installBtn" class="btn-accent" hidden>Install as app</button>
+    </div>
+  </header>
+
+  <div id="notice" class="notice" hidden></div>
+
+  <section class="kpis" aria-label="Today at a glance">
+    <div class="kpi hot"><span class="label">Due today</span><span class="v" id="kDue">0</span></div>
+    <div class="kpi alert"><span class="label">Overdue</span><span class="v" id="kOver">0</span></div>
+    <div class="kpi"><span class="label">Shipped today</span><span class="v" id="kShip">0</span></div>
+    <div class="kpi"><span class="label">Money to collect</span><span class="v" id="kUnpaid">₹0</span></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-label="Orders">
+      <div class="panel-h">
+        <h2>Order queue</h2>
+        <div class="chips" id="chips"></div>
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+
+    <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+      <section class="panel" aria-label="New order">
+        <div class="panel-h"><h2>New order</h2><span class="label">Enter = save</span></div>
+        <form id="form" autocomplete="off">
+          <div class="f"><label class="label" for="fCust">Customer</label><input id="fCust" required maxlength="60" placeholder="e.g. Sharma Medical"></div>
+          <div class="f"><label class="label" for="fItems">Items</label><textarea id="fItems" required maxlength="300" placeholder="e.g. 2 cartons ORS, 1 box gloves"></textarea></div>
+          <div class="f2">
+            <div class="f"><label class="label" for="fAmt">Amount (₹)</label><input id="fAmt" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></div>
+            <div class="f"><label class="label" for="fDue">Due date</label><input id="fDue" type="date" required></div>
+          </div>
+          <div class="f2">
+            <div class="f"><label class="label" for="fPhone">Phone (optional)</label><input id="fPhone" maxlength="15" inputmode="tel" placeholder="98xxxxxxxx"></div>
+            <div class="f"><label class="label" for="fPaid">Payment</label><select id="fPaid"><option value="no">Not paid</option><option value="yes">Paid</option></select></div>
+          </div>
+          <button type="submit" class="btn-accent">Save order</button>
+          <div class="form-msg" id="formMsg" role="status"></div>
+        </form>
+      </section>
+
+      <section class="panel" aria-label="Last 7 days">
+        <div class="panel-h"><h2>Last 7 days</h2><span class="label">by due date</span></div>
+        <div class="week">
+          <div class="bars" id="bars"></div>
+          <div class="wk-stats">
+            <div><span class="label">Orders</span><b id="wOrders">0</b></div>
+            <div><span class="label">Value</span><b id="wValue">₹0</b></div>
+            <div><span class="label">Unpaid</span><b id="wUnpaid">₹0</b></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="foot"><span id="saveState">Connecting…</span><span>Orders are private to your Claude account</span></div>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const STAGES = ['New','Packed','Shipped'];
+  const inr = n => '₹' + Math.round(n || 0).toLocaleString('en-IN');
+  const pad = n => String(n).padStart(2,'0');
+  const ymd = d => d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+  const todayStr = () => ymd(new Date());
+  const addDays = (s,k) => { const d = new Date(s + 'T00:00:00'); d.setDate(d.getDate()+k); return ymd(d); };
+  const fmtDay = s => new Date(s + 'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
+
+  let orders = [];            // [{id, ...data}]
+  let filter = 'today';
+  let confirmDel = null;
+  let db = null, col = null, settingsRef = null, desktop = null, remindedOn = null;
+
+  // ---- state helpers ----
+  const isDone = o => o.stage === 2;
+  const classify = o => isDone(o) ? 'done' : o.due < todayStr() ? 'overdue' : o.due === todayStr() ? 'today' : 'later';
+
+  function counts(){
+    const t = todayStr();
+    return {
+      today: orders.filter(o => !isDone(o) && o.due === t).length,
+      overdue: orders.filter(o => !isDone(o) && o.due < t).length,
+      open: orders.filter(o => !isDone(o)).length,
+      done: orders.filter(isDone).length,
+      shippedToday: orders.filter(o => isDone(o) && o.shippedOn === t).length,
+      unpaid: orders.filter(o => !o.paid).reduce((s,o) => s + (+o.amount || 0), 0)
+    };
+  }
+
+  // ---- render ----
+  function render(){
+    $('today').textContent = new Date().toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'short'});
+    const c = counts();
+    $('kDue').textContent = c.today; $('kOver').textContent = c.overdue;
+    $('kShip').textContent = c.shippedToday; $('kUnpaid').textContent = inr(c.unpaid);
+    const h = new Date().getHours();
+    $('check').textContent = h < 16 ? '4 PM check pending' : (c.today ? c.today + ' due today not shipped' : 'All due today shipped');
+
+    const chipDefs = [['today','Due today',c.today],['overdue','Overdue',c.overdue],['open','All open',c.open],['done','Done',c.done]];
+    const chips = $('chips'); chips.textContent = '';
+    chipDefs.forEach(([k,l,n]) => {
+      const b = document.createElement('button'); b.className = 'chip'; b.setAttribute('aria-pressed', String(filter === k));
+      b.textContent = l; const s = document.createElement('span'); s.className = 'n'; s.textContent = n; b.append(s);
+      b.onclick = () => { filter = k; render(); }; chips.append(b);
+    });
+
+    const t = todayStr();
+    let view = orders.filter(o => filter === 'today' ? (!isDone(o) && o.due === t)
+      : filter === 'overdue' ? (!isDone(o) && o.due < t)
+      : filter === 'open' ? !isDone(o) : isDone(o));
+    view.sort((a,b) => filter === 'done' ? (b.shippedOn||'').localeCompare(a.shippedOn||'') : a.due.localeCompare(b.due) || (a.created||0) - (b.created||0));
+
+    const list = $('list'); list.textContent = '';
+    if (!view.length){
+      const e = document.createElement('div'); e.className = 'empty';
+      const b = document.createElement('b');
+      if (!orders.length){
+        b.textContent = 'No orders yet';
+        e.append(b, document.createTextNode('Add your first order on the right. Or load 6 example orders to see how the app works; they are marked EXAMPLE and you can delete them.'));
+        const btn = document.createElement('button'); btn.textContent = 'Load example orders'; btn.onclick = loadExamples; e.append(btn);
+      } else {
+        b.textContent = filter === 'today' ? 'Nothing left for today' : filter === 'overdue' ? 'No overdue orders' : filter === 'done' ? 'No shipped orders yet' : 'No open orders';
+        e.append(b);
+      }
+      list.append(e);
+    }
+    view.forEach(o => list.append(rowEl(o)));
+    renderWeek();
+  }
+
+  function rowEl(o){
+    const cls = classify(o);
+    const r = document.createElement('div'); r.className = 'row ' + cls;
+    const stripe = document.createElement('i'); stripe.className = 'stripe';
+    const main = document.createElement('div'); main.className = 'main';
+    const who = document.createElement('div'); who.className = 'who';
+    const name = document.createElement('b'); name.textContent = o.customer; who.append(name);
+    if (o.example){ const ex = document.createElement('span'); ex.className = 'ex'; ex.textContent = 'EXAMPLE'; who.append(ex); }
+    const items = document.createElement('div'); items.className = 'items'; items.textContent = o.items;
+    const meta = document.createElement('div'); meta.className = 'meta';
+    const due = document.createElement('span');
+    due.textContent = isDone(o) ? 'Shipped ' + fmtDay(o.shippedOn || o.due) : (cls === 'overdue' ? 'Overdue · due ' : cls === 'today' ? 'Due today · ' : 'Due ') + fmtDay(o.due);
+    if (cls === 'overdue') due.className = 'due-bad'; if (cls === 'today') due.className = 'due-today';
+    meta.append(due);
+    if (o.phone){ const p = document.createElement('span'); p.textContent = o.phone; meta.append(p); }
+    main.append(who, items, meta);
+
+    const side = document.createElement('div'); side.className = 'side';
+    const amt = document.createElement('span'); amt.className = 'amt'; amt.textContent = inr(o.amount); side.append(amt);
+    const pipe = document.createElement('div'); pipe.className = 'pipe'; pipe.setAttribute('role','group'); pipe.setAttribute('aria-label','Order stage');
+    STAGES.forEach((s,i) => {
+      const b = document.createElement('button'); b.textContent = s;
+      if (i <= o.stage) b.classList.add('on'); if (i === 2 && o.stage === 2) b.classList.add('last');
+      b.setAttribute('aria-pressed', String(i === o.stage));
+      b.onclick = () => save(o.id, { stage: i, shippedOn: i === 2 ? todayStr() : null });
+      pipe.append(b);
+    });
+    side.append(pipe);
+    const acts = document.createElement('div'); acts.className = 'acts';
+    const paid = document.createElement('button'); paid.className = o.paid ? 'paid-on' : 'paid-off'; paid.textContent = o.paid ? 'Paid ✓' : 'Mark paid';
+    paid.onclick = () => save(o.id, { paid: !o.paid });
+    const del = document.createElement('button');
+    if (confirmDel === o.id){ del.className = 'del-confirm'; del.textContent = 'Tap again to delete'; del.onclick = () => { confirmDel = null; remove(o.id); }; }
+    else { del.textContent = 'Delete'; del.onclick = () => { confirmDel = o.id; render(); }; }
+    acts.append(paid, del); side.append(acts);
+    r.append(stripe, main, side);
+    return r;
+  }
+
+  function renderWeek(){
+    const t = todayStr(); const days = [...Array(7)].map((_,i) => addDays(t, i-6));
+    const per = days.map(d => orders.filter(o => o.due === d));
+    const max = Math.max(1, ...per.map(p => p.length));
+    const bars = $('bars'); bars.textContent = '';
+    days.forEach((d,i) => {
+      const b = document.createElement('div'); b.className = 'bar' + (d === t ? ' today-b' : '');
+      b.title = fmtDay(d) + ': ' + per[i].length + ' orders';
+      const bar = document.createElement('i'); bar.style.height = (per[i].length / max * 70) + 'px';
+      const s = document.createElement('span'); s.textContent = new Date(d + 'T00:00:00').toLocaleDateString('en-IN',{weekday:'narrow'});
+      b.append(bar, s); bars.append(b);
+    });
+    const all = per.flat();
+    $('wOrders').textContent = all.length;
+    $('wValue').textContent = inr(all.reduce((s,o) => s + (+o.amount||0), 0));
+    $('wUnpaid').textContent = inr(all.filter(o => !o.paid).reduce((s,o) => s + (+o.amount||0), 0));
+  }
+
+  // ---- storage (db, per person private) ----
+  const local = new Map(); // used when db is unavailable (preview / signed out)
+  function setState(text){ $('saveState').textContent = text; }
+  async function save(id, patch){
+    const o = orders.find(x => x.id === id); if (!o) return;
+    Object.assign(o, patch); render();
+    if (!col){ local.set(id, o); return; }
+    try { await col.doc(id).update(patch); setState('Saved'); } catch(e){ setState('Could not save: ' + (e && e.code || 'error') + '. Check your connection.'); }
+  }
+  async function remove(id){
+    orders = orders.filter(o => o.id !== id); render();
+    if (!col) return;
+    try { await col.doc(id).delete(); setState('Deleted'); } catch(e){ setState('Could not delete: ' + (e && e.code || 'error')); }
+  }
+  async function create(data){
+    const id = 'o_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+    const o = Object.assign({ kind:'order', stage:0, paid:false, created: Date.now() }, data);
+    orders.push(Object.assign({ id }, o)); render();
+    if (!col) return true;
+    try { await col.doc(id).set(o); setState('Saved'); return true; } catch(e){ setState('Could not save: ' + (e && e.code || 'error')); return false; }
+  }
+  function loadExamples(){
+    const t = todayStr();
+    [['Sharma Medical','2 cartons ORS, 1 box gloves',1850,t,0,false],
+     ['Verma Kirana','5 kg sugar, 2 L mustard oil',640,t,1,true],
+     ['Gupta Coaching','40 registers, 2 boxes markers',2400,addDays(t,-1),0,false],
+     ['Ali Boutique','Gift wrapping, 12 boxes',900,addDays(t,1),0,false],
+     ['Patna Sweets','Delivery: 10 kg laddoo',4200,addDays(t,-2),2,true],
+     ['Kumar Lab','Sample bags, 200 pcs',1100,addDays(t,2),1,false]]
+    .forEach(([customer,items,amount,due,stage,paid]) => create({ customer, items, amount, due, stage, paid, shippedOn: stage === 2 ? due : null, example: true }));
+  }
+
+  // ---- form ----
+  $('fDue').value = todayStr();
+  $('form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const customer = $('fCust').value.trim(), items = $('fItems').value.trim();
+    if (!customer || !items){ $('formMsg').className = 'form-msg err'; $('formMsg').textContent = 'Add a customer name and the items.'; return; }
+    const ok = await create({ customer, items, amount: Math.max(0, +$('fAmt').value || 0), due: $('fDue').value || todayStr(), phone: $('fPhone').value.trim(), paid: $('fPaid').value === 'yes' });
+    $('formMsg').className = 'form-msg ' + (ok ? 'ok' : 'err');
+    $('formMsg').textContent = ok ? 'Saved: ' + customer : 'Not saved to your account. Check your connection.';
+    $('fCust').value = ''; $('fItems').value = ''; $('fAmt').value = ''; $('fPhone').value = ''; $('fPaid').value = 'no'; $('fDue').value = todayStr(); $('fCust').focus();
+  });
+  $('fItems').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); $('form').requestSubmit(); } });
+
+  let nameTimer = null;
+  $('shopName').addEventListener('input', () => {
+    clearTimeout(nameTimer);
+    nameTimer = setTimeout(() => { if (settingsRef) settingsRef.set({ kind:'settings', shopName: $('shopName').value.trim() || 'My Shop' }).catch(() => {}); }, 800);
+  });
+
+  // ---- 4 PM reminder (desktop app only) ----
+  async function tick(){
+    render();
+    const now = new Date(); const t = todayStr(); const c = counts();
+    if (desktop?.dock) desktop.dock.setBadge(c.today + c.overdue ? String(c.today + c.overdue) : '').catch(() => {});
+    if (desktop?.tray) desktop.tray.set({ title: c.today + ' due today', toolTip: c.today + ' due today, ' + c.overdue + ' overdue', click: () => desktop.window?.show?.() }).catch(() => {});
+    if (now.getHours() >= 16 && remindedOn !== t && c.today > 0 && desktop?.notification){
+      remindedOn = t;
+      desktop.notification.show({ body: c.today + ' order' + (c.today > 1 ? 's' : '') + ' due today not shipped yet. Open Shop Orders to check.' }).catch(() => {});
+    }
+  }
+
+  // ---- boot ----
+  render();
+  setTimeout(tick, 1000); setInterval(tick, 60000);
+  (async () => {
+    if (!window.claude?.use){ setState('Preview mode: orders are not saved'); return; }
+    const timer = setTimeout(() => setState('Still connecting… orders you add now may not be saved'), 10000);
+    try {
+      const [dbNs, userNs, deskNs] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('desktop')]);
+      desktop = deskNs && deskNs.notification ? deskNs : null;
+      if (deskNs?.install && !deskNs.notification){
+        try { if ((await deskNs.install.state()) === 'available'){ const b = $('installBtn'); b.hidden = false; b.onclick = () => deskNs.install.request().catch(() => {}); } } catch(e){}
+      }
+      const uid = userNs ? await userNs.id() : null;
+      if (!dbNs || !uid){ clearTimeout(timer); setState('Sign in to Claude to save orders'); const n = $('notice'); n.hidden = false; n.textContent = 'You are not signed in, so orders stay only until you close this page.'; return; }
+      db = dbNs; col = db.collection('data/users/' + uid); settingsRef = col.doc('settings');
+      col.onSnapshot(snap => {
+        clearTimeout(timer);
+        const next = []; let shop = null;
+        snap.docs.forEach(d => { const v = d.data() || {}; if (v.kind === 'order') next.push(Object.assign({ id: d.id }, v)); else if (v.kind === 'settings') shop = v.shopName; });
+        local.forEach((o,id) => { if (!next.find(x => x.id === id)) next.push(o); });
+        orders = next;
+        if (shop && document.activeElement !== $('shopName')) $('shopName').value = shop;
+        setState('Saved to your Claude account · ' + orders.length + ' orders');
+        render();
+      }, err => { clearTimeout(timer); setState('Could not load orders (' + (err && err.code || 'error') + '). Reopen the app to try again.'); });
+    } catch(e){ clearTimeout(timer); setState('Could not connect. Orders are not being saved.'); }
+  })();
+})();
+</script>
