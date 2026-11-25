@@ -16,7 +16,7 @@ html,body{background:var(--paper);color:var(--ink)}
 body{font-family:var(--sans);font-size:14px;line-height:1.45;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 18px;
   background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px),linear-gradient(var(--grid2) 1px,transparent 1px),linear-gradient(90deg,var(--grid2) 1px,transparent 1px);
   background-size:10px 10px,10px 10px,50px 50px,50px 50px}
-.sheet{position:relative;max-width:1400px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:6px;padding:26px 30px 22px;background:transparent}
+.sheet{-webkit-user-select:none;user-select:none;position:relative;max-width:1400px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:6px;padding:26px 30px 22px;background:transparent}
 @media (max-width:640px){.sheet{padding:22px 18px 18px;outline-offset:3px}.zone.lft{left:3px}.zone.rgt{right:3px}}
 .zone{position:absolute;font-family:var(--mono);font-size:10px;color:var(--ink2);display:flex;pointer-events:none}
 .zone.top,.zone.bot{left:0;right:0;justify-content:space-around}
