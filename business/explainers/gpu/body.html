@@ -1,0 +1,90 @@
+<div class="sheet">
+  <div class="zone top" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone bot" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone lft" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+  <div class="zone rgt" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+
+  <header class="top">
+    <h1>How an <em>NVIDIA GPU</em> turns data into pixels</h1>
+    <div class="toggles" role="group" aria-label="View options">
+      <button class="tg" id="tgPkg" aria-pressed="true">Package</button>
+      <button class="tg" id="tgFlow" aria-pressed="true">Data flow</button>
+      <button class="tg" id="tgLabels" aria-pressed="true">Labels</button>
+      <button class="tg" id="tgOrbit" aria-pressed="false">Orbit</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="col">
+      <section class="op">
+        <span class="lab" id="followLab">Following SM 0</span>
+        <div class="stroke-head"><span class="stroke-num" id="sNum">1</span><div><div class="stroke-name" id="sName">Fetch &amp; decode</div><div class="nick" id="sNick">fetch</div></div></div>
+        <p class="explain" id="sText"></p>
+        <div class="slist" id="slist"></div>
+      </section>
+      <section class="op">
+        <span class="lab">Live readouts</span>
+        <dl class="ro">
+          <dt>Clock cycle</dt><dd id="rCyc">0</dd>
+          <dt>Instruction</dt><dd id="rKind">–</dd>
+          <dt>Occupancy</dt><dd id="rOcc">0%</dd>
+          <dt>Active warps</dt><dd id="rWarps">0 / 48</dd>
+          <dt>L1 hit rate</dt><dd id="rHit">0%</dd>
+          <dt>Power draw</dt><dd id="rPow">0 W</dd>
+        </dl>
+      </section>
+    </div>
+
+    <div class="view-wrap" id="viewWrap">
+      <canvas id="view" aria-label="3D cutaway of a GPU die and package. Drag to orbit."></canvas>
+      <svg id="leaders"></svg>
+      <div class="balloons l" id="balL"></div>
+      <div class="balloons r" id="balR"></div>
+      <div class="viewnote">Drag to orbit · scroll or pinch to zoom · conceptual model</div>
+    </div>
+
+    <div class="col">
+      <section class="op">
+        <span class="lab">Clock frequency</span>
+        <div class="tach-wrap"><canvas class="tach" id="tach" width="440" height="300"></canvas></div>
+        <label class="lab" for="load">Workload</label>
+        <input type="range" id="load" min="0" max="100" value="25">
+      </section>
+      <section class="op">
+        <span class="lab">Playback · time stretched</span>
+        <div class="row" role="group" aria-label="Speed">
+          <button class="btn" data-speed="0.005">1/200</button>
+          <button class="btn" data-speed="0.0166667">1/60</button>
+          <button class="btn" data-speed="0.0833333" aria-pressed="true">1/12</button>
+          <button class="btn" data-speed="1">1×</button>
+        </div>
+        <div class="row">
+          <button class="btn" id="bBack">◀ Back</button>
+          <button class="btn" id="bPlay" aria-pressed="true">Pause</button>
+          <button class="btn" id="bNext">Next ▶</button>
+        </div>
+      </section>
+      <section class="op">
+        <span class="lab">Throughput vs latency</span>
+        <canvas class="pv" id="radar" width="560" height="340"></canvas>
+      </section>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <section class="op">
+      <span class="lab">Timeline · 4 SMs × 64 cycles · drag to scrub · click a row to follow</span>
+      <div class="chart-wrap"><canvas id="chart" width="1400" height="300"></canvas></div>
+      <div class="legend"><span><i style="background:var(--blue)"></i>Fetch / decode</span><span><i style="background:var(--ochre)"></i>Issue / execute</span><span><i style="background:var(--power)"></i>Tensor / RT</span><span><i style="background:var(--grey)"></i>Memory / writeback</span><span><i style="background:#f3f1ea"></i>Stall</span><span>× bank conflict</span></div>
+    </section>
+    <div class="tblock" aria-label="Title block">
+      <div class="wide"><span>Title</span>GPU die and package, conceptual cutaway</div>
+      <div><span>Style</span>Ampere / Ada, generalised</div>
+      <div><span>SMs drawn</span>12 (real: up to 144)</div>
+      <div><span>Warp</span>32 threads</div>
+      <div><span>Timing</span>Illustrative</div>
+      <div><span>Dwg no.</span>GPU-SM-002</div>
+      <div><span>Sheet</span>1 of 1</div>
+    </div>
+  </div>
+</div>

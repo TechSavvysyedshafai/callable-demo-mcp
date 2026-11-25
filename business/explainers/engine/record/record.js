@@ -73,11 +73,11 @@ const T = [
       window.__engine.advance(dt);
       document.getElementById('__cur').style.transform = `translate(${x}px,${y}px)`;
       const r = document.getElementById('__ring'); r.style.left = (x-17)+'px'; r.style.top = (y-17)+'px'; r.style.opacity = Math.max(0, 1-rk*3); r.style.transform = `scale(${0.6+rk*1.4})`;
-      const S = window.__engine.state; return {rpm:S.rpm, thr:S.thr, playing:S.playing, speed:S.speed};
+      const S = window.__engine.state; return {rpm:S.rpm, thr:S.thr, util:S.util, clock:S.clock, power:S.power, playing:S.playing, speed:S.speed};
     }, [DT, cur.x, cur.y, held ? 0.1 : t - ringT]);
     log.push(Object.assign({t, frame}, st));
     await page.screenshot({path: path.join(FR, `f${String(frame).padStart(5,'0')}.jpg`), type:'jpeg', quality:88});
-    if (frame % 120 === 0) console.log('frame', frame, 'of', total, 'rpm', Math.round(st.rpm));
+    if (frame % 120 === 0) console.log('frame', frame, 'of', total);
   }
   fs.writeFileSync(path.join(OUT, 'rpm.json'), JSON.stringify({fps:FPS, frames:log}));
   await browser.close(); console.log('done', frame, 'frames');
