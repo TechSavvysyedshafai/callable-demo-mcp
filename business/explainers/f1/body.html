@@ -1,0 +1,99 @@
+<div class="sheet">
+  <div class="zone top" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone bot" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone lft" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+  <div class="zone rgt" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+
+  <header class="top">
+    <h1>How airflow works on a <em>Formula One</em> car</h1>
+    <div class="toggles" role="group" aria-label="View options">
+      <button class="tg" id="tgBody" aria-pressed="true">Body</button>
+      <button class="tg" id="tgStream" aria-pressed="true">Streamlines</button>
+      <button class="tg" id="tgPart" aria-pressed="true">Particles</button>
+      <button class="tg" id="tgLabels" aria-pressed="true">Labels</button>
+      <button class="tg" id="tgOrbit" aria-pressed="false">Orbit</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="col">
+      <section class="op">
+        <span class="lab" id="followLab">Following the front wing</span>
+        <div class="stroke-head"><span class="stroke-num" id="sNum">1</span><div><div class="stroke-name" id="sName">Front wing</div><div class="nick" id="sNick">push</div></div></div>
+        <p class="explain" id="sText"></p>
+        <p class="explain mono-note" id="sNow"></p>
+        <div class="slist" id="slist"></div>
+      </section>
+      <section class="op">
+        <span class="lab">Live readouts</span>
+        <dl class="ro">
+          <dt>Airspeed</dt><dd id="rSpd">0 km/h</dd>
+          <dt>Downforce</dt><dd id="rDF">0 kN</dd>
+          <dt>Drag</dt><dd id="rDrag">0 kN</dd>
+          <dt>Balance (front)</dt><dd id="rBal">0%</dd>
+          <dt>Ride height</dt><dd id="rRH">0 mm</dd>
+          <dt>Probe pressure</dt><dd id="rCp">Cp 0.00</dd>
+        </dl>
+      </section>
+    </div>
+
+    <div class="view-wrap" id="viewWrap">
+      <canvas id="view" aria-label="3D cutaway of a ground-effect race car with airflow. Drag to orbit."></canvas>
+      <svg id="leaders"></svg>
+      <div class="balloons l" id="balL"></div>
+      <div class="balloons r" id="balR"></div>
+      <div class="cbar" aria-label="Pressure colour scale"><span>low p</span><i></i><span>high p</span></div>
+      <div class="viewnote">Drag to orbit · scroll or pinch to zoom · illustrative model</div>
+    </div>
+
+    <div class="col">
+      <section class="op">
+        <span class="lab">Airspeed</span>
+        <div class="tach-wrap"><canvas class="tach" id="tach" width="440" height="300"></canvas></div>
+        <label class="lab" for="speed">Speed</label>
+        <input type="range" id="speed" min="80" max="340" value="180">
+        <div class="row">
+          <button class="btn" id="bDRS" aria-pressed="false">DRS closed</button>
+          <span class="lab">Ride</span>
+          <button class="btn" data-rh="low">Low</button>
+          <button class="btn" data-rh="med" aria-pressed="true">Med</button>
+          <button class="btn" data-rh="high">High</button>
+        </div>
+      </section>
+      <section class="op">
+        <span class="lab">Playback · time stretched</span>
+        <div class="row" role="group" aria-label="Speed">
+          <button class="btn" data-speed="0.005">1/200</button>
+          <button class="btn" data-speed="0.0166667">1/60</button>
+          <button class="btn" data-speed="0.0833333" aria-pressed="true">1/12</button>
+        </div>
+        <div class="row">
+          <button class="btn" id="bBack">◀ Back</button>
+          <button class="btn" id="bPlay" aria-pressed="true">Pause</button>
+          <button class="btn" id="bNext">Next ▶</button>
+        </div>
+      </section>
+      <section class="op">
+        <span class="lab">Downforce vs drag polar</span>
+        <canvas class="pv" id="polar" width="560" height="340"></canvas>
+      </section>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <section class="op">
+      <span class="lab">Along the car · pressure and flow energy · drag to scrub · click a region to follow</span>
+      <div class="chart-wrap"><canvas id="chart" width="1400" height="300"></canvas></div>
+      <div class="legend"><span><i style="background:#1d3f8f"></i>Under-floor pressure</span><span><i style="background:#c8371f"></i>Over-body pressure</span><span><i style="background:#b9bdbb"></i>Energy lost to turbulence</span></div>
+    </section>
+    <div class="tblock" aria-label="Title block">
+      <div class="wide"><span>Title</span>Ground-effect car, airflow cutaway</div>
+      <div><span>Era</span>2022+ ground-effect rules</div>
+      <div><span>Length</span>≈ 5.6 m</div>
+      <div><span>Air density</span>1.225 kg/m³</div>
+      <div><span>Forces</span>Illustrative</div>
+      <div><span>Dwg no.</span>AERO-F1-003</div>
+      <div><span>Sheet</span>1 of 1</div>
+    </div>
+  </div>
+</div>

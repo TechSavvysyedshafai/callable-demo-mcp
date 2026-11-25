@@ -530,7 +530,7 @@ function draw(){ placeCam(); renderer.render(scene, camera); updateLeaders(); dr
 sizeAll(); window.addEventListener('resize', sizeAll);
 if (document.fonts) document.fonts.ready.then(sizeAll);
 let last = performance.now();
-function frame(now){ const dt = Math.min(0.05, (now-last)/1000); last = now; update(dt); draw(); requestAnimationFrame(frame); }
+function frame(now){ const dt = Math.max(0, Math.min(0.05, (now-last)/1000)); last = now; update(dt); draw(); requestAnimationFrame(frame); }
 if (RECORD){ window.__engine = { advance(dt){ update(dt); draw(); }, state: S, resize: sizeAll }; update(0); draw(); }
 else requestAnimationFrame(frame);
 })();
