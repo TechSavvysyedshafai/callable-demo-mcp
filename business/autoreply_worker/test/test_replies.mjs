@@ -1,0 +1,11 @@
+import assert from 'assert';
+import { decide, FACTS } from '../replies.js';
+let n = 0; const t = (name, fn) => { fn(); n++; console.log('ok  ' + name); };
+t('greeting gets intro, offer and booking ask', () => { const d = decide('Hi'); assert.ok(d.reply.includes(FACTS.intro) && d.reply.includes(FACTS.book)); assert.ok(!d.handoff); });
+t('Hinglish price question gets prices', () => { const d = decide('kitna lagega bhai?'); assert.ok(d.reply.startsWith(FACTS.price)); });
+t('service question gets the offer', () => { assert.ok(decide('aap kya karte ho').reply.startsWith(FACTS.offer)); });
+t('safety question gets the safety line', () => { assert.strictEqual(decide('is my bank data safe?').reply, FACTS.safety); });
+t('booking details become a lead for Syed', () => { const d = decide('1) Sharma Medical, pharmacy\n2) Boring Road\n3) stock checking\n4) Monday 11 am'); assert.ok(d.lead && d.handoff); assert.strictEqual(d.reply, FACTS.handoff); });
+t('anything else is handed to Syed', () => { const d = decide('mera order kab aayega?'); assert.ok(d.handoff && !d.lead); });
+t('empty text: no reply', () => { assert.strictEqual(decide('   ').reply, null); });
+console.log(`\n${n} tests passed`);

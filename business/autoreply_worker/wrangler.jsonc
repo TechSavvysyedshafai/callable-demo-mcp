@@ -1,0 +1,6 @@
+{
+  "name": "ai-helper-patna-autoreply",
+  "main": "worker.js",
+  "compatibility_date": "2026-07-02"
+  // Secrets are added with: npx wrangler secret put BOT_TOKEN / WEBHOOK_SECRET / OWNER_CHAT_ID
+}
