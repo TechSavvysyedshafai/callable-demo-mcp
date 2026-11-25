@@ -1,32 +1,82 @@
 [
- {"video":"business/explainers/engine/videos/engine_short_9x16.mp4",
-  "text":"How a car engine turns fuel into motion, in 40 seconds.\nFour strokes: suck (intake), squeeze (compression), bang (power), blow (exhaust). Cylinders fire in the order 1-3-4-2.\n\nQuiz: In which stroke does the engine actually push the car?\nA) Intake  B) Compression  C) Power  D) Exhaust",
-  "answer":"C) Power. Burning fuel pushes the piston down; the crankshaft turns that push into rotation."},
- {"video":"business/videos/bio_shorts/bio3d_dna.mp4",
-  "text":"DNA in under a minute.\nTwo strands twist into a double helix. The bases pair up across the middle.\n\nQuiz: In DNA, adenine (A) pairs with?\nA) Guanine  B) Thymine  C) Cytosine  D) Uracil",
-  "answer":"B) Thymine. A pairs with T, G pairs with C. (In RNA, A pairs with uracil instead.)"},
- {"video":"business/videos/bio_shorts/bio3d_heart.mp4",
-  "text":"How your heart pumps, step by step.\nRight side sends blood to the lungs; left side sends it to the whole body.\n\nQuiz: Which chamber pumps blood to the whole body?\nA) Right atrium  B) Right ventricle  C) Left atrium  D) Left ventricle",
-  "answer":"D) Left ventricle. That is why its wall is the thickest."},
- {"video":"business/videos/physics_shorts/phys3d_projectile.mp4",
-  "text":"Projectile motion: why the ball flies in a curve.\nSideways speed stays the same; gravity changes only the up-down speed.\n\nQuiz: On level ground with no air resistance, which launch angle gives the longest range?\nA) 30°  B) 45°  C) 60°  D) 90°",
-  "answer":"B) 45°. Range R = u² sin 2θ / g is largest when sin 2θ = 1, so θ = 45°."},
- {"video":"business/videos/bio_shorts/bio3d_mitosis.mp4",
-  "text":"Mitosis: one cell becomes two identical cells.\nProphase, metaphase, anaphase, telophase, then the cell splits.\n\nQuiz: In which phase do chromosomes line up in the middle of the cell?\nA) Prophase  B) Metaphase  C) Anaphase  D) Telophase",
-  "answer":"B) Metaphase. They line up on the metaphase plate before the sister chromatids are pulled apart."},
- {"video":"business/videos/paper_explainers/CrisprPaper.mp4",
-  "text":"The 2012 paper that made gene editing easy (Jinek, Doudna, Charpentier and colleagues, Science).\nA guide RNA leads a protein to the exact DNA spot, which it cuts.\n\nQuiz: Which protein cuts the DNA in CRISPR gene editing?\nA) Ligase  B) Helicase  C) Cas9  D) Polymerase",
-  "answer":"C) Cas9. It won Doudna and Charpentier the 2020 Nobel Prize in Chemistry."},
- {"video":"business/videos/bio_shorts/bio3d_nephron.mp4",
-  "text":"How a kidney nephron cleans your blood.\nFilter, take back what is useful, send the rest out as urine.\n\nQuiz: Where does filtration of blood start in the nephron?\nA) Loop of Henle  B) Glomerulus  C) Collecting duct  D) Ureter",
-  "answer":"B) Glomerulus, a ball of capillaries inside Bowman's capsule."},
- {"video":"business/videos/bio_shorts/bio3d_tt.mp4",
-  "text":"From gene to protein: transcription and translation.\nDNA is copied into mRNA; a ribosome reads mRNA three letters at a time.\n\nQuiz: Where does translation take place?\nA) Nucleus  B) Ribosome  C) Mitochondria  D) Golgi body",
-  "answer":"B) Ribosome. Each three-letter codon on mRNA calls for one amino acid."},
- {"video":"business/videos/paper_explainers/AttentionPaper.mp4",
-  "text":"The 2017 paper behind ChatGPT: \"Attention Is All You Need\".\nEvery word looks at every other word at once, instead of one word at a time.\n\nQuiz: What does the T in GPT stand for?\nA) Transfer  B) Transformer  C) Token  D) Tensor",
-  "answer":"B) Transformer, the model introduced in that 2017 paper."},
- {"video":"business/explainers/gpu/videos/gpu_walkthrough_16x9.mp4",
-  "text":"How a graphics card turns data into pixels (a simplified model).\nThousands of small cores work in groups called warps; data travels from memory through caches.\n\nQuiz: How many threads are in one NVIDIA warp?\nA) 8  B) 16  C) 32  D) 64",
-  "answer":"C) 32 threads that run the same instruction together."}
+ {
+  "video": "business/explainers/engine/videos/engine_short_9x16.mp4",
+  "text": "How a car engine turns fuel into motion, in 40 seconds.\nFour strokes: suck (intake), squeeze (compression), bang (power), blow (exhaust). Cylinders fire in the order 1-3-4-2.\n\nQuiz: In which stroke does the engine actually push the car?\nA) Intake  B) Compression  C) Power  D) Exhaust",
+  "answer": "C) Power. Burning fuel pushes the piston down; the crankshaft turns that push into rotation.",
+  "clip": "business/telegram_channel/clips/00.mp4",
+  "caption": "How an Engine Moves a Car. Four strokes: suck (intake), squeeze (compression), bang (power), blow (exhaust). Cylinders fire in the order 1-3-4-2.\nTry it: say the four strokes out loud while the pistons move.\n\nQuiz: In which stroke does the engine actually push the car?\nA) Intake  B) Compression  C) Power  D) Exhaust",
+  "title": "How an Engine Moves a Car"
+ },
+ {
+  "video": "business/videos/bio_shorts/bio3d_dna.mp4",
+  "text": "DNA in under a minute.\nTwo strands twist into a double helix. The bases pair up across the middle.\n\nQuiz: In DNA, adenine (A) pairs with?\nA) Guanine  B) Thymine  C) Cytosine  D) Uracil",
+  "answer": "B) Thymine. A pairs with T, G pairs with C. (In RNA, A pairs with uracil instead.)",
+  "clip": "business/telegram_channel/clips/01.mp4",
+  "caption": "DNA Base Pairing. Two strands twist into a double helix. The bases pair up across the middle.\nTry it: write the partner strand for ATGC.\n\nQuiz: In DNA, adenine (A) pairs with?\nA) Guanine  B) Thymine  C) Cytosine  D) Uracil",
+  "title": "DNA Base Pairing"
+ },
+ {
+  "video": "business/videos/bio_shorts/bio3d_heart.mp4",
+  "text": "How your heart pumps, step by step.\nRight side sends blood to the lungs; left side sends it to the whole body.\n\nQuiz: Which chamber pumps blood to the whole body?\nA) Right atrium  B) Right ventricle  C) Left atrium  D) Left ventricle",
+  "answer": "D) Left ventricle. That is why its wall is the thickest.",
+  "clip": "business/telegram_channel/clips/02.mp4",
+  "caption": "Which Side of the Heart Pumps Where. Right side sends blood to the lungs; left side sends it to the whole body.\nTry it: trace one red blood cell from lungs to toe.\n\nQuiz: Which chamber pumps blood to the whole body?\nA) Right atrium  B) Right ventricle  C) Left atrium  D) Left ventricle",
+  "title": "Which Side of the Heart Pumps Where"
+ },
+ {
+  "video": "business/videos/physics_shorts/phys3d_projectile.mp4",
+  "text": "Projectile motion: why the ball flies in a curve.\nSideways speed stays the same; gravity changes only the up-down speed.\n\nQuiz: On level ground with no air resistance, which launch angle gives the longest range?\nA) 30°  B) 45°  C) 60°  D) 90°",
+  "answer": "B) 45°. Range R = u² sin 2θ / g is largest when sin 2θ = 1, so θ = 45°.",
+  "clip": "business/telegram_channel/clips/03.mp4",
+  "caption": "Why Balls Fly in Curves. Sideways speed stays the same; gravity changes only the up-down speed.\nTry it: throw a ball at 30° and 60°; they land at the same distance.\n\nQuiz: On level ground with no air resistance, which launch angle gives the longest range?\nA) 30°  B) 45°  C) 60°  D) 90°",
+  "title": "Why Balls Fly in Curves"
+ },
+ {
+  "video": "business/videos/bio_shorts/bio3d_mitosis.mp4",
+  "text": "Mitosis: one cell becomes two identical cells.\nProphase, metaphase, anaphase, telophase, then the cell splits.\n\nQuiz: In which phase do chromosomes line up in the middle of the cell?\nA) Prophase  B) Metaphase  C) Anaphase  D) Telophase",
+  "answer": "B) Metaphase. They line up on the metaphase plate before the sister chromatids are pulled apart.",
+  "clip": "business/telegram_channel/clips/04.mp4",
+  "caption": "Mitosis in Four Steps. Prophase, metaphase, anaphase, telophase, then the cell splits.\nTry it: name the phase where the cell is pinched into two.\n\nQuiz: In which phase do chromosomes line up in the middle of the cell?\nA) Prophase  B) Metaphase  C) Anaphase  D) Telophase",
+  "title": "Mitosis in Four Steps"
+ },
+ {
+  "video": "business/videos/paper_explainers/CrisprPaper.mp4",
+  "text": "The 2012 paper that made gene editing easy (Jinek, Doudna, Charpentier and colleagues, Science).\nA guide RNA leads a protein to the exact DNA spot, which it cuts.\n\nQuiz: Which protein cuts the DNA in CRISPR gene editing?\nA) Ligase  B) Helicase  C) Cas9  D) Polymerase",
+  "answer": "C) Cas9. It won Doudna and Charpentier the 2020 Nobel Prize in Chemistry.",
+  "clip": "business/telegram_channel/clips/05.mp4",
+  "caption": "CRISPR Gene Scissors. A guide RNA leads a protein to the exact DNA spot, which it cuts.\nTry it: guess why a guide RNA is only about 20 letters long.\n\nQuiz: Which protein cuts the DNA in CRISPR gene editing?\nA) Ligase  B) Helicase  C) Cas9  D) Polymerase",
+  "title": "CRISPR Gene Scissors"
+ },
+ {
+  "video": "business/videos/bio_shorts/bio3d_nephron.mp4",
+  "text": "How a kidney nephron cleans your blood.\nFilter, take back what is useful, send the rest out as urine.\n\nQuiz: Where does filtration of blood start in the nephron?\nA) Loop of Henle  B) Glomerulus  C) Collecting duct  D) Ureter",
+  "answer": "B) Glomerulus, a ball of capillaries inside Bowman's capsule.",
+  "clip": "business/telegram_channel/clips/06.mp4",
+  "caption": "How Kidneys Filter Blood. Filter, take back what is useful, send the rest out as urine.\nTry it: list two things the nephron takes back from the filtrate.\n\nQuiz: Where does filtration of blood start in the nephron?\nA) Loop of Henle  B) Glomerulus  C) Collecting duct  D) Ureter",
+  "title": "How Kidneys Filter Blood"
+ },
+ {
+  "video": "business/videos/bio_shorts/bio3d_tt.mp4",
+  "text": "From gene to protein: transcription and translation.\nDNA is copied into mRNA; a ribosome reads mRNA three letters at a time.\n\nQuiz: Where does translation take place?\nA) Nucleus  B) Ribosome  C) Mitochondria  D) Golgi body",
+  "answer": "B) Ribosome. Each three-letter codon on mRNA calls for one amino acid.",
+  "clip": "business/telegram_channel/clips/07.mp4",
+  "caption": "From Gene to Protein. DNA is copied into mRNA; a ribosome reads mRNA three letters at a time.\nTry it: how many amino acids do 9 mRNA letters code for?\n\nQuiz: Where does translation take place?\nA) Nucleus  B) Ribosome  C) Mitochondria  D) Golgi body",
+  "title": "From Gene to Protein"
+ },
+ {
+  "video": "business/videos/paper_explainers/AttentionPaper.mp4",
+  "text": "The 2017 paper behind ChatGPT: \"Attention Is All You Need\".\nEvery word looks at every other word at once, instead of one word at a time.\n\nQuiz: What does the T in GPT stand for?\nA) Transfer  B) Transformer  C) Token  D) Tensor",
+  "answer": "B) Transformer, the model introduced in that 2017 paper.",
+  "clip": "business/telegram_channel/clips/08.mp4",
+  "caption": "The Paper Behind ChatGPT. Every word looks at every other word at once, instead of one word at a time.\nTry it: count how many words \"it\" can look at in one sentence.\n\nQuiz: What does the T in GPT stand for?\nA) Transfer  B) Transformer  C) Token  D) Tensor",
+  "title": "The Paper Behind ChatGPT"
+ },
+ {
+  "video": "business/explainers/gpu/videos/gpu_walkthrough_16x9.mp4",
+  "text": "How a graphics card turns data into pixels (a simplified model).\nThousands of small cores work in groups called warps; data travels from memory through caches.\n\nQuiz: How many threads are in one NVIDIA warp?\nA) 8  B) 16  C) 32  D) 64",
+  "answer": "C) 32 threads that run the same instruction together.",
+  "clip": "business/telegram_channel/clips/09.mp4",
+  "caption": "Inside a Graphics Card. Thousands of small cores work in groups called warps; data travels from memory through caches.\nTry it: why does a GPU need thousands of small cores, not a few big ones?\n\nQuiz: How many threads are in one NVIDIA warp?\nA) 8  B) 16  C) 32  D) 64",
+  "title": "Inside a Graphics Card"
+ }
 ]
