@@ -50,7 +50,7 @@ section.op{border-top:3px solid var(--rule);padding-top:8px;display:flex;flex-di
 .ro dt{color:var(--ink2)} .ro dd{margin:0;text-align:right}
 .ro .on{color:var(--red);font-weight:500}
 .view-wrap{position:relative;min-width:0;min-height:440px;border:1px solid var(--ink)}
-#view{position:absolute;inset:0;touch-action:none;cursor:grab}
+#view{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
 #view:active{cursor:grabbing}
 #leaders{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .view-wrap{overflow:hidden}
@@ -80,6 +80,28 @@ input[type=range]{width:100%;accent-color:var(--red)}
 .tblock div span{font-size:9px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
 .tblock .wide{grid-column:1/-1;font-family:var(--serif);font-size:16px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* 9:16 recording layout (#short) */
+body.short{padding-block:10px}
+body.short .sheet{padding:18px 14px 12px;outline-offset:3px}
+body.short h1{font-size:33px}
+body.short header.top{flex-direction:column;align-items:flex-start;gap:8px}
+body.short .main{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 14px;margin-top:10px}
+body.short .view-wrap{grid-column:1/-1;order:-1;min-height:0;height:390px}
+body.short .col{gap:10px}
+body.short .col:first-child section:nth-child(2),body.short .slist,body.short .col:last-child section:nth-child(3),body.short .tblock,body.short .viewnote{display:none}
+body.short .stroke-num{font-size:58px} body.short .stroke-name{font-size:26px} body.short .nick{font-size:20px}
+body.short .explain{min-height:0;font-size:13px;margin:0}
+body.short canvas.tach{width:170px;height:108px}
+body.short section.op > .lab{display:none} body.short section.op{padding-top:5px;gap:5px}
+body.short .bottom section.op > .lab{display:block}
+body.short .tg{padding:4px 8px;font-size:11px}
+body.short .bottom{grid-template-columns:minmax(0,1fr);margin-top:6px}
+body.short .row{gap:4px} body.short .btn{padding:5px 8px;font-size:11px}
+body.short .zone.top,body.short .zone.bot{display:none}
+body.short #chart{min-width:0;height:112px}
+body.short .chart-wrap{overflow:hidden}
+body.short .bal span{display:none}
+
 </style>
 
 <div class="sheet">
@@ -179,7 +201,9 @@ input[type=range]{width:100%;accent-color:var(--red)}
 'use strict';
 const $ = id => document.getElementById(id);
 const DEG = Math.PI/180;
-const RECORD = location.hash === '#record';
+const SHORT = location.hash === '#short';
+const RECORD = location.hash === '#record' || SHORT;
+if (SHORT) document.body.classList.add('short');
 
 // ---------- engine model ----------
 const R = 4.3, L = 14, PIN_TO_TOP = 2.2, CLEAR = 0.95;
@@ -464,8 +488,9 @@ function drawTach(){
   for (let k=0;k<=8;k++){ const a = A(k*1000); ctx.lineWidth = 1.5; ctx.strokeStyle='#1c1d1f'; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*(rad-10), cy+Math.sin(a)*(rad-10)); ctx.lineTo(cx+Math.cos(a)*rad, cy+Math.sin(a)*rad); ctx.stroke(); ctx.fillText(k, cx+Math.cos(a)*(rad-22), cy+Math.sin(a)*(rad-22)+4); }
   const a = A(S.rpm); ctx.strokeStyle = '#c8371f'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*(rad-14), cy+Math.sin(a)*(rad-14)); ctx.stroke();
   ctx.fillStyle = '#1c1d1f'; ctx.beginPath(); ctx.arc(cx,cy,4,0,7); ctx.fill();
-  ctx.font = '400 30px "Instrument Serif", serif'; ctx.fillText(Math.round(S.rpm), cx, cy-rad*0.36);
-  ctx.font = '10px "Geist Mono", monospace'; ctx.fillStyle = '#55585c'; ctx.fillText('RPM ×1000', cx, cy-rad*0.36+16);
+  const fs = Math.round(Math.max(16, Math.min(30, rad*0.27)));
+  ctx.font = '400 '+fs+'px "Instrument Serif", serif'; ctx.fillText(Math.round(S.rpm), cx, cy-rad*0.2);
+  ctx.font = '10px "Geist Mono", monospace'; ctx.fillStyle = '#55585c'; ctx.fillText('RPM', cx, cy-rad*0.2+13);
 }
 const PV_PTS = []; function pvPoints(){ PV_PTS.length = 0; for (let p=0;p<720;p+=2) PV_PTS.push([vol(p), pressure(p, S.thr), p]); }
 function drawPV(){
