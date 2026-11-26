@@ -425,6 +425,7 @@ function update(dt){
   if (snapB !== S.beta || snapD !== S.d || S.dirty){ S.beta = snapB; S.d = snapD; S.dirty = false; rebuild(); }
   if (S.playing) S.ph += dt*0.8;
   if (S.orbit) orbit.az += dt*0.25;
+  if (RECORD){ S.drift = (S.drift || 0) + dt; orbit.az += dt*0.06*Math.cos(S.drift*0.21); }   // slow camera drift so held shots keep moving
   // frame what matters: the upper nappe for closed curves and the parabola, the whole double cone for the hyperbola
   const want = K.type === 'hyperbola' ? {y:1.5, k:1} : K.type === 'parabola' ? {y:S.d + 3, k:0.8} : {y:S.d + 2.5, k:0.62};
   camF.y += (want.y - camF.y)*Math.min(1, dt*2.5); camF.k += (want.k - camF.k)*Math.min(1, dt*2.5);
