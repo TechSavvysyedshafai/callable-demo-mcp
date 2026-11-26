@@ -12,7 +12,8 @@ import json, os, re, subprocess, sys, wave
 import numpy as np
 from audio import SR, music_bed, sfx
 
-WORDS_PER_SEC = 2.5          # used for Voice: none (silent timing) and the length check
+WORDS_PER_SEC = 2.5
+PRE = 'acompressor=threshold=-20dB:ratio=3:attack=5:release=120,alimiter=limit=0.7:level=false,'   # tame peaks so loudness can reach -14 LUFS          # used for Voice: none (silent timing) and the length check
 
 
 def run(*cmd):
@@ -30,13 +31,14 @@ def parse(path):
         if mode == 'lines' and s.startswith('- '):
             m = re.match(r'- (?:@([\d.]+)\s+)?(.*)', s)
             at, text = (float(m.group(1)) if m.group(1) else None), m.group(2).strip()
+            text, _, tr = text.partition(' | ')   # optional translation shown above the caption
             cues = []  # {sfx} placed before a word -> cue at that word
             words = []
             for tok in text.split():
                 c = re.fullmatch(r'\{(\w+)\}', tok)
                 if c: cues.append((len(words), c.group(1)))
                 else: words.append(tok)
-            lines.append({'at': at, 'words': words, 'cues': cues})
+            lines.append({'at': at, 'words': words, 'cues': cues, 'tr': tr.strip()})
     return head, lines
 
 
@@ -96,17 +98,20 @@ def ass_time(t):
     return f'{int(h)}:{int(m):02d}:{s:05.2f}'
 
 
-def main(script):
+def main(script, plan=False):
     proj = os.path.dirname(os.path.abspath(script))
     head, lines = parse(script)
     video = os.path.normpath(os.path.join(proj, head['video']))
     slug = head.get('slug') or os.path.basename(proj)
     work = os.path.join(proj, 'work'); os.makedirs(work, exist_ok=True)
     os.makedirs(os.path.join(proj, 'renders'), exist_ok=True)
-    info = json.loads(run('ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,width,height', '-show_entries', 'format=duration', '-of', 'json', video))
-    W = next(s['width'] for s in info['streams'] if s['codec_type'] == 'video'); H = next(s['height'] for s in info['streams'] if s['codec_type'] == 'video')
-    dur = float(info['format']['duration']); has_audio = any(s['codec_type'] == 'audio' for s in info['streams'])
     voice = head.get('voice', 'espeak:en-gb')
+    if plan:   # time the voice only (no video yet): animation code then reads work/timeline.json
+        W, H = map(int, head.get('size', '1080x1920').split('x')); dur = float(head['max duration']); has_audio = False
+    else:
+        info = json.loads(run('ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,width,height', '-show_entries', 'format=duration', '-of', 'json', video))
+        W = next(s['width'] for s in info['streams'] if s['codec_type'] == 'video'); H = next(s['height'] for s in info['streams'] if s['codec_type'] == 'video')
+        dur = float(info['format']['duration']); has_audio = any(s['codec_type'] == 'audio' for s in info['streams'])
 
     # 1. narration, one audio piece per line; each line starts at its @time or after the previous line
     n = int(dur * SR); narr = np.zeros(n, np.float32); t = 0.3; timeline = []
@@ -119,9 +124,12 @@ def main(script):
         end = start + len(a) / SR; t = end + 0.25
         # word times: spread across the line by word length (an estimate; exact for chunk edges)
         wts = np.array([len(w) + 2 for w in ln['words']], float); edges = start + np.concatenate([[0], np.cumsum(wts)]) / wts.sum() * (end - start)
-        timeline.append({'line': i + 1, 'start': round(start, 3), 'end': round(end, 3), 'words': [{'w': w, 's': round(edges[k], 3), 'e': round(edges[k + 1], 3)} for k, w in enumerate(ln['words'])], 'cues': [{'sfx': c, 'at': round(edges[min(k, len(ln['words']) - 1)], 3)} for k, c in ln['cues']]})
+        timeline.append({'line': i + 1, 'tr': ln['tr'], 'start': round(start, 3), 'end': round(end, 3), 'words': [{'w': w, 's': round(edges[k], 3), 'e': round(edges[k + 1], 3)} for k, w in enumerate(ln['words'])], 'cues': [{'sfx': c, 'at': round(edges[min(k, len(ln['words']) - 1)], 3)} for k, c in ln['cues']]})
     words_total = sum(len(l['words']) for l in lines)
     write_wav(os.path.join(work, 'narration.wav'), narr)
+    if plan:
+        json.dump({'width': W, 'height': H, 'duration': dur, 'lines': timeline}, open(os.path.join(work, 'timeline.json'), 'w'), indent=1)
+        print(f'planned {len(timeline)} lines; voice ends at {timeline[-1]["end"]:.1f}s of {dur:.0f}s -> {work}/timeline.json'); return
 
     # 2. music bed ducked under the voice, sound effects, original video sound
     mus = music_bed(dur, head.get('music', 'synth:warm').split(':')[-1])[:n]
@@ -141,20 +149,23 @@ def main(script):
     write_wav(os.path.join(work, 'mix_raw.wav'), mix)
     # two-pass loudness to -14 LUFS (YouTube / Shorts level), peaks at most -1.5 dBTP
     meas = \
-        subprocess.run(['ffmpeg', '-hide_banner', '-i', os.path.join(work, 'mix_raw.wav'), '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
+        subprocess.run(['ffmpeg', '-hide_banner', '-i', os.path.join(work, 'mix_raw.wav'), '-af', PRE + 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
     m = json.loads(meas[meas.rindex('{'):meas.rindex('}') + 1])
     ln_f = f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true"
-    run('ffmpeg', '-y', '-loglevel', 'error', '-i', os.path.join(work, 'mix_raw.wav'), '-af', ln_f, '-ar', str(SR), os.path.join(work, 'mix.wav'))
+    run('ffmpeg', '-y', '-loglevel', 'error', '-i', os.path.join(work, 'mix_raw.wav'), '-af', PRE + ln_f, '-ar', str(SR), os.path.join(work, 'mix.wav'))
 
     # 3. captions (.ass), karaoke highlight per word, inside the safe band above the bottom edge
     caps = head.get('captions', 'on') != 'off'
+    font = head.get('font', 'DejaVu Sans')
     fs = int(H * (0.05 if W > H else 0.034)); margin = int(H * (0.07 if W > H else 0.25))
     ass = ['[Script Info]', 'ScriptType: v4.00+', f'PlayResX: {W}', f'PlayResY: {H}', 'WrapStyle: 0', '',
            '[V4+ Styles]', 'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
-           f'Style: Cap,DejaVu Sans,{fs},&H0000D7FF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,{max(3, fs // 12)},2,2,{W // 10},{W // 10},{margin},1', '',
+           f'Style: Cap,{font},{fs},&H0000D7FF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,{max(3, fs // 12)},2,2,{W // 10},{W // 10},{margin},1',
+           f'Style: Tr,DejaVu Sans,{int(fs * 0.62)},&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,0,1,0,0,100,100,0,0,1,{max(2, fs // 16)},1,2,{W // 10},{W // 10},{margin + int(fs * 2.9)},1', '',
            '[Events]', 'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text']
     capjson = []
     for ln in timeline:
+        if ln['tr']: ass.append(f"Dialogue: 0,{ass_time(ln['start'])},{ass_time(ln['end'])},Tr,,0,0,0,,{ln['tr']}")
         k = 0
         for ch in chunks([w['w'] for w in ln['words']]):
             ws = ln['words'][k:k + len(ch)]; k += len(ch)
@@ -175,4 +186,4 @@ def main(script):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main(sys.argv[1], plan='--plan' in sys.argv)
