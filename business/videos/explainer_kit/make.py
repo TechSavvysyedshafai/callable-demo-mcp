@@ -177,7 +177,7 @@ def main(script, plan=False):
             ass.append(f'Dialogue: 0,{ass_time(s)},{ass_time(e)},Cap,,0,0,0,,{txt}')
             capjson.append({'start': s, 'end': e, 'text': ' '.join(ch)})
     open(os.path.join(work, 'captions.ass'), 'w').write('\n'.join(ass) + '\n')
-    json.dump({'video': video, 'width': W, 'height': H, 'duration': dur, 'words': words_total, 'voice': voice, 'font_px': fs, 'margin_px': margin, 'cap_pos': 'top' if top else 'bottom',
+    json.dump({'video': video, 'width': W, 'height': H, 'duration': dur, 'words': words_total, 'voice': voice, 'captions_on': caps, 'font_px': fs, 'margin_px': margin, 'cap_pos': 'top' if top else 'bottom',
                'max_duration': float(head.get('max duration', dur)), 'lines': timeline, 'captions': capjson}, open(os.path.join(work, 'timeline.json'), 'w'), indent=1)
 
     out = os.path.join(proj, 'renders', f'{slug}.mp4')

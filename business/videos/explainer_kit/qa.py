@@ -40,6 +40,7 @@ def main(proj):
         band = tl['margin_px'] + tl['font_px'] * 2.6; safe = band < H * 0.25
     else:
         safe = band > H * (0.78 if W > H else 0.55) or W <= H and band < 1400
+    if not tl.get('captions_on', True): bad, over, safe = [], [], True   # captions switched off: nothing on screen to read
     check('9 captions readable', not bad and not over and safe, f'{len(caps)} captions, {len(bad)} too fast/short, {len(over)} overlaps, caption edge y={band:.0f}px')
     # 10. sync: the voice energy should sit inside the caption windows
     w = wave.open(os.path.join(proj, 'work', 'narration.wav')); x = np.frombuffer(w.readframes(w.getnframes()), '<i2').astype(float); sr = w.getframerate()
