@@ -1,0 +1,161 @@
+<title>Equilibrium Doubt Solver</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one phone-width column on drafting-grid paper; header card, sample doubts, the conversation, a fixed ask bar. */
+:root{
+  --paper:#f7f8f5; --grid:#e3e7e4; --ink:#1c1d1f; --ink2:#5a5e62; --red:#c8371f; --blue:#2f6fb5; --card:#ffffff; --you:#e9f0fa; --line:#1c1d1f;
+  --display:"Instrument Serif", Georgia, serif; --body:"Inter", "Noto Sans Devanagari", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#15171a;--grid:#23272b;--ink:#eceee9;--ink2:#a3a8ac;--red:#ff7a5c;--blue:#7fb0ea;--card:#1d2024;--you:#1f2b3b;--line:#eceee9;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15171a;--grid:#23272b;--ink:#eceee9;--ink2:#a3a8ac;--red:#ff7a5c;--blue:#7fb0ea;--card:#1d2024;--you:#1f2b3b;--line:#eceee9;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.wrap{max-width:640px;margin:0 auto;padding-block:20px 150px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:16px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(32px,8.5vw,44px);line-height:1.05;margin:4px 0 6px;text-wrap:balance}
+h1 em{color:var(--red)}
+.lede{margin:0;color:var(--ink2);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:14px;text-align:left;background:var(--card);color:var(--ink);border:1.5px solid var(--line);padding:8px 12px;cursor:pointer}
+.chip:hover{border-color:var(--red)}
+.chip:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.thread{display:flex;flex-direction:column;gap:12px}
+.msg{min-width:0;padding:12px 14px;border:1.5px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.you{background:var(--you);align-self:flex-end;max-width:88%}
+.msg.tutor{background:var(--card)}
+.msg .who{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:4px}
+.msg.tutor .who{color:var(--red)}
+.note{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:2px solid var(--line);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.bar form{max-width:640px;margin:0 auto;display:flex;gap:8px;align-items:flex-end}
+textarea{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1.5px solid var(--line);padding:10px 12px;resize:none;height:48px}
+.btn{font-family:var(--mono);font-size:14px;border:1.5px solid var(--line);background:var(--ink);color:var(--paper);padding:12px 16px;cursor:pointer}
+.btn.ghost{background:var(--card);color:var(--ink)}
+.btn[disabled]{opacity:.5;cursor:default}
+.unavail{border:1.5px dashed var(--red);padding:12px 14px;color:var(--ink)}
+</style>
+
+<main class="wrap">
+  <header>
+    <div class="eyebrow">[Your Centre] · Class 11 Chemistry · Equilibrium</div>
+    <h1>Ask any <em>doubt</em>, any time</h1>
+    <p class="lede">Hindi, Hinglish or English. Answers come only from this chapter's notes, step by step.</p>
+  </header>
+
+  <div class="chips" id="chips" aria-label="Sample doubts">
+    <button class="chip" type="button">Kp aur Kc ka relation kya hai?</button>
+    <button class="chip" type="button">Pressure badhane se NH₃ zyada kyon banta hai?</button>
+    <button class="chip" type="button">Does a catalyst change the equilibrium constant?</button>
+    <button class="chip" type="button">0.01 M HCl ka pH kitna hoga?</button>
+  </div>
+
+  <div class="thread" id="thread" aria-live="polite"></div>
+  <p class="unavail" id="unavail" hidden>The tutor needs this page to be opened inside Claude while signed in. You can still read the sample doubts above.</p>
+  <p class="note">Demo by AI Helper Patna. The tutor can make mistakes: check important answers with your teacher.</p>
+</main>
+
+<div class="bar">
+  <form id="ask">
+    <textarea id="q" rows="1" placeholder="Type your doubt…" aria-label="Your doubt"></textarea>
+    <button class="btn ghost" id="stop" type="button" hidden>Stop</button>
+    <button class="btn" id="send" type="submit">Ask</button>
+  </form>
+</div>
+
+<script>
+// Chapter notes the tutor answers from (written for this demo; NCERT Class 11 Chemistry, Equilibrium).
+const NOTES = `CLASS 11 CHEMISTRY: EQUILIBRIUM (key points)
+1. Equilibrium in physical processes: ice and water at 0 °C (273 K) and 1 atm; liquid and vapour in a closed vessel (rate of evaporation = rate of condensation, vapour pressure constant at a given temperature); dissolution of a solid until the solution is saturated.
+2. Dynamic equilibrium: forward and reverse reactions keep happening at equal rates, so concentrations stay constant. It can be reached from either side. It needs a closed system at constant temperature.
+3. Law of mass action / law of chemical equilibrium: for aA + bB ⇌ cC + dD, Kc = [C]^c [D]^d / ([A]^a [B]^b), concentrations in mol/L at equilibrium. Pure solids and pure liquids are left out of K.
+4. Kp uses partial pressures for gases: Kp = (pC)^c (pD)^d / ((pA)^a (pB)^b). Relation: Kp = Kc (RT)^Δn, where Δn = (moles of gaseous products) − (moles of gaseous reactants), R = 0.0831 bar L mol⁻¹ K⁻¹, T in kelvin. If Δn = 0, Kp = Kc.
+5. K for the reverse reaction is 1/K. Multiplying an equation by n raises K to the power n. Adding equations multiplies their K values.
+6. Size of K: K > 10³ products favoured (reaction nearly complete); K < 10⁻³ reactants favoured; in between, both present in noticeable amounts.
+7. Reaction quotient Q has the same form as K but uses the current concentrations. Q < K: reaction goes forward (makes products). Q > K: goes backward. Q = K: at equilibrium.
+8. ΔG° = −RT ln K. Negative ΔG° means K > 1.
+9. Le Chatelier's principle: if a system at equilibrium is disturbed, it shifts to reduce the effect of the change.
+   - Add a reactant or remove a product: shifts forward. Add a product: shifts backward. K does not change.
+   - Increase pressure (decrease volume): shifts toward the side with fewer gas moles. No effect if gas moles are equal on both sides. K does not change.
+   - Temperature: the only factor that changes K. For an exothermic forward reaction (ΔH negative), raising temperature lowers K and shifts backward. For an endothermic reaction, raising temperature raises K.
+   - Catalyst: speeds up forward and reverse equally, so equilibrium is reached sooner; it does not change K or the equilibrium amounts.
+   - Adding an inert gas at constant volume: no effect (partial pressures unchanged).
+10. Haber process example: N₂ + 3H₂ ⇌ 2NH₃, ΔH = −92.4 kJ/mol. 4 gas moles become 2, so high pressure favours NH₃; exothermic, so low temperature favours NH₃ but the rate is too slow, so about 450 °C with an iron catalyst and about 200 atm are used. Kp at 400 °C is about 1.64 × 10⁻⁴.
+11. Acids and bases. Arrhenius: acids give H⁺ (H₃O⁺) in water, bases give OH⁻. Brønsted-Lowry: acid = proton donor, base = proton acceptor; conjugate acid-base pairs differ by one H⁺. Lewis: acid accepts an electron pair, base donates one.
+12. Ionic product of water: Kw = [H⁺][OH⁻] = 1.0 × 10⁻¹⁴ at 298 K. pH = −log[H⁺], pOH = −log[OH⁻], pH + pOH = 14 at 298 K. Neutral pH 7 at 298 K.
+13. Strong acids (HCl, HNO₃, H₂SO₄ first step) ionise fully: [H⁺] = acid concentration. Weak acid: Ka = [H⁺][A⁻]/[HA]; for a weak acid of concentration c with small ionisation α, α ≈ √(Ka/c) and [H⁺] ≈ √(Ka·c). Weak base: Kb similarly. For a conjugate pair Ka × Kb = Kw. pKa = −log Ka.
+14. Common ion effect: adding an ion already in the equilibrium suppresses ionisation (e.g. adding CH₃COONa to CH₃COOH lowers [H⁺]).
+15. Buffer: solution that resists change in pH, e.g. weak acid + its salt (CH₃COOH + CH₃COONa). Henderson equation: pH = pKa + log([salt]/[acid]).
+16. Hydrolysis of salts: strong acid + weak base salt (NH₄Cl) gives acidic solution; weak acid + strong base salt (CH₃COONa) gives basic solution; strong acid + strong base salt (NaCl) neutral.
+17. Solubility product: for a sparingly soluble salt AxBy ⇌ xA + yB, Ksp = [A]^x [B]^y. For AB type, Ksp = s². Precipitation happens when the ionic product exceeds Ksp. Common ion lowers solubility.`;
+
+const RULES = `You are a friendly chemistry tutor at a coaching centre in Patna, India, helping a Class 11 student with the chapter Equilibrium.
+Rules:
+- Answer ONLY using the chapter notes below. If the doubt is outside this chapter, say in one line that it is outside these notes and suggest asking the teacher. Never invent numbers.
+- Reply in the same language style as the student: Hindi (Devanagari), Hinglish (Hindi in Roman letters mixed with English), or English. Keep chemistry terms and formulas in English.
+- Be short and clear: a direct answer first, then up to 5 numbered steps for calculations, showing the formula and each substitution.
+- Plain text only: no Markdown, no asterisks, no # headings, no tables. Use line breaks and numbered steps. Write powers like 10⁻¹⁴ or 10^-14.
+- End with one short check question the student can try, labelled "Try this:".
+CHAPTER NOTES:
+` + NOTES;
+
+const $ = id => document.getElementById(id);
+const thread = $('thread'), q = $('q'), send = $('send'), stop = $('stop');
+const turns = [];               // the conversation the page keeps (Claude remembers nothing between calls)
+let sample = null, ctl = null, busy = false, gone = false;
+
+function bubble(who, text) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + (who === 'You' ? 'you' : 'tutor');
+  const w = document.createElement('span'); w.className = 'who'; w.textContent = who;
+  const t = document.createElement('span'); t.textContent = text;
+  d.append(w, t); thread.append(d); d.scrollIntoView({block: 'end', behavior: 'smooth'});
+  return t;
+}
+function setBusy(b) { busy = b; send.disabled = b || gone; stop.hidden = !b; q.disabled = b; }
+function hide() { gone = true; $('unavail').hidden = false; send.disabled = true; q.disabled = true; }
+const copy = {
+  rate_limited: 'Too many doubts at once. Please wait a minute and ask again.',
+  session_expired: 'Please sign in to Claude again, then ask.',
+  refused: 'I could not answer that one. Try asking it differently.',
+  empty_completion: 'No answer came back. Try asking it more simply.',
+  prompt_too_large: 'That conversation got too long. Reload the page to start fresh.',
+  upstream_error: 'Connection problem. Please ask again.'
+};
+
+async function ask(text) {
+  text = text.trim();
+  if (!text || busy || gone) return;
+  if (!sample) { hide(); return; }
+  bubble('You', text);
+  turns.push({role: 'user', content: text});
+  const out = bubble('Tutor', 'Thinking…');
+  ctl = new AbortController(); setBusy(true);
+  try {
+    const recent = turns.slice(-8);
+    if (recent[0].role !== 'user') recent.shift();
+    const {text: answer, truncated} = await sample([{role: 'user', content: RULES}, ...recent], {
+      cache: false, signal: ctl.signal, onText: ({text}) => { out.textContent = text; }
+    });
+    out.textContent = answer + (truncated ? '\n\n(Answer cut short. Ask a smaller part.)' : '');
+    turns.push({role: 'assistant', content: answer});
+  } catch (e) {
+    turns.pop();
+    if (['not_granted', 'sampling_disabled', 'not_declared', 'capability_disabled', 'capability_removed'].includes(e.code)) { out.textContent = 'The tutor is not available in this view.'; hide(); }
+    else if (e.code === 'cancelled') { out.textContent = (e.text || '') + (e.text ? '\n\n(Stopped.)' : 'Stopped.'); }
+    else { out.textContent = (e.text ? e.text + '\n\n' : '') + (copy[e.code] || copy.upstream_error); }
+  } finally { setBusy(false); q.focus(); }
+}
+
+$('ask').addEventListener('submit', e => { e.preventDefault(); const t = q.value; q.value = ''; ask(t); });
+q.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('ask').requestSubmit(); } });
+stop.addEventListener('click', () => ctl && ctl.abort());
+document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => ask(c.textContent)));
+
+(async () => {
+  try { sample = window.claude ? await window.claude.use('sample') : null; } catch (e) { sample = null; }
+  if (!sample) hide();
+})();
+</script>
