@@ -158,10 +158,13 @@ def main(script, plan=False):
     caps = head.get('captions', 'on') != 'off'
     font = head.get('font', 'DejaVu Sans')
     fs = int(H * (0.05 if W > H else 0.034)); margin = int(H * (0.07 if W > H else 0.25))
+    top = head.get('caption position', 'bottom') == 'top'   # top = over a static title band
+    if top: margin = int(H * 0.075)
+    align = 8 if top else 2
     ass = ['[Script Info]', 'ScriptType: v4.00+', f'PlayResX: {W}', f'PlayResY: {H}', 'WrapStyle: 0', '',
            '[V4+ Styles]', 'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
-           f'Style: Cap,{font},{fs},&H0000D7FF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,{max(3, fs // 12)},2,2,{W // 10},{W // 10},{margin},1',
-           f'Style: Tr,DejaVu Sans,{int(fs * 0.62)},&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,0,1,0,0,100,100,0,0,1,{max(2, fs // 16)},1,2,{W // 10},{W // 10},{margin + int(fs * 2.9)},1', '',
+           f'Style: Cap,{font},{fs},&H0000D7FF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,{max(3, fs // 12)},2,{align},{W // 10},{W // 10},{margin},1',
+           f'Style: Tr,DejaVu Sans,{int(fs * 0.62)},&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,0,1,0,0,100,100,0,0,1,{max(2, fs // 16)},1,{align},{W // 10},{W // 10},{margin + int(fs * 2.9)},1', '',
            '[Events]', 'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text']
     capjson = []
     for ln in timeline:
@@ -174,7 +177,7 @@ def main(script, plan=False):
             ass.append(f'Dialogue: 0,{ass_time(s)},{ass_time(e)},Cap,,0,0,0,,{txt}')
             capjson.append({'start': s, 'end': e, 'text': ' '.join(ch)})
     open(os.path.join(work, 'captions.ass'), 'w').write('\n'.join(ass) + '\n')
-    json.dump({'video': video, 'width': W, 'height': H, 'duration': dur, 'words': words_total, 'voice': voice, 'font_px': fs, 'margin_px': margin,
+    json.dump({'video': video, 'width': W, 'height': H, 'duration': dur, 'words': words_total, 'voice': voice, 'font_px': fs, 'margin_px': margin, 'cap_pos': 'top' if top else 'bottom',
                'max_duration': float(head.get('max duration', dur)), 'lines': timeline, 'captions': capjson}, open(os.path.join(work, 'timeline.json'), 'w'), indent=1)
 
     out = os.path.join(proj, 'renders', f'{slug}.mp4')

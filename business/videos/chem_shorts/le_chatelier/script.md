@@ -7,6 +7,7 @@ Voice: espeak:en-gb
 Music: synth:minimal
 Video sound: 0.5
 Captions: on
+Caption position: top
 Max duration: 50
 
 ## Lines

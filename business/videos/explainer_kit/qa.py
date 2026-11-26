@@ -36,8 +36,11 @@ def main(proj):
     bad = [c for c in caps if c['end'] > dur or c['end'] - c['start'] < 0.6 or len(c['text']) / max(0.1, c['end'] - c['start']) > 22]
     over = [i for i in range(1, len(caps)) if caps[i]['start'] < caps[i - 1]['end'] - 0.01]
     band = H - tl['margin_px'] - tl['font_px'] * 1.3
-    safe = band > H * (0.78 if W > H else 0.55) or W <= H and band < 1400
-    check('9 captions readable', not bad and not over and safe, f'{len(caps)} captions, {len(bad)} too fast/short, {len(over)} overlaps, caption top y={band:.0f}px')
+    if tl.get('cap_pos') == 'top':   # captions over the title band: must stay in the top 25%
+        band = tl['margin_px'] + tl['font_px'] * 2.6; safe = band < H * 0.25
+    else:
+        safe = band > H * (0.78 if W > H else 0.55) or W <= H and band < 1400
+    check('9 captions readable', not bad and not over and safe, f'{len(caps)} captions, {len(bad)} too fast/short, {len(over)} overlaps, caption edge y={band:.0f}px')
     # 10. sync: the voice energy should sit inside the caption windows
     w = wave.open(os.path.join(proj, 'work', 'narration.wav')); x = np.frombuffer(w.readframes(w.getnframes()), '<i2').astype(float); sr = w.getframerate()
     inside = np.zeros(len(x), bool)
