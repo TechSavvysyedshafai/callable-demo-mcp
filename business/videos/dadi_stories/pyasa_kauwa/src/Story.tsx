@@ -2,6 +2,7 @@
 // Scene times match the @times in script.md (seconds). Everything is deterministic (no Math.random).
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig, spring} from 'remotion';
+import {Dadi} from './Dadi';
 
 const C = {ink: '#2a1d14', paper: '#fbf3e4', sky1: '#ffd08a', sky2: '#ff9d5c', ground: '#c98b4e', ground2: '#a8703c',
   clay: '#b5532e', clayD: '#8a3a1e', water: '#4aa3d8', waterD: '#2f7fb3', leaf: '#5d8f3a', leafD: '#3f6b25', crow: '#1f1f2a'};
@@ -115,6 +116,7 @@ export const Story: React.FC = () => {
           {PEB.map(([px, py], k) => k >= dropped && (
             <ellipse key={k} cx={770 + px * 0.6} cy={1245 + py * 0.35} rx={26} ry={20} fill="#9a9a8c" stroke={C.ink} strokeWidth={4} />
           ))}
+          <Dadi t={t} scale={3.6} ground={1240} x0={-140} x1={258} t0={0.3} t1={0} fan={[5.6, 9.6]} raise={[50.4, 57.5]} />
           {/* the pot */}
           <g transform={`translate(${POT.x} ${POT.bottom}) scale(${potIn}) translate(${-POT.x} ${-POT.bottom})`}>
             <ellipse cx={POT.x} cy={POT.bottom + 6} rx={150} ry={22} fill="#00000033" />
