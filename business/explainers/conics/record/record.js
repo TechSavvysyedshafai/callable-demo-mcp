@@ -12,13 +12,13 @@ const MAX = +(process.env.MAX_FRAMES || 1e9);
 
 // timeline: [seconds, action]  (conics short: circle -> ellipse -> parabola -> hyperbola -> Dandelin spheres -> move the cut)
 const T = [
-  [4.2, {move:'#tilt'}], [4.8, {drag:'#tilt', from:0.0, to:0.412, dur:2.5}],
-  [11.6, {drag:'#tilt', from:0.412, to:0.706, dur:2.0}],
-  [18.2, {drag:'#tilt', from:0.706, to:0.882, dur:1.8}],
+  [4.2, {move:'#tilt'}], [4.8, {drag:'#tilt', from:0.0, to:0.412, dur:2.5, value:35}],
+  [11.6, {drag:'#tilt', from:0.412, to:0.706, dur:2.0, value:60}],
+  [18.2, {drag:'#tilt', from:0.706, to:0.882, dur:1.8, value:75}],
   [24.4, {move:'#tgSpheres'}], [25.0, {click:'#tgSpheres'}],
-  [26.0, {move:'#tilt'}], [26.6, {drag:'#tilt', from:0.882, to:0.294, dur:1.6}],
+  [26.0, {move:'#tilt'}], [26.6, {drag:'#tilt', from:0.882, to:0.294, dur:1.6, value:25}],
   [35.0, {orbit:'#view', dx: SHORT ? -110 : -200, dy: 0, dur:2.5}],
-  [40.0, {move:'#hgt'}], [40.6, {drag:'#hgt', from:0.5, to:0.72, dur:1.8}],
+  [40.0, {move:'#hgt'}], [40.6, {drag:'#hgt', from:0.5, to:0.72, dur:1.8, value:5}],
   [50.0, {end:true}]
 ];
 
@@ -45,7 +45,7 @@ const T = [
       const a = T[ti][1]; ti++;
       if (a.move){ const c = await center(a.move); tween = {x0:cur.x, y0:cur.y, x1:c.x, y1:c.y, t0:t, d:0.5}; }
       if (a.click){ const c = await center(a.click); cur.x = c.x; cur.y = c.y; tween = null; await page.mouse.move(cur.x, cur.y); await page.mouse.click(cur.x, cur.y); ringT = t; }
-      if (a.drag){ const c = await center(a.drag); const y = c.y; const x0 = c.l + c.w*a.from, x1 = c.l + c.w*a.to; tween = {x0:cur.x,y0:cur.y,x1:x0,y1:y,t0:t,d:0.4, then:{x0, x1, y, t0:t+0.4, d:a.dur, drag:true}}; }
+      if (a.drag){ const c = await center(a.drag); const y = c.y; const x0 = c.l + c.w*a.from, x1 = c.l + c.w*a.to; tween = {x0:cur.x,y0:cur.y,x1:x0,y1:y,t0:t,d:0.4, then:{x0, x1, y, t0:t+0.4, d:a.dur, drag:true, sel:a.drag, value:a.value}}; }
       if (a.orbit){ const c = await center(a.orbit); tween = {x0:cur.x,y0:cur.y,x1:c.x,y1:c.y,t0:t,d:0.4, then:{x0:c.x, x1:c.x+a.dx, y:c.y, y1:c.y+a.dy, t0:t+0.4, d:a.dur, drag:true}}; }
       if (a.scrub){ const c = await center(a.scrub); const x0 = c.l+60+(c.w-70)*a.from, x1 = c.l+60+(c.w-70)*a.to, y = c.t + c.h*0.35; tween = {x0:cur.x,y0:cur.y,x1:x0,y1:y,t0:t,d:0.4, then:{x0, x1, y, t0:t+0.4, d:a.dur, drag:true}}; }
       if (a.chartRow !== undefined){ const c = await center('#chart'); const x = c.l + c.w*0.5, y = c.t + 16 + (c.h-36)*(a.chartRow+0.5)/4; tween = {x0:cur.x,y0:cur.y,x1:x,y1:y,t0:t,d:0.5, clickAtEnd:true}; }
@@ -56,7 +56,9 @@ const T = [
         const x = tween.x0 + (tween.x1 - tween.x0)*e, y = tween.y + ((tween.y1 ?? tween.y) - tween.y)*e;
         if (!held){ await page.mouse.move(tween.x0, tween.y); await page.mouse.down(); held = true; ringT = t; }
         cur.x = x; cur.y = y; await page.mouse.move(x, y);
-        if (k >= 1){ await page.mouse.up(); held = false; tween = null; }
+        if (k >= 1){ await page.mouse.up(); held = false;
+          if (tween.value !== undefined) await page.evaluate(([sel, v]) => { const el = document.querySelector(sel); el.value = v; el.dispatchEvent(new Event('input')); el.dispatchEvent(new Event('change')); }, [tween.sel, tween.value]);
+          tween = null; }
       } else if (t >= tween.t0) {
         cur.x = tween.x0 + (tween.x1 - tween.x0)*e; cur.y = tween.y0 + (tween.y1 - tween.y0)*e;
         if (k >= 1){ const nx = tween.then, ce = tween.clickAtEnd; tween = nx ? Object.assign({}, nx) : null; if (ce){ await page.mouse.move(cur.x, cur.y); await page.mouse.click(cur.x, cur.y); ringT = t; } }
