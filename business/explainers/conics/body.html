@@ -1,0 +1,80 @@
+<div class="sheet">
+  <div class="zone top" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone bot" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone lft" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+  <div class="zone rgt" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+
+  <header class="top">
+    <h1>One cone, <em>four curves</em>: conic sections</h1>
+    <div class="toggles" role="group" aria-label="View options">
+      <button class="tg" id="tgLabels" aria-pressed="true">Labels</button>
+      <button class="tg" id="tgSpheres" aria-pressed="false">Dandelin spheres</button>
+      <button class="tg" id="tgOrbit" aria-pressed="false">Orbit</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="col">
+      <section class="op">
+        <span class="lab">Conic sections · step</span>
+        <div class="stroke-head"><span class="stroke-num" id="sNum">1</span><div><div class="stroke-name" id="sName"></div><div class="nick" id="sNick"></div></div></div>
+        <p class="explain" id="sText"></p>
+        <p class="explain mono-note" id="sNow"></p>
+        <div class="slist" id="slist"></div>
+      </section>
+    </div>
+
+    <div class="view-wrap" id="viewWrap">
+      <canvas id="view" aria-label="3D double cone cut by a tilting plane; the cut curve is drawn in red. Drag to orbit."></canvas>
+      <svg id="leaders"></svg>
+      <div class="balloons l" id="balL"></div>
+      <div class="balloons r" id="balR"></div>
+      <div class="viewnote">Drag to orbit · scroll or pinch to zoom · cone half-angle 30°</div>
+    </div>
+
+    <div class="col">
+      <section class="op">
+        <label class="lab" for="tilt">Tilt of the plane <span id="tiltLab">0°</span></label>
+        <input type="range" id="tilt" min="0" max="85" step="0.5" value="0">
+        <label class="lab" for="hgt">Height of the cut <span id="hgtLab">4.0</span></label>
+        <input type="range" id="hgt" min="2" max="6" step="0.05" value="4">
+        <div class="row" role="group" aria-label="Jump to a curve">
+          <button class="btn" data-tilt="0">Circle</button>
+          <button class="btn" data-tilt="35">Ellipse</button>
+          <button class="btn" data-tilt="60">Parabola</button>
+          <button class="btn" data-tilt="75">Hyperbola</button>
+        </div>
+      </section>
+      <section class="op">
+        <span class="lab">The cut, seen face-on</span>
+        <canvas class="pv" id="face" width="560" height="360"></canvas>
+        <p class="explain mono-note" id="sEq" style="min-height:0"></p>
+      </section>
+      <section class="op">
+        <span class="lab">Playback</span>
+        <div class="row">
+          <button class="btn" id="bBack">◀ Back</button>
+          <button class="btn" id="bPlay" aria-pressed="true">Pause P</button>
+          <button class="btn" id="bNext">Next ▶</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <section class="op">
+      <span class="lab">Eccentricity e = sin(tilt) ÷ cos(cone half-angle)</span>
+      <div class="chart-wrap"><canvas id="chart" width="1400" height="200"></canvas></div>
+      <div class="legend"><span><i style="background:#c8371f"></i>The cut curve</span><span><i style="background:#2f6fb5"></i>Dandelin spheres and foci</span><span><i style="background:#1c1d1f"></i>Moving point P</span></div>
+    </section>
+    <div class="tblock" aria-label="Title block">
+      <div class="wide"><span>Title</span>Conic sections from a double cone</div>
+      <div><span>Cone</span>Half-angle α = 30°</div>
+      <div><span>Eccentricity</span>e = sin β / cos α</div>
+      <div><span>Syllabus</span>Class 11 · Conic Sections</div>
+      <div><span>Checks</span>Measured live</div>
+      <div><span>Dwg no.</span>MATH-CON-005</div>
+      <div><span>Sheet</span>1 of 1</div>
+    </div>
+  </div>
+</div>
