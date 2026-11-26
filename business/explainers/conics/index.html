@@ -395,7 +395,7 @@ function drawFace(){
   let line = '';
   if (K.type === 'ellipse'){ const s = Math.hypot(pp.u - fu[0], pp.w) + Math.hypot(pp.u - fu[1], pp.w); S.check = s; line = `PF₁ + PF₂ = ${f2(same(s, 2*K.a))} = 2a`; }
   else if (K.type === 'hyperbola'){ const s = Math.abs(Math.hypot(pp.u - fu[0], pp.w) - Math.hypot(pp.u - fu[1], pp.w)); S.check = s; line = `|PF₁ − PF₂| = ${f2(same(s, 2*K.a))} = 2a`; }
-  else if (K.type === 'parabola'){ const a1 = Math.hypot(pp.u - fu[0], pp.w), a2 = pp.u - (K.uv - K.p); S.check = a1 - a2; line = `PF = ${f2(same(a1, a2))} = distance to directrix ${f2(a2)}`; }
+  else if (K.type === 'parabola'){ const a1 = Math.hypot(pp.u - fu[0], pp.w), a2 = pp.u - (K.uv - K.p); S.check = a1 - a2; line = `PF = ${f2(same(a1, a2))} = P to directrix`; }
   else { const r = Math.hypot(pp.u - fu[0], pp.w); S.check = r; line = `distance to centre = ${f2(r)} = r`; }
   ctx.font = '12px "Geist Mono", monospace'; const tw = ctx.measureText(line).width; ctx.fillStyle = 'rgba(251,250,246,0.92)'; ctx.fillRect(4, h - 24, tw + 10, 20); ctx.fillStyle = '#1c1d1f'; ctx.fillText(line, 9, h - 9);
 }
