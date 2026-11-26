@@ -1,0 +1,67 @@
+<title>Explainers for Coaching Centres</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column on drafting-grid paper, phone first; five numbered reasons in the order they are spoken. */
+:root{
+  --paper:#f7f8f5; --grid:#e3e7e4; --ink:#1c1d1f; --ink2:#5a5e62; --red:#c8371f; --blue:#2f6fb5; --card:#ffffff;
+  --display:"Instrument Serif", Georgia, serif; --body:"Inter", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#15171a;--grid:#23272b;--ink:#eceee9;--ink2:#a3a8ac;--red:#ff7a5c;--blue:#7fb0ea;--card:#1d2024;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15171a;--grid:#23272b;--ink:#eceee9;--ink2:#a3a8ac;--red:#ff7a5c;--blue:#7fb0ea;--card:#1d2024;color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.wrap{max-width:620px;margin:0 auto;padding-block:28px 40px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:22px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,9vw,50px);line-height:1.05;margin:6px 0 0;text-wrap:balance}
+h1 em{color:var(--red)}
+.lede{margin:0;color:var(--ink2);max-width:60ch}
+ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+li{display:grid;grid-template-columns:44px 1fr;gap:12px;background:var(--card);border:1.5px solid var(--ink);padding:16px 16px 16px 12px}
+.n{font-family:var(--display);font-size:40px;line-height:.9;color:var(--red);text-align:center}
+li > div{min-width:0}
+h2{font-family:var(--display);font-weight:400;font-size:25px;line-height:1.15;margin:0 0 6px}
+li p{margin:0;font-size:15.5px}
+.say{display:block;margin-top:8px;font-family:var(--mono);font-size:12.5px;color:var(--blue)}
+.demo{border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:18px;display:flex;flex-direction:column;gap:10px}
+.demo .eyebrow{color:inherit;opacity:.75}
+.demo p{margin:0}
+.demo a{align-self:flex-start;font-family:var(--mono);font-size:14px;color:var(--ink);background:var(--paper);border:1.5px solid var(--paper);padding:10px 14px;text-decoration:none}
+.demo a:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.foot{font-family:var(--mono);font-size:11.5px;color:var(--ink2);border-top:1px solid var(--ink);padding-top:10px}
+</style>
+
+<main class="wrap">
+  <header>
+    <div class="eyebrow">For coaching centres · Physics · Chemistry · Biology</div>
+    <h1>3D explainers your students can <em>touch</em></h1>
+  </header>
+  <p class="lede">Interactive science pages and 50-second videos for Class 11 and 12, JEE and NEET. Students change the experiment and watch the science respond.</p>
+
+  <ol>
+    <li><span class="n">1</span><div><h2>Students understand faster</h2>
+      <p>Equilibrium is hard to picture on a whiteboard. Here students squeeze the reactor themselves and watch ammonia go up.</p>
+      <span class="say">One minute of seeing saves ten minutes of re-explaining.</span></div></li>
+    <li><span class="n">2</span><div><h2>Teachers stay in control</h2>
+      <p>The teacher plays it in class, pauses it, and asks “what happens if we heat it?”</p>
+      <span class="say">It doesn't replace your faculty. It makes them look even better.</span></div></li>
+    <li><span class="n">3</span><div><h2>Free marketing for your centre</h2>
+      <p>Each short carries your centre's name and logo. Students share 50-second videos on WhatsApp and Instagram.</p>
+      <span class="say">Every share is an advert seen by other students and parents.</span></div></li>
+    <li><span class="n">4</span><div><h2>Parents see the difference</h2>
+      <p>Parents choose a centre on what they can see. “We teach with 3D simulations” stands out next to notes and a board.</p>
+      <span class="say">A modern classroom is easier to sell to parents.</span></div></li>
+    <li><span class="n">5</span><div><h2>Low cost, no setup</h2>
+      <p>Works in any browser: classroom projector, phone or tablet. No app, no software, no training.</p>
+      <span class="say">Start with one chapter. Expand only if your students like it.</span></div></li>
+  </ol>
+
+  <section class="demo" aria-label="Live demo">
+    <div class="eyebrow">Try it yourself</div>
+    <p>Le Chatelier's principle: squeeze, heat or feed a reactor making ammonia and watch the equilibrium push back.</p>
+    <a href="https://claude.ai/artifact/ExNiB34Rq4pFF2J1jn41Ew" target="_blank" rel="noopener">Open the live demo →</a>
+  </section>
+
+  <p class="foot">AI Helper Patna · Interactive science explainers · Pilot: one chapter of your choice</p>
+</main>
