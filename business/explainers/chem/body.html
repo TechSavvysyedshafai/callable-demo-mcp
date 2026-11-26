@@ -1,0 +1,87 @@
+<div class="sheet">
+  <div class="zone top" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone bot" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zone lft" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+  <div class="zone rgt" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+
+  <header class="top">
+    <h1>How <em>equilibrium</em> fights back: making ammonia</h1>
+    <div class="toggles" role="group" aria-label="View options">
+      <button class="tg" id="tgLabels" aria-pressed="true">Labels</button>
+      <button class="tg" id="tgFlash" aria-pressed="true">Reactions</button>
+      <button class="tg" id="tgOrbit" aria-pressed="false">Orbit</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="col">
+      <section class="op">
+        <span class="lab">Le Chatelier's principle · step</span>
+        <div class="stroke-head"><span class="stroke-num" id="sNum">1</span><div><div class="stroke-name" id="sName"></div><div class="nick" id="sNick"></div></div></div>
+        <p class="explain" id="sText"></p>
+        <p class="explain mono-note" id="sNow"></p>
+        <p class="explain mono-note" id="sCount" style="min-height:0;color:var(--ink2)"></p>
+        <div class="slist" id="slist"></div>
+      </section>
+    </div>
+
+    <div class="view-wrap" id="viewWrap">
+      <canvas id="view" aria-label="3D reactor with nitrogen, hydrogen and ammonia molecules under a piston. Drag to orbit."></canvas>
+      <svg id="leaders"></svg>
+      <div class="balloons l" id="balL"></div>
+      <div class="balloons r" id="balR"></div>
+      <div class="viewnote">Drag to orbit · scroll or pinch to zoom · orange flash = NH₃ made (heat out) · blue = NH₃ split</div>
+    </div>
+
+    <div class="col">
+      <section class="op">
+        <span class="lab">Pressure</span>
+        <div class="tach-wrap"><canvas class="tach" id="tach" width="440" height="300"></canvas></div>
+        <label class="lab" for="vol">Piston · squeeze ↔ release</label>
+        <input type="range" id="vol" min="0.5" max="1.6" step="0.01" value="1">
+        <label class="lab" for="temp">Temperature <span id="tLab">400 °C</span></label>
+        <input type="range" id="temp" min="300" max="600" step="5" value="400">
+        <div class="row">
+          <button class="btn" id="bAdd">+ N₂</button>
+          <button class="btn" id="bRem">Remove NH₃</button>
+          <button class="btn" id="bCat" aria-pressed="true">Iron catalyst on</button>
+        </div>
+      </section>
+      <section class="op">
+        <span class="lab">Which way will it go? Q vs K</span>
+        <canvas class="pv" id="qk" width="560" height="150"></canvas>
+      </section>
+      <section class="op">
+        <span class="lab">Playback · model time</span>
+        <div class="row" role="group" aria-label="Speed">
+          <button class="btn" data-speed="0.5">½×</button>
+          <button class="btn" data-speed="1" aria-pressed="true">1×</button>
+          <button class="btn" data-speed="3">3×</button>
+        </div>
+        <div class="row">
+          <button class="btn" id="bBack">◀ Back</button>
+          <button class="btn" id="bPlay" aria-pressed="true">Pause</button>
+          <button class="btn" id="bNext">Next ▶</button>
+          <button class="btn" id="bReset">Refill</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <section class="op">
+      <span class="lab">Ammonia share over time · dashed = where equilibrium is heading</span>
+      <div class="chart-wrap"><canvas id="chart" width="1400" height="300"></canvas></div>
+      <div class="legend"><span><i style="background:#c8371f"></i>NH₃ share of molecules</span><span><i style="background:#2f6fb5"></i>Equilibrium share (from Kp)</span><span><i style="background:#b9bdbb"></i>Pressure</span></div>
+    </section>
+    <div class="tblock" aria-label="Title block">
+      <div class="wide"><span>Title</span>N₂ + 3H₂ ⇌ 2NH₃ (Haber process)</div>
+      <div><span>ΔH</span>−92.4 kJ/mol (exothermic)</div>
+      <div><span>Kp at 400 °C</span>1.64 × 10⁻⁴ atm⁻²</div>
+      <div><span>Model</span>Ideal gas, real Kp</div>
+      <div><span>Rates</span>Illustrative</div>
+      <div><span>Dwg no.</span>CHEM-EQ-004</div>
+      <div><span>Sheet</span>1 of 1</div>
+    </div>
+  </div>
+</div>
