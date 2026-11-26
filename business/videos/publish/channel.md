@@ -8,8 +8,8 @@ Rejected: "50 Second Science" (an active YouTube channel and Instagram account a
 Handle availability is only confirmed at sign-up.
 Channel description (paste): Class 11 and 12 Biology and Physics, one NCERT topic in 50 seconds, animated in 3D. For revision before a test, NEET, JEE and CBSE boards.
 
-Standing hashtags (pick 3-5 per video): #Shorts #Class11 #Class12 #NEET #CBSE #NCERT #Biology #Physics
-Series names (playlists): "Biology in 50 Seconds", "Physics in 50 Seconds"
+Standing hashtags (pick 3-5 per video): #Shorts #Class11 #Class12 #NEET #CBSE #NCERT #Biology #Physics #Chemistry
+Series names (playlists): "Biology in 50 Seconds", "Physics in 50 Seconds", "Chemistry in 50 Seconds" (added 2026-11-26)
 Posting: 3 a week, fixed days and hour (owner to choose; evening IST suits students).
 Banned words: see .claude/skills/shorts-publish/SKILL.md.
 Chapter names below are NCERT chapter titles; verify chapter numbers against the current edition before writing them anywhere.

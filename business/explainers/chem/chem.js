@@ -148,8 +148,8 @@ const ground = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeo
 // atoms: instanced spheres with an inked outline shell
 const MAXA = 2400;
 function atoms(r, color){
-  const g = new THREE.SphereGeometry(r, 14, 10), m = new THREE.InstancedMesh(g, toon(color), MAXA);
-  const o = new THREE.InstancedMesh(new THREE.SphereGeometry(r*1.14, 12, 8), new THREE.MeshBasicMaterial({color:0x1c1d1f, side:THREE.BackSide}), MAXA);
+  const g = new THREE.SphereGeometry(r, 10, 7), m = new THREE.InstancedMesh(g, toon(color), MAXA);
+  const o = new THREE.InstancedMesh(new THREE.SphereGeometry(r*1.16, 8, 6), new THREE.MeshBasicMaterial({color:0x1c1d1f, side:THREE.BackSide}), MAXA);
   m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); o.instanceMatrix.setUsage(THREE.DynamicDrawUsage); scene.add(m, o); return {m, o, n:0};
 }
 const AN = atoms(0.62, 0x2f6fb5), AH = atoms(0.42, 0xf4f4ef), AG = atoms(0.95, 0xffb347);   // AG: glow on freshly made NH3
@@ -213,7 +213,7 @@ function drawGauge(){
   const a = A(S.P); ctx.strokeStyle = '#c8371f'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*(rad-14), cy+Math.sin(a)*(rad-14)); ctx.stroke();
   ctx.fillStyle = '#1c1d1f'; ctx.beginPath(); ctx.arc(cx,cy,4,0,7); ctx.fill();
   const fs = Math.round(Math.max(15, Math.min(28, rad*0.22))); ctx.font = '400 '+fs+'px "Instrument Serif", serif'; ctx.fillText(Math.round(S.P) + ' atm', cx, cy-rad*0.14);
-  ctx.font = '10px "Geist Mono", monospace'; ctx.fillStyle = '#55585c'; ctx.fillText('blue band = industrial 150–250', cx, cy-rad*0.14+13);
+  ctx.font = '10px "Geist Mono", monospace'; ctx.fillStyle = '#55585c'; ctx.fillText(SHORT ? 'industrial 150–250' : 'blue band = industrial 150–250', cx, cy-rad*0.14+13);
 }
 function drawQK(){
   const {ctx,w,h} = QC; ctx.clearRect(0,0,w,h); const L = -7, R = -1, X = v => 14 + (Math.log10(Math.max(1e-12, v)) - L)/(R-L)*(w-28), y = h*0.42;
@@ -306,6 +306,6 @@ refill(); goStep(0, false); sizeAll(); window.addEventListener('resize', sizeAll
 if (document.fonts) document.fonts.ready.then(sizeAll);
 let last = performance.now();
 function frame(now){ const dt = Math.max(0, Math.min(0.05, (now-last)/1000)); last = now; update(dt); draw(); requestAnimationFrame(frame); }
-if (RECORD){ window.__engine = { advance(dt){ update(dt); draw(); }, state: S, resize: sizeAll }; update(0); draw(); }
+if (RECORD){ window.__engine = { advance(dt){ update(dt); draw(); }, step(dt){ update(dt); }, draw, state: S, resize: sizeAll }; update(0); draw(); }
 else requestAnimationFrame(frame);
 })();
