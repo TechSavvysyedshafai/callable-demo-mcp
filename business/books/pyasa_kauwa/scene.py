@@ -149,13 +149,15 @@ wb = WATER.node_tree.nodes['Principled BSDF']; wb.inputs['Alpha'].default_value 
 water = sphere((0, 0, 0.8), (0.735, 0.735, 0.695), WATER, parent=pot)
 bpy.ops.mesh.primitive_cube_add(size=1); wbox = bpy.context.object; wbox.hide_render = True; wbox.hide_viewport = True
 wm = water.modifiers.new('keep', 'BOOLEAN'); wm.operation = 'INTERSECT'; wm.object = wbox; wm.solver = 'EXACT'
+neckw = cyl((0, 0, 1.68), 0.31, 0.5, WATER, parent=pot)   # water rising into the neck
+nm = neckw.modifiers.new('keep', 'BOOLEAN'); nm.operation = 'INTERSECT'; nm.object = wbox; nm.solver = 'EXACT'
 inside_pebbles = [sphere(((-0.36 + 0.24*(i % 4)) + rng.uniform(-0.04, 0.04), rng.uniform(0.03, 0.1), 0.2 + 0.2*(i // 4)), (0.13, 0.12, 0.11), mat('pebin', '#c9c7b8'), seg=20, parent=pot) for i in range(10)]
 pile = [sphere((1.35 + 0.28*(i % 3) + rng.uniform(-0.05, 0.05), -0.8 + 0.25*(i // 3), 0.1), (0.13, 0.12, 0.1), PEB, seg=20) for i in range(9)]
 for p in inside_pebbles + pile: p.rotation_euler = (rng.uniform(0, 3), rng.uniform(0, 3), rng.uniform(0, 3))
 def set_cut(on, potvis=True):
     for o in FULL: o.hide_render = not potvis or on
     for o in CUT: o.hide_render = not potvis or not on
-    water.hide_render = not (potvis and on)
+    water.hide_render = not (potvis and on); neckw.hide_render = water.hide_render
 def set_water(top):
     wbox.location = (0, 0.6, (0.06 + top) / 2); wbox.scale = (2, 1.2, max(0.02, top - 0.06))
 
@@ -215,7 +217,7 @@ SHOTS = {
   'low':    dict(sky=('#f7b267', '#ffe2b0'), cam=((0.25, -5.6, 1.9), (0.05, 0, 1.4), 34), pot=True, cut=True, water=0.35, peb=0, crow=dict(loc=(0.3, 0.12, RIM), yaw=180, head=45), pile=True, sunloc=(-8, 40, 15)),
   'idea':   dict(sky=('#f7b267', '#ffe2b0'), cam=((0.9, -5.4, 1.1), (1.0, 0, 0.9), 40), pot=True, cut=False, water=0.35, crow=dict(loc=(0.75, -0.75, 0.5), yaw=0, head=20), pile=True, bulb=(1.2, -0.75, 1.35), sunloc=(-8, 40, 15)),
   'drop':   dict(sky=('#f7b267', '#ffe2b0'), cam=((0.25, -5.6, 1.9), (0.05, 0, 1.4), 34), pot=True, cut=True, water=0.95, peb=5, crow=dict(loc=(0.3, 0.12, RIM), yaw=180, head=35, pebble=True), pile=True, sunloc=(-8, 40, 15)),
-  'drink':  dict(sky=('#f7b267', '#ffe2b0'), cam=((0.25, -5.6, 1.9), (0.05, 0, 1.4), 34), pot=True, cut=True, water=1.62, peb=10, crow=dict(loc=(0.3, 0.12, RIM), yaw=180, head=55), pile=False, sunloc=(-8, 40, 15)),
+  'drink':  dict(sky=('#f7b267', '#ffe2b0'), cam=((0.25, -5.6, 1.9), (0.05, 0, 1.4), 34), pot=True, cut=True, water=1.86, peb=10, crow=dict(loc=(0.46, 0.12, RIM), yaw=180, head=62), pile=False, sunloc=(-8, 40, 15)),
   'lesson': dict(sky=('#7d6bb8', '#ffb38a'), cam=((0, -9, 2.4), (0.8, 0, 2.6), 32), pot=True, cut=False, water=1.62, crow=dict(loc=(2.2, 0.5, 4.2), yaw=-25, wing=60, standing=False), pile=False, sunloc=(-10, 40, 6)),
 }
 
