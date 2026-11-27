@@ -1,0 +1,15 @@
+{"title_hi": "प्यासा कौआ", "title_en": "The Thirsty Crow",
+ "subtitle_hi": "दादी की कहानी", "subtitle_en": "A story from Dadi",
+ "credit": "Folk tale (Aesop's 'The Crow and the Pitcher', also told across India). Retold and illustrated in Blender for AI Helper Patna.",
+ "pages": [
+  {"shot": "cover"},
+  {"shot": "hot", "hi": "बहुत गरमी का दिन था। सूरज आग बरसा रहा था।", "en": "It was a very hot day. The sun was blazing."},
+  {"shot": "fly", "hi": "एक कौआ बहुत प्यासा था। वह पानी ढूँढने उड़ चला।", "en": "A crow was very thirsty. He flew off to look for water."},
+  {"shot": "search", "hi": "उसने खेत देखे, पेड़ देखे, पर कहीं पानी नहीं था।", "en": "He looked over fields and trees, but there was no water anywhere."},
+  {"shot": "pot", "hi": "आख़िर उसे एक घड़ा दिखा!", "en": "At last, he spotted a clay pot!"},
+  {"shot": "low", "hi": "पर पानी बहुत नीचे था। उसकी चोंच वहाँ तक नहीं पहुँची।", "en": "But the water was too low. His beak could not reach it."},
+  {"shot": "idea", "hi": "कौए ने सोचा... और उसे एक तरकीब सूझी!", "en": "The crow thought... and he found an idea!"},
+  {"shot": "drop", "hi": "वह एक-एक कंकड़ उठाकर घड़े में डालने लगा।", "en": "He picked up pebbles, one by one, and dropped them in."},
+  {"shot": "drink", "hi": "धीरे-धीरे पानी ऊपर आ गया। कौए ने जी भर के पानी पिया!", "en": "Slowly the water rose. The crow drank all he wanted!"},
+  {"shot": "lesson", "hi": "सीख: सूझबूझ से हर मुश्किल आसान हो जाती है।", "en": "Lesson: clever thinking makes hard things easy."}
+ ]}
