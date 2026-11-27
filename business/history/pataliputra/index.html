@@ -1,0 +1,355 @@
+<title>Walk Pataliputra</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-screen 3D city with a field-notebook overlay: top bar, clue counter, mini-map, joystick, and a clue card that slides up. Single warm "excavation" look by choice. */
+:root{
+  --sand:#efe3cc; --paper:#fbf6ec; --ink:#2a1d14; --ink2:#6b5644; --brick:#b5653a; --teal:#2f6f73; --card:#fffaf2;
+  --display:"Instrument Serif", Georgia, serif; --body:"Inter", "Noto Sans Devanagari", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--sand);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+#app{position:fixed;inset:0}
+#view{display:block;width:100%;height:100%;touch-action:none}
+.top{position:absolute;left:0;right:0;top:0;display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding-top:calc(10px + env(safe-area-inset-top, 0px));padding-left:max(12px, env(safe-area-inset-left, 0px));padding-right:max(12px, env(safe-area-inset-right, 0px));pointer-events:none}
+.title{pointer-events:auto;background:color-mix(in srgb,var(--card) 92%,transparent);border:1.5px solid var(--ink);padding:6px 10px;max-width:min(62vw,420px)}
+.title h1{font-family:var(--display);font-weight:400;font-size:clamp(22px,4.5vw,30px);line-height:1;margin:0}
+.title p{margin:2px 0 0;font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.04em}
+.tools{display:flex;flex-direction:column;gap:6px;align-items:flex-end;pointer-events:auto}
+.row{display:flex;gap:6px}
+.btn{font-family:var(--mono);font-size:12px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);padding:7px 10px;cursor:pointer}
+.btn[aria-pressed="true"],.btn.dark{background:var(--ink);color:var(--paper)}
+.btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.count{font-family:var(--mono);font-size:12px;background:var(--brick);color:#fff;padding:6px 10px;border:1.5px solid var(--ink)}
+#map{width:132px;height:132px;border:1.5px solid var(--ink);background:var(--paper)}
+.joy{position:absolute;left:max(18px, env(safe-area-inset-left, 0px));bottom:calc(18px + env(safe-area-inset-bottom, 0px));width:116px;height:116px;border-radius:50%;border:2px solid var(--ink);background:color-mix(in srgb,var(--card) 55%,transparent);touch-action:none}
+.joy i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--ink);opacity:.8}
+.help{position:absolute;right:max(12px, env(safe-area-inset-right, 0px));bottom:calc(14px + env(safe-area-inset-bottom, 0px));font-family:var(--mono);font-size:11px;color:var(--ink);background:color-mix(in srgb,var(--card) 85%,transparent);border:1px solid var(--ink);padding:5px 8px;max-width:52vw}
+.card{position:absolute;left:50%;bottom:calc(12px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);width:min(560px,calc(100% - 24px));max-height:68%;overflow:auto;background:var(--card);border:2px solid var(--ink);padding:14px 16px 12px;box-shadow:0 10px 30px rgba(42,29,20,.25)}
+.card .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--brick)}
+.card h2{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1;margin:2px 0 8px;text-wrap:balance}
+.card p{margin:0 0 8px}
+.card .src{border-left:3px solid var(--teal);padding:4px 10px;background:color-mix(in srgb,var(--teal) 8%,var(--card));font-size:14px}
+.card .src b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);display:block}
+.card .think{font-weight:600}
+.card .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:6px;flex-wrap:wrap}
+.list{list-style:none;margin:0 0 8px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.list button{width:100%;text-align:left;font:inherit;font-size:14px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:7px 9px;cursor:pointer}
+.list button.found{background:var(--teal);color:#fff;border-color:var(--teal)}
+@media (max-width:520px){#map{width:96px;height:96px}.help{display:none}.joy{width:100px;height:100px}}
+</style>
+
+<div id="app">
+  <canvas id="view" aria-label="A 3D reconstruction of Mauryan Pataliputra. Walk with the joystick or the W A S D keys, drag to look around, tap glowing markers to open clues."></canvas>
+  <div class="top">
+    <div class="title">
+      <h1 data-en="Walk Pataliputra" data-hi="पाटलिपुत्र की सैर">Walk Pataliputra</h1>
+      <p data-en="Mauryan capital, about 300 BCE · today's Patna · a simplified reconstruction" data-hi="मौर्य राजधानी, लगभग 300 ईसा पूर्व · आज का पटना · सरल पुनर्निर्माण">Mauryan capital, about 300 BCE · today's Patna · a simplified reconstruction</p>
+    </div>
+    <div class="tools">
+      <div class="row">
+        <button class="btn" id="lang" aria-label="Switch language">हिंदी</button>
+        <button class="btn dark" id="clues">Clues</button>
+      </div>
+      <div class="count" id="count">0 / 8</div>
+      <canvas id="map" width="264" height="264" aria-label="Map of the city with your position"></canvas>
+    </div>
+  </div>
+  <div class="joy" id="joy" aria-hidden="true"><i id="knob"></i></div>
+  <div class="help" data-en="Move: joystick or W A S D · Look: drag · Open: tap a glowing marker" data-hi="चलें: जॉयस्टिक या W A S D · देखें: खींचें · खोलें: चमकते निशान पर टैप करें">Move: joystick or W A S D · Look: drag · Open: tap a glowing marker</div>
+  <div class="card" id="card" hidden></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+let LANG = 'en';
+try { if (localStorage.getItem('ptl-lang') === 'hi') LANG = 'hi'; } catch (e) {}
+const T = (en, hi) => LANG === 'hi' ? hi : en;
+
+// ---------- clues (checked against: Rajani & Singh, "Tracing Ancient Pataliputra", NIAS; Pataliputra Excavation 1955-56 report; Wikipedia "Bulandi Bagh" and "Pataliputra") ----------
+const CLUES = [
+ {id:'megas', pos:[4, 0, 74], en:'A Greek visitor\'s report', hi:'एक यूनानी यात्री का वर्णन',
+  what:['Around 300 BCE Megasthenes came to the Mauryan court as an ambassador and wrote a book, the Indica. The book is lost; we only have parts of it, quoted by later Greek and Roman writers. You are standing outside the city he described.','लगभग 300 ई.पू. मेगस्थनीज़ राजदूत बनकर मौर्य दरबार आया और "इंडिका" नाम की किताब लिखी। वह किताब खो गई; उसके कुछ हिस्से ही बाद के यूनानी और रोमन लेखकों के उद्धरणों में बचे हैं। आप उसी शहर के बाहर खड़े हैं जिसका उसने वर्णन किया।'],
+  src:['Strabo, quoting Megasthenes: "At the confluence of the Ganges and of another river is situated Palibothra, in length 80, and in breadth 15 stadia. It is in the shape of a parallelogram."','स्ट्राबो, मेगस्थनीज़ के हवाले से: "गंगा और एक दूसरी नदी के संगम पर पालिबोथ्रा बसा है, लंबाई 80 और चौड़ाई 15 स्टेडिया। इसका आकार समांतर चतुर्भुज जैसा है।"'],
+  think:['Historians say Megasthenes "got several things about India wrong". Why should we still read him, and how can we check him?','इतिहासकार कहते हैं कि मेगस्थनीज़ ने भारत के बारे में "कई बातें गलत लिखीं"। फिर भी उसे क्यों पढ़ें, और उसकी बातें कैसे जाँचें?']},
+ {id:'moat', pos:[-14, 0, 62], en:'The moat', hi:'खाई',
+  what:['A wide ditch full of water ran outside the wall. It defended the city and also carried away its waste water. In this model the moat is drawn much narrower than the size Megasthenes gives, so the city fits on screen.','दीवार के बाहर पानी से भरी चौड़ी खाई थी। यह शहर की रक्षा करती थी और गंदा पानी भी बहा ले जाती थी। इस मॉडल में खाई मेगस्थनीज़ के बताए आकार से बहुत पतली दिखाई गई है, ताकि शहर स्क्रीन में आ जाए।'],
+  src:['Arrian, quoting Megasthenes: "the city has been surrounded with a ditch in breadth 600 feet, and in depth 45 feet." Strabo adds that it "serves the purpose of defence and of a sewer for the city."','एरियन, मेगस्थनीज़ के हवाले से: "शहर के चारों ओर 600 फ़ुट चौड़ी और 45 फ़ुट गहरी खाई है।" स्ट्राबो जोड़ता है कि यह "रक्षा और शहर के नाले, दोनों का काम करती है।"'],
+  think:['A ditch 600 feet wide is about two football fields. Does that sound exact, or exaggerated? How could archaeologists test it?','600 फ़ुट चौड़ी खाई लगभग दो फ़ुटबॉल मैदानों जितनी है। यह सटीक लगता है या बढ़ा-चढ़ाकर? पुरातत्वविद इसे कैसे जाँच सकते हैं?']},
+ {id:'wall', pos:[14, 0, 46], en:'The timber wall (Bulandi Bagh)', hi:'लकड़ी की दीवार (बुलंदी बाग़)',
+  what:['Megasthenes said the city had a wooden wall. Excavators at Bulandi Bagh in Patna found it: two parallel rows of upright sal-wood beams about 12 feet high, about 14½ feet apart, with a plank floor between them.','मेगस्थनीज़ ने कहा था कि शहर की दीवार लकड़ी की थी। पटना के बुलंदी बाग़ में खुदाई करने वालों को यह मिली: साल की लकड़ी के खड़े खंभों की दो समांतर पंक्तियाँ, लगभग 12 फ़ुट ऊँची, करीब साढ़े 14 फ़ुट की दूरी पर, बीच में तख़्तों का फ़र्श।'],
+  src:['Pataliputra Excavation report (1955-56), on the 1926-27 dig: "two rows of upright pillars about 12 feet in height above the floor were seen placed at a distance of 14 feet 6 inches from one another."','पाटलिपुत्र उत्खनन रिपोर्ट (1955-56), 1926-27 की खुदाई पर: "फ़र्श से लगभग 12 फ़ुट ऊँचे खड़े खंभों की दो पंक्तियाँ, एक-दूसरे से 14 फ़ुट 6 इंच की दूरी पर मिलीं।"'],
+  think:['Here a written source and a dig agree. Why is that so valuable to a historian?','यहाँ एक लिखित स्रोत और खुदाई दोनों एक बात कहते हैं। इतिहासकार के लिए यह इतना कीमती क्यों है?']},
+ {id:'gate', pos:[0, 0, 40], en:'Towers and gates', hi:'बुर्ज और द्वार',
+  what:['The wall had holes for shooting arrows, towers along it and many gates. This model shows one gate and a few towers; the numbers below come only from Megasthenes and have not been checked by excavation.','दीवार में तीर चलाने के छेद, उसके साथ-साथ बुर्ज और कई द्वार थे। यह मॉडल एक द्वार और कुछ बुर्ज दिखाता है; नीचे की संख्याएँ केवल मेगस्थनीज़ से हैं, खुदाई से जाँची नहीं गईं।'],
+  src:['Arrian, quoting Megasthenes: "its wall has 570 towers and 64 gates." Strabo: "a wooden wall pierced with openings through which arrows may be discharged."','एरियन, मेगस्थनीज़ के हवाले से: "इसकी दीवार में 570 बुर्ज और 64 द्वार हैं।" स्ट्राबो: "लकड़ी की दीवार जिसमें तीर चलाने के छेद हैं।"'],
+  think:['Which parts of Megasthenes\' description has archaeology confirmed so far, and which are still only his word?','मेगस्थनीज़ के वर्णन के कौन-से हिस्से खुदाई ने अब तक पक्के किए, और कौन-से अभी केवल उसकी बात हैं?']},
+ {id:'hall', pos:[26, 0, -14], en:'The pillared hall (Kumhrar)', hi:'स्तंभों वाला सभागार (कुम्हरार)',
+  what:['At Kumhrar in Patna, excavators found the remains of a great hall that stood on rows of polished sandstone pillars about 15 feet apart, about 80 in all, over a thick layer of ash: the building had burned. Was it a palace or an audience hall? Archaeologists disagree.','पटना के कुम्हरार में खुदाई करने वालों को एक बड़े सभागार के अवशेष मिले, जो पॉलिश किए बलुआ पत्थर के खंभों की पंक्तियों पर खड़ा था, लगभग 15 फ़ुट की दूरी पर, कुल करीब 80, और नीचे राख की मोटी परत: इमारत जल गई थी। यह महल था या सभा-कक्ष? पुरातत्वविद एकमत नहीं हैं।'],
+  src:['Rajani & Singh: D. B. Spooner (1912-13) found "the remains of an 80-pillared hall, which Spooner concluded was a Maurya palace"; later excavators (1951-55) "suggested that the structure may have been an audience hall rather than a palace."','राजानी और सिंह: डी. बी. स्पूनर (1912-13) को "80 स्तंभों वाले सभागार के अवशेष" मिले, जिसे उसने मौर्य महल माना; बाद के उत्खननकर्ताओं (1951-55) ने "सुझाया कि यह महल के बजाय सभा-कक्ष रहा होगा।"'],
+  think:['Two experts looked at the same remains and disagreed. What extra evidence would settle it?','दो विशेषज्ञों ने एक ही अवशेष देखकर अलग राय दी। कौन-सा अतिरिक्त प्रमाण इसे तय करेगा?']},
+ {id:'drain', pos:[-4.6, 0, 12], en:'A wooden drain', hi:'लकड़ी की नाली',
+  what:['Like the moat, the city also had covered drains, here built of timber. One found at Bulandi Bagh was big enough for a person to walk through bent over.','खाई की तरह, शहर में ढकी नालियाँ भी थीं, यहाँ लकड़ी की बनी। बुलंदी बाग़ में मिली एक नाली इतनी बड़ी थी कि आदमी झुककर उसमें चल सके।'],
+  src:['Pataliputra Excavation report (1955-56): "a 40 ft. long drain at Bulandibagh… its inner height was 6 feet 3 inches and the breadth was 3 feet 6 inches."','पाटलिपुत्र उत्खनन रिपोर्ट (1955-56): "बुलंदीबाग़ में 40 फ़ुट लंबी नाली… अंदर की ऊँचाई 6 फ़ुट 3 इंच और चौड़ाई 3 फ़ुट 6 इंच।"'],
+  think:['Compare this drain with Mohenjo-daro\'s brick drains, about 2,000 years older. What is the same, and what changed?','इस नाली की तुलना लगभग 2,000 साल पुराने मोहनजोदड़ो की ईंट की नालियों से कीजिए। क्या एक जैसा है, और क्या बदला?']},
+ {id:'wheel', pos:[-20, 0, 8], en:'A spoked wheel', hi:'तीलियों वाला पहिया',
+  what:['Among the finds at Bulandi Bagh was a large wooden wheel with spokes and an iron rim. Carts and chariots moved goods and people through the capital.','बुलंदी बाग़ की खोजों में लकड़ी का एक बड़ा तीलियों वाला पहिया था, जिसकी किनारी लोहे की थी। गाड़ियाँ और रथ राजधानी में सामान और लोगों को ले जाते थे।'],
+  src:['Rajani & Singh: "One of the unique finds was a large wooden spoked wheel with an iron rim."','राजानी और सिंह: "एक अनोखी खोज लोहे की किनारी वाला लकड़ी का बड़ा तीलियों वाला पहिया था।"'],
+  think:['Wood usually rots. Why might so much timber have survived under Patna?','लकड़ी आमतौर पर सड़ जाती है। पटना की ज़मीन के नीचे इतनी लकड़ी क्यों बची रह गई होगी?']},
+ {id:'boy', pos:[-20, 0, -12], en:'The "smiling boy"', hi:'"मुस्कुराता बालक"',
+  what:['A small terracotta head of a smiling child, found at Bulandi Bagh with dancing figures in swirling skirts. You can see these in the Bihar Museum in Patna today.','मुस्कुराते बच्चे का छोटा टेराकोटा सिर, जो बुलंदी बाग़ में घूमते घाघरे वाली नर्तकी मूर्तियों के साथ मिला। इन्हें आज पटना के बिहार संग्रहालय में देखा जा सकता है।'],
+  src:['Rajani & Singh: finds included "the famous \'smiling boy\' and female dancing figures in swirling skirts presently on display in the Bihar Museum".','राजानी और सिंह: खोजों में "प्रसिद्ध \'मुस्कुराता बालक\' और घूमते घाघरे वाली नर्तकी मूर्तियाँ, जो अभी बिहार संग्रहालय में प्रदर्शित हैं"।'],
+  think:['Megasthenes wrote about kings and armies. What do small clay toys and figures tell us that his book does not?','मेगस्थनीज़ ने राजाओं और सेनाओं के बारे में लिखा। मिट्टी के छोटे खिलौने और मूर्तियाँ हमें क्या बताती हैं जो उसकी किताब नहीं बताती?']}
+];
+const found = new Set();
+
+// ---------- 3D city ----------
+const canvas = $('view');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xdfe9e6); scene.fog = new THREE.Fog(0xdfe9e6, 70, 190);
+const camera = new THREE.PerspectiveCamera(65, 1, 0.1, 400);
+scene.add(new THREE.HemisphereLight(0xfff7e8, 0x8a7a5a, 0.85));
+const sun = new THREE.DirectionalLight(0xffffff, 0.55); sun.position.set(-40, 80, 30); scene.add(sun);
+function plankTex(base, gap, vertical){
+  const c = document.createElement('canvas'); c.width = 256; c.height = 256; const x = c.getContext('2d'); x.fillStyle = gap; x.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 8; i++){ const s = 0.85 + ((i*7) % 5)/25; x.fillStyle = `rgb(${Math.round(base[0]*s)},${Math.round(base[1]*s)},${Math.round(base[2]*s)})`;
+    if (vertical) x.fillRect(i*32 + 2, 0, 28, 256); else x.fillRect(0, i*32 + 2, 256, 28);
+    x.strokeStyle = 'rgba(0,0,0,0.12)'; for (let k = 0; k < 4; k++){ x.beginPath(); if (vertical){ x.moveTo(i*32 + 6 + k*6, 0); x.lineTo(i*32 + 8 + k*6, 256); } else { x.moveTo(0, i*32 + 6 + k*6); x.lineTo(256, i*32 + 8 + k*6); } x.stroke(); } }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+}
+const SAL = plankTex([122, 84, 52], '#3b2a1c', true), PLANK = plankTex([150, 108, 70], '#4a3624', false);
+function mat(tex, rx, ry){ const t = tex.clone(); t.needsUpdate = true; t.repeat.set(rx, ry); return new THREE.MeshLambertMaterial({map:t}); }
+const earth = new THREE.MeshLambertMaterial({color:0xcbb88f});
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), earth); ground.rotation.x = -Math.PI/2; scene.add(ground);
+const colliders = [];
+function block(x0, x1, z0, z1, h, m, y0 = 0, solid = true){
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, h, z1 - z0), m); mesh.position.set((x0 + x1)/2, y0 + h/2, (z0 + z1)/2); scene.add(mesh);
+  if (solid && y0 < 1) colliders.push([x0, x1, z0, z1]); return mesh;
+}
+const WATER = new THREE.MeshLambertMaterial({color:0x5f8f8a});
+// the Ganga along the north
+const river = new THREE.Mesh(new THREE.PlaneGeometry(400, 70), new THREE.MeshLambertMaterial({color:0x7da3a0})); river.rotation.x = -Math.PI/2; river.position.set(0, 0.02, -100); scene.add(river);
+colliders.push([-200, 200, -140, -66]);
+// city wall: a rectangle x -60..60, z -48..40 (a short stretch of a city kilometres long); moat outside it
+const W = {x0:-60, x1:60, z0:-48, z1:40}, MOAT = 14;
+[[W.x0 - MOAT - 3, W.x1 + MOAT + 3, W.z1 + 3, W.z1 + 3 + MOAT], [W.x0 - MOAT - 3, W.x1 + MOAT + 3, W.z0 - 3 - MOAT, W.z0 - 3], [W.x0 - 3 - MOAT, W.x0 - 3, W.z0 - 3, W.z1 + 3], [W.x1 + 3, W.x1 + 3 + MOAT, W.z0 - 3, W.z1 + 3]].forEach(([a, b, c, d]) => {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(b - a, d - c), WATER); m.rotation.x = -Math.PI/2; m.position.set((a + b)/2, 0.03, (c + d)/2); scene.add(m);
+  const bank = new THREE.Mesh(new THREE.BoxGeometry(b - a, 0.6, d - c), new THREE.MeshLambertMaterial({color:0x9c8a66})); bank.position.set((a + b)/2, -0.32, (c + d)/2); scene.add(bank);
+  if (!(a < 0 && b > 0 && c > W.z1)) colliders.push([a, b, c, d]); else { colliders.push([a, -3, c, d]); colliders.push([3, b, c, d]); }
+});
+// bridge over the south moat
+block(-3, 3, W.z1 + 3, W.z1 + 3 + MOAT, 0.3, mat(PLANK, 1, 4), 0, false);
+// the palisade: two rows of upright sal beams 3.7 m high, 4.4 m apart, plank walkway on top; a gate in the south wall at x = 0
+const beamM = mat(SAL, 0.4, 1), plankM = mat(PLANK, 4, 1), towerM = mat(SAL, 1.5, 2);
+function wallRun(x0, z0, x1, z1, gapAt){
+  const len = Math.hypot(x1 - x0, z1 - z0), ux = (x1 - x0)/len, uz = (z1 - z0)/len, nx = -uz, nz = ux;
+  for (let t = 0; t <= len; t += 0.42){ const px = x0 + ux*t, pz = z0 + uz*t; if (gapAt !== undefined && Math.abs(t - gapAt) < 3.2) continue;
+    for (const side of [-2.2, 2.2]){ const b = new THREE.Mesh(new THREE.BoxGeometry(0.4, 3.7, 0.4), beamM); b.position.set(px + nx*side, 1.85, pz + nz*side); scene.add(b); } }
+  // walkway planks and solid collider between the rows
+  const segs = gapAt === undefined ? [[0, len]] : [[0, gapAt - 3.2], [gapAt + 3.2, len]];
+  segs.forEach(([a, b]) => { const cx = x0 + ux*(a + b)/2, cz = z0 + uz*(a + b)/2, L = b - a;
+    const top = new THREE.Mesh(new THREE.BoxGeometry(Math.abs(ux)*L + Math.abs(nx)*4.8, 0.25, Math.abs(uz)*L + Math.abs(nz)*4.8), plankM); top.position.set(cx, 3.8, cz); scene.add(top);
+    const hx = (Math.abs(ux)*L + Math.abs(nx)*4.8)/2, hz = (Math.abs(uz)*L + Math.abs(nz)*4.8)/2; colliders.push([cx - hx, cx + hx, cz - hz, cz + hz]); });
+  // towers every 24 m, with dark arrow slits
+  for (let t = 8; t < len - 4; t += 24){ if (gapAt !== undefined && Math.abs(t - gapAt) < 8) continue; const px = x0 + ux*t, pz = z0 + uz*t;
+    const tw = new THREE.Mesh(new THREE.BoxGeometry(5.6, 7.5, 5.6), towerM); tw.position.set(px, 3.75, pz); scene.add(tw);
+    for (let k = 0; k < 4; k++){ const sl = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.9, 0.05), new THREE.MeshBasicMaterial({color:0x1e140c})); const a = k*Math.PI/2; sl.position.set(px + Math.sin(a)*2.83, 5.8, pz + Math.cos(a)*2.83); sl.rotation.y = a; scene.add(sl); }
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(4.4, 2.2, 4), new THREE.MeshLambertMaterial({color:0x6d5a3a})); roof.position.set(px, 8.6, pz); roof.rotation.y = Math.PI/4; scene.add(roof); }
+}
+wallRun(W.x0, W.z1, W.x1, W.z1, 60);       // south wall with the gate at x = 0
+wallRun(W.x0, W.z0, W.x1, W.z0);
+wallRun(W.x0, W.z0, W.x0, W.z1);
+wallRun(W.x1, W.z0, W.x1, W.z1);
+// gate towers and lintel
+for (const s of [-1, 1]){ const g = block(s*3.2 - 2.8, s*3.2 + 2.8, W.z1 - 2.8, W.z1 + 2.8, 9, towerM); const r = new THREE.Mesh(new THREE.ConeGeometry(4.2, 2.4, 4), new THREE.MeshLambertMaterial({color:0x6d5a3a})); r.position.set(s*3.2, 10.2, W.z1); r.rotation.y = Math.PI/4; scene.add(r); }
+block(-3.2, 3.2, W.z1 - 2.2, W.z1 + 2.2, 1.2, plankM, 6.2, false);
+// streets inside
+const roadM = new THREE.MeshLambertMaterial({color:0xb8a27a});
+const r1 = new THREE.Mesh(new THREE.PlaneGeometry(8, 88), roadM); r1.rotation.x = -Math.PI/2; r1.position.set(0, 0.02, -4); scene.add(r1);
+const r2 = new THREE.Mesh(new THREE.PlaneGeometry(116, 8), roadM); r2.rotation.x = -Math.PI/2; r2.position.set(0, 0.02, 0); scene.add(r2);
+// timber drain along the main street, with a lifted plank
+const drainM = mat(PLANK, 0.2, 10);
+block(-4.9, -4.3, -46, 38, 0.18, drainM, 0, false);
+const hole = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.02, 1.2), new THREE.MeshBasicMaterial({color:0x1e140c})); hole.position.set(-4.6, 0.2, 12); scene.add(hole);
+// houses: timber walls, thatched roofs (layout imagined)
+const houseM = mat(PLANK, 2, 1), thatch = new THREE.MeshLambertMaterial({color:0xb79a5c});
+const rnd = (() => { let s = 11; return () => (s = (s*16807) % 2147483647)/2147483647; })();
+function house(cx, cz, w, d){ const h = 3.2 + rnd()*1.2; block(cx - w/2, cx + w/2, cz - d/2, cz + d/2, h, houseM);
+  const roof = new THREE.Mesh(new THREE.ConeGeometry(Math.hypot(w, d)/2 + 0.6, 2.4, 4), thatch); roof.position.set(cx, h + 1.2, cz); roof.rotation.y = Math.PI/4; roof.scale.set(w/d > 1 ? 1 : w/d, 1, d/w > 1 ? 1 : d/w); scene.add(roof); }
+for (const qx of [-1, 1]) for (const qz of [-1, 1]) for (let i = 0; i < 4; i++) for (let j = 0; j < 3; j++){
+  const cx = qx*(9 + i*12), cz = qz*(9 + j*12);
+  if (qx > 0 && qz < 0) continue;                 // north-east quarter: the pillared hall
+  if (qx < 0 && i < 2 && Math.abs(cz) < 22) continue;   // west of the crossing: the market
+  if (Math.abs(cz) > 36) continue;
+  house(cx, cz, 7 + rnd()*2, 7 + rnd()*2);
+}
+// Kumhrar pillared hall: 8 rows x 10 pillars, 4.57 m apart, polished sandstone on a timber floor, open-sided so it reads in 3D
+(function(){ const ox = 12, oz = -40, sp = 4.57, pm = new THREE.MeshPhongMaterial({color:0xd9c9a6, shininess:90, specular:0x555555});
+  block(ox - 2, ox + 9*sp + 2, oz - 2, oz + 7*sp + 2, 0.5, mat(PLANK, 8, 6), 0, false);
+  for (let i = 0; i < 10; i++) for (let j = 0; j < 8; j++){ const p = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 6, 14), pm); p.position.set(ox + i*sp, 3.5, oz + j*sp); scene.add(p); colliders.push([ox + i*sp - 0.5, ox + i*sp + 0.5, oz + j*sp - 0.5, oz + j*sp + 0.5]); }
+  const roofM = mat(PLANK, 10, 8); const rf = new THREE.Mesh(new THREE.BoxGeometry(9*sp + 4, 0.5, 7*sp + 4), roofM); rf.position.set(ox + 4.5*sp, 6.7, oz + 3.5*sp); scene.add(rf);
+})();
+// market stalls with canopies
+const stallM = mat(PLANK, 1, 1), cloth = [0xb5523a, 0x2f6f73, 0xc9a24a];
+function stall(x, z, k){ block(x - 1.6, x + 1.6, z - 0.8, z + 0.8, 0.9, stallM); for (const s of [-1, 1]) for (const t of [-1, 1]){ const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 2.6, 6), stallM); pole.position.set(x + s*1.5, 1.3, z + t*0.7); scene.add(pole); }
+  const c = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.08, 2.2), new THREE.MeshLambertMaterial({color:cloth[k % 3]})); c.position.set(x, 2.6, z); scene.add(c); }
+[[-14, 6], [-26, 6], [-14, -6], [-26, -6], [-34, 12], [-34, -12]].forEach((p, k) => stall(p[0], p[1], k));
+// distant mounds (the rest of the city and the countryside)
+for (let i = 0; i < 24; i++){ const a = i/24*Math.PI*2, r = 110 + rnd()*30; if (Math.sin(a) < -0.5) continue; const m = new THREE.Mesh(new THREE.BoxGeometry(12 + rnd()*10, 2 + rnd()*3, 10 + rnd()*8), earth); m.position.set(Math.cos(a)*r, 1, Math.sin(a)*r); scene.add(m); }
+function heightAt(){ return 0; }
+function mapLayer(mc, X, Z, s){
+  mc.fillStyle = '#7da3a0'; mc.fillRect(X(-90), Z(-135), 180*s, 70*s);
+  mc.fillStyle = '#5f8f8a'; mc.fillRect(X(W.x0 - MOAT - 3), Z(W.z0 - MOAT - 3), (W.x1 - W.x0 + 2*MOAT + 6)*s, (W.z1 - W.z0 + 2*MOAT + 6)*s);
+  mc.fillStyle = '#cbb88f'; mc.fillRect(X(W.x0 - 3), Z(W.z0 - 3), (W.x1 - W.x0 + 6)*s, (W.z1 - W.z0 + 6)*s);
+  mc.strokeStyle = '#6d4a2a'; mc.lineWidth = 4; mc.strokeRect(X(W.x0), Z(W.z0), (W.x1 - W.x0)*s, (W.z1 - W.z0)*s);
+  mc.fillStyle = '#b8a27a'; mc.fillRect(X(-4), Z(-48), 8*s, 88*s); mc.fillRect(X(-58), Z(-4), 116*s, 8*s);
+  mc.fillStyle = '#d9c9a6'; mc.fillRect(X(10), Z(-42), 45*s, 36*s);
+}
+
+// ---------- clue objects and glowing markers ----------
+const markers = [];
+function addProp(id, obj){ const c = CLUES.find(c => c.id === id); obj.position.set(c.pos[0], c.pos[1], c.pos[2]); scene.add(obj); }
+(function(){
+  // spoked wheel leaning on a stall
+  const wh = new THREE.Group(); const wm = mat(SAL, 0.5, 0.5); const rim = new THREE.Mesh(new THREE.TorusGeometry(0.75, 0.07, 8, 28), new THREE.MeshLambertMaterial({color:0x4a4a4a})); wh.add(rim);
+  for (let k = 0; k < 10; k++){ const sp = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.45, 0.05), wm); sp.rotation.z = k*Math.PI/10; wh.add(sp); }
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.2, 12), wm); hub.rotation.x = Math.PI/2; wh.add(hub);
+  wh.position.y = 0.8; wh.rotation.x = -0.15; const g1 = new THREE.Group(); g1.add(wh); addProp('wheel', g1);
+  // terracotta smiling-boy head on a small stand
+  const g2 = new THREE.Group(); const stand = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.0, 0.6), stallM); stand.position.y = 0.5; g2.add(stand);
+  const tc = new THREE.MeshLambertMaterial({color:0xb5653a}); const head = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 12), tc); head.position.y = 1.2; g2.add(head);
+  const smile = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.012, 6, 12, Math.PI), new THREE.MeshBasicMaterial({color:0x5a2a14})); smile.position.set(0, 1.16, 0.15); smile.rotation.z = Math.PI; g2.add(smile);
+  addProp('boy', g2);
+  // a signboard for Megasthenes outside the moat
+  const g3 = new THREE.Group(); const post = new THREE.Mesh(new THREE.BoxGeometry(0.15, 1.6, 0.15), stallM); post.position.y = 0.8; g3.add(post);
+  const sc = document.createElement('canvas'); sc.width = 256; sc.height = 128; const x = sc.getContext('2d'); x.fillStyle = '#efe3c4'; x.fillRect(0, 0, 256, 128); x.fillStyle = '#3b2a1c'; x.font = 'bold 30px Georgia, serif'; x.fillText('ΠΑΛΙΒΟΘΡΑ', 22, 60); x.font = '20px Georgia, serif'; x.fillText('Palibothra', 72, 98);
+  const board = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.8, 0.06), [0, 0, 0, 0, new THREE.MeshLambertMaterial({map:new THREE.CanvasTexture(sc)}), 0].map(m => m || stallM)); board.position.y = 1.7; g3.add(board); addProp('megas', g3);
+})();
+CLUES.forEach(c => {
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.9, 0.08, 8, 32), new THREE.MeshBasicMaterial({color:0x2f9fa8, transparent:true, opacity:0.9}));
+  ring.rotation.x = Math.PI/2; ring.position.set(c.pos[0], c.pos[1] + 0.05, c.pos[2]);
+  const beacon = new THREE.Mesh(new THREE.OctahedronGeometry(0.35), new THREE.MeshBasicMaterial({color:0x2f9fa8}));
+  beacon.position.set(c.pos[0], c.pos[1] + 2.6, c.pos[2]);
+  scene.add(ring, beacon); markers.push({c, ring, beacon});
+});
+
+// ---------- walking ----------
+const P = {x:2, z:84, yaw:0, pitch:0.02};
+const keys = {};
+addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
+addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+const joy = {x:0, y:0}; const J = $('joy'), K = $('knob');
+let joyId = null;
+J.addEventListener('pointerdown', e => { joyId = e.pointerId; J.setPointerCapture(e.pointerId); moveJoy(e); });
+J.addEventListener('pointermove', e => { if (e.pointerId === joyId) moveJoy(e); });
+['pointerup','pointercancel'].forEach(t => J.addEventListener(t, e => { if (e.pointerId === joyId){ joyId = null; joy.x = joy.y = 0; K.style.transform = ''; } }));
+function moveJoy(e){ const r = J.getBoundingClientRect(); let dx = (e.clientX - r.left - r.width/2)/(r.width/2), dy = (e.clientY - r.top - r.height/2)/(r.height/2); const l = Math.hypot(dx, dy); if (l > 1){ dx /= l; dy /= l; } joy.x = dx; joy.y = dy; K.style.transform = `translate(${dx*30}px,${dy*30}px)`; }
+let look = null, moved = 0;
+canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); look = {x:e.clientX, y:e.clientY, yaw:P.yaw, pitch:P.pitch}; moved = 0; });
+canvas.addEventListener('pointermove', e => { if (!look) return; const dx = e.clientX - look.x, dy = e.clientY - look.y; moved = Math.max(moved, Math.hypot(dx, dy)); P.yaw = look.yaw - dx*0.005; P.pitch = Math.max(-1.1, Math.min(0.9, look.pitch - dy*0.004)); });
+canvas.addEventListener('pointerup', e => { if (look && moved < 6) pick(e); look = null; });
+function blocked(x, z){ if (heightAt(x, z) === 0) for (const [a, b, c, d] of colliders) if (x > a - 0.35 && x < b + 0.35 && z > c - 0.35 && z < d + 0.35) return true; return Math.abs(x) > 120 || Math.abs(z) > 120; }
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+function pick(e){
+  const r = canvas.getBoundingClientRect(); ndc.set((e.clientX - r.left)/r.width*2 - 1, -(e.clientY - r.top)/r.height*2 + 1); ray.setFromCamera(ndc, camera);
+  let best = null;
+  markers.forEach(m => { const hits = ray.intersectObjects([m.ring, m.beacon]); const d = Math.hypot(m.c.pos[0] - P.x, m.c.pos[2] - P.z); if (hits.length && d < 26 && (!best || d < best.d)) best = {m, d}; });
+  if (!best){ // also accept a tap near a marker on screen
+    markers.forEach(m => { const v = m.beacon.position.clone().project(camera); const sx = (v.x + 1)/2*r.width, sy = (1 - v.y)/2*r.height, d = Math.hypot(m.c.pos[0] - P.x, m.c.pos[2] - P.z);
+      if (v.z < 1 && Math.hypot(sx - (e.clientX - r.left), sy - (e.clientY - r.top)) < 40 && d < 26 && (!best || d < best.d)) best = {m, d}; });
+  }
+  if (best) openClue(best.m.c);
+}
+
+// ---------- clue card ----------
+const card = $('card');
+function openClue(c){
+  found.add(c.id); updateCount();
+  card.textContent = '';
+  const k = document.createElement('div'); k.className = 'k'; k.textContent = T('Clue', 'सुराग') + ' ' + (CLUES.indexOf(c) + 1) + ' / ' + CLUES.length;
+  const h = document.createElement('h2'); h.textContent = T(c.en, c.hi);
+  const p = document.createElement('p'); p.textContent = c.what[LANG === 'hi' ? 1 : 0];
+  const s = document.createElement('p'); s.className = 'src'; const sb = document.createElement('b'); sb.textContent = T('Source', 'स्रोत'); s.append(sb, document.createTextNode(c.src[LANG === 'hi' ? 1 : 0]));
+  const t = document.createElement('p'); t.className = 'think'; t.textContent = T('Think: ', 'सोचिए: ') + c.think[LANG === 'hi' ? 1 : 0];
+  const a = document.createElement('div'); a.className = 'acts';
+  const close = document.createElement('button'); close.className = 'btn dark'; close.textContent = T('Back to the city', 'शहर में लौटें'); close.onclick = () => { card.hidden = true; };
+  a.append(close); card.append(k, h, p, s, t, a); card.hidden = false;
+  if (found.size === CLUES.length) setTimeout(() => close.textContent = T('See your verdict', 'अपना निष्कर्ष देखें'), 0), close.onclick = verdict;
+}
+function updateCount(){ $('count').textContent = found.size + ' / ' + CLUES.length + ' ' + T('clues', 'सुराग'); }
+function showList(){
+  card.textContent = '';
+  const h = document.createElement('h2'); h.textContent = T('Your investigation', 'आपकी जाँच');
+  const p = document.createElement('p'); p.textContent = T('Find all 8 clues in the city. Tap one to walk straight to it.', 'शहर में सभी 8 सुराग खोजिए। किसी पर टैप करें तो सीधे वहाँ पहुँचेंगे।');
+  const ul = document.createElement('ul'); ul.className = 'list';
+  CLUES.forEach((c, i) => { const li = document.createElement('li'); const b = document.createElement('button'); b.textContent = (i + 1) + '. ' + T(c.en, c.hi); if (found.has(c.id)) b.className = 'found';
+    b.onclick = () => { const o = c.id === 'hall' ? [-6, 10] : [4, 4]; P.x = c.pos[0] + o[0]; P.z = c.pos[2] + o[1]; P.yaw = Math.atan2(o[0], o[1]); P.pitch = -0.12; card.hidden = true; }; li.append(b); ul.append(li); });
+  const a = document.createElement('div'); a.className = 'acts'; const close = document.createElement('button'); close.className = 'btn dark'; close.textContent = T('Close', 'बंद करें'); close.onclick = () => { card.hidden = true; }; a.append(close);
+  card.append(h, p, ul, a); card.hidden = false;
+}
+function verdict(){
+  card.textContent = '';
+  const h = document.createElement('h2'); h.textContent = T('Your verdict', 'आपका निष्कर्ष');
+  const items = [
+    ['Text and spade: list one thing Megasthenes wrote that excavation has confirmed, and one that is still only his word.', 'लेख और खुदाई: मेगस्थनीज़ की लिखी एक बात बताइए जिसे खुदाई ने पक्का किया, और एक जो अभी केवल उसकी बात है।'],
+    ['Daily life: from the drain, the wheel and the smiling boy, describe one street in the capital.', 'रोज़मर्रा का जीवन: नाली, पहिए और मुस्कुराते बालक से राजधानी की एक गली का वर्णन कीजिए।'],
+    ['Your city: Bulandi Bagh and Kumhrar are in Patna today. What would you ask an archaeologist digging there now?', 'आपका शहर: बुलंदी बाग़ और कुम्हरार आज पटना में हैं। वहाँ अभी खुदाई करने वाले पुरातत्वविद से आप क्या पूछेंगे?']
+  ];
+  const ol = document.createElement('ol'); items.forEach(it => { const li = document.createElement('li'); li.textContent = it[LANG === 'hi' ? 1 : 0]; li.style.marginBottom = '6px'; ol.append(li); });
+  const n = document.createElement('p'); n.className = 'src'; const b = document.createElement('b'); b.textContent = T('About this model', 'इस मॉडल के बारे में'); n.append(b, document.createTextNode(T('The palisade, the drain and the pillared hall follow published measurements. The city here is a short stretch of a city kilometres long; the moat is drawn far narrower than described; houses, streets and the market are imagined.', 'लकड़ी की दीवार, नाली और स्तंभों वाला सभागार प्रकाशित माप पर आधारित हैं। यहाँ कई किलोमीटर लंबे शहर का छोटा हिस्सा दिखाया गया है; खाई वर्णन से बहुत पतली है; घर, सड़कें और बाज़ार काल्पनिक हैं।')));
+  const a = document.createElement('div'); a.className = 'acts'; const close = document.createElement('button'); close.className = 'btn dark'; close.textContent = T('Close', 'बंद करें'); close.onclick = () => { card.hidden = true; }; a.append(close);
+  card.append(h, ol, n, a); card.hidden = false;
+}
+$('clues').onclick = showList;
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-en]').forEach(el => el.textContent = el.getAttribute(LANG === 'hi' ? 'data-hi' : 'data-en'));
+  $('lang').textContent = LANG === 'hi' ? 'English' : 'हिंदी'; $('clues').textContent = T('Clues', 'सुराग'); updateCount();
+  if (!card.hidden) card.hidden = true;
+}
+$('lang').onclick = () => { LANG = LANG === 'hi' ? 'en' : 'hi'; try { localStorage.setItem('ptl-lang', LANG); } catch (e) {} applyLang(); };
+
+// ---------- mini-map ----------
+const mc = $('map').getContext('2d');
+function drawMap(){
+  const Wd = 264, s = Wd/200, X = x => (x + 100)*s, Z = z => (z + 110)*s;
+  mc.fillStyle = '#fbf6ec'; mc.fillRect(0, 0, Wd, Wd);
+  mapLayer(mc, X, Z, s);
+  markers.forEach(m => { mc.fillStyle = found.has(m.c.id) ? '#2f6f73' : '#b5653a'; mc.beginPath(); mc.arc(X(m.c.pos[0]), Z(m.c.pos[2]), 5, 0, 7); mc.fill(); });
+  mc.save(); mc.translate(X(P.x), Z(P.z)); mc.rotate(-P.yaw); mc.fillStyle = '#2a1d14'; mc.beginPath(); mc.moveTo(0, -11); mc.lineTo(7, 7); mc.lineTo(-7, 7); mc.closePath(); mc.fill(); mc.restore();
+  mc.fillStyle = '#6b5644'; mc.font = '18px IBM Plex Mono, monospace'; mc.fillText('N', Wd/2 - 6, 20);
+}
+
+// ---------- loop ----------
+function size(){ const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix(); }
+addEventListener('resize', size); size();
+let lastT = performance.now(), eye = 1.6;
+function frame(now){
+  const dt = Math.max(0, Math.min(0.05, (now - lastT)/1000)); lastT = now;
+  let f = 0, s = 0;
+  if (keys['w'] || keys['arrowup']) f += 1; if (keys['s'] || keys['arrowdown']) f -= 1;
+  if (keys['a']) s -= 1; if (keys['d']) s += 1;
+  if (keys['arrowleft']) P.yaw += dt*1.8; if (keys['arrowright']) P.yaw -= dt*1.8;
+  f += -joy.y; s += joy.x;
+  if (Math.abs(joy.x) > 0.6) P.yaw -= joy.x*dt*0.9;
+  const sp = 5.5*dt, fx = -Math.sin(P.yaw), fz = -Math.cos(P.yaw), rx = Math.cos(P.yaw), rz = -Math.sin(P.yaw);
+  const nx = P.x + (fx*f + rx*s)*sp, nz = P.z + (fz*f + rz*s)*sp;
+  const cur = heightAt(P.x, P.z), nh = heightAt(nx, nz);
+  if (!blocked(nx, P.z) && Math.abs(heightAt(nx, P.z) - cur) < 1.5) P.x = nx;
+  if (!blocked(P.x, nz) && Math.abs(heightAt(P.x, nz) - cur) < 1.5) P.z = nz;
+  eye += (heightAt(P.x, P.z) + 1.6 - eye)*Math.min(1, dt*8);
+  camera.position.set(P.x, eye, P.z);
+  camera.rotation.order = 'YXZ'; camera.rotation.set(P.pitch, P.yaw, 0);
+  const tt = now/1000;
+  markers.forEach((m, i) => { m.beacon.rotation.y = tt*1.5 + i; m.beacon.position.y = m.c.pos[1] + 2.6 + Math.sin(tt*2 + i)*0.15; m.ring.scale.setScalar(1 + 0.12*Math.sin(tt*3 + i));
+    const done = found.has(m.c.id); m.beacon.material.color.setHex(done ? 0x2f6f73 : 0x2f9fa8); });
+  renderer.render(scene, camera); drawMap(); requestAnimationFrame(frame);
+}
+applyLang(); requestAnimationFrame(frame);
+})();
+</script>
