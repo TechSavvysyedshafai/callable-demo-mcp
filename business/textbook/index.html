@@ -1,0 +1,372 @@
+<title>Physics in 3D</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lab notebook on drafting paper. Contents page lists chapters; a chapter page puts text beside a live 3D bench. */
+:root{
+  --paper:#f7f8f5; --grid:#e3e7e4; --ink:#1c1d1f; --ink2:#55585c; --red:#c8371f; --blue:#2f6fb5; --card:#ffffff; --soft:#eef1ee;
+  --display:"Instrument Serif", Georgia, serif; --body:"Inter", "Noto Sans Devanagari", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#15171a;--grid:#23272b;--ink:#eceee9;--ink2:#a3a8ac;--red:#ff7a5c;--blue:#7fb0ea;--card:#1d2024;--soft:#22262a;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15171a;--grid:#23272b;--ink:#eceee9;--ink2:#a3a8ac;--red:#ff7a5c;--blue:#7fb0ea;--card:#1d2024;--soft:#22262a;color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.wrap{max-width:1180px;margin:0 auto;padding-block:22px 48px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.brand{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);text-decoration:none}
+.brand b{color:var(--ink)}
+.lang{display:flex;border:1.5px solid var(--ink)}
+.lang button{font-family:var(--mono);font-size:12px;padding:6px 10px;border:0;background:var(--card);color:var(--ink);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,72px);line-height:1;margin:28px 0 8px;text-wrap:balance}
+h1 em{color:var(--red)}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,4vw,38px);line-height:1.1;margin:0 0 6px;text-wrap:balance}
+h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);margin:0 0 6px;font-weight:500}
+.lede{max-width:62ch;color:var(--ink2);margin:0}
+.toc{list-style:none;padding:0;margin:26px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.toc a,.toc .soon{display:grid;grid-template-columns:44px 1fr;gap:4px 10px;padding:14px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);text-decoration:none;min-height:100%}
+.toc .soon{border-style:dashed;color:var(--ink2);background:transparent}
+.toc .n{font-family:var(--display);font-size:38px;line-height:.9;color:var(--red);grid-row:span 3}
+.toc .soon .n{color:var(--ink2)}
+.toc .t{font-weight:600;line-height:1.3}
+.toc .s{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.toc a .s{color:var(--blue)}
+.toc .d{font-size:14px;color:var(--ink2);line-height:1.4}
+.toc a:hover{border-color:var(--red)}
+.note{font-family:var(--mono);font-size:12px;color:var(--ink2);margin-top:22px}
+/* chapter */
+.chap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:22px;margin-top:20px;align-items:start}
+@media (max-width:900px){.chap{grid-template-columns:minmax(0,1fr)}.bench{order:-1}}
+.text p{margin:0 0 12px;max-width:62ch}
+.box{border:1.5px solid var(--ink);background:var(--card);padding:14px 16px;margin:14px 0}
+.formula{font-family:var(--mono);font-size:14.5px;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+.formula span:nth-child(odd){color:var(--ink2)}
+.bench{position:sticky;top:12px;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border:1.5px solid var(--ink);background:var(--soft);height:420px}
+@media (max-width:900px){.bench{position:static}.stage{height:330px}}
+.stage canvas{display:block;width:100%;height:100%}
+.hud{position:absolute;left:8px;top:8px;font-family:var(--mono);font-size:12px;background:color-mix(in srgb,var(--card) 88%,transparent);border:1px solid var(--ink);padding:6px 8px;font-variant-numeric:tabular-nums;line-height:1.5}
+.hud .vx{color:var(--blue)} .hud .vy{color:var(--red)}
+.hint{position:absolute;right:8px;bottom:6px;font-family:var(--mono);font-size:11px;color:var(--ink2)}
+.ctrl{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;font-family:var(--mono);font-size:13px}
+.ctrl input[type=range]{width:100%;accent-color:var(--red)}
+.ctrl output{font-variant-numeric:tabular-nums;min-width:62px;text-align:right}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:13px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);padding:8px 12px;cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--ink);padding:5px 8px;text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:500;color:var(--ink2);background:var(--soft)}
+.ok{color:var(--blue)}
+.quiz{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
+.quiz .q{font-weight:600;margin-bottom:6px}
+.quiz .opts{display:flex;gap:8px;flex-wrap:wrap}
+.quiz .fb{font-size:14px;margin-top:6px;min-height:1.2em}
+.quiz .right{border-color:var(--blue);background:var(--blue);color:#fff}
+.quiz .wrong{border-color:var(--red);color:var(--red)}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;border-top:1.5px solid var(--ink);padding-top:12px;flex-wrap:wrap}
+.nav a{font-family:var(--mono);font-size:13px;color:var(--ink)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+
+<div class="wrap">
+  <div class="topbar">
+    <a class="brand" href="#contents"><b>Physics in 3D</b> · Class 11 · <span data-en="Interactive textbook" data-hi="इंटरैक्टिव पाठ्यपुस्तक">Interactive textbook</span></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="lang-en" aria-pressed="true">English</button>
+      <button id="lang-hi" aria-pressed="false">हिंदी</button>
+    </div>
+  </div>
+
+  <!-- CONTENTS -->
+  <section id="view-contents">
+    <h1 data-en="Physics you can &lt;em&gt;touch&lt;/em&gt;" data-hi="भौतिकी, जिसे आप &lt;em&gt;छूकर&lt;/em&gt; समझें" data-html="1">Physics you can <em>touch</em></h1>
+    <p class="lede" data-en="Each chapter has a short explanation, a live 3D experiment you control, and a quick quiz. Change the numbers, watch the physics respond, and check it against the formula." data-hi="हर अध्याय में छोटी व्याख्या, एक 3D प्रयोग जिसे आप खुद चलाएँ, और एक छोटा क्विज़ है। संख्याएँ बदलिए, भौतिकी को बदलते देखिए, और सूत्र से मिलाइए।">Each chapter has a short explanation, a live 3D experiment you control, and a quick quiz. Change the numbers, watch the physics respond, and check it against the formula.</p>
+    <ul class="toc" id="toc"></ul>
+    <p class="note" data-en="NCERT Class 11 order. More chapters are added one at a time." data-hi="NCERT कक्षा 11 के क्रम में। नए अध्याय एक-एक करके जोड़े जा रहे हैं।">NCERT Class 11 order. More chapters are added one at a time.</p>
+  </section>
+
+  <!-- CHAPTER: PROJECTILE MOTION -->
+  <section id="view-projectile" hidden>
+    <h1 style="font-size:clamp(34px,5.5vw,58px)"><span data-en="Projectile motion" data-hi="प्रक्षेप्य गति">Projectile motion</span></h1>
+    <p class="lede" data-en="NCERT chapter: Motion in a plane. Air resistance is ignored, as in NCERT; g = 9.8 m/s²." data-hi="NCERT अध्याय: समतल में गति। NCERT की तरह हवा का प्रतिरोध नहीं लिया गया है; g = 9.8 m/s²।">NCERT chapter: Motion in a plane. Air resistance is ignored, as in NCERT; g = 9.8 m/s².</p>
+    <div class="chap">
+      <div class="text">
+        <p data-en="A projectile is anything thrown into the air that then moves only under gravity: a cricket ball, a stone, water from a hose." data-hi="प्रक्षेप्य वह वस्तु है जिसे हवा में फेंका जाए और फिर वह केवल गुरुत्व के कारण चले: क्रिकेट की गेंद, पत्थर, पाइप से निकलता पानी।">A projectile is anything thrown into the air that then moves only under gravity: a cricket ball, a stone, water from a hose.</p>
+        <p data-en="The trick is to split the motion in two. Sideways (horizontal), nothing pushes it, so its horizontal speed never changes. Up and down (vertical), gravity pulls it, so its vertical speed falls by 9.8 m/s every second, reaches zero at the top, then grows downwards." data-hi="तरकीब है गति को दो भागों में बाँटना। क्षैतिज दिशा में कोई बल नहीं, इसलिए क्षैतिज वेग कभी नहीं बदलता। ऊर्ध्वाधर दिशा में गुरुत्व खींचता है, इसलिए ऊर्ध्वाधर वेग हर सेकंड 9.8 m/s घटता है, शिखर पर शून्य होता है, फिर नीचे की ओर बढ़ता है।">The trick is to split the motion in two. Sideways (horizontal), nothing pushes it, so its horizontal speed never changes. Up and down (vertical), gravity pulls it, so its vertical speed falls by 9.8 m/s every second, reaches zero at the top, then grows downwards.</p>
+        <div class="box">
+          <h3 data-en="Formulas (launch speed u, angle θ)" data-hi="सूत्र (प्रक्षेप वेग u, कोण θ)">Formulas (launch speed u, angle θ)</h3>
+          <div class="formula">
+            <span data-en="Time of flight" data-hi="उड़ान का समय">Time of flight</span><span>T = 2u sinθ / g</span>
+            <span data-en="Maximum height" data-hi="अधिकतम ऊँचाई">Maximum height</span><span>H = u² sin²θ / 2g</span>
+            <span data-en="Range" data-hi="परास">Range</span><span>R = u² sin2θ / g</span>
+          </div>
+        </div>
+        <div class="box">
+          <h3 data-en="Try this" data-hi="ऐसा करके देखिए">Try this</h3>
+          <p data-en="1. Turn on the velocity arrows and launch. Watch the blue arrow: it stays the same length the whole flight. The red arrow shrinks to nothing at the top, then grows pointing down." data-hi="1. वेग तीर चालू करके फेंकिए। नीले तीर को देखिए: पूरी उड़ान में उसकी लंबाई नहीं बदलती। लाल तीर शिखर पर शून्य हो जाता है, फिर नीचे की ओर बढ़ता है।">1. Turn on the velocity arrows and launch. Watch the blue arrow: it stays the same length the whole flight. The red arrow shrinks to nothing at the top, then grows pointing down.</p>
+          <p data-en="2. Press “30° and 60°”. Two very different paths land in exactly the same place. Angles that add up to 90° always give the same range, because sin 2θ is the same for both." data-hi="2. “30° और 60°” दबाइए। दो अलग-अलग रास्ते ठीक एक ही जगह गिरते हैं। जिन कोणों का योग 90° हो, उनका परास हमेशा बराबर होता है, क्योंकि दोनों के लिए sin 2θ बराबर है।">2. Press “30° and 60°”. Two very different paths land in exactly the same place. Angles that add up to 90° always give the same range, because sin 2θ is the same for both.</p>
+          <p style="margin:0" data-en="3. Keep the speed fixed and try 40°, 45° and 50°. Which goes furthest?" data-hi="3. वेग वही रखकर 40°, 45° और 50° आज़माइए। कौन सबसे दूर जाता है?">3. Keep the speed fixed and try 40°, 45° and 50°. Which goes furthest?</p>
+        </div>
+        <div class="box">
+          <h3 data-en="Quick quiz" data-hi="छोटा क्विज़">Quick quiz</h3>
+          <ol class="quiz" id="quiz"></ol>
+        </div>
+      </div>
+
+      <div class="bench">
+        <div class="stage" id="stage">
+          <canvas id="view" aria-label="3D launcher and projectile path. Drag to turn the view."></canvas>
+          <div class="hud" id="hud"></div>
+          <div class="hint" data-en="drag to turn the view" data-hi="दृश्य घुमाने के लिए खींचें">drag to turn the view</div>
+        </div>
+        <div class="ctrl">
+          <label for="ang" data-en="Angle θ" data-hi="कोण θ">Angle θ</label><input id="ang" type="range" min="5" max="85" step="1" value="45"><output id="angv">45°</output>
+          <label for="spd" data-en="Speed u" data-hi="वेग u">Speed u</label><input id="spd" type="range" min="5" max="30" step="0.5" value="20"><output id="spdv">20 m/s</output>
+        </div>
+        <div class="row">
+          <button class="btn primary" id="launch" data-en="Launch" data-hi="फेंकें">Launch</button>
+          <button class="btn" id="pair" data-en="30° and 60°" data-hi="30° और 60°">30° and 60°</button>
+          <button class="btn" id="arrows" aria-pressed="false" data-en="Velocity arrows" data-hi="वेग तीर">Velocity arrows</button>
+          <button class="btn" id="slow" aria-pressed="true" data-en="Slow motion" data-hi="धीमी गति">Slow motion</button>
+          <button class="btn" id="clear" data-en="Clear paths" data-hi="रास्ते मिटाएँ">Clear paths</button>
+        </div>
+        <table aria-label="Formula versus simulation">
+          <thead><tr><th></th><th data-en="Formula" data-hi="सूत्र से">Formula</th><th data-en="Simulation" data-hi="सिमुलेशन से">Simulation</th></tr></thead>
+          <tbody>
+            <tr><td data-en="Range R" data-hi="परास R">Range R</td><td id="pR">–</td><td id="mR">–</td></tr>
+            <tr><td data-en="Max height H" data-hi="अधिकतम ऊँचाई H">Max height H</td><td id="pH">–</td><td id="mH">–</td></tr>
+            <tr><td data-en="Flight time T" data-hi="उड़ान समय T">Flight time T</td><td id="pT">–</td><td id="mT">–</td></tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin:0" data-en="The simulation steps the motion forward 1 millisecond at a time using only gravity, without using the formulas. The two columns agree to within a few centimetres." data-hi="सिमुलेशन सूत्रों के बिना, केवल गुरुत्व से गति को 1 मिलीसेकंड के कदमों में आगे बढ़ाता है। दोनों कॉलम कुछ सेंटीमीटर तक मिलते हैं।">The simulation steps the motion forward 1 millisecond at a time using only gravity, without using the formulas. The two columns agree to within a few centimetres.</p>
+      </div>
+    </div>
+    <div class="nav"><a href="#contents" data-en="← Contents" data-hi="← विषय-सूची">← Contents</a><span class="note" style="margin:0" data-en="Next: Laws of motion (coming soon)" data-hi="अगला: गति के नियम (जल्द)">Next: Laws of motion (coming soon)</span></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+
+// ---------- chapters ----------
+const CH = [
+  {n:1, en:'Units and measurement', hi:'मात्रक और मापन', s:'soon'},
+  {n:2, en:'Motion in a straight line', hi:'सरल रेखा में गति', s:'soon'},
+  {n:3, en:'Projectile motion', hi:'प्रक्षेप्य गति', s:'live', href:'#projectile', den:'Aim, launch and check the formulas in 3D.', dhi:'निशाना लगाइए, फेंकिए और 3D में सूत्र जाँचिए।', tag:'Motion in a plane'},
+  {n:4, en:'Laws of motion', hi:'गति के नियम', s:'soon'},
+  {n:5, en:'Work, energy and power', hi:'कार्य, ऊर्जा और शक्ति', s:'soon'},
+  {n:6, en:'Gravitation and orbits', hi:'गुरुत्वाकर्षण और कक्षाएँ', s:'soon'},
+  {n:7, en:'Fluids: why an F1 car sticks to the road', hi:'तरल: F1 कार सड़क से क्यों चिपकती है', s:'ext', href:'https://claude.ai/artifact/1Dzqmqu2Gi4pDgyc2hu6kE', den:'Bernoulli, pressure and drag on a real race car.', dhi:'असली रेस कार पर बर्नूली, दाब और कर्षण।', tag:'Mechanical properties of fluids'},
+  {n:8, en:'Thermodynamics: the car engine', hi:'ऊष्मागतिकी: कार का इंजन', s:'ext', href:'https://claude.ai/artifact/TF4Urqhq3p8JAwCsqVm3kR', den:'The four-stroke cycle as a working heat engine.', dhi:'चार-स्ट्रोक चक्र, एक चलता हुआ ऊष्मा इंजन।', tag:'Thermodynamics'},
+  {n:9, en:'Oscillations: pendulum and spring', hi:'दोलन: लोलक और स्प्रिंग', s:'soon'},
+  {n:10, en:'Waves and sound', hi:'तरंगें और ध्वनि', s:'soon'}
+];
+let LANG = 'en';
+try { const l = localStorage.getItem('p3d-lang'); if (l === 'hi' || l === 'en') LANG = l; } catch (e) {}
+function renderTOC(){
+  const ul = $('toc'); ul.textContent = '';
+  CH.forEach(c => {
+    const li = document.createElement('li');
+    const el = document.createElement(c.s === 'soon' ? 'div' : 'a');
+    el.className = c.s === 'soon' ? 'soon' : '';
+    if (c.href){ el.href = c.href; if (c.s === 'ext'){ el.target = '_blank'; el.rel = 'noopener'; } }
+    const n = document.createElement('span'); n.className = 'n'; n.textContent = c.n;
+    const t = document.createElement('span'); t.className = 't'; t.textContent = LANG === 'hi' ? c.hi : c.en;
+    const s = document.createElement('span'); s.className = 's';
+    s.textContent = c.s === 'live' ? (LANG === 'hi' ? 'खोलें · 3D प्रयोग' : 'Open · 3D experiment') : c.s === 'ext' ? (LANG === 'hi' ? 'खोलें · 3D व्याख्या ↗' : 'Open · 3D explainer ↗') : (LANG === 'hi' ? 'जल्द आ रहा है' : 'Coming soon');
+    el.append(n, t, s);
+    if (c.den){ const d = document.createElement('span'); d.className = 'd'; d.textContent = LANG === 'hi' ? c.dhi : c.den; el.append(d); }
+    li.append(el); ul.append(li);
+  });
+}
+function applyLang(){
+  document.documentElement.lang = LANG === 'hi' ? 'hi' : 'en';
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const v = el.getAttribute(LANG === 'hi' ? 'data-hi' : 'data-en');
+    if (el.dataset.html) el.innerHTML = v; else el.textContent = v;
+  });
+  $('lang-en').setAttribute('aria-pressed', String(LANG === 'en')); $('lang-hi').setAttribute('aria-pressed', String(LANG === 'hi'));
+  renderTOC(); renderQuiz(); updateHud(); fillTable();
+}
+$('lang-en').onclick = () => { LANG = 'en'; try { localStorage.setItem('p3d-lang', 'en'); } catch (e) {} applyLang(); };
+$('lang-hi').onclick = () => { LANG = 'hi'; try { localStorage.setItem('p3d-lang', 'hi'); } catch (e) {} applyLang(); };
+
+// ---------- router ----------
+function route(){
+  const v = location.hash === '#projectile' ? 'projectile' : 'contents';
+  $('view-contents').hidden = v !== 'contents'; $('view-projectile').hidden = v !== 'projectile';
+  if (v === 'projectile'){ sim.start(); window.scrollTo(0, 0); } else sim.stop();
+}
+window.addEventListener('hashchange', route);
+
+// ---------- quiz ----------
+const QUIZ = [
+  {en:'At the very top of its path, the vertical velocity of a projectile is…', hi:'अपने रास्ते के सबसे ऊँचे बिंदु पर प्रक्षेप्य का ऊर्ध्वाधर वेग होता है…',
+   o:[['zero','शून्य'],['maximum','अधिकतम'],['equal to u','u के बराबर']], a:0,
+   yes:['Right. Only the horizontal velocity is left at the top.','सही। शिखर पर केवल क्षैतिज वेग बचता है।'], no:['Not quite. Watch the red arrow at the top of the path: it disappears.','पूरा सही नहीं। शिखर पर लाल तीर देखिए: वह गायब हो जाता है।']},
+  {en:'For a fixed launch speed, which angle gives the longest range?', hi:'एक ही प्रक्षेप वेग पर कौन-सा कोण सबसे अधिक परास देता है?',
+   o:[['30°','30°'],['45°','45°'],['60°','60°']], a:1,
+   yes:['Right. sin 2θ is largest (equal to 1) when θ = 45°.','सही। θ = 45° पर sin 2θ सबसे बड़ा (1) होता है।'], no:['Try it on the bench: launch at 30°, 45° and 60° with the same speed.','बेंच पर आज़माइए: एक ही वेग से 30°, 45° और 60° पर फेंकिए।']},
+  {en:'A ball is thrown at 30° and another at 60°, at the same speed. Their ranges are…', hi:'एक गेंद 30° पर और दूसरी 60° पर, एक ही वेग से फेंकी गई। उनके परास…',
+   o:[['equal','बराबर'],['larger at 30°','30° पर अधिक'],['larger at 60°','60° पर अधिक']], a:0,
+   yes:['Right. sin 60° = sin 120°, so the ranges match. The 60° ball just flies higher and longer.','सही। sin 60° = sin 120°, इसलिए परास बराबर हैं। 60° वाली गेंद बस ऊँची और देर तक उड़ती है।'], no:['Press “30° and 60°” and see where both land.','“30° और 60°” दबाइए और देखिए दोनों कहाँ गिरती हैं।']}
+];
+const answers = {};
+function renderQuiz(){
+  const ol = $('quiz'); ol.textContent = '';
+  QUIZ.forEach((q, i) => {
+    const li = document.createElement('li');
+    const p = document.createElement('div'); p.className = 'q'; p.textContent = (i + 1) + '. ' + (LANG === 'hi' ? q.hi : q.en);
+    const opts = document.createElement('div'); opts.className = 'opts';
+    const fb = document.createElement('div'); fb.className = 'fb';
+    q.o.forEach((o, j) => {
+      const b = document.createElement('button'); b.className = 'btn'; b.type = 'button'; b.textContent = LANG === 'hi' ? o[1] : o[0];
+      if (answers[i] !== undefined && answers[i] === j) b.classList.add(j === q.a ? 'right' : 'wrong');
+      b.onclick = () => { answers[i] = j; renderQuiz(); };
+      opts.append(b);
+    });
+    if (answers[i] !== undefined) fb.textContent = (answers[i] === q.a ? q.yes : q.no)[LANG === 'hi' ? 1 : 0];
+    li.append(p, opts, fb); ol.append(li);
+  });
+}
+
+// ---------- physics ----------
+const G = 9.8, D2R = Math.PI / 180;
+const predict = (u, th) => ({R: u*u*Math.sin(2*th*D2R)/G, H: Math.pow(u*Math.sin(th*D2R), 2)/(2*G), T: 2*u*Math.sin(th*D2R)/G});
+// independent check: step the motion 1 ms at a time with gravity only (semi-implicit Euler), land by interpolation
+function simulate(u, th){
+  let x = 0, y = 0, vx = u*Math.cos(th*D2R), vy = u*Math.sin(th*D2R), t = 0, H = 0; const dt = 0.001, pts = [[0, 0, 0]];
+  while (true){
+    const px = x, py = y, pt = t;
+    vy -= G*dt; x += vx*dt; y += vy*dt; t += dt; H = Math.max(H, y);
+    if (y < 0){ const f = py/(py - y); x = px + (x - px)*f; t = pt + dt*f; pts.push([t, x, 0]); break; }
+    if (Math.round(t*1000) % 10 === 0) pts.push([t, x, y]);
+  }
+  return {R: x, H, T: t, pts, vx, u, th};
+}
+let last = null;
+const f2 = v => v.toFixed(2);
+function fillTable(){
+  const u = +$('spd').value, th = +$('ang').value, p = predict(u, th);
+  $('pR').textContent = f2(p.R) + ' m'; $('pH').textContent = f2(p.H) + ' m'; $('pT').textContent = f2(p.T) + ' s';
+  const same = last && last.u === u && last.th === th;
+  $('mR').textContent = same ? f2(last.R) + ' m' : '–'; $('mH').textContent = same ? f2(last.H) + ' m' : '–'; $('mT').textContent = same ? f2(last.T) + ' s' : '–';
+  ['mR','mH','mT'].forEach(id => $(id).className = same ? 'ok' : '');
+}
+
+// ---------- 3D bench ----------
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const sim = (function(){
+  const canvas = $('view'), stage = $('stage');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(35, 1, 0.1, 2000);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.75)); const dl = new THREE.DirectionalLight(0xffffff, 0.6); dl.position.set(-30, 60, 40); scene.add(dl);
+  const grad = new THREE.DataTexture(new Uint8Array([150,150,150,255, 205,205,205,255, 255,255,255,255]), 3, 1, THREE.RGBAFormat); grad.minFilter = grad.magFilter = THREE.NearestFilter; grad.needsUpdate = true;
+  const toon = c => new THREE.MeshToonMaterial({color:c, gradientMap:grad});
+  const INK = new THREE.LineBasicMaterial({color:0x1c1d1f});
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(240, 60), toon(0xd9e3d4)); ground.rotation.x = -Math.PI/2; ground.position.set(100, -0.01, 0); scene.add(ground);
+  const grid = new THREE.GridHelper(240, 48, 0x9aa59a, 0xc3ccc3); grid.position.set(100, 0, 0); grid.scale.z = 0.25; scene.add(grid);
+  // distance labels every 10 m
+  function label(text, color){ const c = document.createElement('canvas'); c.width = 256; c.height = 64; const x = c.getContext('2d'); x.font = '500 34px IBM Plex Mono, monospace'; x.fillStyle = color; x.textAlign = 'center'; x.fillText(text, 128, 44);
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c), depthTest:false, transparent:true})); s.scale.set(6, 1.5, 1); s.renderOrder = 5; return s; }
+  for (let m = 10; m <= 100; m += 10){ const s = label(m + ' m', '#55585c'); s.position.set(m, 0.8, 4); scene.add(s); const t = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.05, 2), toon(0x55585c)); t.position.set(m, 0.02, 0); scene.add(t); }
+  // launcher
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.6, 1.0, 24), toon(0x6d6f72)); base.position.y = 0.5; scene.add(base);
+  base.add(new THREE.LineSegments(new THREE.EdgesGeometry(base.geometry, 30), INK));
+  const pivot = new THREE.Group(); pivot.position.y = 1.0; scene.add(pivot);
+  const barrelGeo = new THREE.CylinderGeometry(0.45, 0.55, 3.2, 20); barrelGeo.rotateZ(-Math.PI/2); barrelGeo.translate(1.6, 0, 0);
+  const barrel = new THREE.Mesh(barrelGeo, toon(0xc8371f)); pivot.add(barrel); barrel.add(new THREE.LineSegments(new THREE.EdgesGeometry(barrelGeo, 30), INK));
+  const ball = new THREE.Mesh(new THREE.SphereGeometry(0.55, 24, 16), toon(0x2f6fb5)); scene.add(ball);
+  const ballOutline = new THREE.Mesh(new THREE.SphereGeometry(0.62, 16, 12), new THREE.MeshBasicMaterial({color:0x1c1d1f, side:THREE.BackSide})); ball.add(ballOutline);
+  const arrowX = new THREE.ArrowHelper(new THREE.Vector3(1,0,0), new THREE.Vector3(), 1, 0x2f6fb5, 1.2, 0.8);
+  const arrowY = new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(), 1, 0xc8371f, 1.2, 0.8);
+  scene.add(arrowX, arrowY);
+  // paths kept: newest strong, older faded
+  const paths = [];
+  const PATH_COL = [0x1c1d1f, 0x2f6fb5, 0x8a8d90];
+  let flight = null, slow = true, showArrows = false, running = false, queue = [];
+  const markers = new THREE.Group(); scene.add(markers);
+  const orbit = {az: -0.3, el: 0.3}; let target = new THREE.Vector3(20, 6, 0), dist = 70, fitTo = {x:20, y:6, d:70};
+  function fit(R, H){ fitTo = {x: Math.max(8, R/2), y: Math.max(3, H/2), d: Math.max(24, Math.max(R, H*2.2)*0.95 + 8)}; }
+  function placeCam(){ const c = Math.cos(orbit.el); camera.position.set(target.x + dist*c*Math.sin(orbit.az), target.y + dist*Math.sin(orbit.el), target.z + dist*c*Math.cos(orbit.az)); camera.lookAt(target); }
+  function size(){ const r = stage.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width/Math.max(1, r.height); camera.updateProjectionMatrix(); }
+  window.addEventListener('resize', size);
+  let drag = null;
+  canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); drag = {x:e.clientX, y:e.clientY, az:orbit.az, el:orbit.el}; });
+  canvas.addEventListener('pointermove', e => { if (!drag) return; orbit.az = drag.az - (e.clientX - drag.x)*0.006; orbit.el = Math.min(1.3, Math.max(0.02, drag.el + (e.clientY - drag.y)*0.005)); });
+  ['pointerup','pointercancel'].forEach(t => canvas.addEventListener(t, () => drag = null));
+  function aim(th){ pivot.rotation.z = th*D2R; if (!flight){ const m = muzzle(th); ball.position.set(m.x, m.y, 0); } }
+  function muzzle(th){ return {x: 3.2*Math.cos(th*D2R), y: 1.0 + 3.2*Math.sin(th*D2R)}; }
+  function launch(u, th){
+    const res = simulate(u, th); last = res; fillTable(); fit(res.R, res.H);
+    const g = new THREE.BufferGeometry(); const pos = new Float32Array(res.pts.length*3); g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setDrawRange(0, 0);
+    const line = new THREE.Line(g, new THREE.LineBasicMaterial({color:PATH_COL[0]}));
+    line.position.y = 1.0; scene.add(line); paths.unshift({line, res});
+    while (paths.length > 3){ const p = paths.pop(); scene.remove(p.line); p.line.geometry.dispose(); }
+    paths.forEach((p, i) => p.line.material.color.setHex(PATH_COL[i]));
+    res.pts.forEach((p, i) => { pos[i*3] = p[1]; pos[i*3+1] = p[2]; pos[i*3+2] = 0; }); g.attributes.position.needsUpdate = true;
+    flight = {res, t:0, line, idx:0};
+    markers.clear();
+  }
+  function finishMarkers(res){
+    const R = new THREE.Mesh(new THREE.ConeGeometry(0.5, 1.6, 12), toon(0xc8371f)); R.position.set(res.R, 0.8, 0); markers.add(R);
+    const rl = label('R = ' + res.R.toFixed(1) + ' m', css('--red') || '#c8371f'); rl.position.set(res.R, 3.0, 0); markers.add(rl);
+    const xm = res.R/2, hl = label('H = ' + res.H.toFixed(1) + ' m', css('--blue') || '#2f6fb5'); hl.position.set(xm, res.H + 1.0 + 2.2, 0); markers.add(hl);
+    const dash = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(xm, 0, 0), new THREE.Vector3(xm, res.H + 1.0, 0)]), new THREE.LineDashedMaterial({color:0x2f6fb5, dashSize:0.6, gapSize:0.4})); dash.computeLineDistances(); markers.add(dash);
+  }
+  let lastT = performance.now();
+  function frame(now){
+    if (!running) return;
+    const dt = Math.max(0, Math.min(0.05, (now - lastT)/1000)); lastT = now;
+    target.x += (fitTo.x - target.x)*Math.min(1, dt*2); target.y += (fitTo.y - target.y)*Math.min(1, dt*2); dist += (fitTo.d - dist)*Math.min(1, dt*2);
+    if (flight){
+      const r = flight.res; flight.t += dt*(slow ? 0.4 : 1);
+      const t = Math.min(flight.t, r.T), vy = r.u*Math.sin(r.th*D2R) - G*t;
+      const x = r.vx*t, y = Math.max(0, r.u*Math.sin(r.th*D2R)*t - 0.5*G*t*t);
+      ball.position.set(x, y + 1.0, 0);
+      let n = 0; while (n < r.pts.length && r.pts[n][0] <= t) n++; flight.line.geometry.setDrawRange(0, n);
+      arrowX.visible = arrowY.visible = showArrows;
+      if (showArrows){ arrowX.position.copy(ball.position); arrowX.setLength(Math.max(0.01, r.vx*0.5), 1.0, 0.7); arrowY.position.copy(ball.position); arrowY.setDirection(new THREE.Vector3(0, vy >= 0 ? 1 : -1, 0)); arrowY.setLength(Math.max(0.01, Math.abs(vy)*0.5), Math.min(1.0, Math.abs(vy)*0.5), 0.7); }
+      hud(t, x, y, r.vx, vy);
+      if (flight.t >= r.T){ flight.line.geometry.setDrawRange(0, r.pts.length); finishMarkers(r); flight = null; if (queue.length){ const q = queue.shift(); setTimeout(() => launch(q[0], q[1]), 350); } }
+    } else { arrowX.visible = arrowY.visible = false; }
+    placeCam(); renderer.render(scene, camera); requestAnimationFrame(frame);
+  }
+  return {
+    start(){ if (running) return; running = true; size(); aim(+$('ang').value); lastT = performance.now(); requestAnimationFrame(frame); },
+    stop(){ running = false; },
+    launch(u, th){ queue = []; launch(u, th); },
+    pair(u){ queue = [[u, 60]]; aim(30); launch(u, 30); },
+    aim, clear(){ paths.forEach(p => scene.remove(p.line)); paths.length = 0; markers.clear(); },
+    set slow(v){ slow = v; }, set arrows(v){ showArrows = v; }
+  };
+})();
+let hudState = null;
+function hud(t, x, y, vx, vy){ hudState = {t, x, y, vx, vy}; updateHud(); }
+function updateHud(){
+  const h = $('hud'); const s = hudState || {t:0, x:0, y:0, vx:0, vy:0}; h.textContent = '';
+  const line = (k, v, cls) => { const d = document.createElement('div'); if (cls) d.className = cls; d.textContent = k + ' ' + v; h.append(d); };
+  line('t =', s.t.toFixed(2) + ' s'); line('x =', s.x.toFixed(1) + ' m'); line('y =', s.y.toFixed(1) + ' m');
+  line('vx =', s.vx.toFixed(1) + ' m/s', 'vx'); line('vy =', s.vy.toFixed(1) + ' m/s', 'vy');
+}
+// ---------- controls ----------
+$('ang').oninput = e => { $('angv').textContent = e.target.value + '°'; sim.aim(+e.target.value); fillTable(); };
+$('spd').oninput = e => { $('spdv').textContent = e.target.value + ' m/s'; fillTable(); };
+$('launch').onclick = () => sim.launch(+$('spd').value, +$('ang').value);
+$('pair').onclick = () => { $('ang').value = 30; $('angv').textContent = '30°'; sim.pair(+$('spd').value); };
+$('arrows').onclick = () => { const on = $('arrows').getAttribute('aria-pressed') !== 'true'; $('arrows').setAttribute('aria-pressed', String(on)); sim.arrows = on; };
+$('slow').onclick = () => { const on = $('slow').getAttribute('aria-pressed') !== 'true'; $('slow').setAttribute('aria-pressed', String(on)); sim.slow = on; };
+$('clear').onclick = () => sim.clear();
+
+applyLang(); fillTable(); route();
+})();
+</script>
