@@ -1,0 +1,356 @@
+<title>Walk Mohenjo-daro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-screen 3D city with a field-notebook overlay: top bar, clue counter, mini-map, joystick, and a clue card that slides up. Single warm "excavation" look by choice. */
+:root{
+  --sand:#efe3cc; --paper:#fbf6ec; --ink:#2a1d14; --ink2:#6b5644; --brick:#b5653a; --teal:#2f6f73; --card:#fffaf2;
+  --display:"Instrument Serif", Georgia, serif; --body:"Inter", "Noto Sans Devanagari", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--sand);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+#app{position:fixed;inset:0}
+#view{display:block;width:100%;height:100%;touch-action:none}
+.top{position:absolute;left:0;right:0;top:0;display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding-top:calc(10px + env(safe-area-inset-top, 0px));padding-left:max(12px, env(safe-area-inset-left, 0px));padding-right:max(12px, env(safe-area-inset-right, 0px));pointer-events:none}
+.title{pointer-events:auto;background:color-mix(in srgb,var(--card) 92%,transparent);border:1.5px solid var(--ink);padding:6px 10px;max-width:min(62vw,420px)}
+.title h1{font-family:var(--display);font-weight:400;font-size:clamp(22px,4.5vw,30px);line-height:1;margin:0}
+.title p{margin:2px 0 0;font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.04em}
+.tools{display:flex;flex-direction:column;gap:6px;align-items:flex-end;pointer-events:auto}
+.row{display:flex;gap:6px}
+.btn{font-family:var(--mono);font-size:12px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);padding:7px 10px;cursor:pointer}
+.btn[aria-pressed="true"],.btn.dark{background:var(--ink);color:var(--paper)}
+.btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.count{font-family:var(--mono);font-size:12px;background:var(--brick);color:#fff;padding:6px 10px;border:1.5px solid var(--ink)}
+#map{width:132px;height:132px;border:1.5px solid var(--ink);background:var(--paper)}
+.joy{position:absolute;left:max(18px, env(safe-area-inset-left, 0px));bottom:calc(18px + env(safe-area-inset-bottom, 0px));width:116px;height:116px;border-radius:50%;border:2px solid var(--ink);background:color-mix(in srgb,var(--card) 55%,transparent);touch-action:none}
+.joy i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--ink);opacity:.8}
+.help{position:absolute;right:max(12px, env(safe-area-inset-right, 0px));bottom:calc(14px + env(safe-area-inset-bottom, 0px));font-family:var(--mono);font-size:11px;color:var(--ink);background:color-mix(in srgb,var(--card) 85%,transparent);border:1px solid var(--ink);padding:5px 8px;max-width:52vw}
+.card{position:absolute;left:50%;bottom:calc(12px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);width:min(560px,calc(100% - 24px));max-height:68%;overflow:auto;background:var(--card);border:2px solid var(--ink);padding:14px 16px 12px;box-shadow:0 10px 30px rgba(42,29,20,.25)}
+.card .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--brick)}
+.card h2{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1;margin:2px 0 8px;text-wrap:balance}
+.card p{margin:0 0 8px}
+.card .src{border-left:3px solid var(--teal);padding:4px 10px;background:color-mix(in srgb,var(--teal) 8%,var(--card));font-size:14px}
+.card .src b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);display:block}
+.card .think{font-weight:600}
+.card .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:6px;flex-wrap:wrap}
+.list{list-style:none;margin:0 0 8px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.list button{width:100%;text-align:left;font:inherit;font-size:14px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:7px 9px;cursor:pointer}
+.list button.found{background:var(--teal);color:#fff;border-color:var(--teal)}
+@media (max-width:520px){#map{width:96px;height:96px}.help{display:none}.joy{width:100px;height:100px}}
+</style>
+
+<div id="app">
+  <canvas id="view" aria-label="A 3D reconstruction of Mohenjo-daro. Walk with the joystick or the W A S D keys, drag to look around, tap glowing markers to open clues."></canvas>
+  <div class="top">
+    <div class="title">
+      <h1 data-en="Walk Mohenjo-daro" data-hi="मोहनजोदड़ो की सैर">Walk Mohenjo-daro</h1>
+      <p data-en="About 2600–1900 BCE · Sindh · a simplified reconstruction" data-hi="लगभग 2600–1900 ईसा पूर्व · सिंध · सरल पुनर्निर्माण">About 2600–1900 BCE · Sindh · a simplified reconstruction</p>
+    </div>
+    <div class="tools">
+      <div class="row">
+        <button class="btn" id="lang" aria-label="Switch language">हिंदी</button>
+        <button class="btn dark" id="clues">Clues</button>
+      </div>
+      <div class="count" id="count">0 / 8</div>
+      <canvas id="map" width="264" height="264" aria-label="Map of the city with your position"></canvas>
+    </div>
+  </div>
+  <div class="joy" id="joy" aria-hidden="true"><i id="knob"></i></div>
+  <div class="help" data-en="Move: joystick or W A S D · Look: drag · Open: tap a glowing marker" data-hi="चलें: जॉयस्टिक या W A S D · देखें: खींचें · खोलें: चमकते निशान पर टैप करें">Move: joystick or W A S D · Look: drag · Open: tap a glowing marker</div>
+  <div class="card" id="card" hidden></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+let LANG = 'en';
+try { if (localStorage.getItem('mjd-lang') === 'hi') LANG = 'hi'; } catch (e) {}
+const T = (en, hi) => LANG === 'hi' ? hi : en;
+
+// ---------- clues (facts checked against: Sindh Government heritage leaflet; Wikipedia "Indus Valley Civilisation"; JAXA Earth-graphy 2010) ----------
+const CLUES = [
+ {id:'street', pos:[2, 0, 30], en:'A street on a grid', hi:'जाल जैसी योजना वाली सड़क',
+  what:['Main streets about 8 m wide cross at right angles and divide the lower town into blocks; narrower lanes split the blocks into houses. Houses are built of baked bricks made in the same 1 : 2 : 4 proportions.','लगभग 8 मीटर चौड़ी मुख्य सड़कें समकोण पर काटती हैं और निचले शहर को खंडों में बाँटती हैं; पतली गलियाँ खंडों को घरों में बाँटती हैं। घर 1 : 2 : 4 के एक ही अनुपात वाली पकी ईंटों से बने हैं।'],
+  src:['JAXA (2010): "large streets about 8 meters wide, running east, west, north, and south, divide the city into many blocks."','JAXA (2010): लगभग 8 मीटर चौड़ी बड़ी सड़कें पूरब-पश्चिम और उत्तर-दक्षिण चलती हैं और शहर को कई खंडों में बाँटती हैं।'],
+  think:['Someone had to plan the streets before houses were built. What does that tell you about how the city was run?','घर बनने से पहले किसी ने सड़कों की योजना बनाई होगी। इससे शहर के प्रबंधन के बारे में क्या पता चलता है?']},
+ {id:'drain', pos:[-4.6, 0, 14], en:'Covered drains', hi:'ढकी हुई नालियाँ',
+  what:['Brick drains run along the streets, covered with bricks or slabs that could be lifted for cleaning. Waste water from the houses flowed into them.','ईंटों की नालियाँ सड़कों के किनारे चलती हैं, ऊपर ईंटें या पटिया हैं जिन्हें सफ़ाई के लिए उठाया जा सकता था। घरों का गंदा पानी इनमें जाता था।'],
+  src:['Sindh Government heritage leaflet: "Waste water was channeled to covered drains that lined the major streets."','सिंध सरकार की धरोहर पुस्तिका: गंदा पानी उन ढकी नालियों में जाता था जो मुख्य सड़कों के किनारे थीं।'],
+  think:['Who do you think cleaned the drains, and who decided they must be cleaned?','आपके विचार से नालियाँ कौन साफ़ करता था, और यह किसने तय किया होगा?']},
+ {id:'house', pos:[17, 0, 17], en:'A courtyard house with a well', hi:'आँगन और कुएँ वाला घर',
+  what:['Houses were built around an inner courtyard. Doors opened onto the side lanes, not the main street. Many houses had their own well and a bathing room that drained into the street drain.','घर भीतरी आँगन के चारों ओर बने थे। दरवाज़े मुख्य सड़क पर नहीं, बल्कि गलियों में खुलते थे। कई घरों में अपना कुआँ और नहाने का कमरा था, जिसका पानी गली की नाली में जाता था।'],
+  src:['Sindh Government heritage leaflet: "Most houses had inner courtyards, with doors that opened onto side-lanes."','सिंध सरकार की धरोहर पुस्तिका: ज़्यादातर घरों में भीतरी आँगन थे, और दरवाज़े गलियों में खुलते थे।'],
+  think:['Why might families keep doors and windows away from the busy main street?','परिवार दरवाज़े और खिड़कियाँ भीड़ वाली मुख्य सड़क से दूर क्यों रखते होंगे?']},
+ {id:'seal', pos:[-17, 0, -15], en:'A unicorn seal', hi:'एकश्रृंगी (यूनिकॉर्न) मुहर',
+  what:['Small square seals of steatite, 2 to 4 cm wide, carry an animal and a short line of the Indus script. The one-horned "unicorn" is the most common animal. The script has still not been read.','सेलखड़ी (स्टीएटाइट) की छोटी चौकोर मुहरें, 2 से 4 सेमी चौड़ी, पर एक जानवर और सिंधु लिपि की छोटी पंक्ति होती है। एक सींग वाला "यूनिकॉर्न" सबसे आम है। यह लिपि आज तक पढ़ी नहीं जा सकी है।'],
+  src:['Wikipedia, Indus Valley Civilisation: "Thousands of steatite seals have been recovered… squares of side 2 to 4 cm."','विकिपीडिया: सेलखड़ी की हज़ारों मुहरें मिली हैं… 2 से 4 सेमी के वर्ग।'],
+  think:['Seals were pressed into clay on bundles of goods. What job do they seem to do?','मुहरें सामान के बंडलों पर मिट्टी में दबाई जाती थीं। उनका काम क्या लगता है?']},
+ {id:'weights', pos:[6, 0, -6], en:'Cubical stone weights', hi:'घनाकार पत्थर के बाट',
+  what:['Traders used carefully cut cubes of chert as weights, in a fixed series of sizes, and the same kinds of weights turn up across the Indus region. Scholars describe the series differently: some as doubling (1, 2, 4, 8…), others with decimal steps.','व्यापारी चर्ट पत्थर के सावधानी से कटे घनों को बाट के रूप में इस्तेमाल करते थे, तय आकारों की एक शृंखला में, और ऐसे ही बाट पूरे सिंधु क्षेत्र में मिलते हैं। विद्वान इस शृंखला को अलग-अलग बताते हैं: कुछ दोगुने क्रम (1, 2, 4, 8…) में, कुछ दशमलव क्रम में।'],
+  src:['Wikipedia: "Cubical weights, standardised throughout the Indus cultural zone; 2600–1900 BC; chert."','विकिपीडिया: घनाकार बाट, पूरे सिंधु क्षेत्र में मानकीकृत; 2600–1900 ई.पू.; चर्ट।'],
+  think:['Why would the same weights in many cities help trade?','कई शहरों में एक जैसे बाट होने से व्यापार को कैसे मदद मिलती?']},
+ {id:'beads', pos:[-17, 0, 22], en:'A bead workshop', hi:'मनकों की कार्यशाला',
+  what:['Craftspeople drilled and polished beads from carnelian, a red stone, and made ornaments of shell and metal. This reconstruction shows a simple workshop; the beads are real Harappan craft products, the room is imagined.','कारीगर लाल पत्थर कार्नेलियन से मनके छेदते और चमकाते थे, और शंख व धातु के गहने बनाते थे। यह पुनर्निर्माण एक सरल कार्यशाला दिखाता है; मनके असली हड़प्पाई शिल्प हैं, कमरा काल्पनिक है।'],
+  src:['NCERT Class 12 History, Bricks, Beads and Bones, discusses carnelian bead-making in Harappan cities (chapter name to be checked against your edition).','NCERT कक्षा 12 इतिहास का अध्याय "ईंटें, मनके और अस्थियाँ" हड़प्पाई शहरों में कार्नेलियन मनके बनाने की चर्चा करता है (अपने संस्करण से अध्याय का नाम जाँच लें)।'],
+  think:['Carnelian is not found everywhere. What does a bead workshop tell you about trade?','कार्नेलियन हर जगह नहीं मिलता। मनकों की कार्यशाला व्यापार के बारे में क्या बताती है?']},
+ {id:'dancer', pos:[18, 0, -18], en:'The "Dancing Girl"', hi:'"नर्तकी" की मूर्ति',
+  what:['A bronze statuette only 10.8 cm tall, found in Mohenjo-daro in 1926, made by the lost-wax method. She wears bangles up one arm and stands with a hand on her hip. Today she is in the National Museum, New Delhi.','केवल 10.8 सेमी ऊँची काँसे की मूर्ति, 1926 में मोहनजोदड़ो में मिली, लुप्त-मोम विधि से बनी। एक बाँह पर चूड़ियाँ हैं और एक हाथ कमर पर। आज यह राष्ट्रीय संग्रहालय, नई दिल्ली में है।'],
+  src:['Archaeologist Mortimer Wheeler (1973): "She\'s about fifteen years old probably… perfectly confident of herself and the world." (quoted in the Sindh Government leaflet)','पुरातत्वविद मॉर्टिमर व्हीलर (1973): "वह शायद पंद्रह साल की है… अपने और दुनिया के बारे में पूरी तरह आत्मविश्वासी।" (सिंध सरकार की पुस्तिका में उद्धृत)'],
+  think:['Nobody knows she was a dancer. What in the figure made archaeologists give her that name?','कोई नहीं जानता कि वह नर्तकी थी। मूर्ति में ऐसा क्या है कि पुरातत्वविदों ने उसे यह नाम दिया?']},
+ {id:'bath', pos:[-58, 4.2, 0], en:'The Great Bath', hi:'विशाल स्नानागार',
+  what:['On the raised citadel in the west lies a brick pool 12 m long, 7 m wide and 2.4 m deep, made watertight with a lining of bitumen (natural tar). Steps lead down at the north and south ends.','पश्चिम के ऊँचे दुर्ग पर ईंटों का एक कुंड है, 12 मीटर लंबा, 7 मीटर चौड़ा और 2.4 मीटर गहरा, जिसे बिटुमेन (प्राकृतिक तारकोल) की परत से जलरोधी बनाया गया। उत्तर और दक्षिण में सीढ़ियाँ नीचे जाती हैं।'],
+  src:['Sindh Government heritage leaflet: "The pool measures 12m long, 7m wide and 2.4m deep. It may have been used for religious purification."','सिंध सरकार की धरोहर पुस्तिका: कुंड 12 मीटर लंबा, 7 मीटर चौड़ा और 2.4 मीटर गहरा है। शायद इसका उपयोग धार्मिक शुद्धि के लिए होता था।'],
+  think:['Notice the words "may have been". Why can\'t historians be sure what the Great Bath was for?','"शायद" शब्द पर ध्यान दीजिए। इतिहासकार पक्का क्यों नहीं कह सकते कि स्नानागार किस काम आता था?']}
+];
+const found = new Set();
+
+// ---------- 3D city ----------
+const canvas = $('view');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xf3d9a8); scene.fog = new THREE.Fog(0xf3d9a8, 60, 170);
+const camera = new THREE.PerspectiveCamera(65, 1, 0.1, 400);
+scene.add(new THREE.HemisphereLight(0xfff3dc, 0xb08a5a, 0.85));
+const sun = new THREE.DirectionalLight(0xffffff, 0.55); sun.position.set(-40, 80, 30); scene.add(sun);
+function brickTex(base, mortar, w = 256, h = 128, rows = 8){
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+  x.fillStyle = mortar; x.fillRect(0, 0, w, h); const bh = h/rows, bw = bh*2*1.0;   // bricks drawn long side 2 : 1 on the face (1 : 2 : 4 brick)
+  for (let r = 0; r < rows; r++) for (let i = -1; i < w/bw + 1; i++){
+    const off = (r % 2) * bw/2, s = 0.88 + ((r*7 + i*13) % 9)/60;
+    x.fillStyle = `rgb(${Math.round(base[0]*s)},${Math.round(base[1]*s)},${Math.round(base[2]*s)})`;
+    x.fillRect(i*bw + off + 1, r*bh + 1, bw - 2, bh - 2);
+  }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+}
+const BRICK = brickTex([181, 101, 58], '#d9b98f'), BRICK2 = brickTex([160, 88, 50], '#cfae84');
+function mat(tex, rx, ry){ const t = tex.clone(); t.needsUpdate = true; t.repeat.set(rx, ry); return new THREE.MeshLambertMaterial({map:t}); }
+const sandMat = new THREE.MeshLambertMaterial({color:0xe2c79a});
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), sandMat); ground.rotation.x = -Math.PI/2; scene.add(ground);
+const streetMat = new THREE.MeshLambertMaterial({color:0xd4b483});
+const colliders = [];   // axis-aligned boxes the walker cannot enter: [minx, maxx, minz, maxz]
+function wall(x0, x1, z0, z1, h, m, y0 = 0){
+  const w = x1 - x0, d = z1 - z0, g = new THREE.BoxGeometry(w, h, d);
+  const mesh = new THREE.Mesh(g, m || mat(BRICK, Math.max(w, d)/4, h/2)); mesh.position.set((x0 + x1)/2, y0 + h/2, (z0 + z1)/2); scene.add(mesh);
+  if (y0 < 1) colliders.push([x0, x1, z0, z1]); return mesh;
+}
+// streets (lower town: main N-S street at x = 0, main E-W street at z = 0, both 8 m wide)
+const st1 = new THREE.Mesh(new THREE.PlaneGeometry(8, 120), streetMat); st1.rotation.x = -Math.PI/2; st1.position.set(0, 0.01, 0); scene.add(st1);
+const st2 = new THREE.Mesh(new THREE.PlaneGeometry(120, 8), streetMat); st2.rotation.x = -Math.PI/2; st2.position.set(30, 0.01, 0); scene.add(st2);
+// covered drains along both sides of the main N-S street, with lifted cover slabs here and there
+const drainMat = new THREE.MeshLambertMaterial({color:0x5a3a24}), coverMat = new THREE.MeshLambertMaterial({color:0xa86a42});
+for (const side of [-1, 1]){
+  const ch = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.06, 120), drainMat); ch.position.set(side*3.55, 0.02, 0); scene.add(ch);
+  for (let z = -58; z < 58; z += 0.75){ if ((Math.round(z*4) % 37) === 0) continue; const s = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.12, 0.68), coverMat); s.position.set(side*3.55, 0.07, z); scene.add(s); }
+}
+// courtyard houses in the four lower-town quadrants, doors on the lanes, blank walls to the main streets
+function house(cx, cz, w, d, h, doorSide){
+  const t = 0.6, x0 = cx - w/2, x1 = cx + w/2, z0 = cz - d/2, z1 = cz + d/2, door = 1.4, m = mat(Math.random() < 0.5 ? BRICK : BRICK2, w/4, h/2);
+  const seg = (a0, a1, fixed, horizontal, hasDoor) => {
+    if (!hasDoor){ horizontal ? wall(a0, a1, fixed - t/2, fixed + t/2, h, m) : wall(fixed - t/2, fixed + t/2, a0, a1, h, m); return; }
+    const mid = (a0 + a1)/2;
+    if (horizontal){ wall(a0, mid - door/2, fixed - t/2, fixed + t/2, h, m); wall(mid + door/2, a1, fixed - t/2, fixed + t/2, h, m); wall(mid - door/2, mid + door/2, fixed - t/2, fixed + t/2, 0.6, m, h - 0.6); }
+    else { wall(fixed - t/2, fixed + t/2, a0, mid - door/2, h, m); wall(fixed - t/2, fixed + t/2, mid + door/2, a1, h, m); wall(fixed - t/2, fixed + t/2, mid - door/2, mid + door/2, 0.6, m, h - 0.6); }
+  };
+  seg(x0, x1, z0, true, doorSide === 'n'); seg(x0, x1, z1, true, doorSide === 's'); seg(z0, z1, x0, false, doorSide === 'w'); seg(z0, z1, x1, false, doorSide === 'e');
+  // inner rooms along one side, courtyard in the middle
+  wall(x0 + t, x1 - t, z0 + d*0.38 - 0.25, z0 + d*0.38 + 0.25, h*0.8, m);
+}
+const rnd = (() => { let s = 7; return () => (s = (s*16807) % 2147483647)/2147483647; })();
+for (const qx of [1, -1]) for (const qz of [1, -1]){
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 4; j++){
+    const cx = qx*(4.5 + 1.25 + 5 + i*12.5), cz = qz*(4.5 + 1.25 + 5 + j*12.5);
+    if (Math.abs(cx - 17) < 3 && Math.abs(cz - 17) < 3) continue;   // the open clue house is built separately
+    const doorSide = j % 2 ? (qz > 0 ? 's' : 'n') : (qx > 0 ? 'e' : 'w');
+    house(cx, cz, 10, 10, 3.2 + (rnd() < 0.3 ? 2.6 : 0), doorSide);
+  }
+}
+// the clue house at (17, 17): lower walls so the courtyard, well and bathroom drain are visible
+(function(){ const cx = 17, cz = 17, m = mat(BRICK2, 2.5, 1);
+  wall(cx - 5, cx + 5, cz - 5.3, cz - 4.7, 1.6, m); wall(cx - 5, cx + 5, cz + 4.7, cz + 5.3, 1.6, m);
+  wall(cx + 4.7, cx + 5.3, cz - 5, cz + 5, 1.6, m); wall(cx - 5.3, cx - 4.7, cz - 5, cz - 1, 1.6, m); wall(cx - 5.3, cx - 4.7, cz + 1, cz + 5, 1.6, m);
+  const well = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 0.8, 24, 1, true), mat(BRICK, 2, 0.5)); well.position.set(cx + 2, 0.4, cz + 2); well.material.side = THREE.DoubleSide; scene.add(well);
+  const water = new THREE.Mesh(new THREE.CircleGeometry(0.7, 24), new THREE.MeshLambertMaterial({color:0x2f5f73})); water.rotation.x = -Math.PI/2; water.position.set(cx + 2, 0.15, cz + 2); scene.add(water);
+  colliders.push([cx + 1.2, cx + 2.8, cz + 1.2, cz + 2.8]);
+  const bath = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.08, 2.4), new THREE.MeshLambertMaterial({color:0xc9a27a})); bath.position.set(cx - 2.6, 0.05, cz - 2.6); scene.add(bath);
+  const dr = new THREE.Mesh(new THREE.BoxGeometry(5.5, 0.05, 0.35), drainMat); dr.position.set(cx - 7.6, 0.03, cz - 2.6); scene.add(dr);
+})();
+// citadel: a raised brick mound in the west with the Great Bath and the "Great Granary" platform
+const CIT = {x0:-82, x1:-40, z0:-26, z1:26, h:4};
+(function(){ const m = mat(BRICK2, 10, 2), none = new THREE.MeshBasicMaterial({visible:false}); const mesh = wall(CIT.x0, CIT.x1, CIT.z0, CIT.z1, CIT.h, m); mesh.material = [m, m, none, m, m, m]; })();
+colliders.pop();   // the mound itself is walkable: height handled by heightAt()
+// steps up from the end of the E-W street
+for (let i = 0; i < 10; i++){ const s = new THREE.Mesh(new THREE.BoxGeometry(1.2, (i + 1)*0.4, 7), mat(BRICK, 0.6, 0.4)); s.position.set(-40 + 12 - i*1.2 - 0.6 - 0, (i + 1)*0.2, 0); scene.add(s); }
+function heightAt(x, z){
+  if (x >= CIT.x0 && x <= CIT.x1 && z >= CIT.z0 && z <= CIT.z1){
+    if (x > -58.5 + 0 && x < -46 && false) return CIT.h;
+    if (x > -61.5 && x < -54.5 && z > -6 && z < 6) return CIT.h - 2.4;  // inside the pool
+    return CIT.h;
+  }
+  if (x > -40 && x < -28 && Math.abs(z) < 3.5) return Math.max(0, Math.min(CIT.h, (-28 - x)/12*CIT.h));
+  return 0;
+}
+// Great Bath: pool 12 m north-south x 7 m east-west, 2.4 m deep, steps down at the north and south ends, colonnade around
+(function(){ const bx = -58, bz = 0, y = CIT.h, HW = 3.5, HL = 6;
+  const poolMat = mat(BRICK, 3, 1);
+  [[bx - HW, bx + HW, bz - HL - 0.3, bz - HL], [bx - HW, bx + HW, bz + HL, bz + HL + 0.3], [bx - HW - 0.3, bx - HW, bz - HL, bz + HL], [bx + HW, bx + HW + 0.3, bz - HL, bz + HL]].forEach(([a, b, c, d]) => {
+    const g = new THREE.Mesh(new THREE.BoxGeometry(b - a, 2.4, d - c), poolMat); g.position.set((a + b)/2, y - 1.2 + 0.02, (c + d)/2); scene.add(g); });
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(2*HW, 2*HL), new THREE.MeshLambertMaterial({color:0x3b2a1e})); floor.rotation.x = -Math.PI/2; floor.position.set(bx, y - 2.38, bz); scene.add(floor);
+  const water = new THREE.Mesh(new THREE.PlaneGeometry(2*HW, 2*HL - 4), new THREE.MeshLambertMaterial({color:0x4f8f99, transparent:true, opacity:0.85})); water.rotation.x = -Math.PI/2; water.position.set(bx, y - 0.7, bz); scene.add(water);
+  for (const sgn of [-1, 1]) for (let i = 0; i < 6; i++){ const st = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.4*(6 - i), 0.33), mat(BRICK, 1, 0.5)); st.position.set(bx, y - 2.4 + 0.2*(6 - i), bz + sgn*(HL - 0.165 - i*0.33)); scene.add(st); }
+  for (let i = -1; i <= 1; i++) for (const sgn of [-1, 1]){ const p = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 3, 12), mat(BRICK2, 1, 1.5)); p.position.set(bx + sgn*(HW + 2.6), y + 1.5, bz + i*6); scene.add(p); }
+  for (const sgn of [-1, 1]){ const p = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 3, 12), mat(BRICK2, 1, 1.5)); p.position.set(bx, y + 1.5, bz + sgn*(HL + 3)); scene.add(p); }
+  const top = new THREE.MeshLambertMaterial({color:0xb98557});
+  [[CIT.x0, CIT.x1, CIT.z0, bz - HL - 0.3], [CIT.x0, CIT.x1, bz + HL + 0.3, CIT.z1], [CIT.x0, bx - HW - 0.3, bz - HL - 0.3, bz + HL + 0.3], [bx + HW + 0.3, CIT.x1, bz - HL - 0.3, bz + HL + 0.3]].forEach(([a, b, c, d]) => {
+    const g = new THREE.Mesh(new THREE.BoxGeometry(b - a, 0.06, d - c), top); g.position.set((a + b)/2, y + 0.03, (c + d)/2); scene.add(g); });
+  for (let i = 0; i < 6; i++) for (let j = 0; j < 3; j++){ const b = new THREE.Mesh(new THREE.BoxGeometry(3.4, 1.6, 6), mat(BRICK2, 1, 0.8)); b.position.set(-78 + i*4.1, y + 0.8, -22 + j*7); scene.add(b); }
+})();
+// city edge: low walls of distant blocks to suggest the unexcavated city
+for (let i = 0; i < 26; i++){ const a = i/26*Math.PI*2, r = 95 + rnd()*20; const m = new THREE.Mesh(new THREE.BoxGeometry(10 + rnd()*10, 2 + rnd()*3, 8 + rnd()*8), sandMat); m.position.set(Math.cos(a)*r, 1, Math.sin(a)*r); scene.add(m); }
+
+// ---------- clue objects and glowing markers ----------
+const markers = [];
+function addProp(id, obj){ const c = CLUES.find(c => c.id === id); obj.position.set(c.pos[0], c.pos[1], c.pos[2]); scene.add(obj); }
+function table(){ const g = new THREE.Group(); const top = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.12, 0.9), new THREE.MeshLambertMaterial({color:0x8a5a33})); top.position.y = 0.8; g.add(top);
+  for (const sx of [-0.6, 0.6]) for (const sz of [-0.35, 0.35]){ const l = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.8, 0.08), top.material); l.position.set(sx, 0.4, sz); g.add(l); } return g; }
+function sealTex(){ const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'); x.fillStyle = '#e8dcc4'; x.fillRect(0, 0, 128, 128); x.strokeStyle = '#6b5644'; x.lineWidth = 5; x.strokeRect(6, 6, 116, 116);
+  x.fillStyle = '#6b5644'; x.font = 'bold 18px serif'; x.fillText('ᛉ ⋔ ◇ ‖ ⊓', 18, 34); x.beginPath(); x.ellipse(62, 82, 30, 16, 0, 0, Math.PI*2); x.fill(); x.fillRect(36, 92, 6, 22); x.fillRect(80, 92, 6, 22); x.beginPath(); x.moveTo(88, 72); x.lineTo(112, 52); x.lineTo(92, 80); x.fill(); return new THREE.CanvasTexture(c); }
+(function(){
+  const s = table(); const seal = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.06, 0.35), [0, 0, new THREE.MeshLambertMaterial({map:sealTex()}), 0, 0, 0].map(m => m || new THREE.MeshLambertMaterial({color:0xcdbb98}))); seal.position.set(0, 0.89, 0); s.add(seal); addProp('seal', s);
+  const w = table(); [0.08, 0.11, 0.14, 0.18, 0.23].forEach((k, i) => { const c = new THREE.Mesh(new THREE.BoxGeometry(k, k, k), new THREE.MeshLambertMaterial({color:0xd8cdb4})); c.position.set(-0.5 + i*0.25, 0.86 + k/2, 0); w.add(c); }); addProp('weights', w);
+  const b = table(); for (let i = 0; i < 16; i++){ const bead = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), new THREE.MeshLambertMaterial({color:0xb8321f})); bead.position.set(-0.4 + i*0.05, 0.9, Math.sin(i/2)*0.12); b.add(bead); } addProp('beads', b);
+  const d = new THREE.Group(); const bronze = new THREE.MeshLambertMaterial({color:0x6f4a2a});
+  const ped = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.0, 0.6), mat(BRICK2, 0.5, 0.5)); ped.position.y = 0.5; d.add(ped);
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 0.35, 8), bronze); body.position.y = 1.25; d.add(body);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), bronze); head.position.y = 1.47; d.add(head);
+  for (const s of [-1, 1]){ const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.012, 0.25, 6), bronze); leg.position.set(s*0.025, 1.0, 0); d.add(leg);
+    const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.01, 0.26, 6), bronze); arm.position.set(s*0.07, 1.27, 0); arm.rotation.z = s*0.5; d.add(arm); }
+  addProp('dancer', d);
+})();
+CLUES.forEach(c => {
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.9, 0.08, 8, 32), new THREE.MeshBasicMaterial({color:0x2f9fa8, transparent:true, opacity:0.9}));
+  ring.rotation.x = Math.PI/2; ring.position.set(c.pos[0], c.pos[1] + 0.05, c.pos[2]);
+  const beacon = new THREE.Mesh(new THREE.OctahedronGeometry(0.35), new THREE.MeshBasicMaterial({color:0x2f9fa8}));
+  beacon.position.set(c.pos[0], c.pos[1] + 2.6, c.pos[2]);
+  scene.add(ring, beacon); markers.push({c, ring, beacon});
+});
+
+// ---------- walking ----------
+const P = {x:2, z:46, yaw:0, pitch:-0.05};
+const keys = {};
+addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
+addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+const joy = {x:0, y:0}; const J = $('joy'), K = $('knob');
+let joyId = null;
+J.addEventListener('pointerdown', e => { joyId = e.pointerId; J.setPointerCapture(e.pointerId); moveJoy(e); });
+J.addEventListener('pointermove', e => { if (e.pointerId === joyId) moveJoy(e); });
+['pointerup','pointercancel'].forEach(t => J.addEventListener(t, e => { if (e.pointerId === joyId){ joyId = null; joy.x = joy.y = 0; K.style.transform = ''; } }));
+function moveJoy(e){ const r = J.getBoundingClientRect(); let dx = (e.clientX - r.left - r.width/2)/(r.width/2), dy = (e.clientY - r.top - r.height/2)/(r.height/2); const l = Math.hypot(dx, dy); if (l > 1){ dx /= l; dy /= l; } joy.x = dx; joy.y = dy; K.style.transform = `translate(${dx*30}px,${dy*30}px)`; }
+let look = null, moved = 0;
+canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); look = {x:e.clientX, y:e.clientY, yaw:P.yaw, pitch:P.pitch}; moved = 0; });
+canvas.addEventListener('pointermove', e => { if (!look) return; const dx = e.clientX - look.x, dy = e.clientY - look.y; moved = Math.max(moved, Math.hypot(dx, dy)); P.yaw = look.yaw - dx*0.005; P.pitch = Math.max(-1.1, Math.min(0.9, look.pitch - dy*0.004)); });
+canvas.addEventListener('pointerup', e => { if (look && moved < 6) pick(e); look = null; });
+function blocked(x, z){ if (heightAt(x, z) === 0) for (const [a, b, c, d] of colliders) if (x > a - 0.35 && x < b + 0.35 && z > c - 0.35 && z < d + 0.35) return true; return Math.abs(x) > 120 || Math.abs(z) > 120; }
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+function pick(e){
+  const r = canvas.getBoundingClientRect(); ndc.set((e.clientX - r.left)/r.width*2 - 1, -(e.clientY - r.top)/r.height*2 + 1); ray.setFromCamera(ndc, camera);
+  let best = null;
+  markers.forEach(m => { const hits = ray.intersectObjects([m.ring, m.beacon]); const d = Math.hypot(m.c.pos[0] - P.x, m.c.pos[2] - P.z); if (hits.length && d < 26 && (!best || d < best.d)) best = {m, d}; });
+  if (!best){ // also accept a tap near a marker on screen
+    markers.forEach(m => { const v = m.beacon.position.clone().project(camera); const sx = (v.x + 1)/2*r.width, sy = (1 - v.y)/2*r.height, d = Math.hypot(m.c.pos[0] - P.x, m.c.pos[2] - P.z);
+      if (v.z < 1 && Math.hypot(sx - (e.clientX - r.left), sy - (e.clientY - r.top)) < 40 && d < 26 && (!best || d < best.d)) best = {m, d}; });
+  }
+  if (best) openClue(best.m.c);
+}
+
+// ---------- clue card ----------
+const card = $('card');
+function openClue(c){
+  found.add(c.id); updateCount();
+  card.textContent = '';
+  const k = document.createElement('div'); k.className = 'k'; k.textContent = T('Clue', 'सुराग') + ' ' + (CLUES.indexOf(c) + 1) + ' / ' + CLUES.length;
+  const h = document.createElement('h2'); h.textContent = T(c.en, c.hi);
+  const p = document.createElement('p'); p.textContent = c.what[LANG === 'hi' ? 1 : 0];
+  const s = document.createElement('p'); s.className = 'src'; const sb = document.createElement('b'); sb.textContent = T('Source', 'स्रोत'); s.append(sb, document.createTextNode(c.src[LANG === 'hi' ? 1 : 0]));
+  const t = document.createElement('p'); t.className = 'think'; t.textContent = T('Think: ', 'सोचिए: ') + c.think[LANG === 'hi' ? 1 : 0];
+  const a = document.createElement('div'); a.className = 'acts';
+  const close = document.createElement('button'); close.className = 'btn dark'; close.textContent = T('Back to the city', 'शहर में लौटें'); close.onclick = () => { card.hidden = true; };
+  a.append(close); card.append(k, h, p, s, t, a); card.hidden = false;
+  if (found.size === CLUES.length) setTimeout(() => close.textContent = T('See your verdict', 'अपना निष्कर्ष देखें'), 0), close.onclick = verdict;
+}
+function updateCount(){ $('count').textContent = found.size + ' / ' + CLUES.length + ' ' + T('clues', 'सुराग'); }
+function showList(){
+  card.textContent = '';
+  const h = document.createElement('h2'); h.textContent = T('Your investigation', 'आपकी जाँच');
+  const p = document.createElement('p'); p.textContent = T('Find all 8 clues in the city. Tap one to walk straight to it.', 'शहर में सभी 8 सुराग खोजिए। किसी पर टैप करें तो सीधे वहाँ पहुँचेंगे।');
+  const ul = document.createElement('ul'); ul.className = 'list';
+  CLUES.forEach((c, i) => { const li = document.createElement('li'); const b = document.createElement('button'); b.textContent = (i + 1) + '. ' + T(c.en, c.hi); if (found.has(c.id)) b.className = 'found';
+    b.onclick = () => { const o = c.id === 'bath' ? [11, 11] : [4, 4]; P.x = c.pos[0] + o[0]; P.z = c.pos[2] + o[1]; P.yaw = Math.atan2(o[0], o[1]); P.pitch = c.id === 'bath' ? -0.35 : -0.15; card.hidden = true; }; li.append(b); ul.append(li); });
+  const a = document.createElement('div'); a.className = 'acts'; const close = document.createElement('button'); close.className = 'btn dark'; close.textContent = T('Close', 'बंद करें'); close.onclick = () => { card.hidden = true; }; a.append(close);
+  card.append(h, p, ul, a); card.hidden = false;
+}
+function verdict(){
+  card.textContent = '';
+  const h = document.createElement('h2'); h.textContent = T('Your verdict', 'आपका निष्कर्ष');
+  const items = [
+    ['Planning: the grid, the drains and the standard bricks suggest someone organised the city. Write one sentence on who that might have been.', 'योजना: जाल जैसी सड़कें, नालियाँ और मानक ईंटें बताती हैं कि किसी ने शहर को व्यवस्थित किया। एक वाक्य लिखिए कि वह कौन रहा होगा।'],
+    ['Daily life: from the house, the well and the workshop, describe one day of a family here.', 'रोज़मर्रा का जीवन: घर, कुएँ और कार्यशाला से, यहाँ के एक परिवार का एक दिन बताइए।'],
+    ['Limits: the script is unread. Which of your conclusions are evidence, and which are guesses?', 'सीमाएँ: लिपि पढ़ी नहीं गई है। आपके कौन-से निष्कर्ष प्रमाण हैं, और कौन-से अनुमान?']
+  ];
+  const ol = document.createElement('ol'); items.forEach(it => { const li = document.createElement('li'); li.textContent = it[LANG === 'hi' ? 1 : 0]; li.style.marginBottom = '6px'; ol.append(li); });
+  const n = document.createElement('p'); n.className = 'src'; const b = document.createElement('b'); b.textContent = T('About this model', 'इस मॉडल के बारे में'); n.append(b, document.createTextNode(T('Streets, drains, houses and the Great Bath follow published measurements; the layout of individual houses, the workshop and object placement are simplified for learning.', 'सड़कें, नालियाँ, घर और स्नानागार प्रकाशित माप पर आधारित हैं; अलग-अलग घरों की बनावट, कार्यशाला और वस्तुओं की जगह सीखने के लिए सरल की गई है।')));
+  const a = document.createElement('div'); a.className = 'acts'; const close = document.createElement('button'); close.className = 'btn dark'; close.textContent = T('Close', 'बंद करें'); close.onclick = () => { card.hidden = true; }; a.append(close);
+  card.append(h, ol, n, a); card.hidden = false;
+}
+$('clues').onclick = showList;
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-en]').forEach(el => el.textContent = el.getAttribute(LANG === 'hi' ? 'data-hi' : 'data-en'));
+  $('lang').textContent = LANG === 'hi' ? 'English' : 'हिंदी'; $('clues').textContent = T('Clues', 'सुराग'); updateCount();
+  if (!card.hidden) card.hidden = true;
+}
+$('lang').onclick = () => { LANG = LANG === 'hi' ? 'en' : 'hi'; try { localStorage.setItem('mjd-lang', LANG); } catch (e) {} applyLang(); };
+
+// ---------- mini-map ----------
+const mc = $('map').getContext('2d');
+function drawMap(){
+  const W = 264, s = W/180, X = x => (x + 90)*s, Z = z => (z + 90)*s;
+  mc.fillStyle = '#fbf6ec'; mc.fillRect(0, 0, W, W);
+  mc.fillStyle = '#d4b483'; mc.fillRect(X(-4), Z(-60), 8*s, 120*s); mc.fillRect(X(-30), Z(-4), 120*s, 8*s);
+  mc.fillStyle = '#c69a6e'; mc.fillRect(X(CIT.x0), Z(CIT.z0), (CIT.x1 - CIT.x0)*s, (CIT.z1 - CIT.z0)*s);
+  mc.fillStyle = '#4f8f99'; mc.fillRect(X(-61.5), Z(-6), 7*s, 12*s);
+  markers.forEach(m => { mc.fillStyle = found.has(m.c.id) ? '#2f6f73' : '#b5653a'; mc.beginPath(); mc.arc(X(m.c.pos[0]), Z(m.c.pos[2]), 5, 0, 7); mc.fill(); });
+  mc.save(); mc.translate(X(P.x), Z(P.z)); mc.rotate(-P.yaw); mc.fillStyle = '#2a1d14'; mc.beginPath(); mc.moveTo(0, -11); mc.lineTo(7, 7); mc.lineTo(-7, 7); mc.closePath(); mc.fill(); mc.restore();
+  mc.fillStyle = '#6b5644'; mc.font = '18px IBM Plex Mono, monospace'; mc.fillText('N', W/2 - 6, 20);
+}
+
+// ---------- loop ----------
+function size(){ const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix(); }
+addEventListener('resize', size); size();
+let lastT = performance.now(), eye = 1.6;
+function frame(now){
+  const dt = Math.max(0, Math.min(0.05, (now - lastT)/1000)); lastT = now;
+  let f = 0, s = 0;
+  if (keys['w'] || keys['arrowup']) f += 1; if (keys['s'] || keys['arrowdown']) f -= 1;
+  if (keys['a']) s -= 1; if (keys['d']) s += 1;
+  if (keys['arrowleft']) P.yaw += dt*1.8; if (keys['arrowright']) P.yaw -= dt*1.8;
+  f += -joy.y; s += joy.x;
+  if (Math.abs(joy.x) > 0.6) P.yaw -= joy.x*dt*0.9;
+  const sp = 5.5*dt, fx = -Math.sin(P.yaw), fz = -Math.cos(P.yaw), rx = Math.cos(P.yaw), rz = -Math.sin(P.yaw);
+  const nx = P.x + (fx*f + rx*s)*sp, nz = P.z + (fz*f + rz*s)*sp;
+  const cur = heightAt(P.x, P.z), nh = heightAt(nx, nz);
+  if (!blocked(nx, P.z) && Math.abs(heightAt(nx, P.z) - cur) < 1.5) P.x = nx;
+  if (!blocked(P.x, nz) && Math.abs(heightAt(P.x, nz) - cur) < 1.5) P.z = nz;
+  eye += (heightAt(P.x, P.z) + 1.6 - eye)*Math.min(1, dt*8);
+  camera.position.set(P.x, eye, P.z);
+  camera.rotation.order = 'YXZ'; camera.rotation.set(P.pitch, P.yaw, 0);
+  const tt = now/1000;
+  markers.forEach((m, i) => { m.beacon.rotation.y = tt*1.5 + i; m.beacon.position.y = m.c.pos[1] + 2.6 + Math.sin(tt*2 + i)*0.15; m.ring.scale.setScalar(1 + 0.12*Math.sin(tt*3 + i));
+    const done = found.has(m.c.id); m.beacon.material.color.setHex(done ? 0x2f6f73 : 0x2f9fa8); });
+  renderer.render(scene, camera); drawMap(); requestAnimationFrame(frame);
+}
+applyLang(); requestAnimationFrame(frame);
+})();
+</script>
